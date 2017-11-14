@@ -9,3 +9,5 @@ export * from './orders.service';
 export * from './vendors.service';
 
 export * from './catalogManagement.service';
+
+export * from './movie-management.service';

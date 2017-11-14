@@ -1,0 +1,48 @@
+
+.disabled {
+	opacity: 0.7 !important;
+	pointer-events: none;
+}
+
+.template-download {
+	margin-top: 4px;
+	text-decoration: underline !important;
+}
+
+.searchbutton {
+	margin-left: 15px;
+}
+
+.filters {
+	margin-bottom: 0;
+}
+
+.tree-view {
+	margin-top: 30px;
+}
+
+.form-group label {
+	margin-top: 10px;
+}
+
+.spacer {
+	margin-bottom: 30px;
+}
+
+.catSearch {
+	.btn {
+		&.btn-primary {
+			background-color: #0275d8 !important;
+			border-color: #0275d8 !important;
+			margin-top: -6px;
+		}
+
+		& + .btn {
+			margin-right: 10px;
+		}
+	}
+}
+
+.fa[data-toggle="tooltip"] {
+	color: #209e91;
+}

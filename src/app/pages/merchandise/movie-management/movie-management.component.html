@@ -1,3 +1,107 @@
-<p>
-  movie-management works!
-</p>
+<div class="row top20 clearfix fadeIn animated">
+  <div class="col-12">
+
+    <div class="catSearch clearfix card-header">
+      <h2 class="card-title ">
+        Manage Movies
+        <button class="btn btn-primary float-right" (click)=" bulkUpload() ">
+          <i class="fa fa-download" aria-hidden="true"></i>
+          Import
+        </button>
+        <button class="btn btn-primary float-right" [routerLink]="['./add-movie']">
+          <i class="fa fa-plus-square" aria-hidden="true"></i>
+          Add New
+        </button>
+      </h2>
+    </div>
+
+    <div class="filters card col-12 fadeIn animated">
+      <div class="card-body">
+        <form>
+
+          <div class="form-group row">
+            <label for="name" class="col-3 col-xl-2 text-right">
+              Movie Search
+              <span class="mandatory">*</span>
+              <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search"></i>
+            </label>
+            <input type="text" #searchText class="form-control col-4" id="name">
+            <button type="submit" class="btn btn-primary searchbutton" (click)=" searchMovie(searchText.value) ">
+              <i class="fa fa-search" aria-hidden="true"></i>
+              Search
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <div class="spacer col-12"></div>
+
+    <div class="filters card col-12">
+      <div class="card-body">
+        <table class="table table-bordered table-responsive" [mfData]="movies" #mf="mfDataTable" [mfRowsOnPage]="10">
+          <thead class="black-muted-bg">
+            <tr>
+              <th>No.</th>
+              <th class="text-left">
+                <strong>Name</strong>
+              </th>
+              <th class="text-center">
+                <strong>Published</strong>
+              </th>
+              <th class="text-center">
+                <strong>Display Order</strong>
+              </th>
+              <th class="text-center">
+                <strong>Action</strong>
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngIf=" movies && movies.length > 0 ">
+            <tr *ngFor=" let item of mf.data; let i = index ">
+              <td>{{ i + 1 }}</td>
+              <td class="text-left">
+                {{ item.name }}
+                <!-- <span *ngIf=" item.parent_name ">
+									{{ item.parent_name }} >>
+								</span> {{ item.name }} -->
+              </td>
+              <td class="text-center">
+                 {{ item.language }}
+              </td>
+              <td class="text-center">{{ item.type }}</td>
+              <td class="text-center">
+                <button class="btn btn-secondary" [routerLink]="['./edit-category/', item.id]" title="Edit">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-danger" (click)="deleteCategory(item, i)" title="Delete" [disabled]="deleteLoader == i">
+                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button>
+                <img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+              </td>
+            </tr>
+          </tbody>
+
+          <tbody *ngIf=" movies && movies.length === 0 ">
+            <tr>
+              <td colspan="5">
+                <strong>There are no movies!</strong>
+              </td>
+            </tr>
+          </tbody>
+
+          <tfoot *ngIf=" movies && movies.length > 10 ">
+            <tr>
+              <td colspan="5">
+                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+</div>

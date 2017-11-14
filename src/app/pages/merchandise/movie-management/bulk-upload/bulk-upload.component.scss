@@ -1,0 +1,18 @@
+
+
+.addCategory {
+	margin-bottom: 0;
+
+	button.close {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		color: #000;
+		opacity: 0.5;
+	}
+
+	.text-decoration {
+		text-decoration: underline !important;
+		font-size: 12px;
+	}
+}

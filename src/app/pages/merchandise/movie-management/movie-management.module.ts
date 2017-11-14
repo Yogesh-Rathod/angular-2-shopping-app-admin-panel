@@ -9,8 +9,9 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 import { routing } from './movie-management.routes';
-import { CatalogManagementService } from 'app/services';
+import { MovieManagementService } from 'app/services';
 import { MovieManagementComponent } from './movie-management.component';
+import { AddMovieComponent } from './add-movie/add-movie.component';
 
 @NgModule({
   imports: [
@@ -25,10 +26,11 @@ import { MovieManagementComponent } from './movie-management.component';
     AngularMultiSelectModule
   ],
   declarations: [
-    MovieManagementComponent
+    MovieManagementComponent,
+    AddMovieComponent
   ],
   providers: [
-    CatalogManagementService
+    MovieManagementService
   ],
   entryComponents: [
   ]

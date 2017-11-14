@@ -13,10 +13,12 @@ import { BulkUploadComponent } from './merchandise/categories/bulk-upload/bulk-u
 import { ProductsBulkUploadComponent } from './merchandise/products/bulk-upload/bulk-upload.component';
 import { VendorsBulkUploadComponent } from './merchandise/vendor/bulk-upload/bulk-upload.component';
 import { CatalogBulkUploadComponent } from './merchandise/catalog-management/bulk-upload/bulk-upload.component';
+import { MovieBulkUploadComponent } from './merchandise/movie-management/bulk-upload/bulk-upload.component';
 import { VendorDeletePopupComponent } from './merchandise/vendor/delete-popup/delete-popup.component';
 import { CategoryDeletePopupComponent } from './merchandise/categories/delete-popup/delete-popup.component';
 import { ProductsDeletePopupComponent } from './merchandise/products/delete-popup/delete-popup.component';
 import { BankDeletePopupComponent } from './merchandise/catalog-management/delete-popup/delete-popup.component';
+import { MovieDeletePopupComponent } from './merchandise/movie-management/delete-popup/delete-popup.component';
 
 @NgModule({
   imports: [
@@ -32,10 +34,12 @@ import { BankDeletePopupComponent } from './merchandise/catalog-management/delet
     ProductsBulkUploadComponent,
     VendorsBulkUploadComponent,
     CatalogBulkUploadComponent,
+    MovieBulkUploadComponent,
     VendorDeletePopupComponent,
     CategoryDeletePopupComponent,
     ProductsDeletePopupComponent,
-    BankDeletePopupComponent
+    BankDeletePopupComponent,
+    MovieDeletePopupComponent
   ],
   providers: [
     MerchandiseService,
@@ -45,10 +49,12 @@ import { BankDeletePopupComponent } from './merchandise/catalog-management/delet
     ProductsBulkUploadComponent,
     VendorsBulkUploadComponent,
     CatalogBulkUploadComponent,
+    MovieBulkUploadComponent,
     VendorDeletePopupComponent,
     CategoryDeletePopupComponent,
     ProductsDeletePopupComponent,
-    BankDeletePopupComponent
+    BankDeletePopupComponent,
+    MovieDeletePopupComponent
   ],
 })
 export class PagesModule {

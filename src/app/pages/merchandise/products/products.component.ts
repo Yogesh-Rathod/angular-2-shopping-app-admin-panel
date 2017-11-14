@@ -238,26 +238,30 @@ export class ProductsComponent implements OnInit {
   }
 
   deleteAll() {
-    const activeModal = this.modalService.open(ProductsDeletePopupComponent, { size: 'sm' });
-    activeModal.componentInstance.modalText = 'products';
+    if (this.showSelectedDelete || this.selectAllCheckbox) {
+      const activeModal = this.modalService.open(ProductsDeletePopupComponent, { size: 'sm' });
+      activeModal.componentInstance.modalText = 'products';
 
-    activeModal.result.then((status) => {
-      if (status) {
-        if (this.selectAllCheckbox) {
-          this.products = [];
-        } else {
-          _.forEach(this.products, (item) => {
-            if (item.isChecked) {
-              _.remove(this.products, item);
-            }
-          });
-          this.productsService.editProduct(this.products);
+      activeModal.result.then((status) => {
+        if (status) {
+          if (this.selectAllCheckbox) {
+            this.products = [];
+          } else {
+            _.forEach(this.products, (item) => {
+              if (item) {
+                if (item.isChecked) {
+                  _.remove(this.products, item);
+                }
+              }
+            });
+            this.productsService.editProduct(this.products);
+          }
+          this.toastr.success('Successfully Deleted!', 'Success!');
+          this.selectAllCheckbox = false;
+          this.showSelectedDelete = false;
         }
-        this.toastr.success('Successfully Deleted!', 'Success!');
-        this.selectAllCheckbox = false;
-        this.showSelectedDelete = false;
-      }
-    });
+      });
+    }
   }
 
   deleteProduct(item, index) {

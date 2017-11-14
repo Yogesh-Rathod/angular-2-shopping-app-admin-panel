@@ -76,6 +76,18 @@ const menus = [
     }
   },
   {
+    path: 'movie-management',
+    data: {
+      menu: {
+        title: 'Movie Management',
+        icon: 'ion-videocamera',
+        selected: false,
+        expanded: false,
+        order: 1
+      }
+    }
+  },
+  {
     path: 'user-management',
     data: {
       menu: {

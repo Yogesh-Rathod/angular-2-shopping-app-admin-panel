@@ -18,7 +18,7 @@
 		<form>
 			<div class="form-group">
 				<label for="ExcelFile" class="text-right">Excel File</label>
-				<input type="file" class="form-control" id="ExcelFile" ng2FileSelect [uploader]="uploader" accept=".xlsx, .xls">
+				<input type="file" class="form-control" id="ExcelFile" accept=".xlsx, .xls" (change)="handleFile($event)">
 				<a target="_blank" href="assets/samples/test-bulk-upload.xls" class="text-decoration btn-link float-right">Download Template</a>
 			</div>
 			<div class="form-group">

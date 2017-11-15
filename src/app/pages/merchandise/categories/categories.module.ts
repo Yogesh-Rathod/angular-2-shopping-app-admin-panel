@@ -7,7 +7,7 @@ import { DataTableModule } from "angular2-datatable";
 
 import { CKEditorModule } from 'ng2-ckeditor';
 import { CategoriesComponent } from './categories.component';
-import { MerchandiseService } from 'app/services';
+import { MerchandiseService, XlsxToJsonService } from 'app/services';
 import { AddCategoryComponent } from './add-category/add-category.component';
 import { SearchCategoryPipe } from './search-category.pipe';
 
@@ -27,7 +27,8 @@ import { SearchCategoryPipe } from './search-category.pipe';
     SearchCategoryPipe
   ],
   providers: [
-    MerchandiseService
+    MerchandiseService,
+    XlsxToJsonService
   ],
   entryComponents: [
     // BulkUploadComponent

@@ -4,6 +4,7 @@ import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 const uploadApiUrl = 'http://localhost:3000/upload';
+import { XlsxToJsonService } from 'app/services';
 
 @Component({
   selector: 'app-bulk-upload',
@@ -21,8 +22,10 @@ export class BulkUploadComponent implements OnInit {
       itemAlias: 'image'
     }
   );
+  result: any;
 
   constructor(
+    private xlsxToJsonService: XlsxToJsonService,
     private toastr: ToastsManager,
   	private activeModal: NgbActiveModal
   	) { }
@@ -49,6 +52,15 @@ export class BulkUploadComponent implements OnInit {
         this.showUploadError = true;
       }
     };
+  }
+
+  handleFile(event) {
+    console.log("event ", event);
+    let file = event.target.files[0];
+    this.xlsxToJsonService.processFileToJson({}, file).subscribe(data => {
+      console.log("data ", data['sheets'].Sheet1);
+      this.result = JSON.stringify(data['sheets'].Sheet1);
+    });
   }
 
   uploadFile(event) {

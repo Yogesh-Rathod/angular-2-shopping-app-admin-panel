@@ -1,3 +1,167 @@
-<p>
-  add-movie works!
-</p>
+<div class="animated fadeIn card addCategory">
+
+  <div class="card-header clearfix">
+    <h2 class="card-title">
+      Add Movie
+
+      <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
+        height="35">
+
+      <button *ngIf=" movieId " class="btn btn-danger float-right" (click)="deleteMovie()" [disabled]="deleteLoader">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+        Delete
+      </button>
+      <span class="goBack float-right" [routerLink]="['/movie-management']">
+        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to movies list</span>
+
+    </h2>
+  </div>
+
+  <div class="card-body row">
+
+    <form class="col-12 row" [formGroup]=" addMovieForm " (ngSubmit)=" addMovie(addMovieForm.value) ">
+      <input type="hidden" formControlName="id">
+
+      <div class="col-6 row">
+        <div class="form-group col-6">
+          <label for="title">
+            Title:
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Title (Should be 1 to 100 characters)"></i>
+          </label>
+          <input type="text" class="form-control" id="title" formControlName="title">
+        </div>
+        <div class="form-group col-6">
+          <label for="type">
+            Type:
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Type (E.g. 2D, 3D, IMAX, 4DX etc.)"></i>
+          </label>
+          <input type="text" class="form-control" id="type" formControlName="type">
+        </div>
+
+        <div class="form-group col-6">
+          <label for="Language">
+            Language:
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Language of the movie (Should be 2 to 100 characters)"></i>
+          </label>
+          <input type="text" class="form-control" id="Language" formControlName="language">
+        </div>
+        <div class="form-group col-6">
+          <label for="CensorRating">
+            Censor Rating:
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movies Censor Rating."></i>
+          </label>
+          <input type="text" class="form-control" id="CensorRating" formControlName="censorRating">
+        </div>
+        <div class="form-group col-6">
+          <label for="StarRating">
+            Star Rating:
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Star Rating."></i>
+          </label>
+          <input type="text" class="form-control" id="StarRating" formControlName="starRating">
+        </div>
+        <div class="form-group col-6">
+          <label for="Duration">
+            Duration:
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Duration in Minutes"></i>
+          </label>
+          <input type="text" class="form-control" id="Duration" formControlName="duration" (keydown)='validatenumber($event)'>
+        </div>
+        <div class="form-group col-6">
+          <label for="genre">
+            Genre:
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie genre."></i>
+          </label>
+          <input formControlName="genre" type="text" class="form-control" id="genre">
+        </div>
+        <div class="form-group col-6">
+          <label for="Writer">
+            Writer
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Writer"></i>
+          </label>
+          <input formControlName="writer" type="text" class="form-control" id="Writer">
+        </div>
+
+      </div>
+
+      <div class="col-6 row">
+        <div class="form-group col-6">
+          <label for="music">
+            Music:
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie music."></i>
+          </label>
+          <input formControlName="music" type="text" class="form-control" id="music">
+        </div>
+        <div class="form-group col-6">
+          <label for="starring">
+            Starring:
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Stars."></i>
+          </label>
+          <input formControlName="starring" type="text" class="form-control" id="starring">
+        </div>
+        <div class="form-group col-6">
+          <label for="Director">
+            Director:
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Director."></i>
+          </label>
+          <input formControlName="director" type="text" class="form-control" id="Director">
+        </div>
+        <div class="form-group col-6">
+          <label for="ReleaseDate">
+            Release Date:
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Release Date."></i>
+          </label>
+          <input formControlName="releaseDate" type="text" class="form-control" id="ReleaseDate">
+        </div>
+        <div class="form-group col-6">
+          <label for="synopsis">
+            Synopsis:
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Synopsis."></i>
+          </label>
+          <input formControlName="synopsis" id="Synopsis" class="form-control" type="text">
+        </div>
+        <div class="form-group col-6">
+          <label for="sequence">
+            Sequence:
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Sequence"></i>
+          </label>
+          <input formControlName="sequence" id="sequence" class="form-control" type="text">
+        </div>
+        <div class="form-group col-12">
+          <label for="trailerLink">
+            Trailer Link:
+            <span class="mandatory">*</span>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Trailer Link"></i>
+          </label>
+          <input formControlName="trailerLink" id="trailerLink" class="form-control" type="text">
+        </div>
+        
+        <div class="block"></div>
+      </div>
+
+      <div class="form-group row col-12">
+        <label class="col-5 text-right"></label>
+        <input *ngIf=" !movieId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addMovieForm.valid || showLoader ">
+        <input *ngIf=" movieId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addMovieForm.valid || showLoader ">
+        <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+        <span class="btn btn-secondary" [routerLink]="['/merchandise/vendors']">Cancel</span>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

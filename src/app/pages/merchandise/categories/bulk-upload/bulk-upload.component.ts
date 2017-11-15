@@ -57,11 +57,18 @@ export class BulkUploadComponent implements OnInit {
   handleFile(event) {
     let file = event.target.files[0];
     if (file) {
+      this.showLoader = true;
+      let objectkey = '';
+      // console.log("file ", file);
       this.xlsxToJsonService.processFileToJson({}, file).subscribe(data => {
-        console.log("data ", data['sheets'].Sheet1);
-        this.result = JSON.stringify(data['sheets'].Sheet1);
-        if (this.result) {
-          this.submitDisabled = false;
+        if (data['sheets']) {
+          const sheetKey = Object.keys(data['sheets']);
+          this.result = data['sheets'][sheetKey[0]];
+          console.log("this.result ", this.result);
+          if (this.result) {
+            this.showLoader = false;
+            this.submitDisabled = false;
+          }
         }
       });
     } else {
@@ -71,10 +78,10 @@ export class BulkUploadComponent implements OnInit {
 
   uploadFile(event) {
     console.log("uploadF ");
+    this.showLoader = true;
     event.preventDefault();
     this.uploader.uploadAll();
     this.submitDisabled = true;
-    this.showLoader = true;
   }
 
   closeModal() {

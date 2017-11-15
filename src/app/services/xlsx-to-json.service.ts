@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -18,6 +18,7 @@ export class XlsxToJsonService {
                 let workbook = XLSX.read(data, {
                     type: 'binary'
                 });
+                console.log("workbook ", workbook);
                 object.sheets = _this.parseWorksheet(workbook, true, true);
                 observer.next(object);
                 observer.complete();

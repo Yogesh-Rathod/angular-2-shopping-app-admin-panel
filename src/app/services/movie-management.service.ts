@@ -51,7 +51,7 @@ export class MovieManagementService {
   getMovies() {
     return this.moviesInfo;
   }
-  
+
   addMovie(movieInfo) {
     this.moviesInfo.push(movieInfo);
     return this.moviesInfo;

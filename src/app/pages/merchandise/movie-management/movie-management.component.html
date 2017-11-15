@@ -43,7 +43,9 @@
         <table class="table table-bordered table-responsive" [mfData]="movies" #mf="mfDataTable" [mfRowsOnPage]="10">
           <thead class="black-muted-bg">
             <tr>
-              <th>No.</th>
+              <th>
+                <strong>No.</strong>
+              </th>
               <th class="text-left">
                 <strong>Name</strong>
               </th>
@@ -62,7 +64,7 @@
             <tr *ngFor=" let item of mf.data; let i = index ">
               <td>{{ i + 1 }}</td>
               <td class="text-left">
-                {{ item.name }}
+                {{ item.title }}
                 <!-- <span *ngIf=" item.parent_name ">
 									{{ item.parent_name }} >>
 								</span> {{ item.name }} -->

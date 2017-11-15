@@ -55,12 +55,18 @@ export class BulkUploadComponent implements OnInit {
   }
 
   handleFile(event) {
-    console.log("event ", event);
     let file = event.target.files[0];
-    this.xlsxToJsonService.processFileToJson({}, file).subscribe(data => {
-      console.log("data ", data['sheets'].Sheet1);
-      this.result = JSON.stringify(data['sheets'].Sheet1);
-    });
+    if (file) {
+      this.xlsxToJsonService.processFileToJson({}, file).subscribe(data => {
+        console.log("data ", data['sheets'].Sheet1);
+        this.result = JSON.stringify(data['sheets'].Sheet1);
+        if (this.result) {
+          this.submitDisabled = false;
+        }
+      });
+    } else {
+      this.submitDisabled = true;
+    }
   }
 
   uploadFile(event) {

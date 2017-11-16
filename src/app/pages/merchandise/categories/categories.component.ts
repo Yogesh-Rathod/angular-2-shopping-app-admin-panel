@@ -22,9 +22,9 @@ export class CategoriesComponent implements OnInit {
   deleteLoader: Number;
 
   constructor(
-      private modalService: NgbModal,
-      public toastr: ToastsManager,
-      private fb: FormBuilder,
+    private modalService: NgbModal,
+    public toastr: ToastsManager,
+    private fb: FormBuilder,
     private merchandiseService: MerchandiseService) {
   }
 

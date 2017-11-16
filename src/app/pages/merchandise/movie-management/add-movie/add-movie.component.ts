@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as _ from 'lodash';
 declare let $: any;
 
 import { RegEx } from './../../../regular-expressions';
 import { MovieManagementService } from 'app/services';
+import { MovieDeletePopupComponent } from '../delete-popup/delete-popup.component';
 
 @Component({
   selector: 'app-add-movie',
@@ -24,6 +26,7 @@ export class AddMovieComponent implements OnInit {
   movieInfo: any;
 
   constructor(
+    private modalService: NgbModal,
     private fb: FormBuilder,
     private movieManagementService: MovieManagementService,
     private _location: Location,
@@ -202,12 +205,19 @@ export class AddMovieComponent implements OnInit {
   }
 
   deleteMovie() {
-    this.deleteLoader = true;
-    _.remove(this.movies, this.movieInfo);
-    this.movieManagementService.updateMovies(this.movies);
-    this.toastr.success('Sucessfully Deleted!', 'Sucess!');
-    this.deleteLoader = false;
-    this._location.back();
+    const activeModal = this.modalService.open(MovieDeletePopupComponent, { size: 'sm' });
+    activeModal.componentInstance.modalText = 'vendor';
+
+    activeModal.result.then((status) => {
+      if (status) {
+        this.deleteLoader = true;
+        _.remove(this.movies, this.movieInfo);
+        this.movieManagementService.updateMovies(this.movies);
+        this.toastr.success('Sucessfully Deleted!', 'Sucess!');
+        this.deleteLoader = false;
+        this._location.back();
+      }
+    });
   }
 
 }

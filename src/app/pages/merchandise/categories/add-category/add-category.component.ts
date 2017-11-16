@@ -4,10 +4,12 @@ import './ckeditor.loader';
 import 'ckeditor';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 
 import { Config } from 'app/pages/app-config';
 import { MerchandiseService } from 'app/services';
+import { CategoryDeletePopupComponent } from '../delete-popup/delete-popup.component';
 
 @Component({
   selector: 'app-add-category',
@@ -29,6 +31,7 @@ export class AddCategoryComponent implements OnInit {
   categoryInfo: any;
 
   constructor(
+    private modalService: NgbModal,
     private fb: FormBuilder,
     private merchandiseService: MerchandiseService,
     private toastr: ToastsManager,
@@ -123,12 +126,19 @@ export class AddCategoryComponent implements OnInit {
   }
 
   deleteCategory() {
-    this.deleteLoader = true;
-    _.remove(this.categories, this.categoryInfo );
-    this.merchandiseService.editCategories(this.categories);
-    this.toastr.success('Sucessfully Deleted!', 'Sucess!');
-    this.deleteLoader = false;
-    this.router.navigate(['../']);
+
+    const activeModal = this.modalService.open(CategoryDeletePopupComponent, { size: 'sm' });
+
+    activeModal.result.then((status) => {
+      if (status) {
+        this.deleteLoader = true;
+        _.remove(this.categories, this.categoryInfo );
+        this.merchandiseService.editCategories(this.categories);
+        this.toastr.success('Sucessfully Deleted!', 'Sucess!');
+        this.deleteLoader = false;
+        this.router.navigate(['../']);
+      }
+    });
   }
 
   resetForm() {

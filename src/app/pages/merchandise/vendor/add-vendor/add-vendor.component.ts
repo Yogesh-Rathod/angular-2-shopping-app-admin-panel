@@ -6,10 +6,12 @@ import 'ckeditor';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as _ from 'lodash';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 declare let $: any;
 
 import { VendorsService } from 'app/services';
 import { RegEx } from './../../../regular-expressions';
+import { VendorDeletePopupComponent } from '../delete-popup/delete-popup.component';
 
 @Component({
   selector: 'app-add-vendor',
@@ -30,6 +32,7 @@ export class AddVendorComponent implements OnInit {
   vendorInfo: any;
 
   constructor(
+    private modalService: NgbModal,
     private fb: FormBuilder,
     private _location: Location,
     private vendorsService: VendorsService,
@@ -197,12 +200,19 @@ export class AddVendorComponent implements OnInit {
   }
 
   deleteVendor() {
-    this.deleteLoader = true;
-    _.remove(this.vendors, this.vendorInfo);
-    this.vendorsService.editVendor(this.vendors);
-    this.toastr.success('Sucessfully Deleted!', 'Sucess!');
-    this.deleteLoader = false;
-    this._location.back();
+    const activeModal = this.modalService.open(VendorDeletePopupComponent, { size: 'sm' });
+    activeModal.componentInstance.modalText = 'vendor';
+
+    activeModal.result.then((status) => {
+      if (status) {
+        this.deleteLoader = true;
+        _.remove(this.vendors, this.vendorInfo);
+        this.vendorsService.editVendor(this.vendors);
+        this.toastr.success('Sucessfully Deleted!', 'Sucess!');
+        this.deleteLoader = false;
+        this._location.back();
+      }
+    });
   }
 
 }

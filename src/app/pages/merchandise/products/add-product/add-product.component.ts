@@ -6,10 +6,12 @@ import 'ckeditor';
 import { IMyDpOptions } from 'mydatepicker';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 
 import { RegEx } from 'app/pages/regular-expressions';
 import { MerchandiseService, ProductsService, VendorsService } from 'app/services';
+import { ProductsDeletePopupComponent } from '../delete-popup/delete-popup.component';
 
 @Component({
   selector: 'app-add-product',
@@ -52,6 +54,7 @@ export class AddProductComponent implements OnInit {
   vendorId: any;
 
   constructor(
+    private modalService: NgbModal,
     public toastr: ToastsManager,
     private _location: Location,
     private fb: FormBuilder,
@@ -259,11 +262,18 @@ export class AddProductComponent implements OnInit {
   }
 
   deleteProduct() {
-    this.deleteLoader = true;
-    _.remove(this.products, this.productInfo);
-    this.productsService.editProduct(this.products);
-    this.deleteLoader = false;
-    this.goBack();
+    const activeModal = this.modalService.open(ProductsDeletePopupComponent, { size: 'sm' });
+    activeModal.componentInstance.modalText = 'product';
+
+    activeModal.result.then((status) => {
+      if (status) {
+        this.deleteLoader = true;
+        _.remove(this.products, this.productInfo);
+        this.productsService.editProduct(this.products);
+        this.deleteLoader = false;
+        this.goBack();
+      }
+    });
   }
 
   uploadProductImage(addProductForm) {

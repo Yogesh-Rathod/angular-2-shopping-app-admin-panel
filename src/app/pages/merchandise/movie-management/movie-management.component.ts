@@ -7,7 +7,7 @@ declare let $: any;
 
 import { MovieManagementService } from 'app/services';
 import { MovieBulkUploadComponent } from './bulk-upload/bulk-upload.component';
-// import { CategoryDeletePopupComponent } from './delete-popup/delete-popup.component';
+import { MovieDeletePopupComponent } from './delete-popup/delete-popup.component';
 
 @Component({
   selector: 'app-movie-management',
@@ -18,6 +18,7 @@ export class MovieManagementComponent implements OnInit {
 
   searchTerm: any;
   movies: any;
+  deleteLoader: Number;
 
   constructor(
     private modalService: NgbModal,
@@ -44,6 +45,23 @@ export class MovieManagementComponent implements OnInit {
 
   bulkUpload() {
     const activeModal = this.modalService.open(MovieBulkUploadComponent, { size: 'sm' });
+  }
+
+  deleteMovie(item, index) {
+    const activeModal = this.modalService.open(MovieDeletePopupComponent, { size: 'sm' });
+    activeModal.componentInstance.modalText = 'vendor';
+
+    activeModal.result.then((status) => {
+      if (status) {
+        this.deleteLoader = index;
+        _.remove(this.movies, item);
+        this.movieManagementService.updateMovies(this.movies);
+        this.deleteLoader = NaN;
+        this.toastr.success('Successfully Deleted!', 'Success!');
+      } else {
+        this.deleteLoader = NaN;
+      }
+    });
   }
 
 }

@@ -2,7 +2,8 @@
 
 		<div class="card-header clearfix">
 			<h2 class="card-title" >
-				{{ 'merchandise.vendor.add' | translate }}
+				<span *ngIf="!categoryId">Add</span>
+				<span *ngIf="categoryId">Edit</span>
 				{{ 'merchandise.categories.category' | translate }}
 
 				<img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">

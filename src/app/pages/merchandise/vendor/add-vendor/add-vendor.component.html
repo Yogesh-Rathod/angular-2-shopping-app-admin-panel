@@ -2,7 +2,8 @@
 
   <div class="card-header clearfix">
     <h2 class="card-title">
-      Add Vendor
+      <span *ngIf="!vendorId">Add</span>
+      <span *ngIf="vendorId">Edit</span> Vendor
 
       <button *ngIf=" vendorId " class="btn btn-success" [routerLink]="['/merchandise/products/vendorproducts', vendorId]">
         Show Products

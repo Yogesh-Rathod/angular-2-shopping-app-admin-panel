@@ -2,7 +2,7 @@
 
   <div class="card-header clearfix">
     <h2 class="card-title">
-      Add Movie
+      <span *ngIf="!movieId">Add</span><span *ngIf="movieId">Edit</span> Movie
 
       <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
         height="35">
@@ -148,7 +148,6 @@
           </label>
           <input formControlName="trailerLink" id="trailerLink" class="form-control" type="text">
         </div>
-        
         <div class="block"></div>
       </div>
 

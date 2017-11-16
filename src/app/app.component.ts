@@ -24,7 +24,7 @@ export class App {
       if (!(evt instanceof NavigationEnd)) {
         return;
       }
-      document.body.scrollTop = 0;
+      window.scrollTo(0, 0);
     });
 
     // if ( this._cookieService.get('userLoggedInData') ) {

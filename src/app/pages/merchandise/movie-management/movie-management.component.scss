@@ -46,3 +46,14 @@
 .fa[data-toggle="tooltip"] {
 	color: #209e91;
 }
+
+.movie-image {
+	max-width: 200px;
+	margin: auto;
+
+	img {
+		max-height: 100px;
+		margin: auto;
+    display: block;
+	}
+}

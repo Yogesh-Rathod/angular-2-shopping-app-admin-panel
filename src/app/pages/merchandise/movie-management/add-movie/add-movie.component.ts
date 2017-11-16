@@ -25,6 +25,7 @@ export class AddMovieComponent implements OnInit {
   showLoader = false;
   movies: any;
   movieInfo: any;
+  movieImages = [];
   myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'dd/mm/yyyy',
     editableDateField: false,
@@ -187,7 +188,6 @@ export class AddMovieComponent implements OnInit {
       const movies = this.movieManagementService.getMovies();
       _.forEach(movies, (movie) => {
         if (movie.id === parseInt(this.movieId)) {
-          console.log("movie ", movie);
           this.movieInfo = movie;
           this.addMovieForm.controls['id'].setValue(movie.id);
           this.addMovieForm.controls['title'].setValue(movie.title);
@@ -208,6 +208,17 @@ export class AddMovieComponent implements OnInit {
         }
       });
     }
+  }
+
+  handleImageUpload(event, index) {
+    const file = event.target.files[0];
+    console.log("file ", file);
+    if (file) {
+      this.movieImages.push(file);
+    } else {
+      this.movieImages.splice(index, 1);
+    }
+    console.log("this.movieImages ", this.movieImages);
   }
 
   deleteMovie() {

@@ -148,15 +148,48 @@
           </label>
           <input formControlName="trailerLink" id="trailerLink" class="form-control" type="text">
         </div>
-        <div class="block"></div>
       </div>
 
-      <div class="form-group row col-12">
+      <div class="col-xs-12 row no_margin images-container">
+        <label for="images ">
+          Select Images:
+          <span class="mandatory">*</span>
+          <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Images to show"></i>
+        </label>
+        <div class="col-12"></div>
+        <div class="col-4">
+          <div class="img-container" *ngIf=" movieId && movieInfo.images && movieInfo.images[0] ">
+            <img src="{{ movieInfo.images[0].url }}" alt="Movie Image" class="img-fluid" width="250"
+              height="250">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="img-container" *ngIf=" movieId && movieInfo.images && movieInfo.images[1] ">
+            <img src="{{ movieInfo.images[1].url }}" alt="Movie Image" class="img-fluid" width="250" height="250">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="img-container" *ngIf=" movieId && movieInfo.images && movieInfo.images[2] ">
+            <img src="{{ movieInfo.images[2].url }}" alt="Movie Image" class="img-fluid" width="250" height="250">
+          </div>
+        </div>
+        <div class="col-4">
+          <input type="file" id="3" class="form-control" accept=".png, .jpg, .jpeg, .gif" (change)="handleImageUpload($event, 0)">
+        </div>
+        <div class="col-4">
+          <input type="file" id="3" class="form-control" accept=".png, .jpg, .jpeg, .gif" (change)="handleImageUpload($event, 1)">
+        </div>
+        <div class="col-4">
+          <input type="file" id="3" class="form-control" accept=".png, .jpg, .jpeg, .gif" (change)="handleImageUpload($event, 2)">
+        </div>
+      </div>
+
+      <div class="form-group row col-12 buttons-container">
         <label class="col-5 text-right"></label>
         <input *ngIf=" !movieId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addMovieForm.valid || showLoader ">
         <input *ngIf=" movieId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addMovieForm.valid || showLoader ">
         <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-        <span class="btn btn-secondary" [routerLink]="['/merchandise/vendors']">Cancel</span>
+        <span class="btn btn-secondary" [routerLink]="['/movie-management']">Cancel</span>
       </div>
 
     </form>

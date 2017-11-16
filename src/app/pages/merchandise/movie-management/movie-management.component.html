@@ -47,6 +47,9 @@
                 <strong>No.</strong>
               </th>
               <th class="text-left">
+                <strong>Image</strong>
+              </th>
+              <th class="text-left">
                 <strong>Name</strong>
               </th>
               <th class="text-center">
@@ -64,10 +67,12 @@
             <tr *ngFor=" let item of mf.data; let i = index ">
               <td>{{ i + 1 }}</td>
               <td class="text-left">
+                <div class="movie-image" *ngIf="item.images">
+                  <img class="img-fluid" src="{{item.images[0].url}}" alt="Movie Image">
+                </div>
+              </td>
+              <td class="text-left">
                 {{ item.title }}
-                <!-- <span *ngIf=" item.parent_name ">
-									{{ item.parent_name }} >>
-								</span> {{ item.name }} -->
               </td>
               <td class="text-center">
                  {{ item.language }}

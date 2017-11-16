@@ -51,3 +51,14 @@ textarea.form-control {
 .fa[data-toggle="tooltip"] {
 	color: #209e91;
 }
+
+.images-container {
+	> label {
+		font-size: 13px;
+		margin-left: 15px;
+	}
+}
+
+.buttons-container {
+	margin-top: 20px;
+}

@@ -74,10 +74,10 @@
               </td>
               <td class="text-center">{{ item.type }}</td>
               <td class="text-center">
-                <button class="btn btn-secondary" [routerLink]="['./edit-category/', item.id]" title="Edit">
+                <button class="btn btn-secondary" [routerLink]="['./edit-movie/', item.id]" title="Edit">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </button>
-                <button class="btn btn-danger" (click)="deleteCategory(item, i)" title="Delete" [disabled]="deleteLoader == i">
+                <button class="btn btn-danger" (click)="deleteMovie(item, i)" title="Delete" [disabled]="deleteLoader == i">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
                 <img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">

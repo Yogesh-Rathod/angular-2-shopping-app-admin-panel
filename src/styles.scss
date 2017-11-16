@@ -6,6 +6,11 @@
 	text-transform: capitalize;
 }
 
+input,
+.tooltip-inner {
+	text-transform: initial;
+}
+
 .card-header {
 	background: #209e91 !important;
 }

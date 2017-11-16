@@ -163,7 +163,7 @@ export class AddMovieComponent implements OnInit {
     if (addMovieForm.id) {
       const index = _.findIndex(this.movies, { id: addMovieForm['id'] });
       this.movies.splice(index, 1, addMovieForm);
-      // this.movieManagementService.editMovie(this.vendors);
+      this.movieManagementService.updateMovies(this.movies);
     } else {
       addMovieForm['id'] = Math.floor(Math.random() * 90000) + 10000;
       this.movieManagementService.addMovie(addMovieForm);
@@ -178,22 +178,24 @@ export class AddMovieComponent implements OnInit {
       const movies = this.movieManagementService.getMovies();
       _.forEach(movies, (movie) => {
         if (movie.id === parseInt(this.movieId)) {
+          console.log("movie ", movie);
           this.movieInfo = movie;
-          // this.addMovieForm.controls['id'].setValue(movie.id);
-          // this.addMovieForm.controls['first_name'].setValue(movie.title);
-          // this.addMovieForm.controls['last_name'].setValue(movie.last_name);
-          // this.addMovieForm.controls['suffix'].setValue(movie.suffix);
-          // this.addMovieForm.controls['company'].setValue(movie.company);
-          // this.addMovieForm.controls['email'].setValue(movie.email);
-          // this.addMovieForm.controls['phone'].setValue(movie.phoneNumber);
-          // this.addMovieForm.controls['website'].setValue(movie.website);
-          // this.addMovieForm.controls['listingFee'].setValue(movie.listingFee);
-          // this.addMovieForm.controls['address'].setValue(movie.address);
-          // this.addMovieForm.controls['city'].setValue(movie.city);
-          // this.addMovieForm.controls['state'].setValue(movie.state);
-          // this.addMovieForm.controls['country'].setValue(movie.country);
-          // this.addMovieForm.controls['zip'].setValue(movie.zip);
-          // this.addMovieForm.controls['status'].setValue(movie.status);
+          this.addMovieForm.controls['id'].setValue(movie.id);
+          this.addMovieForm.controls['title'].setValue(movie.title);
+          this.addMovieForm.controls['language'].setValue(movie.language);
+          this.addMovieForm.controls['type'].setValue(movie.type);
+          this.addMovieForm.controls['censorRating'].setValue(movie['censorRating']);
+          this.addMovieForm.controls['starRating'].setValue(movie['starRating']);
+          this.addMovieForm.controls['duration'].setValue(movie['duration']);
+          this.addMovieForm.controls['genre'].setValue(movie['genre']);
+          this.addMovieForm.controls['writer'].setValue(movie['writer']);
+          this.addMovieForm.controls['music'].setValue(movie['music']);
+          this.addMovieForm.controls['starring'].setValue(movie['starring']);
+          this.addMovieForm.controls['director'].setValue(movie['director']);
+          this.addMovieForm.controls['releaseDate'].setValue(movie['releaseDate']);
+          this.addMovieForm.controls['synopsis'].setValue(movie['synopsis']);
+          this.addMovieForm.controls['trailerLink'].setValue(movie['trailerLink']);
+          this.addMovieForm.controls['sequence'].setValue(movie['sequence']);
         }
       });
     }
@@ -202,7 +204,7 @@ export class AddMovieComponent implements OnInit {
   deleteMovie() {
     this.deleteLoader = true;
     _.remove(this.movies, this.movieInfo);
-    // this.vendorsService.editMovie(this.vendors);
+    this.movieManagementService.updateMovies(this.movies);
     this.toastr.success('Sucessfully Deleted!', 'Sucess!');
     this.deleteLoader = false;
     this._location.back();

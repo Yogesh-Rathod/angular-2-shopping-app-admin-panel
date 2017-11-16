@@ -1,3 +1,90 @@
-<p>
-  add-cinema works!
-</p>
+<div class="animated fadeIn card addCinema">
+
+  <div class="card-header clearfix">
+    <h2 class="card-title">
+      <span *ngIf="!cinemaId">Add</span>
+      <span *ngIf="cinemaId">Edit</span>
+      Cinema
+
+      <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
+        height="35">
+
+      <button *ngIf=" cinemaId " class="btn btn-danger float-right" (click)="deleteCinema()" [disabled]="deleteLoader">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+        Delete
+      </button>
+      <span class="goBack float-right" [routerLink]="['/movie-management']">
+        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to cinema list</span>
+
+    </h2>
+  </div>
+
+  <div class="card-body">
+
+    <form class="col-12" [formGroup]=" addCinemaForm " (ngSubmit)=" addCinema(addCinemaForm.value) ">
+      <input type="hidden" formControlName="id">
+      <div class="form-group row">
+        <label for="name" class="col-3 text-right">Name
+          <span class="mandatory">*</span>
+        </label>
+        <input type="text" class="form-control col-9" id="name" placeholder="Name" formControlName="name">
+      </div>
+
+      <div class="form-group row">
+        <label for="code" class="col-3 text-right">Code
+          <span class="mandatory">*</span>
+        </label>
+        <input type="text" class="form-control col-9" id="code" placeholder="Code" formControlName="code">
+      </div>
+
+      <div class="form-group row">
+        <label for="provider" class="col-3 text-right">Provider
+          <span class="mandatory">*</span>
+        </label>
+        <select id="provider" class="form-control col-9" formControlName="provider">
+          <option></option>
+          <option *ngFor="let item of providers" value="{{item}}">{{item}}</option>
+        </select>
+      </div>
+
+      <div class="form-group row">
+        <label for="region" class="col-3 text-right">Region
+          <span class="mandatory">*</span>
+        </label>
+        <select id="region" class="form-control col-9" formControlName="region">
+          <option></option>
+          <option *ngFor="let item of regions" value="{{item}}">{{item}}</option>
+        </select>
+      </div>
+
+      <div class="form-group row">
+        <label for="Latitude" class="col-3 text-right">Latitude
+        </label>
+        <input type="text" class="form-control col-9" id="Latitude" placeholder="Latitude" formControlName="latitude">
+      </div>
+
+      <div class="form-group row">
+        <label for="longitude" class="col-3 text-right">Longitude
+        </label>
+        <input type="text" class="form-control col-9" id="longitude" placeholder="Longitude" formControlName="longitude">
+      </div>
+
+      <div class="form-group row">
+        <label for="bookingFee" class="col-3 text-right">Booking Fee
+        </label>
+        <input type="text" class="form-control col-9" id="bookingFee" placeholder="Booking Fee" formControlName="bookingFee">
+      </div>
+
+      <div class="form-group row">
+        <label class="col-3 text-right"></label>
+        <input *ngIf=" !cinemaId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addCinemaForm.valid || showLoader ">
+        <input *ngIf=" cinemaId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addCinemaForm.valid || showLoader ">
+        <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+        <span class="btn btn-secondary" [routerLink]="['/merchandise/categories']">Cancel</span>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

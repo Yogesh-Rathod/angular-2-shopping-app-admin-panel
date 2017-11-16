@@ -3,5 +3,6 @@ export const RegEx = {
   Email: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
   phoneNumber: /^[789]\d{9}$/,
   zipCode: /^[1-9][0-9]{5}$/,
-  websiteUrl: /^(http|https):+/
+  websiteUrl: /^(http|https):+/,
+  latLong: /^[+-]?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,6}/
 };

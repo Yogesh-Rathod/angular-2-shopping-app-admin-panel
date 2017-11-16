@@ -12,6 +12,7 @@ import { routing } from './movie-management.routes';
 import { MovieManagementService } from 'app/services';
 import { MovieManagementComponent } from './movie-management.component';
 import { AddMovieComponent } from './add-movie/add-movie.component';
+import { AddCinemaComponent } from './add-cinema/add-cinema.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { AddMovieComponent } from './add-movie/add-movie.component';
   ],
   declarations: [
     MovieManagementComponent,
-    AddMovieComponent
+    AddMovieComponent,
+    AddCinemaComponent
   ],
   providers: [
     MovieManagementService

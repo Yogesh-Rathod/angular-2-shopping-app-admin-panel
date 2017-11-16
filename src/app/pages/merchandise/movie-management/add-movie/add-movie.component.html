@@ -122,7 +122,7 @@
             <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Release Date."></i>
           </label>
-          <input formControlName="releaseDate" type="text" class="form-control" id="ReleaseDate">
+          <my-date-picker id="ReleaseDate" name="ReleaseDate" [options]="myDatePickerOptions" formControlName="releaseDate"></my-date-picker>
         </div>
         <div class="form-group col-6">
           <label for="synopsis">
@@ -130,7 +130,7 @@
             <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Synopsis."></i>
           </label>
-          <input formControlName="synopsis" id="Synopsis" class="form-control" type="text">
+          <textarea class="form-control" formControlName="synopsis" id="Synopsis" cols="10" rows="10"></textarea>
         </div>
         <div class="form-group col-6">
           <label for="sequence">

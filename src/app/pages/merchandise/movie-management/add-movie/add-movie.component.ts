@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { IMyDpOptions } from 'mydatepicker';
 import * as _ from 'lodash';
 declare let $: any;
 
@@ -24,6 +25,11 @@ export class AddMovieComponent implements OnInit {
   showLoader = false;
   movies: any;
   movieInfo: any;
+  myDatePickerOptions: IMyDpOptions = {
+    dateFormat: 'dd/mm/yyyy',
+    editableDateField: false,
+    openSelectorOnInputClick: true
+  };
 
   constructor(
     private modalService: NgbModal,

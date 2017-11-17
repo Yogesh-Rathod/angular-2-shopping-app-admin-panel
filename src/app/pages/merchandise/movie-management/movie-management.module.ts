@@ -13,6 +13,7 @@ import { MovieManagementService } from 'app/services';
 import { MovieManagementComponent } from './movie-management.component';
 import { AddMovieComponent } from './add-movie/add-movie.component';
 import { AddCinemaComponent } from './add-cinema/add-cinema.component';
+import { MovieDetailsComponent } from './movie-details/movie-details.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { AddCinemaComponent } from './add-cinema/add-cinema.component';
   declarations: [
     MovieManagementComponent,
     AddMovieComponent,
-    AddCinemaComponent
+    AddCinemaComponent,
+    MovieDetailsComponent
   ],
   providers: [
     MovieManagementService

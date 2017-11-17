@@ -1,64 +1,61 @@
 .addCategory {
-
-	.form-group label,
-	input[type="checkbox"] {
-		margin-top: 10px;
-	}
-
-	.btn {
-		margin-left: 20px;
-
-		&.btn-danger,
-		&.btn-success {
-			margin-top: -6px;
-		}
-	}
-
-	.btn-primary {
-		background: #4db1a7;
-		border-color: #4db1a7;
-		margin-left: 0;
-	}
-
-	.goBack {
-		display: inline-block;
-		margin-left: 25px;
-		font-size: 14px;
-		text-transform: initial;
-		cursor: pointer;
-	}
-
-	.deleteLoader {
-		margin-top: -9px;
-	}
-
-	.last_name {
-		margin-left: 15px;
-	}
-
+    .form-group label,
+    input[type="checkbox"] {
+        margin-top: 10px;
+    }
+    .btn {
+        margin-left: 20px;
+        &.btn-danger,
+        &.btn-success {
+            margin-top: -6px;
+        }
+    }
+    .btn-primary {
+        background: #4db1a7;
+        border-color: #4db1a7;
+        margin-left: 0;
+    }
+    .goBack {
+        display: inline-block;
+        margin-left: 25px;
+        font-size: 14px;
+        text-transform: initial;
+        cursor: pointer;
+    }
+    .deleteLoader {
+        margin-top: -9px;
+    }
+    .last_name {
+        margin-left: 15px;
+    }
 }
 
 textarea.form-control {
-	height: 35px;
-	min-height: 35px !important;	
+    height: 35px;
+    min-height: 35px !important;
 }
 
 #Status {
-	transform: translateY(3px);
-	margin-left: 5px;
+    transform: translateY(3px);
+    margin-left: 5px;
 }
 
 .fa[data-toggle="tooltip"] {
-	color: #209e91;
+    color: #209e91;
 }
 
 .images-container {
-	> label {
-		font-size: 13px;
-		margin-left: 15px;
-	}
+    >label {
+        font-size: 13px;
+        margin-left: 15px;
+    }
+    .col-4 {
+        label {
+            font-size: 13px;
+        }
+    }
 }
 
 .buttons-container {
-	margin-top: 20px;
+    margin-top: 20px;
 }

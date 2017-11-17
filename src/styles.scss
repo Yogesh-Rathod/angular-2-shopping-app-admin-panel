@@ -1,179 +1,178 @@
 @import 'assets/css/ng2-toaster.css';
 @import 'assets/css/angular2-datatable.scss';
-
 * {
-	box-sizing: border-box !important;
-	text-transform: capitalize;
+    box-sizing: border-box !important;
+    text-transform: capitalize;
 }
 
 input,
 .tooltip-inner {
-	text-transform: initial;
+    text-transform: initial;
 }
 
 .card-header {
-	background: #209e91 !important;
+    background: #209e91 !important;
 }
 
 .card-title {
-	color: #fff;
-	text-transform: capitalize;
+    color: #fff;
+    text-transform: capitalize;
 }
 
 .mandatory {
-	color: #e03838 !important;
+    color: #e03838 !important;
 }
 
 .error {
-	color: #e03838 !important;
+    color: #e03838 !important;
 }
 
 .ng-touched.ng-invalid {
-	border-color:  #e03838 !important;
+    border-color: #e03838 !important;
+}
+
+my-date-picker.ng-touched.ng-invalid {
+	.mydp {
+    border-color: #e03838 !important;
+	}
 }
 
 angular2-multiselect.ng-dirty.ng-invalid {
-	border: 1px solid #e03838 !important;
+    border: 1px solid #e03838 !important;
 }
 
 ckeditor.form-control {
-	padding: 0 !important;
+    padding: 0 !important;
 }
 
 .no_padding {
-	padding: 0 !important;
+    padding: 0 !important;
 }
 
 .no_margin {
-	margin: 0 !important;
+    margin: 0 !important;
 }
 
 .pos_relative {
-	position: relative !important;
+    position: relative !important;
 }
 
 .pos_absolute {
-	position: absolute !important;
+    position: absolute !important;
 }
 
 .no_left_padding {
-	padding-left: 0 !important;
+    padding-left: 0 !important;
 }
 
 .no_right_padding {
-	padding-right: 0 !important;
+    padding-right: 0 !important;
 }
 
 .block {
-	display: block !important;
+    display: block !important;
 }
 
 .hidden {
-	visibility: hidden !important;
+    visibility: hidden !important;
 }
 
 table {
-	display: table !important;
+    display: table !important;
 }
 
 i.fa {
-	margin-left: 5px !important;
-	margin-right: 5px !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
 }
 
 .text-decoration {
-	text-decoration: underline !important;
-	font-size: 12px;
+    text-decoration: underline !important;
+    font-size: 12px;
 }
 
 .bold {
-	font-weight: bold !important;
+    font-weight: bold !important;
 }
 
 .disabled {
-	opacity: 0.7;
-	pointer-events: none;
+    opacity: 0.7;
+    pointer-events: none;
 }
 
 .al-content {
-	padding: 8px 15px 8px 20px;
+    padding: 8px 15px 8px 20px;
 }
 
 .content-top {
-	padding-top: 0px !important;
-	padding-bottom: 10px !important;
+    padding-top: 0px !important;
+    padding-bottom: 10px !important;
 }
 
 .loader-container {
-	background: #fff;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	z-index: 1;
-	text-align: center;
-
-	img {
-		margin: 10px auto;
-		display: block;
-	}
+    background: #fff;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    text-align: center;
+    img {
+        margin: 10px auto;
+        display: block;
+    }
 }
-
 
 // Tabs UI
 .tabs-section {
-	.nav-tabs {
-		background: transparent !important;
-		border-bottom: 1px solid #ddd !important;
-
-		a {
-			color: #464a4c !important;
-		}
-
-		.nav-link {
-			border-top: 3px solid transparent;
-			border-top-left-radius: 0 !important;
-			padding: 12px 15px;
-			font-size: 15px;
-
-			&:hover {
-				border-top: 3px solid transparent;
-			}
-
-			&.active {
-				border-top-color: #3c8dbc;
-				border-right: 1px solid #ddd!important;
-    		border-left: 1px solid #ddd!important;
-			} 
-		}
-	}
+    .nav-tabs {
+        background: transparent !important;
+        border-bottom: 1px solid #ddd !important;
+        a {
+            color: #464a4c !important;
+        }
+        .nav-link {
+            border-top: 3px solid transparent;
+            border-top-left-radius: 0 !important;
+            padding: 12px 15px;
+            font-size: 15px;
+            &:hover {
+                border-top: 3px solid transparent;
+            }
+            &.active {
+                border-top-color: #3c8dbc;
+                border-right: 1px solid #ddd!important;
+                border-left: 1px solid #ddd!important;
+            }
+        }
+    }
 }
 
-.tab-content > .active, 
-.pill-content > .active {
-	display: flex;
+.tab-content>.active,
+.pill-content>.active {
+    display: flex;
 }
 
 .selected-list .c-btn {
-	box-shadow: none !important;
+    box-shadow: none !important;
 }
 
 .animated {
-	animation-fill-mode: none;
+    animation-fill-mode: none;
 }
 
 .page-top {
-	z-index: 9994 !important;
+    z-index: 9994 !important;
 }
 
 .modal {
-	z-index: 10050 !important;
+    z-index: 10050 !important;
 }
 
 .owl-dateTime-input {
-	height: 37px;
+    height: 37px;
 }
 
 a.cke_button {
-	height: 25px;
+    height: 25px;
 }

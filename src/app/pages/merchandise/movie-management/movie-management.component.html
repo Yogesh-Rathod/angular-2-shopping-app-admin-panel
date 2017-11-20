@@ -67,8 +67,9 @@
             <tr *ngFor=" let item of mf.data; let i = index ">
               <td>{{ i + 1 }}</td>
               <td class="text-left">
-                <div class="movie-image" *ngIf="item.images">
-                  <img class="img-fluid" src="{{item.images[0].url}}" alt="Movie Image">
+                <div class="movie-image">
+                  <img *ngIf="item.images" class="img-fluid" src="{{item.images[0].url}}" alt="Movie Image">
+                  <img class="img-fluid" *ngIf="!item.images" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
                 </div>
               </td>
               <td class="text-left">

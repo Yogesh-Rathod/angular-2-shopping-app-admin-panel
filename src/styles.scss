@@ -41,6 +41,10 @@ angular2-multiselect.ng-dirty.ng-invalid {
     border: 1px solid #e03838 !important;
 }
 
+[ng-reflect-router-link] {
+    cursor: pointer;
+}
+
 ckeditor.form-control {
     padding: 0 !important;
 }

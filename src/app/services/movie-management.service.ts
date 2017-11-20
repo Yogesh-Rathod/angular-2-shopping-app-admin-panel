@@ -6,91 +6,58 @@ export class MovieManagementService {
   moviesInfo = [
     {
       id: 12345,
-      title: 'Matru Ki Bijlee Ka Mandola',
-      language: 'hindi',
-      type: '2D',
+      title: 'Justice League ',
+      language: 'English, Hindi',
+      type: '2D, 3D',
       censorRating: 4,
-      starRating: 2,
+      starRating: 7.5,
       duration: 122,
       genre: 'love',
-      writer: 'Daud',
-      music: 'A.R.Rahman',
-      starring: 'KRK',
-      director: 'Rahul Lamkhade',
+      writer: 'Zack Snyder',
+      music: 'Danny Elfman',
+      starring: 'Ben Affleck, Gal Gadot, Jason Momoa, Ezra Miller',
+      director: 'Zack Snyder',
       releaseDate: 1510811825352,
-      synopsis: 'Nothing',
+      synopsis: "Fueled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne enlists the help of his newfound ally, Diana Prince, to face an even greater enemy.",
       trailerLink: 'www.trailer.com',
       sequence: 'NA',
       images: [
         {
-          url: 'assets/images/movies/matru-ki-bijlee-ka-mandola_header_1.jpg',
+          url: 'assets/images/movies/justice-league-blur.jpg',
         },
         {
-          url: 'assets/images/movies/Matru_Ki_Bijlee_Ka_Mandola_poster.jpeg.jpg',
+          url: 'assets/images/movies/just-league.jpg',
         },
         {
-          url: 'assets/images/movies/PCTV-1000013709-hd_3.jpg',
+          url: '',
         }
       ]
     },
     {
       id: 54321,
-      title: 'lagailu lipistik',
-      language: 'bhojpuri',
+      title: 'Star Wars: The Last Jedi',
+      language: 'English, Hindi',
       type: '4D'
     },
     {
       id: 543221,
-      title: 'Bhediyon ka Samooh',
-      language: 'hindi',
-      type: '2D',
+      title: 'Thor: Ragnarok',
+      language: 'English, Hindi',
+      type: '2D, 4D',
       images: [
         {
-          url: 'assets/images/movies/Bhediyon-Ka-Samooh-1991-MovieImg.jpg'
+          url: 'assets/images/movies/Thor-Ragnarok.jpg'
         }
       ]
     },
     {
       id: 154321,
-      title: 'Ghar Mein Ho Sali To Pura Saal Diwali',
-      language: 'gujrati',
+      title: 'It',
+      language: 'English, Hindi',
       type: '3D',
       images: [
         {
-          url: 'assets/images/movies/ghar mein ho saali toh pura saal diwali.jpg'
-        }
-      ]
-    },
-    {
-      id: 543214,
-      title: 'Jal Bin Machhli Nritya Bin Bijli',
-      language: 'hindi',
-      type: '5D',
-      images: [
-        {
-          url: 'assets/images/movies/jal-bin-machhli.jpg'
-        }
-      ]
-    },
-    {
-      id: 5421321,
-      title: 'Kuku Mathur Ki Jhand Ho Gayi',
-      language: 'hindi',
-      type: '2D',
-      images: [
-        {
-          url: 'assets/images/movies/MV5BMDZjYWNlZDMtMmY3Yi00OTdkLTg3NGUtMDEwZWI0YjJiMGQxXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_UY268_CR2,0,182,268_AL_.jpg'
-        }
-      ]
-    },
-    {
-      id: 5432176,
-      title: 'Andheri Raat Mein Diya Tere Haath Mein',
-      language: 'hindi',
-      type: '3D',
-      images: [
-        {
-          url: 'assets/images/movies/andheri raat mein diya .jpg'
+          url: 'assets/images/movies/It_(2017)_poster.jpg'
         }
       ]
     }

@@ -1,0 +1,13 @@
+.fa[data-toggle="tooltip"] {
+    color: #209e91;
+}
+
+.movie-description {
+  > div {
+    margin-bottom: 7px;
+
+    span {
+      line-height: 20px;
+    }
+  }
+}

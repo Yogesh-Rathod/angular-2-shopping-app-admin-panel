@@ -3,15 +3,97 @@
   <div class="card-header clearfix">
     <h2 class="card-title">
       Movie Details
-      <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
-        height="35">
-
-      <button *ngIf=" cinemaId " class="btn btn-danger float-right" (click)="deleteCinema()" [disabled]="deleteLoader">
-        <i class="fa fa-trash-o" aria-hidden="true"></i>
-        Delete
-      </button>
       <span class="goBack float-right" [routerLink]="['/movie-management']">
-        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to cinema list</span>
-
+        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to movies list</span>
     </h2>
   </div>
+
+  <div class="card-body">
+
+    <div class="loader-container pos_absolute" *ngIf="bigLoader">
+      <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+    </div>
+
+    <div class="basic-info row" *ngIf="movieInfo">
+      <div class="col-4">
+        <div class="image-container">
+          <img *ngIf="movieInfo.images" src="{{ movieInfo.images[0].url }}" alt="Movie Image" class="img-fluid">
+          <img class="img-fluid" *ngIf="!movieInfo.images" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+        </div>
+      </div>
+      <div class="col-8 movie-description">
+        <div>
+          <span class="bold">
+            Title
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Title"></i>
+          </span>
+          <span>
+            : {{ movieInfo.title }}
+          </span>
+        </div>
+        <div>
+          <span class="bold">
+            Type
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Type"></i>
+          </span>
+          <span>
+            : {{ movieInfo.type }}
+          </span>
+        </div>
+        <div>
+          <span class="bold">
+            Language
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Language"></i>
+          </span>
+          <span>
+            : {{ movieInfo.language }}
+          </span>
+        </div>
+        <div>
+          <span class="bold">
+             Actor
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Actor"></i>
+          </span>
+          <span>
+            : {{ movieInfo.actor }}
+          </span>
+        </div>
+        <div>
+          <span class="bold">
+             Director
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Director"></i>
+          </span>
+          <span>
+            : {{ movieInfo.director }}
+          </span>
+        </div>
+        <div>
+          <span class="bold">
+            Synopsis
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Synopsis"></i>
+          </span>
+          <span>
+            : {{ movieInfo.synopsis }}
+          </span>
+        </div>
+        <div>
+          <button class="btn btn-primary" [routerLink]="['/movie-management/edit-movie/', movieInfo.id]" title="Edit">
+            Edit movie
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="animated fadeIn card mapMovies">
+
+  <div class="card-header clearfix">
+    <h2 class="card-title">Map Movies</h2>
+  </div>
+
+  <div class="card-body">
+
+  </div>
+</div>

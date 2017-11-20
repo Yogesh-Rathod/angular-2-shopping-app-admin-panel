@@ -23,13 +23,13 @@ export class MovieManagementService {
       sequence: 'NA',
       images: [
         {
-          url: 'assets/images/movies/justice-league-blur.jpg',
+          url: 'assets/images/movies/Justice-League-team-posterbanner.jpg',
         },
         {
           url: 'assets/images/movies/just-league.jpg',
         },
         {
-          url: '',
+          url: 'assets/images/movies/justice-league-blur.jpg',
         }
       ]
     },

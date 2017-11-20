@@ -18,7 +18,10 @@ export class MovieDetailsComponent implements OnInit {
   movieInfo: any;
   selectAllCheckboxUnMap = false;
   selectAllCheckboxMapped = false;
-  showMappingbuttons = false;
+  showMappingbuttons = {
+    map: false,
+    unmap: false
+  };
   mappedMovies = [];
 
   constructor(
@@ -61,13 +64,13 @@ export class MovieDetailsComponent implements OnInit {
       _.forEach(this.movies, (item) => {
         item.isChecked = true;
       });
-      this.showMappingbuttons = true;
+      this.showMappingbuttons.map = true;
     } else {
       this.selectAllCheckboxUnMap = false;
       _.forEach(this.movies, (item) => {
         item.isChecked = false;
       });
-      this.showMappingbuttons = false;
+      this.showMappingbuttons.map = false;
     }
   }
 
@@ -77,13 +80,13 @@ export class MovieDetailsComponent implements OnInit {
       _.forEach(this.mappedMovies, (item) => {
         item.isChecked = true;
       });
-      this.showMappingbuttons = true;
+      this.showMappingbuttons.unmap = true;
     } else {
       this.selectAllCheckboxMapped = false;
       _.forEach(this.mappedMovies, (item) => {
         item.isChecked = false;
       });
-      this.showMappingbuttons = false;
+      this.showMappingbuttons.unmap = false;
     }
   }
 
@@ -99,20 +102,20 @@ export class MovieDetailsComponent implements OnInit {
 
     _.forEach(this.movies, (item) => {
       if (item.isChecked) {
-        this.showMappingbuttons = true;
+        this.showMappingbuttons.map = true;
         isCheckedArray.push(item);
       }
     });
 
     _.forEach(this.mappedMovies, (item) => {
       if (item.isChecked) {
-        this.showMappingbuttons = true;
+        this.showMappingbuttons.unmap = true;
         isCheckedArray.push(item);
       }
     });
 
     if (isCheckedArray.length === 0) {
-      this.showMappingbuttons = false;
+      this.showMappingbuttons.map = false;
     }
   }
 
@@ -120,7 +123,7 @@ export class MovieDetailsComponent implements OnInit {
     if (this.selectAllCheckboxUnMap) {
       this.mappedMovies = this.movies;
       this.movies = [];
-      this.showMappingbuttons = false;
+      this.showMappingbuttons.map = false;
       this.selectAllCheckboxUnMap = false;
       _.forEach(this.mappedMovies, (item) => {
         item.isChecked = false;
@@ -131,19 +134,17 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   mapSelectedMovies() {
-    let mappedItem;
     _.forEach(this.movies, (item) => {
       if (item.isChecked) {
         this.mappedMovies.push(item);
         item.isChecked = false;
-        mappedItem = item;
         setTimeout(() => {
           _.remove(this.movies, item);
         }, 100);
       }
     });
     this.selectAllCheckboxUnMap = false;
-    this.showMappingbuttons = false;
+    this.showMappingbuttons.map = false;
   }
 
   unMapSelectedMovies() {
@@ -152,20 +153,20 @@ export class MovieDetailsComponent implements OnInit {
       if (item.isChecked) {
         this.movies.push(item);
         item.isChecked = false;
-        unMappedItem = item;
+        setTimeout(() => {
+          _.remove(this.mappedMovies, item);
+        }, 100);
       }
     });
-    _.remove(this.mappedMovies, unMappedItem);
     this.selectAllCheckboxUnMap = false;
-    this.showMappingbuttons = false;
+    this.showMappingbuttons.unmap = false;
   }
 
   unMapAMovie() {
-    console.log("this.selectAllCheckboxMapped ", this.selectAllCheckboxMapped);
     if (this.selectAllCheckboxMapped) {
       this.movies = this.mappedMovies;
       this.mappedMovies = [];
-      this.showMappingbuttons = false;
+      this.showMappingbuttons.unmap = false;
       this.selectAllCheckboxMapped = false;
       _.forEach(this.movies, (item) => {
         item.isChecked = false;

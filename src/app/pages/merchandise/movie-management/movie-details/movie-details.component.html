@@ -145,10 +145,10 @@
 
     <div class="col-2 map-buttons text-center">
       <div>
-        <button (click)="mapAMovie()" [ngClass]="{ 'disabled': !showMappingbuttons }" class="btn btn-primary">Map &#62;</button>
+        <button (click)="mapAMovie()" [ngClass]="{ 'disabled': !showMappingbuttons.map }" class="btn btn-primary">Map &#62;</button>
       </div>
       <div>
-        <button (click)="unMapAMovie()" [ngClass]="{ 'disabled': !showMappingbuttons }" class="btn btn-info">&#60; Unmap</button>
+        <button (click)="unMapAMovie()" [ngClass]="{ 'disabled': !showMappingbuttons.unmap }" class="btn btn-info">&#60; Unmap</button>
       </div>
     </div>
 

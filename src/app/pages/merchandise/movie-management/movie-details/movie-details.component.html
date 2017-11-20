@@ -93,7 +93,113 @@
     <h2 class="card-title">Map Movies</h2>
   </div>
 
-  <div class="card-body">
+  <div class="card-body movie-maps row">
+    <div class="col-5">
+      <table class="table table-bordered table-responsive" [mfData]="movies" #first="mfDataTable" [mfRowsOnPage]="10">
+        <thead class="black-muted-bg">
+          <tr>
+            <th class="text-center">
+              <input type="checkbox" [ngModel]='selectAllCheckboxUnMap' (change)="selectAll($event)">
+            </th>
+            <th class="text-left">
+              <strong>Name</strong>
+            </th>
+            <th class="text-center">
+              <strong>language</strong>
+            </th>
+            <th class="text-center">
+              <strong>Provider</strong>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf=" movies && movies.length > 0 ">
+          <tr *ngFor=" let item of first.data; let i = index ">
+            <td class="text-center">
+              <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+            </td>
+            <td class="text-left">
+              {{ item.title }}
+            </td>
+            <td class="text-center">
+              {{ item.language }}
+            </td>
+            <td class="text-center">{{ item.type }}</td>
+          </tr>
+        </tbody>
+        <tbody *ngIf=" movies && movies.length === 0 ">
+          <tr>
+            <td colspan="5">
+              <strong>There are no movies!</strong>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot *ngIf=" movies && movies.length > 10 ">
+          <tr>
+            <td colspan="5">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="col-2 map-buttons text-center">
+      <div>
+        <button (click)="mapAMovie()" [ngClass]="{ 'disabled': !showMappingbuttons }" class="btn btn-primary">Map &#62;</button>
+      </div>
+      <div>
+        <button (click)="unMapAMovie()" [ngClass]="{ 'disabled': !showMappingbuttons }" class="btn btn-info">&#60; Unmap</button>
+      </div>
+    </div>
+
+    <div class="col-5">
+      <table class="table table-bordered table-responsive" [mfData]="mappedMovies" #second="mfDataTable" [mfRowsOnPage]="10">
+        <thead class="black-muted-bg">
+          <tr>
+            <th class="text-center">
+              <input type="checkbox" [ngModel]='selectAllCheckboxMapped' (change)="selectAllMapped($event)">
+            </th>
+            <th class="text-left">
+              <strong>Name</strong>
+            </th>
+            <th class="text-center">
+              <strong>language</strong>
+            </th>
+            <th class="text-center">
+              <strong>Provider</strong>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf=" mappedMovies && mappedMovies.length > 0 ">
+          <tr *ngFor=" let item of second.data; let i = index ">
+            <td class="text-center">
+              <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+            </td>
+            <td class="text-left">
+              {{ item.title }}
+            </td>
+            <td class="text-center">
+              {{ item.language }}
+            </td>
+            <td class="text-center">{{ item.type }}</td>
+          </tr>
+        </tbody>
+        <tbody *ngIf=" mappedMovies && mappedMovies.length === 0 ">
+          <tr>
+            <td colspan="5">
+              <strong>There are no mapped movies!</strong>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot *ngIf=" mappedMovies && mappedMovies.length > 10 ">
+          <tr>
+            <td colspan="5">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
 
   </div>
 </div>

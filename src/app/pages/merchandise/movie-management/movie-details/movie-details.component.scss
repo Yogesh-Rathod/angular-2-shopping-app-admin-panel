@@ -3,11 +3,22 @@
 }
 
 .movie-description {
-  > div {
-    margin-bottom: 7px;
-
-    span {
-      line-height: 20px;
+    >div {
+        margin-bottom: 7px;
+        span {
+            line-height: 20px;
+        }
     }
-  }
+}
+
+.movie-maps {
+    table {
+        font-size: 12px;
+    }
+    .map-buttons {
+        > div {
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+    }
 }

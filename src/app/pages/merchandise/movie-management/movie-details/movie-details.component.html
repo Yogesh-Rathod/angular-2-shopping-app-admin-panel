@@ -102,10 +102,14 @@
               <input type="checkbox" [ngModel]='selectAllCheckboxUnMap' (change)="selectAll($event)">
             </th>
             <th class="text-left">
-              <strong>Name</strong>
+              <mfDefaultSorter by="title">
+                <strong>Name</strong>
+              </mfDefaultSorter>
             </th>
             <th class="text-center">
-              <strong>language</strong>
+              <mfDefaultSorter by="language">
+                <strong>language</strong>
+              </mfDefaultSorter>
             </th>
             <th class="text-center">
               <strong>Provider</strong>
@@ -160,7 +164,9 @@
               <input type="checkbox" [ngModel]='selectAllCheckboxMapped' (change)="selectAllMapped($event)">
             </th>
             <th class="text-left">
-              <strong>Name</strong>
+              <mfDefaultSorter by="title">
+                <strong>Name</strong>
+              </mfDefaultSorter>
             </th>
             <th class="text-center">
               <strong>language</strong>
@@ -203,3 +209,4 @@
 
   </div>
 </div>
+

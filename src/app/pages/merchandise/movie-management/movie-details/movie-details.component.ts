@@ -92,8 +92,11 @@ export class MovieDetailsComponent implements OnInit {
 
   checkBoxSelected(e, item) {
     this.selectAllCheckboxUnMap = false;
+    this.selectAllCheckboxMapped= false;
+
     if (e.target.checked) {
       item.isChecked = true;
+      this.movieInfo = item;
     } else {
       item.isChecked = false;
     }

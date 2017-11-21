@@ -21,6 +21,7 @@ export class AddMovieComponent implements OnInit {
 
   movieId: any;
   addMovieForm: FormGroup;
+  bigLoader = false;
   deleteLoader = false;
   showLoader = false;
   movies: any;
@@ -158,7 +159,7 @@ export class AddMovieComponent implements OnInit {
   }
 
   getAllMovies() {
-    this.movies = this.movieManagementService.getMovies();
+    // this.movies = this.movieManagementService.getMovies();
   }
 
   validatenumber(e) {
@@ -184,30 +185,45 @@ export class AddMovieComponent implements OnInit {
   }
 
   getMovieInfoForEdit() {
+    this.bigLoader = true;
     if (this.movieId) {
-      const movies = this.movieManagementService.getMovies();
-      _.forEach(movies, (movie) => {
-        if (movie.id === parseInt(this.movieId)) {
-          this.movieInfo = movie;
-          this.addMovieForm.controls['id'].setValue(movie.id);
-          this.addMovieForm.controls['title'].setValue(movie.title);
-          this.addMovieForm.controls['language'].setValue(movie.language);
-          this.addMovieForm.controls['type'].setValue(movie.type);
-          this.addMovieForm.controls['censorRating'].setValue(movie['censorRating']);
-          this.addMovieForm.controls['starRating'].setValue(movie['starRating']);
-          this.addMovieForm.controls['duration'].setValue(movie['duration']);
-          this.addMovieForm.controls['genre'].setValue(movie['genre']);
-          this.addMovieForm.controls['writer'].setValue(movie['writer']);
-          this.addMovieForm.controls['music'].setValue(movie['music']);
-          this.addMovieForm.controls['starring'].setValue(movie['starring']);
-          this.addMovieForm.controls['director'].setValue(movie['director']);
-          this.addMovieForm.controls['releaseDate'].setValue(movie['releaseDate']);
-          this.addMovieForm.controls['synopsis'].setValue(movie['synopsis']);
-          this.addMovieForm.controls['trailerLink'].setValue(movie['trailerLink']);
-          this.addMovieForm.controls['sequence'].setValue(movie['sequence']);
-        }
-      });
+
+      if (this.movieId) {
+        this.movieManagementService.getMoviedetails(this.movieId).
+          then((moviesInfo) => {
+            console.log("moviesInfo ", moviesInfo);
+            this.movieInfo = moviesInfo.Data.Event;
+            this.updateMovieInfo(this.movieInfo);
+            this.bigLoader = false;
+          }).catch((error) => {
+            console.log("error ", error);
+            if (error.Code === 500) {
+              this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!');
+            }
+            this.bigLoader = false;
+          });
+      }
     }
+  }
+
+  updateMovieInfo(movieInfo) {
+    
+    this.addMovieForm.controls['id'].setValue(movieInfo.EventId);
+    this.addMovieForm.controls['title'].setValue(movieInfo.Title);
+    this.addMovieForm.controls['language'].setValue(movieInfo.Language);
+    this.addMovieForm.controls['type'].setValue(movieInfo.Type);
+    this.addMovieForm.controls['censorRating'].setValue(movieInfo['CensorRating']);
+    this.addMovieForm.controls['starRating'].setValue(movieInfo['StarRating']);
+    this.addMovieForm.controls['duration'].setValue(movieInfo['Duration']);
+    this.addMovieForm.controls['genre'].setValue(movieInfo['Genre']);
+    this.addMovieForm.controls['writer'].setValue(movieInfo['Writer']);
+    this.addMovieForm.controls['music'].setValue(movieInfo['Music']);
+    this.addMovieForm.controls['starring'].setValue(movieInfo['Starring']);
+    this.addMovieForm.controls['director'].setValue(movieInfo['Director']);
+    // this.addMovieForm.controls['releaseDate'].setValue(movieInfo['ReleaseDate']);
+    this.addMovieForm.controls['synopsis'].setValue(movieInfo['Synopsis']);
+    this.addMovieForm.controls['trailerLink'].setValue(movieInfo['TrailerUrl']);
+    this.addMovieForm.controls['sequence'].setValue(movieInfo['Sequence']);
   }
 
   handleImageUpload(event, index) {

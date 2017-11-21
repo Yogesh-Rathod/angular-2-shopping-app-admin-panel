@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 declare let $: any;
 
 import { MovieManagementService } from 'app/services';
@@ -26,6 +27,7 @@ export class MovieDetailsComponent implements OnInit {
 
   constructor(
     private movieManagementService: MovieManagementService,
+    public toastr: ToastsManager,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -44,17 +46,24 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   getAllMovies() {
-    this.movies = this.movieManagementService.getMovies();
+    // this.movies = this.movieManagementService.getMovies();
   }
 
   getMovieInfo() {
+    this.bigLoader = true;
     if (this.movieId) {
-      const movies = this.movieManagementService.getMovies();
-      _.forEach(movies, (movie) => {
-        if (movie.id === parseInt(this.movieId)) {
-          this.movieInfo = movie;
-        }
-      });
+      this.movieManagementService.getMoviedetails(this.movieId).
+        then((moviesInfo) => {
+          console.log("movies ", moviesInfo);
+          this.movieInfo = moviesInfo.Data.Event;
+          this.bigLoader = false;
+        }).catch((error) => {
+          console.log("error ", error);
+          if (error.Code === 500) {
+            this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!');
+          }
+          this.bigLoader = false;
+        });
     }
   }
 

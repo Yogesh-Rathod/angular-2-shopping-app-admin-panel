@@ -69,26 +69,26 @@
             </tr>
           </thead>
           <tbody *ngIf=" movies && movies.length > 0 ">
-            <tr *ngFor=" let item of mf.data | searchfilter: 'title,language,type' : searchTerm; let i = index ">
+            <tr *ngFor=" let item of mf.data | searchfilter: 'Title,Language,Type' : searchTerm; let i = index ">
               <td>{{ i + 1 }}</td>
               <td class="text-left">
                 <div class="movie-image">
-                  <img *ngIf="item.images" class="img-fluid" src="{{item.images[0].url}}" alt="Movie Image">
-                  <img class="img-fluid" *ngIf="!item.images" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+                  <img *ngIf="item.LandscapeUrl" class="img-fluid" [src]="item.LandscapeUrl" alt="Movie Image">
+                  <img class="img-fluid" *ngIf="!item.LandscapeUrl" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
                 </div>
               </td>
               <td class="text-left">
-                {{ item.title }}
+                {{ item.Title }}
               </td>
               <td class="text-center">
-                 {{ item.language }}
+                 {{ item.Language }}
               </td>
-              <td class="text-center">{{ item.type }}</td>
+              <td class="text-center">{{ item.Type }}</td>
               <td class="text-center">
-                <button class="btn btn-secondary" [routerLink]="['./edit-movie/', item.id]" title="Edit">
+                <button class="btn btn-secondary" [routerLink]="['./edit-movie/', item.EventId]" title="Edit">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </button>
-                <button class="btn btn-secondary" [routerLink]="['./movie-details/', item.id]" title="View Details/ Map">
+                <button class="btn btn-secondary" [routerLink]="['./movie-details/', item.EventId]" title="View Details/ Map">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </button>
                 <!-- <button class="btn btn-danger" (click)="deleteMovie(item, i)" title="Delete" [disabled]="deleteLoader == i">

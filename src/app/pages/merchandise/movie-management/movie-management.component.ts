@@ -37,20 +37,21 @@ export class MovieManagementComponent implements OnInit {
 
   getAllMovies() {
     this.bigLoader = true;
-    // this.movies = this.movieManagementService.getMovies();
-    // console.log("this.movies ", this.movies);
     this.movieManagementService.getMovies().
-      then((movies) => {
-        console.log("movies ", movies);
+      then((moviesInfo) => {
+        console.log("movies ", moviesInfo);
+        this.movies = moviesInfo.Data.Records;
+        this.bigLoader = false;
       }).catch((error) => {
         console.log("error ", error);
-        this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!');
+        if (error.Code === 500) {
+          this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!');
+        }
         this.bigLoader = false;
       });
   }
 
   searchMovie(searchTerm) {
-    // console.log("searchTerm", searchTerm);
     this.searchTerm = searchTerm;
   }
 

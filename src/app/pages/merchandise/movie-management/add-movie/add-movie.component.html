@@ -17,7 +17,11 @@
     </h2>
   </div>
 
-  <div class="card-body row">
+  <div class="card-body row pos_relative">
+
+    <div class="loader-container pos_absolute" *ngIf="bigLoader">
+      <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+    </div>
 
     <form class="col-12 row" [formGroup]=" addMovieForm " (ngSubmit)=" addMovie(addMovieForm.value) ">
       <input type="hidden" formControlName="id">
@@ -160,20 +164,20 @@
         <div class="col-12"></div>
         <div class="col-4">
           <div class="img-container">
-            <img *ngIf=" movieId && movieInfo.images && movieInfo.images[0] " src="{{ movieInfo.images[0].url }}" alt="Movie Image" class="img-fluid" width="250"
-              height="250">
+            <!-- <img *ngIf=" movieId && movieInfo.images && movieInfo.images[0] " src="{{ movieInfo.images[0].url }}" alt="Movie Image" class="img-fluid" width="250"
+              height="250"> -->
             <!-- <img *ngIf=" movieId && movieInfo && !movieInfo.images || !movieInfo.images[0] " class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image"> -->
           </div>
         </div>
         <div class="col-4">
           <div class="img-container">
-            <img *ngIf=" movieId && movieInfo.images && movieInfo.images[1] " src="{{ movieInfo.images[1].url }}" alt="Movie Image" class="img-fluid" width="250" height="250">
+            <!-- <img *ngIf=" movieId && movieInfo.images && movieInfo.images[1] " src="{{ movieInfo.images[1].url }}" alt="Movie Image" class="img-fluid" width="250" height="250"> -->
             <!-- <img *ngIf=" movieId && movieInfo && !movieInfo.images || !movieInfo.images[1] " class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image"> -->
           </div>
         </div>
         <div class="col-4">
           <div class="img-container">
-            <img *ngIf=" movieId && movieInfo.images && movieInfo.images[2] " src="{{ movieInfo.images[2].url }}" alt="Movie Image" class="img-fluid" width="250" height="250">
+            <!-- <img *ngIf=" movieId && movieInfo.images && movieInfo.images[2] " src="{{ movieInfo.images[2].url }}" alt="Movie Image" class="img-fluid" width="250" height="250"> -->
             <!-- <img *ngIf=" movieId && !movieInfo.images || !movieInfo.images[2].url " class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image"> -->
           </div>
         </div>

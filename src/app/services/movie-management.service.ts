@@ -86,6 +86,14 @@ export class MovieManagementService {
       .catch(reason => this.responseHandingService.handleError(reason));
   }
 
+  getMoviedetails(movieId) {
+    const url = `${environment.moviesApiUrl}EventMapping/${movieId}`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => this.responseHandingService.handleResponse(response))
+      .catch(reason => this.responseHandingService.handleError(reason));
+  }
+
   addMovie(movieInfo) {
     this.moviesInfo.push(movieInfo);
     return this.moviesInfo;

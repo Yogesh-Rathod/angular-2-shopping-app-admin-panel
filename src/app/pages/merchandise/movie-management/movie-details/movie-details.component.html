@@ -8,7 +8,7 @@
     </h2>
   </div>
 
-  <div class="card-body">
+  <div class="card-body pos_relative">
 
     <div class="loader-container pos_absolute" *ngIf="bigLoader">
       <img src="assets/img/ajax-loader.gif" alt="Loader Image">
@@ -17,8 +17,8 @@
     <div class="basic-info row" *ngIf="movieInfo">
       <div class="col-4">
         <div class="image-container">
-          <img *ngIf="movieInfo.images" src="{{ movieInfo.images[0].url }}" alt="Movie Image" class="img-fluid">
-          <img class="img-fluid" *ngIf="!movieInfo.images" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+          <img *ngIf="movieInfo.LandscapeUrl" [src]="movieInfo.LandscapeUrl" alt="Movie Image" class="img-fluid">
+          <img class="img-fluid" *ngIf="!movieInfo.LandscapeUrl" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
         </div>
       </div>
       <div class="col-8 movie-description">
@@ -28,7 +28,7 @@
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Title"></i>
           </span>
           <span>
-            : {{ movieInfo.title }}
+            : {{ movieInfo.Title }}
           </span>
         </div>
         <div>
@@ -37,7 +37,7 @@
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Type"></i>
           </span>
           <span>
-            : {{ movieInfo.type }}
+            : {{ movieInfo.Type }}
           </span>
         </div>
         <div>
@@ -46,7 +46,7 @@
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Language"></i>
           </span>
           <span>
-            : {{ movieInfo.language }}
+            : {{ movieInfo.Language }}
           </span>
         </div>
         <div>
@@ -55,7 +55,7 @@
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Actor"></i>
           </span>
           <span>
-            : {{ movieInfo.starring }}
+            : {{ movieInfo.Starring }}
           </span>
         </div>
         <div>
@@ -64,7 +64,7 @@
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Director"></i>
           </span>
           <span>
-            : {{ movieInfo.director }}
+            : {{ movieInfo.Director }}
           </span>
         </div>
         <div>
@@ -73,11 +73,11 @@
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Synopsis"></i>
           </span>
           <span>
-            : {{ movieInfo.synopsis }}
+            : {{ movieInfo.Synopsis }}
           </span>
         </div>
         <div>
-          <button class="btn btn-primary" [routerLink]="['/movie-management/edit-movie/', movieInfo.id]" title="Edit">
+          <button class="btn btn-primary" [routerLink]="['/movie-management/edit-movie/', movieInfo.EventId]" title="Edit">
             Edit movie
           </button>
         </div>

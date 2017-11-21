@@ -53,7 +53,9 @@ export class AddMovieComponent implements OnInit {
     });
     this.createForm();
     this.getAllMovies();
-    this.getMovieInfoForEdit();
+    if (this.movieId) {
+      this.getMovieInfoForEdit();
+    }
   }
 
   createForm() {
@@ -185,29 +187,23 @@ export class AddMovieComponent implements OnInit {
   }
 
   getMovieInfoForEdit() {
-    this.bigLoader = true;
-    if (this.movieId) {
-
-      if (this.movieId) {
-        this.movieManagementService.getMoviedetails(this.movieId).
-          then((moviesInfo) => {
-            console.log("moviesInfo ", moviesInfo);
-            this.movieInfo = moviesInfo.Data.Event;
-            this.updateMovieInfo(this.movieInfo);
-            this.bigLoader = false;
-          }).catch((error) => {
-            console.log("error ", error);
-            if (error.Code === 500) {
-              this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!');
-            }
-            this.bigLoader = false;
-          });
-      }
-    }
+    this.movieManagementService.getMoviedetails(this.movieId).
+      then((moviesInfo) => {
+        console.log("moviesInfo ", moviesInfo);
+        this.movieInfo = moviesInfo.Data.Event;
+        this.updateMovieInfo(this.movieInfo);
+        this.bigLoader = false;
+      }).catch((error) => {
+        console.log("error ", error);
+        if (error.Code === 500) {
+          this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!');
+        }
+        this.bigLoader = false;
+      });
   }
 
   updateMovieInfo(movieInfo) {
-    
+    const releaseFullDate = new Date(movieInfo['ReleaseDate']);
     this.addMovieForm.controls['id'].setValue(movieInfo.EventId);
     this.addMovieForm.controls['title'].setValue(movieInfo.Title);
     this.addMovieForm.controls['language'].setValue(movieInfo.Language);
@@ -220,7 +216,13 @@ export class AddMovieComponent implements OnInit {
     this.addMovieForm.controls['music'].setValue(movieInfo['Music']);
     this.addMovieForm.controls['starring'].setValue(movieInfo['Starring']);
     this.addMovieForm.controls['director'].setValue(movieInfo['Director']);
-    // this.addMovieForm.controls['releaseDate'].setValue(movieInfo['ReleaseDate']);
+    this.addMovieForm.controls['releaseDate'].setValue({
+      date: {
+        year: releaseFullDate.getFullYear(),
+        month: releaseFullDate.getMonth() + 1,
+        day: releaseFullDate.getDate()
+      }
+    });
     this.addMovieForm.controls['synopsis'].setValue(movieInfo['Synopsis']);
     this.addMovieForm.controls['trailerLink'].setValue(movieInfo['TrailerUrl']);
     this.addMovieForm.controls['sequence'].setValue(movieInfo['Sequence']);

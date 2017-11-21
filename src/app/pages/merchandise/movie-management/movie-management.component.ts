@@ -36,7 +36,13 @@ export class MovieManagementComponent implements OnInit {
 
   getAllMovies() {
     this.movies = this.movieManagementService.getMovies();
-    console.log("this.movies ", this.movies);
+    // console.log("this.movies ", this.movies);
+    // this.movieManagementService.getMovies().
+    //   then((movies) => {
+    //     console.log("movies ", movies);
+    //   }).catch((error) => {
+    //     console.log("error ", error);
+    //   });
   }
 
   searchMovie(searchTerm) {

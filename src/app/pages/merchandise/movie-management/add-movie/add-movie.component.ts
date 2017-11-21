@@ -189,7 +189,6 @@ export class AddMovieComponent implements OnInit {
       _.forEach(movies, (movie) => {
         if (movie.id === parseInt(this.movieId)) {
           this.movieInfo = movie;
- console.log("this.movieInfo ", this.movieInfo);
           this.addMovieForm.controls['id'].setValue(movie.id);
           this.addMovieForm.controls['title'].setValue(movie.title);
           this.addMovieForm.controls['language'].setValue(movie.language);

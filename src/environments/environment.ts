@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
+  moviesApiUrl: 'http://192.168.61.203/LRAS.MovieAPI/Support/',
   apiUrl: 'http://192.168.250.224:8080',
   crmUrl: 'http://192.168.250.222:9081/crm',
   loginUrl: 'http://localhost:4300/',

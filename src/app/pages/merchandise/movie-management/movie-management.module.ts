@@ -14,6 +14,7 @@ import { MovieManagementComponent } from './movie-management.component';
 import { AddMovieComponent } from './add-movie/add-movie.component';
 import { AddCinemaComponent } from './add-cinema/add-cinema.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
+import { SearchMoviePipe } from './search-movie.pipe';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { MovieDetailsComponent } from './movie-details/movie-details.component';
     MovieManagementComponent,
     AddMovieComponent,
     AddCinemaComponent,
-    MovieDetailsComponent
+    MovieDetailsComponent,
+    SearchMoviePipe
   ],
   providers: [
     MovieManagementService

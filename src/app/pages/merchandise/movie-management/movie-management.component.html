@@ -64,7 +64,7 @@
             </tr>
           </thead>
           <tbody *ngIf=" movies && movies.length > 0 ">
-            <tr *ngFor=" let item of mf.data; let i = index ">
+            <tr *ngFor=" let item of mf.data | searchfilter: 'title,language,type' : searchTerm; let i = index ">
               <td>{{ i + 1 }}</td>
               <td class="text-left">
                 <div class="movie-image">

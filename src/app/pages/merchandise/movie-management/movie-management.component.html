@@ -38,7 +38,12 @@
 
     <div class="spacer col-12"></div>
 
-    <div class="filters card col-12">
+    <div class="filters card col-12 pos_relative">
+
+      <div class="loader-container pos_absolute" *ngIf="bigLoader">
+        <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+      </div>
+
       <div class="card-body">
         <table class="table table-bordered table-responsive" [mfData]="movies" #mf="mfDataTable" [mfRowsOnPage]="10">
           <thead class="black-muted-bg">

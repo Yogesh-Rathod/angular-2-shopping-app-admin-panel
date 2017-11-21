@@ -19,6 +19,7 @@ export class MovieManagementComponent implements OnInit {
   searchTerm: any;
   movies: any;
   deleteLoader: Number;
+  bigLoader = false;
 
   constructor(
     private modalService: NgbModal,
@@ -35,14 +36,17 @@ export class MovieManagementComponent implements OnInit {
   }
 
   getAllMovies() {
-    this.movies = this.movieManagementService.getMovies();
+    this.bigLoader = true;
+    // this.movies = this.movieManagementService.getMovies();
     // console.log("this.movies ", this.movies);
-    // this.movieManagementService.getMovies().
-    //   then((movies) => {
-    //     console.log("movies ", movies);
-    //   }).catch((error) => {
-    //     console.log("error ", error);
-    //   });
+    this.movieManagementService.getMovies().
+      then((movies) => {
+        console.log("movies ", movies);
+      }).catch((error) => {
+        console.log("error ", error);
+        this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!');
+        this.bigLoader = false;
+      });
   }
 
   searchMovie(searchTerm) {

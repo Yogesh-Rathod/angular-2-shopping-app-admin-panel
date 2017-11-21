@@ -78,12 +78,12 @@ export class MovieManagementService {
   }
 
   getMovies() {
-    return this.moviesInfo;
-    // const url = `${environment.moviesApiUrl}Event`;
-    // return this.http.get(url)
-    //   .toPromise()
-    //   .then(response => this.responseHandingService.handleResponse(response))
-    //   .catch(reason => this.responseHandingService.handleError(reason));
+    // return this.moviesInfo;
+    const url = `${environment.moviesApiUrl}Event`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => this.responseHandingService.handleResponse(response))
+      .catch(reason => this.responseHandingService.handleError(reason));
   }
 
   addMovie(movieInfo) {

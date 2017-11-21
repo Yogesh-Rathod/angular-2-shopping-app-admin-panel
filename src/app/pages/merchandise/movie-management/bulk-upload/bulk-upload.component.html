@@ -9,16 +9,25 @@
 	</div>
 
 	<div class="card-body">
-		<p *ngIf="showUploadError" class="error">
+		
+		<div *ngIf="validationError" class="alert alert-danger">
+			<ul class="no_margin">
+				<li *ngFor="let item of validationError">
+					{{ item.Message }}
+				</li>
+			</ul>
+		</div>
+
+		<p *ngIf="blankFileError" class="error">
 			<em>
-				There was error while uploading!!
+				File is Blank !
 			</em>
 		</p>
 
 		<form>
 			<div class="form-group">
 				<label for="ExcelFile" class="text-right">Excel File</label>
-				<input type="file" class="form-control" id="ExcelFile" ng2FileSelect [uploader]="uploader" accept=".xlsx, .xls">
+				<input type="file" class="form-control" id="ExcelFile" (change)="handleFile($event)" accept=".xlsx, .xls">
 				<a target="_blank" href="assets/samples/SampleMovie.xls" class="text-decoration btn-link float-right">Download Template</a>
 			</div>
 			<div class="form-group">

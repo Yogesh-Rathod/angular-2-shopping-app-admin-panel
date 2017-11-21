@@ -9,7 +9,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 import { routing } from './movie-management.routes';
-import { MovieManagementService } from 'app/services';
+import { MovieManagementService, XlsxToJsonService } from 'app/services';
 import { MovieManagementComponent } from './movie-management.component';
 import { AddMovieComponent } from './add-movie/add-movie.component';
 import { AddCinemaComponent } from './add-cinema/add-cinema.component';
@@ -36,7 +36,8 @@ import { SearchMoviePipe } from './search-movie.pipe';
     SearchMoviePipe
   ],
   providers: [
-    MovieManagementService
+    MovieManagementService,
+    XlsxToJsonService
   ],
   entryComponents: [
   ]

@@ -32,6 +32,7 @@ export class AddMovieComponent implements OnInit {
     editableDateField: false,
     openSelectorOnInputClick: true
   };
+  validationError: any;
 
   constructor(
     private modalService: NgbModal,
@@ -61,7 +62,7 @@ export class AddMovieComponent implements OnInit {
   createForm() {
     this.addMovieForm = this.fb.group({
       'id': [''],
-      'title': [
+      'Title': [
         '',
         Validators.compose([
           Validators.required,
@@ -69,7 +70,7 @@ export class AddMovieComponent implements OnInit {
           Validators.maxLength(100)
         ])
       ],
-      'type': [
+      'Type': [
         '',
         Validators.compose([
           Validators.required,
@@ -77,7 +78,7 @@ export class AddMovieComponent implements OnInit {
           Validators.maxLength(100)
         ])
       ],
-      "language": [
+      "Language": [
         '',
         Validators.compose([
           Validators.required,
@@ -85,78 +86,88 @@ export class AddMovieComponent implements OnInit {
           Validators.maxLength(100)
         ])
       ],
-      "censorRating": [
+      "CensorRating": [
         '',
         Validators.compose([
           Validators.required
         ])
       ],
-      'starRating': [
+      'StarRating': [
+        '',
+        Validators.compose([
+          Validators.pattern(RegEx.starRating)
+        ])
+      ],
+      "Duration": [
         '',
         Validators.compose([
           Validators.required
         ])
       ],
-      "duration": [
+      "Genre": [
         '',
         Validators.compose([
           Validators.required
         ])
       ],
-      "genre": [
+      "Writer": [
         '',
         Validators.compose([
           Validators.required
         ])
       ],
-      "writer": [
+      "Music": [''],
+      "Starring": [
         '',
         Validators.compose([
           Validators.required
         ])
       ],
-      "music": [
+      "Director": [
         '',
         Validators.compose([
           Validators.required
         ])
       ],
-      "starring": [
+      "ReleaseDate": [
         '',
         Validators.compose([
           Validators.required
         ])
       ],
-      "director": [
+      "Synopsis": [
         '',
         Validators.compose([
           Validators.required
         ])
       ],
-      "releaseDate": [
+      'TrailerUrl': [''],
+      'Sequence': [
         '',
         Validators.compose([
           Validators.required
         ])
       ],
-      "synopsis": [
+      'ImageUrl': [
         '',
         Validators.compose([
           Validators.required
         ])
       ],
-      'trailerLink': [
+      'PosterUrl': [
         '',
         Validators.compose([
           Validators.required
         ])
       ],
-      'sequence': [
+      'LandscapeUrl': [
         '',
         Validators.compose([
           Validators.required
         ])
-      ]
+      ],
+      'CreatedOn': [new Date().toISOString()],
+      'CreatedBy': ['Yogesh']
     });
   }
 
@@ -173,24 +184,48 @@ export class AddMovieComponent implements OnInit {
   addMovie(addMovieForm) {
     console.log("addMovieForm ", addMovieForm);
     this.showLoader = true;
+    addMovieForm['ReleaseDate'] = new Date(addMovieForm['ReleaseDate'].epoc).toISOString();
     if (addMovieForm.id) {
-      const index = _.findIndex(this.movies, { id: addMovieForm['id'] });
-      this.movies.splice(index, 1, addMovieForm);
-      this.movieManagementService.updateMovies(this.movies);
+      this.movieManagementService.updateMovie(addMovieForm, addMovieForm.id).
+        then((success) => {
+          console.log("Update success ", success);
+          this.toastr.success('Movie Sucessfully Updated!', 'Success!');
+          this.showLoader = false;
+          this._location.back();
+        }).catch((error) => {
+          console.log("error ", error);
+          if (error.Code === 500) {
+            this.toastr.error('Oops! Could not add movie.', 'Error!');
+          } else if (error.Code === 400) {
+            this.validationError = error.FailureReasons;
+          }
+          this.showLoader = false;
+        });
     } else {
-      addMovieForm['id'] = Math.floor(Math.random() * 90000) + 10000;
-      this.movieManagementService.addMovie(addMovieForm);
+      delete addMovieForm['id'];
+      this.movieManagementService.addMovie(addMovieForm).
+        then((success) => {
+          console.log("Add success ", success);
+          this.toastr.success('Movie Sucessfully Added!', 'Success!');
+          this.showLoader = false;
+          this._location.back();
+        }).catch((error) => {
+          console.log("error ", error);
+          if (error.Code === 500) {
+            this.toastr.error('Oops! Could not add movie.', 'Error!');
+          } else if (error.Code === 400) {
+            this.validationError = error.FailureReasons;
+          }
+          this.showLoader = false;
+        });
     }
-    this.toastr.success('Sucessfully Done!', 'Sucess!');
-    this.showLoader = false;
-    this._location.back();
   }
 
   getMovieInfoForEdit() {
     this.movieManagementService.getMoviedetails(this.movieId).
       then((moviesInfo) => {
         console.log("moviesInfo ", moviesInfo);
-        this.movieInfo = moviesInfo.Data.Event;
+        this.movieInfo = moviesInfo.Data;
         this.updateMovieInfo(this.movieInfo);
         this.bigLoader = false;
       }).catch((error) => {
@@ -205,27 +240,32 @@ export class AddMovieComponent implements OnInit {
   updateMovieInfo(movieInfo) {
     const releaseFullDate = new Date(movieInfo['ReleaseDate']);
     this.addMovieForm.controls['id'].setValue(movieInfo.EventId);
-    this.addMovieForm.controls['title'].setValue(movieInfo.Title);
-    this.addMovieForm.controls['language'].setValue(movieInfo.Language);
-    this.addMovieForm.controls['type'].setValue(movieInfo.Type);
-    this.addMovieForm.controls['censorRating'].setValue(movieInfo['CensorRating']);
-    this.addMovieForm.controls['starRating'].setValue(movieInfo['StarRating']);
-    this.addMovieForm.controls['duration'].setValue(movieInfo['Duration']);
-    this.addMovieForm.controls['genre'].setValue(movieInfo['Genre']);
-    this.addMovieForm.controls['writer'].setValue(movieInfo['Writer']);
-    this.addMovieForm.controls['music'].setValue(movieInfo['Music']);
-    this.addMovieForm.controls['starring'].setValue(movieInfo['Starring']);
-    this.addMovieForm.controls['director'].setValue(movieInfo['Director']);
-    this.addMovieForm.controls['releaseDate'].setValue({
+    this.addMovieForm.controls['Title'].setValue(movieInfo.Title);
+    this.addMovieForm.controls['Type'].setValue(movieInfo.Type);
+    this.addMovieForm.controls['Language'].setValue(movieInfo.Language);
+    this.addMovieForm.controls['CensorRating'].setValue(movieInfo['CensorRating']);
+    this.addMovieForm.controls['StarRating'].setValue(movieInfo['StarRating']);
+    this.addMovieForm.controls['Duration'].setValue(movieInfo['Duration']);
+    this.addMovieForm.controls['Genre'].setValue(movieInfo['Genre']);
+    this.addMovieForm.controls['Writer'].setValue(movieInfo['Writer']);
+    this.addMovieForm.controls['Music'].setValue(movieInfo['Music']);
+    this.addMovieForm.controls['Starring'].setValue(movieInfo['Starring']);
+    this.addMovieForm.controls['Director'].setValue(movieInfo['Director']);
+    this.addMovieForm.controls['ReleaseDate'].setValue({
       date: {
         year: releaseFullDate.getFullYear(),
         month: releaseFullDate.getMonth() + 1,
         day: releaseFullDate.getDate()
       }
     });
-    this.addMovieForm.controls['synopsis'].setValue(movieInfo['Synopsis']);
-    this.addMovieForm.controls['trailerLink'].setValue(movieInfo['TrailerUrl']);
-    this.addMovieForm.controls['sequence'].setValue(movieInfo['Sequence']);
+    this.addMovieForm.controls['Synopsis'].setValue(movieInfo['Synopsis']);
+    this.addMovieForm.controls['TrailerUrl'].setValue(movieInfo['TrailerUrl']);
+    this.addMovieForm.controls['Sequence'].setValue(movieInfo['Sequence']);
+    this.addMovieForm.controls['ImageUrl'].setValue(movieInfo['ImageUrl']);
+    this.addMovieForm.controls['PosterUrl'].setValue(movieInfo['PosterUrl']);
+    this.addMovieForm.controls['LandscapeUrl'].setValue(movieInfo['LandscapeUrl']);
+    this.addMovieForm.controls['CreatedOn'].setValue(movieInfo['CreatedOn']);
+    this.addMovieForm.controls['CreatedBy'].setValue(movieInfo['CreatedBy']);
   }
 
   handleImageUpload(event, index) {
@@ -247,7 +287,7 @@ export class AddMovieComponent implements OnInit {
       if (status) {
         this.deleteLoader = true;
         _.remove(this.movies, this.movieInfo);
-        this.movieManagementService.updateMovies(this.movies);
+        // this.movieManagementService.updateMovies(this.movies);
         this.toastr.success('Sucessfully Deleted!', 'Sucess!');
         this.deleteLoader = false;
         this._location.back();

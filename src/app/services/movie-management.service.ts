@@ -9,7 +9,11 @@ import { ResponseHandingService } from 'lrshared_modules/services';
 @Injectable()
 export class MovieManagementService {
 
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  headers = new Headers({
+    'Content-Type': 'application/json',
+    'Accept': 'q=0.8;application/json;q=0.9'
+  });
+  options = new RequestOptions({ headers: this.headers });
 
   moviesInfo = [];
 
@@ -22,27 +26,33 @@ export class MovieManagementService {
   getMovies() {
     // return this.moviesInfo;
     const url = `${environment.moviesApiUrl}Event`;
-    return this.http.get(url)
+    return this.http.get(url, this.options)
       .toPromise()
       .then(response => this.responseHandingService.handleResponse(response))
       .catch(reason => this.responseHandingService.handleError(reason));
   }
 
   getMoviedetails(movieId) {
-    const url = `${environment.moviesApiUrl}EventMapping/${movieId}`;
-    return this.http.get(url)
+    const url = `${environment.moviesApiUrl}Event/${movieId}`;
+    return this.http.get(url, this.options)
       .toPromise()
       .then(response => this.responseHandingService.handleResponse(response))
       .catch(reason => this.responseHandingService.handleError(reason));
   }
 
   addMovie(movieInfo) {
-    this.moviesInfo.push(movieInfo);
-    return this.moviesInfo;
+    const url = `${environment.moviesApiUrl}Event`;
+    return this.http.post(url, movieInfo, this.options)
+      .toPromise()
+      .then(response => this.responseHandingService.handleResponse(response))
+      .catch(reason => this.responseHandingService.handleError(reason));
   }
 
-  updateMovies(banks) {
-    this.moviesInfo = banks;
-    return this.moviesInfo;
+  updateMovie(movieInfo, movieId) {
+    const url = `${environment.moviesApiUrl}Event/${movieId}`;
+    return this.http.patch(url, movieInfo, this.options)
+      .toPromise()
+      .then(response => this.responseHandingService.handleResponse(response))
+      .catch(reason => this.responseHandingService.handleError(reason));
   }
 }

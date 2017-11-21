@@ -7,10 +7,10 @@
       <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
         height="35">
 
-      <button *ngIf=" movieId " class="btn btn-danger float-right" (click)="deleteMovie()" [disabled]="deleteLoader">
+      <!-- <button *ngIf=" movieId " class="btn btn-danger float-right" (click)="deleteMovie()" [disabled]="deleteLoader">
         <i class="fa fa-trash-o" aria-hidden="true"></i>
         Delete
-      </button>
+      </button> -->
       <span class="goBack float-right" [routerLink]="['/movie-management']">
         <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to movies list</span>
 
@@ -18,6 +18,14 @@
   </div>
 
   <div class="card-body row pos_relative">
+
+    <div *ngIf="validationError" class="alert alert-danger">
+      <ul class="no_margin">
+        <li *ngFor="let item of validationError">
+           {{ item.Message }}
+        </li>
+      </ul>
+    </div>
 
     <div class="loader-container pos_absolute" *ngIf="bigLoader">
       <img src="assets/img/ajax-loader.gif" alt="Loader Image">
@@ -33,7 +41,7 @@
             <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Title (Should be 1 to 100 characters)"></i>
           </label>
-          <input type="text" class="form-control" id="title" formControlName="title">
+          <input type="text" class="form-control" id="title" formControlName="Title">
         </div>
         <div class="form-group col-6">
           <label for="type">
@@ -41,7 +49,7 @@
             <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Type (E.g. 2D, 3D, IMAX, 4DX etc.)"></i>
           </label>
-          <input type="text" class="form-control" id="type" formControlName="type">
+          <input type="text" class="form-control" id="type" formControlName="Type">
         </div>
 
         <div class="form-group col-6">
@@ -51,7 +59,7 @@
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Language of the movie (Should be 2 to 100 characters)"></i>
           </label>
           <!-- <tag-input></tag-input> -->
-          <input type="text" class="form-control" id="Language" formControlName="language">
+          <input type="text" class="form-control" id="Language" formControlName="Language">
         </div>
         <div class="form-group col-6">
           <label for="CensorRating">
@@ -59,15 +67,14 @@
             <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movies Censor Rating."></i>
           </label>
-          <input type="text" class="form-control" id="CensorRating" formControlName="censorRating">
+          <input type="text" class="form-control" id="CensorRating" formControlName="CensorRating">
         </div>
         <div class="form-group col-6">
           <label for="StarRating">
             Star Rating:
-            <span class="mandatory">*</span>
-            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Star Rating."></i>
+            <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Star Rating. (1 to 5)"></i>
           </label>
-          <input type="text" class="form-control" id="StarRating" formControlName="starRating">
+          <input type="text" class="form-control" id="StarRating" formControlName="StarRating" (keydown)='validatenumber($event)'>
         </div>
         <div class="form-group col-6">
           <label for="Duration">
@@ -75,7 +82,7 @@
             <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Duration in Minutes"></i>
           </label>
-          <input type="text" class="form-control" id="Duration" formControlName="duration" (keydown)='validatenumber($event)'>
+          <input type="text" class="form-control" id="Duration" formControlName="Duration" (keydown)='validatenumber($event)'>
         </div>
         <div class="form-group col-6">
           <label for="genre">
@@ -83,7 +90,7 @@
             <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie genre."></i>
           </label>
-          <input formControlName="genre" type="text" class="form-control" id="genre">
+          <input formControlName="Genre" type="text" class="form-control" id="genre">
         </div>
         <div class="form-group col-6">
           <label for="Writer">
@@ -91,7 +98,7 @@
             <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Writer"></i>
           </label>
-          <input formControlName="writer" type="text" class="form-control" id="Writer">
+          <input formControlName="Writer" type="text" class="form-control" id="Writer">
         </div>
 
       </div>
@@ -100,10 +107,9 @@
         <div class="form-group col-6">
           <label for="music">
             Music:
-            <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie music."></i>
           </label>
-          <input formControlName="music" type="text" class="form-control" id="music">
+          <input formControlName="Music" type="text" class="form-control" id="music">
         </div>
         <div class="form-group col-6">
           <label for="starring">
@@ -111,7 +117,7 @@
             <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Stars."></i>
           </label>
-          <input formControlName="starring" type="text" class="form-control" id="starring">
+          <input formControlName="Starring" type="text" class="form-control" id="starring">
         </div>
         <div class="form-group col-6">
           <label for="Director">
@@ -119,7 +125,7 @@
             <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Director."></i>
           </label>
-          <input formControlName="director" type="text" class="form-control" id="Director">
+          <input formControlName="Director" type="text" class="form-control" id="Director">
         </div>
         <div class="form-group col-6">
           <label for="ReleaseDate">
@@ -127,7 +133,7 @@
             <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Release Date."></i>
           </label>
-          <my-date-picker id="ReleaseDate" name="ReleaseDate" [options]="myDatePickerOptions" formControlName="releaseDate"></my-date-picker>
+          <my-date-picker id="ReleaseDate" name="ReleaseDate" [options]="myDatePickerOptions" formControlName="ReleaseDate"></my-date-picker>
         </div>
         <div class="form-group col-6">
           <label for="synopsis">
@@ -135,7 +141,7 @@
             <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Synopsis."></i>
           </label>
-          <textarea class="form-control" formControlName="synopsis" id="Synopsis" cols="10" rows="10"></textarea>
+          <textarea class="form-control" formControlName="Synopsis" id="Synopsis" cols="10" rows="10"></textarea>
         </div>
         <div class="form-group col-6">
           <label for="sequence">
@@ -143,15 +149,14 @@
             <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Sequence"></i>
           </label>
-          <input formControlName="sequence" id="sequence" class="form-control" type="text">
+          <input formControlName="Sequence" id="sequence" class="form-control" type="text">
         </div>
         <div class="form-group col-12">
           <label for="trailerLink">
             Trailer Link:
-            <span class="mandatory">*</span>
             <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Trailer Link"></i>
           </label>
-          <input formControlName="trailerLink" id="trailerLink" class="form-control" type="text">
+          <input formControlName="TrailerUrl" id="trailerLink" class="form-control" type="text">
         </div>
       </div>
 
@@ -183,21 +188,22 @@
         </div>
         <div class="col-4">
           <label for="Square">( Square Image )</label>
-          <input type="file" id="Square" class="form-control" accept=".png, .jpg, .jpeg, .gif" (change)="handleImageUpload($event, 0)">
+          <input type="text" id="Square" class="form-control" formControlName="ImageUrl">
         </div>
         <div class="col-4">
           <label for="Portrait">( Portrait Image )</label>
-          <input type="file" id="Portrait" class="form-control" accept=".png, .jpg, .jpeg, .gif" (change)="handleImageUpload($event, 1)">
+          <input type="text" id="Portrait" class="form-control" formControlName="PosterUrl">
         </div>
         <div class="col-4">
           <label for="Landscape">( Landscape Image )</label>
-          <input type="file" id="Landscape" class="form-control" accept=".png, .jpg, .jpeg, .gif" (change)="handleImageUpload($event, 2)">
+          <input type="text" id="Landscape" class="form-control" formControlName="LandscapeUrl">
         </div>
       </div>
 
       <div class="form-group row col-12 buttons-container">
         <label class="col-5 text-right"></label>
         <input *ngIf=" !movieId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addMovieForm.valid || showLoader ">
+         <!-- [disabled]=" !addMovieForm.valid || showLoader " -->
         <input *ngIf=" movieId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addMovieForm.valid || showLoader ">
         <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
         <span class="btn btn-secondary" [routerLink]="['/movie-management']">Cancel</span>

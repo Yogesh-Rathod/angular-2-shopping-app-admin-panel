@@ -54,8 +54,8 @@ export class MovieDetailsComponent implements OnInit {
     if (this.movieId) {
       this.movieManagementService.getMoviedetails(this.movieId).
         then((moviesInfo) => {
-          console.log("movies ", moviesInfo);
-          this.movieInfo = moviesInfo.Data.Event;
+          console.log("moviesInfo movies ", moviesInfo);
+          this.movieInfo = moviesInfo.Data;
           this.bigLoader = false;
         }).catch((error) => {
           console.log("error ", error);

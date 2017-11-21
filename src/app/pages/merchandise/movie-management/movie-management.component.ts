@@ -67,7 +67,7 @@ export class MovieManagementComponent implements OnInit {
       if (status) {
         this.deleteLoader = index;
         _.remove(this.movies, item);
-        this.movieManagementService.updateMovies(this.movies);
+        // this.movieManagementService.updateMovies(this.movies);
         this.deleteLoader = NaN;
         this.toastr.success('Successfully Deleted!', 'Success!');
       } else {

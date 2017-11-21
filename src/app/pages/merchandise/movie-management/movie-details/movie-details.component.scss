@@ -16,9 +16,15 @@
         font-size: 12px;
     }
     .map-buttons {
-        > div {
+        >div {
             margin-top: 15px;
             margin-bottom: 20px;
         }
     }
+}
+
+.basic-info-left {
+    max-height: 280px;
+    overflow: hidden;
+    overflow-y: scroll;
 }

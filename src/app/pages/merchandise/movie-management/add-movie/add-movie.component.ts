@@ -182,6 +182,7 @@ export class AddMovieComponent implements OnInit {
   }
 
   addMovie(addMovieForm) {
+    this.validationError = null;
     console.log("addMovieForm ", addMovieForm);
     this.showLoader = true;
     addMovieForm['ReleaseDate'] = new Date(addMovieForm['ReleaseDate'].epoc).toISOString();

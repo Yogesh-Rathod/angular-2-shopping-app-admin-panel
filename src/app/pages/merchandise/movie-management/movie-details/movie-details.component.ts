@@ -23,7 +23,10 @@ export class MovieDetailsComponent implements OnInit {
     map: false,
     unmap: false
   };
+  unmappedMovies: any;
+  unmappedLoader = false;
   mappedMovies = [];
+  mapMovieLoader = false;
 
   constructor(
     private movieManagementService: MovieManagementService,
@@ -37,8 +40,8 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllMovies();
     this.getMovieInfo();
+    this.getUnMappedMovies();
   }
 
   initTooltip() {
@@ -47,16 +50,11 @@ export class MovieDetailsComponent implements OnInit {
     });
   }
 
-  getAllMovies() {
-    // this.movies = this.movieManagementService.getMovies();
-  }
-
   getMovieInfo() {
     this.bigLoader = true;
     if (this.movieId) {
       this.movieManagementService.getMoviedetails(this.movieId).
-        then((moviesInfo) => {
-          console.log("moviesInfo movies ", moviesInfo);
+      then((moviesInfo) => {
           this.movieInfo = moviesInfo.Data;
           this.bigLoader = false;
           this.initTooltip();
@@ -71,16 +69,34 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
 
+  getUnMappedMovies() {
+    this.unmappedLoader = true;
+    if (this.movieId) {
+      this.movieManagementService.getUnmappedMovies().
+        then((unmappedMovies) => {
+          console.log("unmappedMovies ", unmappedMovies);
+          this.unmappedMovies = unmappedMovies.Data.Records;
+          this.unmappedLoader = false;
+        }).catch((error) => {
+          console.log("error ", error);
+          if (error.Code === 500) {
+            // this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
+          }
+          this.unmappedLoader = false;
+        });
+      }
+  }
+
   selectAll(e) {
     if (e.target.checked) {
       this.selectAllCheckboxUnMap = true;
-      _.forEach(this.movies, (item) => {
+      _.forEach(this.unmappedMovies, (item) => {
         item.isChecked = true;
       });
       this.showMappingbuttons.map = true;
     } else {
       this.selectAllCheckboxUnMap = false;
-      _.forEach(this.movies, (item) => {
+      _.forEach(this.unmappedMovies, (item) => {
         item.isChecked = false;
       });
       this.showMappingbuttons.map = false;
@@ -90,7 +106,7 @@ export class MovieDetailsComponent implements OnInit {
   selectAllMapped(e) {
     if (e.target.checked) {
       this.selectAllCheckboxMapped = true;
-      _.forEach(this.mappedMovies, (item) => {
+      _.forEach(this.unmappedMovies, (item) => {
         item.isChecked = true;
       });
       this.showMappingbuttons.unmap = true;
@@ -109,14 +125,14 @@ export class MovieDetailsComponent implements OnInit {
 
     if (e.target.checked) {
       item.isChecked = true;
-      this.movieInfo = item;
+      // this.movieInfo = item;
     } else {
       item.isChecked = false;
     }
 
     let isCheckedArray = [];
 
-    _.forEach(this.movies, (item) => {
+    _.forEach(this.unmappedMovies, (item) => {
       if (item.isChecked) {
         this.showMappingbuttons.map = true;
         isCheckedArray.push(item);
@@ -136,6 +152,7 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   mapAMovie() {
+    console.log("this.selectAllCheckboxUnMap ", this.selectAllCheckboxUnMap);
     if (this.selectAllCheckboxUnMap) {
       this.mappedMovies = this.movies;
       this.movies = [];
@@ -150,17 +167,38 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   mapSelectedMovies() {
-    _.forEach(this.movies, (item) => {
+    this.mapMovieLoader = true;
+    let moviesToMap = [];
+    _.forEach(this.unmappedMovies, (item) => {
       if (item.isChecked) {
-        this.mappedMovies.push(item);
-        item.isChecked = false;
-        setTimeout(() => {
-          _.remove(this.movies, item);
-        }, 100);
+        // console.log("item ", item);
+        moviesToMap.push(item.Id);
+        // this.mappedMovies.push(item);
+        // item.isChecked = false;
+        // setTimeout(() => {
+          //   _.remove(this.movies, item);
+          // }, 100);
       }
     });
-    this.selectAllCheckboxUnMap = false;
-    this.showMappingbuttons.map = false;
+    console.log("this.movieInfo ", this.movieInfo);
+    const movieInfo = {
+      "EventMasterId": this.movieInfo.EventId,
+      "ProviderMovieIds": moviesToMap
+    };
+    if (moviesToMap.length > 0) {
+      this.movieManagementService.mapMovies(movieInfo).
+        then((successFullyMapped) => {
+          console.log("successFullyMapped ", successFullyMapped);
+          this.mapMovieLoader = false;
+          this.toastr.success('Movie Successfully Mapped!', 'Success!', { toastLife: 2000 });
+        }).catch((errorInMapping) => {
+          console.log("errorInMapping ", errorInMapping);
+          this.mapMovieLoader = false;
+          this.toastr.error('Movie Can not be mapped!', 'Error!', { toastLife: 2000 });
+        });
+    }
+    // this.selectAllCheckboxUnMap = false;
+    // this.showMappingbuttons.map = false;
   }
 
   unMapSelectedMovies() {

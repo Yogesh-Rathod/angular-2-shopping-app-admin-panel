@@ -95,6 +95,14 @@ export class MovieManagementService {
       .catch(reason => this.responseHandingService.handleError(reason));
   }
 
+  getUnmappedMovies() {
+    const url = `${environment.moviesApiUrl}Movie/Unmapped`;
+    return this.http.get(url, this.options)
+      .toPromise()
+      .then(response => this.responseHandingService.handleResponse(response))
+      .catch(reason => this.responseHandingService.handleError(reason));
+  }
+
   addMovie(movieInfo) {
     const url = `${environment.moviesApiUrl}Event`;
     return this.http.post(url, movieInfo, this.options)
@@ -106,6 +114,15 @@ export class MovieManagementService {
   updateMovie(movieInfo, movieId) {
     const url = `${environment.moviesApiUrl}Event/${movieId}`;
     return this.http.put(url, movieInfo, this.options)
+      .toPromise()
+      .then(response => this.responseHandingService.handleResponse(response))
+      .catch(reason => this.responseHandingService.handleError(reason));
+  }
+
+  mapMovies(movieInfo) {
+    // http://192.168.61.203/LRAS.MovieAPI/Support/EventMapping;
+    const url = `${environment.moviesApiUrl}EventMapping`;
+    return this.http.post(url, movieInfo, this.options)
       .toPromise()
       .then(response => this.responseHandingService.handleResponse(response))
       .catch(reason => this.responseHandingService.handleError(reason));

@@ -86,4 +86,6 @@ export class AddCinemaComponent implements OnInit {
     });
   }
 
+  addCinema(addCinemaForm) {}
+
 }

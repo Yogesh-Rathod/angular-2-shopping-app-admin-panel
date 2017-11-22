@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -29,6 +30,7 @@ export class MovieDetailsComponent implements OnInit {
   mapMovieLoader = false;
 
   constructor(
+    private location: Location,
     private movieManagementService: MovieManagementService,
     public toastr: ToastsManager,
     private route: ActivatedRoute,
@@ -62,6 +64,7 @@ export class MovieDetailsComponent implements OnInit {
           console.log("error ", error);
           if (error.Code === 500) {
             this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
+            this.location.back();
           }
           this.bigLoader = false;
           this.initTooltip();

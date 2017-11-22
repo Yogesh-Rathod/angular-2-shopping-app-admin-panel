@@ -90,6 +90,7 @@ export class MovieBulkUploadComponent implements OnInit {
   uploadFile(event) {
     event.preventDefault();
     this.showLoader = true;
+    console.log("this.movieInfo ", this.movieInfo);
     if (this.movieInfo && this.movieInfo.length > 0) {
       this.movieManagementService.bulkUploadMovie(this.movieInfo).
         then((success) => {

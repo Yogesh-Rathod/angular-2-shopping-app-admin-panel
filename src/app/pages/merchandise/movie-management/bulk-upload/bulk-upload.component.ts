@@ -98,7 +98,7 @@ export class MovieBulkUploadComponent implements OnInit {
         }).catch((error) => {
           console.log("error ", error);
           if (error.Code === 500) {
-            this.toastr.error('Oops! Could not add movie.', 'Error!');
+            this.toastr.error('Oops! Could not add movie.', 'Error!', { toastLife: 1500 });
           } else if (error.Code === 400) {
             this.validationError = error.FailureReasons;
           }

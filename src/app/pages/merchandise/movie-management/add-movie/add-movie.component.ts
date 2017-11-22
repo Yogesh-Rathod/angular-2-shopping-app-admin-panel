@@ -196,7 +196,7 @@ export class AddMovieComponent implements OnInit {
         }).catch((error) => {
           console.log("error ", error);
           if (error.Code === 500) {
-            this.toastr.error('Oops! Could not add movie.', 'Error!');
+            this.toastr.error('Oops! Could not add movie.', 'Error!', { toastLife: 1500 });
           } else if (error.Code === 400) {
             this.validationError = error.FailureReasons;
           }
@@ -213,7 +213,7 @@ export class AddMovieComponent implements OnInit {
         }).catch((error) => {
           console.log("error ", error);
           if (error.Code === 500) {
-            this.toastr.error('Oops! Could not add movie.', 'Error!');
+            this.toastr.error('Oops! Could not add movie.', 'Error!', { toastLife: 1500 });
           } else if (error.Code === 400) {
             this.validationError = error.FailureReasons;
           }
@@ -232,7 +232,7 @@ export class AddMovieComponent implements OnInit {
       }).catch((error) => {
         console.log("error ", error);
         if (error.Code === 500) {
-          this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!');
+          this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
         }
         this.bigLoader = false;
       });

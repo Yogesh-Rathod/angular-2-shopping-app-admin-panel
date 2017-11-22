@@ -111,6 +111,14 @@ export class MovieManagementService {
       .catch(reason => this.responseHandingService.handleError(reason));
   }
 
+  bulkUploadMovie(movieInfo) {
+    const url = `${environment.moviesApiUrl}Events`;
+    return this.http.post(url, movieInfo, this.options)
+      .toPromise()
+      .then(response => this.responseHandingService.handleResponse(response))
+      .catch(reason => this.responseHandingService.handleError(reason));
+  }
+
   updateMovie(movieInfo, movieId) {
     const url = `${environment.moviesApiUrl}Event/${movieId}`;
     return this.http.put(url, movieInfo, this.options)

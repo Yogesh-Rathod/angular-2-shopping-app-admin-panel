@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import * as _ from 'lodash';
 
 import { MovieManagementService, XlsxToJsonService } from 'app/services';
 
@@ -15,7 +16,7 @@ export class MovieBulkUploadComponent implements OnInit {
   submitDisabled = true;
   showLoader = false;
   result: any;
-  movieInfo: any;
+  movieInfo = [];
   validationError: any;
   blankFileError = false;
 
@@ -52,63 +53,64 @@ export class MovieBulkUploadComponent implements OnInit {
         }
       });
     } else {
-      this.movieInfo = null;
+      this.movieInfo = [];
       this.submitDisabled = true;
     }
   }
 
   convertJSONResponse(result) {
-    let firstResult = result[0];
-    this.movieInfo = {
-      "Title": firstResult['Title*'],
-      "Type": firstResult['Type*'],
-      "Language": firstResult['Language*'],
-      "CensorRating": firstResult['Censor Rating*'],
-      "StarRating": firstResult['Star Rating (1-5)'],
-      "Duration": firstResult['Duration* (in minutes)'],
-      "Genre": firstResult['Genre*'],
-      "Writer": firstResult['Writer*'],
-      "Music": firstResult['Music'],
-      "Starring": firstResult['Starring*'],
-      "Director": firstResult['Director*'],
-      "Synopsis": firstResult['Synopsis*'],
-      "ReleaseDate": firstResult['Release Date* (dd/MM/yyyy)'],
-      "ImageUrl": firstResult['Thumb Image Link*'],
-      "PosterUrl": firstResult['Poster Image Link'],
-      "LandscapeUrl": firstResult['Landscape Image Link'],
-      "TrailerUrl": firstResult['Trailer Link'],
-      "Sequence": firstResult['Sequence*'],
-      // "CreatedOn": new Date().toISOString(),
-      "CreatedBy": 'Yogesh',
-      'rbcnUrl': firstResult['Land scape Image Link_RBCN*']
-    }
-    console.log("movieInfo ", this.movieInfo);
+    _.forEach(result, (movie) => {
+      const someName = {
+        "Title": movie['Title*'],
+        "Type": movie['Type*'],
+        "Language": movie['Language*'],
+        "CensorRating": movie['Censor Rating*'],
+        "StarRating": movie['Star Rating (1-5)'],
+        "Duration": parseInt(movie['Duration* (in minutes)']),
+        "Genre": movie['Genre*'],
+        "Writer": movie['Writer*'],
+        "Music": movie['Music'],
+        "Starring": movie['Starring*'],
+        "Director": movie['Director*'],
+        "Synopsis": movie['Synopsis*'],
+        "ReleaseDate": movie['Release Date* (dd/MM/yyyy)'],
+        "ImageUrl": movie['Thumb Image Link*'],
+        "PosterUrl": movie['Poster Image Link'],
+        "LandscapeUrl": movie['Landscape Image Link'],
+        "TrailerUrl": movie['Trailer Link'],
+        "Sequence": movie['Sequence*'],
+        "CreatedOn": new Date().toISOString(),
+        "CreatedBy": 'Yogesh',
+        'rbcnUrl': movie['Land scape Image Link_RBCN*']
+      };
+      this.movieInfo.push(someName);
+    });
   }
 
   uploadFile(event) {
     event.preventDefault();
-    console.log("movieInfo ", this.movieInfo);
-    if (this.movieInfo) {
-      this.movieManagementService.addMovie(this.movieInfo).
+    this.showLoader = true;
+    if (this.movieInfo && this.movieInfo.length > 0) {
+      this.movieManagementService.bulkUploadMovie(this.movieInfo).
         then((success) => {
           console.log("success ", success);
           this.toastr.success('Movie Sucessfully Added!', 'Success!');
           this.showLoader = false;
-          this.closeModal();
+          this.closeModal(true);
         }).catch((error) => {
           console.log("error ", error);
           if (error.Code === 500) {
             this.toastr.error('Oops! Could not add movie.', 'Error!', { toastLife: 1500 });
           } else if (error.Code === 400) {
-            this.validationError = error.FailureReasons;
+            // this.validationError = error.FailureReasons;
           }
           this.showLoader = false;
         });
     }
   }
 
-  closeModal() {
-  	this.activeModal.close();
+  closeModal(status) {
+    this.activeModal.close(status);
   }
 
 }

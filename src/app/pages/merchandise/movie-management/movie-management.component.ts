@@ -58,6 +58,13 @@ export class MovieManagementComponent implements OnInit {
 
   bulkUpload() {
     const activeModal = this.modalService.open(MovieBulkUploadComponent, { size: 'sm' });
+
+    activeModal.result.then((status) => {
+      console.log("status ", status);
+      if (status) {
+        this.getAllMovies();
+      }
+    });
   }
 
   deleteMovie(item, index) {

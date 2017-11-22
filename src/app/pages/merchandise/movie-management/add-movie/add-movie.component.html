@@ -162,28 +162,28 @@
 
       <div class="col-xs-12 row no_margin images-container">
         <label for="images ">
-          Select Images:
+          Add Image Url's:
           <span class="mandatory">*</span>
           <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Images to show"></i>
         </label>
         <div class="col-12"></div>
-        <div class="col-4">
+        <div *ngIf="movieId && movieInfo" class="col-4">
           <div class="img-container">
-            <!-- <img *ngIf=" movieId && movieInfo.images && movieInfo.images[0] " src="{{ movieInfo.images[0].url }}" alt="Movie Image" class="img-fluid" width="250"
-              height="250"> -->
-            <!-- <img *ngIf=" movieId && movieInfo && !movieInfo.images || !movieInfo.images[0] " class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image"> -->
+            <img *ngIf="movieId && movieInfo.ImageUrl" [src]="movieInfo.ImageUrl" alt="Movie Image" class="img-fluid" width="250"
+              height="250">
+            <img *ngIf=" movieId && !movieInfo.ImageUrl " class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
           </div>
         </div>
-        <div class="col-4">
+        <div *ngIf="movieId && movieInfo" class="col-4">
           <div class="img-container">
-            <!-- <img *ngIf=" movieId && movieInfo.images && movieInfo.images[1] " src="{{ movieInfo.images[1].url }}" alt="Movie Image" class="img-fluid" width="250" height="250"> -->
-            <!-- <img *ngIf=" movieId && movieInfo && !movieInfo.images || !movieInfo.images[1] " class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image"> -->
+            <img *ngIf="movieId && movieInfo.PosterUrl" [src]="movieInfo.PosterUrl" alt="Movie Image" class="img-fluid" width="250" height="250">
+            <img *ngIf="movieId && !movieInfo.PosterUrl" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
           </div>
         </div>
-        <div class="col-4">
+        <div *ngIf="movieId && movieInfo" class="col-4">
           <div class="img-container">
-            <!-- <img *ngIf=" movieId && movieInfo.images && movieInfo.images[2] " src="{{ movieInfo.images[2].url }}" alt="Movie Image" class="img-fluid" width="250" height="250"> -->
-            <!-- <img *ngIf=" movieId && !movieInfo.images || !movieInfo.images[2].url " class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image"> -->
+            <img *ngIf="movieId && movieInfo.LandscapeUrl" [src]="movieInfo.LandscapeUrl" alt="Movie Image" class="img-fluid" width="250" height="250">
+            <img *ngIf="movieId && !movieInfo.LandscapeUrl" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
           </div>
         </div>
         <div class="col-4">

@@ -37,12 +37,14 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getAllMovies();
+    this.getMovieInfo();
+  }
+
+  initTooltip() {
     $(document).ready(() => {
       $('[data-toggle="tooltip"]').tooltip();
     });
-
-    this.getAllMovies();
-    this.getMovieInfo();
   }
 
   getAllMovies() {
@@ -57,12 +59,14 @@ export class MovieDetailsComponent implements OnInit {
           console.log("moviesInfo movies ", moviesInfo);
           this.movieInfo = moviesInfo.Data;
           this.bigLoader = false;
+          this.initTooltip();
         }).catch((error) => {
           console.log("error ", error);
           if (error.Code === 500) {
             this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
           }
           this.bigLoader = false;
+          this.initTooltip();
         });
     }
   }

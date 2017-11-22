@@ -187,6 +187,8 @@ export class AddMovieComponent implements OnInit {
     this.showLoader = true;
     addMovieForm['ReleaseDate'] = new Date(addMovieForm['ReleaseDate'].epoc).toISOString();
     if (addMovieForm.id) {
+      addMovieForm.ModifiedOn = new Date().toISOString();
+      addMovieForm.ModifiedBy = 'Yogesh';
       addMovieForm.EventId = this.movieInfo.EventId;
       this.movieManagementService.updateMovie(addMovieForm, addMovieForm.id).
         then((success) => {
@@ -224,6 +226,7 @@ export class AddMovieComponent implements OnInit {
   }
 
   getMovieInfoForEdit() {
+    this.bigLoader = true;
     this.movieManagementService.getMoviedetails(this.movieId).
       then((moviesInfo) => {
         console.log("moviesInfo ", moviesInfo);

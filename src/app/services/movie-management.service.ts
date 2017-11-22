@@ -105,7 +105,7 @@ export class MovieManagementService {
 
   updateMovie(movieInfo, movieId) {
     const url = `${environment.moviesApiUrl}Event/${movieId}`;
-    return this.http.patch(url, movieInfo, this.options)
+    return this.http.put(url, movieInfo, this.options)
       .toPromise()
       .then(response => this.responseHandingService.handleResponse(response))
       .catch(reason => this.responseHandingService.handleError(reason));

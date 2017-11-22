@@ -187,6 +187,7 @@ export class AddMovieComponent implements OnInit {
     this.showLoader = true;
     addMovieForm['ReleaseDate'] = new Date(addMovieForm['ReleaseDate'].epoc).toISOString();
     if (addMovieForm.id) {
+      addMovieForm.EventId = this.movieInfo.EventId;
       this.movieManagementService.updateMovie(addMovieForm, addMovieForm.id).
         then((success) => {
           console.log("Update success ", success);

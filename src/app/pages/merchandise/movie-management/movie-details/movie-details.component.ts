@@ -28,6 +28,7 @@ export class MovieDetailsComponent implements OnInit {
   unmappedLoader = false;
   mappedMovies = [];
   mapMovieLoader = false;
+  mappedLoader = false;
 
   constructor(
     private location: Location,
@@ -44,6 +45,7 @@ export class MovieDetailsComponent implements OnInit {
   ngOnInit() {
     this.getMovieInfo();
     this.getUnMappedMovies();
+    this.getAlreadyMappedMovies();
   }
 
   initTooltip() {
@@ -77,7 +79,7 @@ export class MovieDetailsComponent implements OnInit {
     if (this.movieId) {
       this.movieManagementService.getUnmappedMovies().
         then((unmappedMovies) => {
-          console.log("unmappedMovies ", unmappedMovies);
+          // console.log("unmappedMovies ", unmappedMovies);
           this.unmappedMovies = unmappedMovies.Data.Records;
           this.unmappedLoader = false;
         }).catch((error) => {
@@ -86,6 +88,24 @@ export class MovieDetailsComponent implements OnInit {
             // this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
           }
           this.unmappedLoader = false;
+        });
+      }
+  }
+
+  getAlreadyMappedMovies() {
+    this.mappedLoader = true;
+    if (this.movieId) {
+      this.movieManagementService.geAlreadyMappedMovies(this.movieId).
+        then((mappedMovies) => {
+          this.mappedMovies = mappedMovies.Data.ProviderMovies;
+          console.log("this.mappedMovies ", this.mappedMovies);
+          this.mappedLoader = false;
+        }).catch((error) => {
+          console.log("error ", error);
+          if (error.Code === 500) {
+            // this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
+          }
+          this.mappedLoader = false;
         });
       }
   }
@@ -136,6 +156,7 @@ export class MovieDetailsComponent implements OnInit {
 
     _.forEach(this.unmappedMovies, (item) => {
       if (item.isChecked) {
+        // console.log('item unmappedMovies', item);
         this.showMappingbuttons.map = true;
         isCheckedArray.push(item);
       }
@@ -143,6 +164,7 @@ export class MovieDetailsComponent implements OnInit {
 
     _.forEach(this.mappedMovies, (item) => {
       if (item.isChecked) {
+        // console.log('item mappedMovies', item);
         this.showMappingbuttons.unmap = true;
         isCheckedArray.push(item);
       }
@@ -150,6 +172,7 @@ export class MovieDetailsComponent implements OnInit {
 
     if (isCheckedArray.length === 0) {
       this.showMappingbuttons.map = false;
+      this.showMappingbuttons.unmap = false;
     }
   }
 

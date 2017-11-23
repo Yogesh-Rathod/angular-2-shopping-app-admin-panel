@@ -128,11 +128,19 @@ export class MovieManagementService {
   }
 
   mapMovies(movieInfo) {
-    // http://192.168.61.203/LRAS.MovieAPI/Support/EventMapping;
     const url = `${environment.moviesApiUrl}EventMapping`;
     return this.http.post(url, movieInfo, this.options)
       .toPromise()
       .then(response => this.responseHandingService.handleResponse(response))
       .catch(reason => this.responseHandingService.handleError(reason));
   }
+
+  geAlreadyMappedMovies(movieId) {
+    const url = `${environment.moviesApiUrl}EventMapping/${movieId}`;
+    return this.http.get(url, this.options)
+      .toPromise()
+      .then(response => this.responseHandingService.handleResponse(response))
+      .catch(reason => this.responseHandingService.handleError(reason));
+  }
+
 }

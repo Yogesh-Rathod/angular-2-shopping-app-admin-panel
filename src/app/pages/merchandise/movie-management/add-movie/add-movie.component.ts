@@ -53,7 +53,6 @@ export class AddMovieComponent implements OnInit {
       $('[data-toggle="tooltip"]').tooltip();
     });
     this.createForm();
-    this.getAllMovies();
     if (this.movieId) {
       this.getMovieInfoForEdit();
     }
@@ -169,10 +168,6 @@ export class AddMovieComponent implements OnInit {
       'CreatedOn': [new Date().toISOString()],
       'CreatedBy': ['Yogesh']
     });
-  }
-
-  getAllMovies() {
-    // this.movies = this.movieManagementService.getMovies();
   }
 
   validatenumber(e) {
@@ -293,7 +288,6 @@ export class AddMovieComponent implements OnInit {
       if (status) {
         this.deleteLoader = true;
         _.remove(this.movies, this.movieInfo);
-        // this.movieManagementService.updateMovies(this.movies);
         this.toastr.success('Sucessfully Deleted!', 'Sucess!');
         this.deleteLoader = false;
         this._location.back();

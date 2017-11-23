@@ -27,9 +27,7 @@ export class MovieBulkUploadComponent implements OnInit {
   	private activeModal: NgbActiveModal
   	) { }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   handleFile(event) {
     this.validationError = null;

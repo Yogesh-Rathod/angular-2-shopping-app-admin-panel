@@ -128,7 +128,6 @@ export class MovieDetailsComponent implements OnInit {
 
     if (e.target.checked) {
       item.isChecked = true;
-      // this.movieInfo = item;
     } else {
       item.isChecked = false;
     }
@@ -174,13 +173,7 @@ export class MovieDetailsComponent implements OnInit {
     let moviesToMap = [];
     _.forEach(this.unmappedMovies, (item) => {
       if (item.isChecked) {
-        // console.log("item ", item);
         moviesToMap.push(item.Id);
-        // this.mappedMovies.push(item);
-        // item.isChecked = false;
-        // setTimeout(() => {
-          //   _.remove(this.movies, item);
-          // }, 100);
       }
     });
     console.log("this.movieInfo ", this.movieInfo);

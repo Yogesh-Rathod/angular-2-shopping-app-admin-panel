@@ -186,7 +186,8 @@ export class MovieDetailsComponent implements OnInit {
         then((successFullyMapped) => {
           console.log("successFullyMapped ", successFullyMapped);
           this.mapMovieLoader = false;
-          this.toastr.success('Movie Successfully Mapped!', 'Success!', { toastLife: 2000 });
+          this.toastr.success('Movie Successfully Mapped!', 'Success!', { toastLife: 3000 });
+          this.getUnMappedMovies();
         }).catch((errorInMapping) => {
           console.log("errorInMapping ", errorInMapping);
           this.mapMovieLoader = false;

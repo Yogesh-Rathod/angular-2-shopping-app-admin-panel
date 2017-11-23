@@ -10,10 +10,12 @@
 
 	<div class="card-body">
 
+		<p *ngIf="validationError" class="error">Please resolve following errors in excel:</p>
 		<div *ngIf="validationError" class="alert alert-danger">
 			<ul class="no_margin">
 				<li *ngFor="let item of validationError">
-					{{ item.Message }}
+					Row: {{ item.Error }},
+					Field: {{ item.Meta }}
 				</li>
 			</ul>
 		</div>

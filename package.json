@@ -78,6 +78,7 @@
     "leaflet": "0.7.7",
     "leaflet-map": "0.2.1",
     "lodash": "^4.17.4",
+    "mongodb": "^2.2.33",
     "mydatepicker": "^2.3.0",
     "ng-pick-datetime": "^5.0.0-beta.11",
     "ng-validators": "^0.2.1",

@@ -190,7 +190,6 @@ export class AddMovieComponent implements OnInit {
     if (addMovieForm.id) {
       addMovieForm.ModifiedOn = new Date().toISOString();
       addMovieForm.ModifiedBy = 'Yogesh';
-      addMovieForm.EventId = this.movieInfo.EventId;
       this.movieManagementService.updateMovie(addMovieForm, addMovieForm.id).
         then((success) => {
           console.log("Update success ", success);

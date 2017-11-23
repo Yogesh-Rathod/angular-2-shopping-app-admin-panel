@@ -57,6 +57,7 @@ export class MovieBulkUploadComponent implements OnInit {
   }
 
   convertJSONResponse(result) {
+    console.log("result ", result);
     _.forEach(result, (movie) => {
       const someName = {
         "Title": movie['Title*'],
@@ -101,7 +102,7 @@ export class MovieBulkUploadComponent implements OnInit {
           if (error.Code === 500) {
             this.toastr.error('Oops! Could not add movie.', 'Error!', { toastLife: 1500 });
           } else if (error.Code === 400) {
-            // this.validationError = error.FailureReasons;
+            this.validationError = error.FailureReasons;
           }
           this.showLoader = false;
         });

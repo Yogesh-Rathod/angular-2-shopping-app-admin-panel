@@ -8,6 +8,7 @@ declare let $: any;
 import { MovieManagementService } from 'app/services';
 import { MovieBulkUploadComponent } from './bulk-upload/bulk-upload.component';
 import { MovieDeletePopupComponent } from './delete-popup/delete-popup.component';
+import { Attribute } from '@angular/core/src/metadata/di';
 
 @Component({
   selector: 'app-movie-management',
@@ -63,22 +64,6 @@ export class MovieManagementComponent implements OnInit {
       console.log("status ", status);
       if (status) {
         this.getAllMovies();
-      }
-    });
-  }
-
-  deleteMovie(item, index) {
-    const activeModal = this.modalService.open(MovieDeletePopupComponent, { size: 'sm' });
-    activeModal.componentInstance.modalText = 'vendor';
-
-    activeModal.result.then((status) => {
-      if (status) {
-        this.deleteLoader = index;
-        _.remove(this.movies, item);
-        this.deleteLoader = NaN;
-        this.toastr.success('Successfully Deleted!', 'Success!');
-      } else {
-        this.deleteLoader = NaN;
       }
     });
   }

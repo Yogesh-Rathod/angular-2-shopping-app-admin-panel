@@ -7,10 +7,6 @@
       <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
         height="35">
 
-      <!-- <button *ngIf=" movieId " class="btn btn-danger float-right" (click)="deleteMovie()" [disabled]="deleteLoader">
-        <i class="fa fa-trash-o" aria-hidden="true"></i>
-        Delete
-      </button> -->
       <span class="goBack float-right" [routerLink]="['/movie-management']">
         <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to movies list</span>
 
@@ -186,17 +182,21 @@
             <img *ngIf="movieId && !movieInfo.LandscapeUrl" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
           </div>
         </div>
-        <div class="col-4">
+        <div class="col-3">
           <label for="Square">( Square Image )</label>
           <input type="text" id="Square" class="form-control" formControlName="ImageUrl">
         </div>
-        <div class="col-4">
+        <div class="col-3">
           <label for="Portrait">( Portrait Image )</label>
           <input type="text" id="Portrait" class="form-control" formControlName="PosterUrl">
         </div>
-        <div class="col-4">
+        <div class="col-3">
           <label for="Landscape">( Landscape Image )</label>
           <input type="text" id="Landscape" class="form-control" formControlName="LandscapeUrl">
+        </div>
+        <div class="col-3">
+          <label for="RBCN">( RBCN Image )</label>
+          <input type="text" id="RBCN" class="form-control" formControlName="RBCNUrl">
         </div>
       </div>
 

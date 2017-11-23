@@ -165,6 +165,12 @@ export class AddMovieComponent implements OnInit {
           Validators.required
         ])
       ],
+      'RBCNUrl': [
+        '',
+        Validators.compose([
+          Validators.required
+        ])
+      ],
       'CreatedOn': [new Date().toISOString()],
       'CreatedBy': ['Yogesh']
     });
@@ -267,32 +273,13 @@ export class AddMovieComponent implements OnInit {
     this.addMovieForm.controls['LandscapeUrl'].setValue(movieInfo['LandscapeUrl']);
     this.addMovieForm.controls['CreatedOn'].setValue(movieInfo['CreatedOn']);
     this.addMovieForm.controls['CreatedBy'].setValue(movieInfo['CreatedBy']);
+    this.checkFormValidation();
   }
 
-  handleImageUpload(event, index) {
-    const file = event.target.files[0];
-    console.log("file ", file);
-    if (file) {
-      this.movieImages.push(file);
-    } else {
-      this.movieImages.splice(index, 1);
+  checkFormValidation() {
+    for (var i in this.addMovieForm.controls) {
+      this.addMovieForm.controls[i].markAsTouched();
     }
-    console.log("this.movieImages ", this.movieImages);
-  }
-
-  deleteMovie() {
-    const activeModal = this.modalService.open(MovieDeletePopupComponent, { size: 'sm' });
-    activeModal.componentInstance.modalText = 'vendor';
-
-    activeModal.result.then((status) => {
-      if (status) {
-        this.deleteLoader = true;
-        _.remove(this.movies, this.movieInfo);
-        this.toastr.success('Sucessfully Deleted!', 'Sucess!');
-        this.deleteLoader = false;
-        this._location.back();
-      }
-    });
   }
 
 }

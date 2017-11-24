@@ -199,7 +199,6 @@ export class MovieDetailsComponent implements OnInit {
         moviesToMap.push(item.Id);
       }
     });
-    console.log("this.movieInfo ", this.movieInfo);
     const movieInfo = {
       "EventMasterId": this.movieInfo.EventId,
       "ProviderMovieIds": moviesToMap
@@ -211,29 +210,54 @@ export class MovieDetailsComponent implements OnInit {
           this.mapMovieLoader = false;
           this.toastr.success('Movie Successfully Mapped!', 'Success!', { toastLife: 3000 });
           this.getUnMappedMovies();
+          this.getAlreadyMappedMovies();
+          this.showMappingbuttons.map = false;
+          this.selectAllCheckboxUnMap = false;
         }).catch((errorInMapping) => {
           console.log("errorInMapping ", errorInMapping);
           this.mapMovieLoader = false;
           this.toastr.error('Movie Can not be mapped!', 'Error!', { toastLife: 2000 });
+          this.showMappingbuttons.map = false;
+          this.selectAllCheckboxUnMap = false;
         });
     }
-    // this.selectAllCheckboxUnMap = false;
-    // this.showMappingbuttons.map = false;
   }
 
   unMapSelectedMovies() {
-    let unMappedItem;
+    this.mapMovieLoader = true;
+    let moviesToUnMap = [];
     _.forEach(this.mappedMovies, (item) => {
-      if (item.isChecked) {
-        this.movies.push(item);
-        item.isChecked = false;
-        setTimeout(() => {
-          _.remove(this.mappedMovies, item);
-        }, 100);
+      console.log("item ", item);
+      if (!item.isChecked) {
+        moviesToUnMap.push(item.Id);
       }
     });
-    this.selectAllCheckboxUnMap = false;
-    this.showMappingbuttons.unmap = false;
+    const movieInfo = {
+      "EventMasterId": this.movieInfo.EventId,
+      "ProviderMovieIds": moviesToUnMap
+    };
+    console.log("movieInfo ", movieInfo);
+    if (moviesToUnMap.length > 0) {
+      this.movieManagementService.mapMovies(movieInfo).
+        then((successFullyUnMapped) => {
+          console.log("successFullyUnMapped ", successFullyUnMapped);
+          this.mapMovieLoader = false;
+          this.toastr.success('Movie Successfully Unmapped!', 'Success!', { toastLife: 3000 });
+          this.getUnMappedMovies();
+          this.getAlreadyMappedMovies();
+          this.showMappingbuttons.unmap = false;
+          this.selectAllCheckboxUnMap = false;
+        }).catch((errorInMapping) => {
+          console.log("errorInMapping ", errorInMapping);
+          this.mapMovieLoader = false;
+          this.toastr.error('Movie Can not be mapped!', 'Error!', { toastLife: 2000 });
+          this.showMappingbuttons.unmap = false;
+          this.selectAllCheckboxUnMap = false;
+        });
+    }
+
+
+
   }
 
   unMapAMovie() {

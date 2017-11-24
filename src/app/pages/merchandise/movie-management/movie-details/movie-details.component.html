@@ -164,7 +164,10 @@
       </div>
     </div>
 
-    <div class="col-5">
+    <div class="col-5 pos_relative">
+      <div class="loader-container pos_absolute" *ngIf="mappedLoader">
+        <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+      </div>
       <table class="table table-bordered table-responsive" [mfData]="mappedMovies" #second="mfDataTable" [mfRowsOnPage]="10">
         <thead class="black-muted-bg">
           <tr>
@@ -190,12 +193,12 @@
               <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
             </td>
             <td class="text-left">
-              {{ item.title }}
+              {{ item.ProviderMovieName }}
             </td>
             <td class="text-center">
               {{ item.language }}
             </td>
-            <td class="text-center">{{ item.type }}</td>
+            <td class="text-center">{{ item.ProviderMovieName }}</td>
           </tr>
         </tbody>
         <tbody *ngIf=" mappedMovies && mappedMovies.length === 0 ">

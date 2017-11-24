@@ -234,24 +234,22 @@ export class MovieDetailsComponent implements OnInit {
       "ProviderMovieIds": moviesToUnMap
     };
     console.log("movieInfo ", movieInfo);
-    if (moviesToUnMap.length > 0) {
-      this.movieManagementService.mapMovies(movieInfo).
-        then((successFullyUnMapped) => {
-          console.log("successFullyUnMapped ", successFullyUnMapped);
-          this.mapMovieLoader = false;
-          this.toastr.success('Movie Successfully Unmapped!', 'Success!', { toastLife: 3000 });
-          this.getUnMappedMovies();
-          this.getAlreadyMappedMovies();
-          this.showMappingbuttons.unmap = false;
-          this.selectAllCheckboxUnMap = false;
-        }).catch((errorInUnMapping) => {
-          console.log("errorInUnMapping errorInMapping ", errorInUnMapping);
-          this.mapMovieLoader = false;
-          this.toastr.error('Movie can not be unmapped!', 'Error!', { toastLife: 2000 });
-          this.showMappingbuttons.unmap = false;
-          this.selectAllCheckboxUnMap = false;
-        });
-    }
+    this.movieManagementService.mapMovies(movieInfo).
+      then((successFullyUnMapped) => {
+        console.log("successFullyUnMapped ", successFullyUnMapped);
+        this.mapMovieLoader = false;
+        this.toastr.success('Movie Successfully Unmapped!', 'Success!', { toastLife: 3000 });
+        this.getUnMappedMovies();
+        this.getAlreadyMappedMovies();
+        this.showMappingbuttons.unmap = false;
+        this.selectAllCheckboxUnMap = false;
+      }).catch((errorInUnMapping) => {
+        console.log("errorInUnMapping errorInMapping ", errorInUnMapping);
+        this.mapMovieLoader = false;
+        this.toastr.error('Movie can not be unmapped!', 'Error!', { toastLife: 2000 });
+        this.showMappingbuttons.unmap = false;
+        this.selectAllCheckboxUnMap = false;
+      });
   }
 
   unMapAMovie() {

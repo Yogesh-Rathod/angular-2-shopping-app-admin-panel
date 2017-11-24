@@ -5,6 +5,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as _ from 'lodash';
 
 import { MovieManagementService, XlsxToJsonService } from 'app/services';
+import { AppStateManagementService } from 'lrshared_modules/services';
 
 @Component({
   selector: 'app-bulk-upload',
@@ -19,13 +20,25 @@ export class MovieBulkUploadComponent implements OnInit {
   movieInfo = [];
   validationError: any;
   blankFileError = false;
+  userInfo: any;
 
   constructor(
     private movieManagementService: MovieManagementService,
+    private appStateManagementService: AppStateManagementService,
     private xlsxToJsonService: XlsxToJsonService,
     private toastr: ToastsManager,
   	private activeModal: NgbActiveModal
-  	) { }
+  	) {
+    this.appStateManagementService.retrieveAppStateCK('CRM.userData').
+      then((userInfo) => {
+        this.userInfo = JSON.parse(userInfo);
+      }).catch((error) => {
+        console.log("error ", error);
+        this.userInfo = {
+          username: 'Unknown User'
+        }
+      });
+    }
 
   ngOnInit() {}
 
@@ -79,7 +92,7 @@ export class MovieBulkUploadComponent implements OnInit {
         "TrailerUrl": movie['Trailer Link'],
         "Sequence": movie['Sequence*'],
         "CreatedOn": new Date().toISOString(),
-        "CreatedBy": 'Yogesh',
+        "CreatedBy": this.userInfo.username,
         'rbcnUrl': movie['Land scape Image Link_RBCN*']
       };
       this.movieInfo.push(someName);

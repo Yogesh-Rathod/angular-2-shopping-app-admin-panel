@@ -5,11 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { IMyDpOptions } from 'mydatepicker';
+import { CookieService } from 'ngx-cookie';
 import * as _ from 'lodash';
 declare let $: any;
 
 import { RegEx } from './../../../regular-expressions';
 import { MovieManagementService } from 'app/services';
+import { AppStateManagementService } from 'lrshared_modules/services';
 import { MovieDeletePopupComponent } from '../delete-popup/delete-popup.component';
 
 @Component({
@@ -33,19 +35,31 @@ export class AddMovieComponent implements OnInit {
     openSelectorOnInputClick: true
   };
   validationError: any;
+  userInfo: any;
 
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder,
     private movieManagementService: MovieManagementService,
+    private appStateManagementService: AppStateManagementService,
     private _location: Location,
     private toastr: ToastsManager,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) {
     this.route.params.subscribe(params =>
       this.movieId = params['movieId']
     )
+    this.appStateManagementService.retrieveAppStateCK('CRM.userData').
+      then((userInfo) => {
+        this.userInfo = JSON.parse(userInfo);
+      }).catch((error) => {
+        console.log("error ", error);
+        this.userInfo = {
+          username: 'Unknown User'
+        }
+      });
   }
 
   ngOnInit() {
@@ -172,7 +186,7 @@ export class AddMovieComponent implements OnInit {
         ])
       ],
       'CreatedOn': [new Date().toISOString()],
-      'CreatedBy': ['Yogesh']
+      'CreatedBy': ['']
     });
   }
 
@@ -189,7 +203,7 @@ export class AddMovieComponent implements OnInit {
     addMovieForm['ReleaseDate'] = new Date(addMovieForm['ReleaseDate'].epoc).toISOString();
     if (addMovieForm.id) {
       addMovieForm.ModifiedOn = new Date().toISOString();
-      addMovieForm.ModifiedBy = 'Yogesh';
+      addMovieForm.ModifiedBy = this.userInfo.username;
       this.movieManagementService.updateMovie(addMovieForm, addMovieForm.id).
         then((success) => {
           console.log("Update success ", success);
@@ -206,6 +220,7 @@ export class AddMovieComponent implements OnInit {
           this.showLoader = false;
         });
     } else {
+      addMovieForm.CreatedBy = this.userInfo.username;
       delete addMovieForm['id'];
       this.movieManagementService.addMovie(addMovieForm).
         then((success) => {

@@ -85,7 +85,8 @@ export class MovieDetailsComponent implements OnInit {
         }).catch((error) => {
           console.log("getUnmappedMovies error ", error);
           if (error.Code === 500) {
-            // this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
+            this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
+            this.location.back();
           }
           this.unmappedLoader = false;
         });
@@ -103,6 +104,7 @@ export class MovieDetailsComponent implements OnInit {
         }).catch((error) => {
           console.log("geAlreadyMappedMovies error ", error);
           if (error.Code === 500) {
+            this.location.back();
             // this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
           }
           this.mappedLoader = false;
@@ -129,7 +131,7 @@ export class MovieDetailsComponent implements OnInit {
   selectAllMapped(e) {
     if (e.target.checked) {
       this.selectAllCheckboxMapped = true;
-      _.forEach(this.unmappedMovies, (item) => {
+      _.forEach(this.mappedMovies, (item) => {
         item.isChecked = true;
       });
       this.showMappingbuttons.unmap = true;
@@ -152,41 +154,52 @@ export class MovieDetailsComponent implements OnInit {
       item.isChecked = false;
     }
 
-    let isCheckedArray = [];
+    let unmappedItemsArray = [];
+    let mappedItemsArray = [];
 
     _.forEach(this.unmappedMovies, (item) => {
       if (item.isChecked) {
         this.showMappingbuttons.map = true;
-        isCheckedArray.push(item);
+        unmappedItemsArray.push(item);
       }
     });
 
     _.forEach(this.mappedMovies, (item) => {
       if (item.isChecked) {
         this.showMappingbuttons.unmap = true;
-        isCheckedArray.push(item);
+        mappedItemsArray.push(item);
       }
     });
 
-    if (isCheckedArray.length === 0) {
+    if (unmappedItemsArray.length === 0) {
       this.showMappingbuttons.map = false;
+    }
+
+    if (mappedItemsArray.length === 0) {
       this.showMappingbuttons.unmap = false;
     }
   }
 
   mapAMovie() {
-    console.log("this.selectAllCheckboxUnMap ", this.selectAllCheckboxUnMap);
     if (this.selectAllCheckboxUnMap) {
-      this.mappedMovies = this.movies;
-      this.movies = [];
-      this.showMappingbuttons.map = false;
-      this.selectAllCheckboxUnMap = false;
-      _.forEach(this.mappedMovies, (item) => {
-        item.isChecked = false;
-      });
+      this.mapAllMovies();
     } else {
       this.mapSelectedMovies();
     }
+  }
+
+  mapAllMovies() {
+    this.mapMovieLoader = true;
+    let moviesToMap = [];
+    _.forEach(this.unmappedMovies, (item) => {
+      moviesToMap.push(item.Id);
+    });
+    const movieInfo = {
+      "EventMasterId": this.movieInfo.EventId,
+      "ProviderMovieIds": moviesToMap
+    };
+    console.log("movieInfo mapAllMovies", movieInfo);
+    this.mapMovieLoader = false;
   }
 
   mapSelectedMovies() {
@@ -221,9 +234,29 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
 
+
+  unMapAMovie() {
+    if (this.selectAllCheckboxMapped) {
+      this.unMapAllMovies();
+    } else {
+      this.unMapSelectedMovies();
+    }
+  }
+
+  unMapAllMovies() {
+    this.mapMovieLoader = true;
+    const movieInfo = {
+      "EventMasterId": this.movieInfo.EventId,
+      "ProviderMovieIds": []
+    };
+    console.log("movieInfo unMapAllMovies", movieInfo);
+    this.mapMovieLoader = false;
+  }
+
   unMapSelectedMovies() {
     this.mapMovieLoader = true;
     let moviesToUnMap = [];
+    // Send All Movies except movie to unmap
     _.forEach(this.mappedMovies, (item) => {
       if (!item.isChecked) {
         moviesToUnMap.push(item.Id);
@@ -233,7 +266,7 @@ export class MovieDetailsComponent implements OnInit {
       "EventMasterId": this.movieInfo.EventId,
       "ProviderMovieIds": moviesToUnMap
     };
-    console.log("movieInfo ", movieInfo);
+    console.log("movieInfo unMapSelectedMovies ", movieInfo);
     this.movieManagementService.mapMovies(movieInfo).
       then((successFullyUnMapped) => {
         console.log("successFullyUnMapped ", successFullyUnMapped);
@@ -250,20 +283,6 @@ export class MovieDetailsComponent implements OnInit {
         this.showMappingbuttons.unmap = false;
         this.selectAllCheckboxUnMap = false;
       });
-  }
-
-  unMapAMovie() {
-    if (this.selectAllCheckboxMapped) {
-      this.movies = this.mappedMovies;
-      this.mappedMovies = [];
-      this.showMappingbuttons.unmap = false;
-      this.selectAllCheckboxMapped = false;
-      _.forEach(this.movies, (item) => {
-        item.isChecked = false;
-      });
-    } else {
-      this.unMapSelectedMovies();
-    }
   }
 
 }

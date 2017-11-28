@@ -13,6 +13,7 @@ import { RegEx } from './../../../regular-expressions';
 import { MovieManagementService } from 'app/services';
 import { AppStateManagementService } from 'lrshared_modules/services';
 import { MovieDeletePopupComponent } from '../delete-popup/delete-popup.component';
+import { log } from 'util';
 
 @Component({
   selector: 'app-add-movie',
@@ -55,7 +56,6 @@ export class AddMovieComponent implements OnInit {
       then((userInfo) => {
         this.userInfo = JSON.parse(userInfo);
       }).catch((error) => {
-        console.log("error ", error);
         this.userInfo = {
           username: 'Unknown User'
         }
@@ -200,14 +200,18 @@ export class AddMovieComponent implements OnInit {
     this.validationError = null;
     this.showLoader = true;
 
-    let newDATA = Object.assign({}, addMovieForm);
+    addMovieForm['ReleaseDate'] = new Date(`
+      ${addMovieForm['ReleaseDate'].date.year}-
+      ${addMovieForm['ReleaseDate'].date.month}-
+      ${addMovieForm['ReleaseDate'].date.day}`
+    ).toISOString();
 
-    newDATA['ReleaseDate'] = new Date(`${addMovieForm['ReleaseDate'].date.month}/${addMovieForm['ReleaseDate'].date.day + 1}/${addMovieForm['ReleaseDate'].date.year}`).toISOString();
+    console.log("newDATA['ReleaseDate'] ", addMovieForm['ReleaseDate']);
 
     if (addMovieForm.id) {
-      newDATA.ModifiedOn = new Date().toISOString();
-      newDATA.ModifiedBy = this.userInfo.username;
-      this.movieManagementService.updateMovie(newDATA, addMovieForm.id).
+      addMovieForm.ModifiedOn = new Date().toISOString();
+      addMovieForm.ModifiedBy = this.userInfo.username;
+      this.movieManagementService.updateMovie(addMovieForm, addMovieForm.id).
         then((success) => {
           console.log("Update success ", success);
           this.toastr.success('Movie Sucessfully Updated!', 'Success!');
@@ -223,9 +227,9 @@ export class AddMovieComponent implements OnInit {
           this.showLoader = false;
         });
     } else {
-      newDATA.CreatedBy = this.userInfo.username;
-      delete newDATA['id'];
-      this.movieManagementService.addMovie(newDATA).
+      addMovieForm.CreatedBy = this.userInfo.username;
+      delete addMovieForm['id'];
+      this.movieManagementService.addMovie(addMovieForm).
         then((success) => {
           console.log("Add success ", success);
           this.toastr.success('Movie Sucessfully Added!', 'Success!');
@@ -263,6 +267,7 @@ export class AddMovieComponent implements OnInit {
 
   updateMovieInfo(movieInfo) {
     const releaseFullDate = new Date(movieInfo['ReleaseDate']);
+    console.log("releaseFullDate ", releaseFullDate);
     this.addMovieForm.controls['id'].setValue(movieInfo.EventId);
     this.addMovieForm.controls['Title'].setValue(movieInfo.Title);
     this.addMovieForm.controls['Type'].setValue(movieInfo.Type);

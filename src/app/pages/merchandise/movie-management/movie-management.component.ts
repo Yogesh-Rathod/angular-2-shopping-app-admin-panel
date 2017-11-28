@@ -57,7 +57,7 @@ export class MovieManagementComponent implements OnInit {
 
   searchMovie(searchTerm) {
     this.filteredMovies = this.movies.filter( (item) => {
-      const caseInsensitiveSearch = new RegExp(`${searchTerm}`,"i");
+      const caseInsensitiveSearch = new RegExp(`${searchTerm.trim()}`,"i");
       return caseInsensitiveSearch.test(item.Title) || caseInsensitiveSearch.test(item.Language) || caseInsensitiveSearch.test(item.Type);
     });
   }

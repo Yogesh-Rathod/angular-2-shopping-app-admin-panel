@@ -27,8 +27,8 @@ export class MovieBulkUploadComponent implements OnInit {
     private appStateManagementService: AppStateManagementService,
     private xlsxToJsonService: XlsxToJsonService,
     private toastr: ToastsManager,
-  	private activeModal: NgbActiveModal
-  	) {
+    private activeModal: NgbActiveModal
+    ) {
     this.appStateManagementService.retrieveAppStateCK('CRM.userData').
       then((userInfo) => {
         this.userInfo = JSON.parse(userInfo);
@@ -70,9 +70,9 @@ export class MovieBulkUploadComponent implements OnInit {
   }
 
   convertJSONResponse(result) {
-    console.log("result ", result);
+    // console.log("result ", result);
     _.forEach(result, (movie) => {
-      const someName = {
+      const movieInformation = {
         "Title": movie['Title*'],
         "Type": movie['Type*'],
         "Language": movie['Language*'],
@@ -95,14 +95,13 @@ export class MovieBulkUploadComponent implements OnInit {
         "CreatedBy": this.userInfo.username,
         'rbcnUrl': movie['Land scape Image Link_RBCN*']
       };
-      this.movieInfo.push(someName);
+      this.movieInfo.push(movieInformation);
     });
   }
 
   uploadFile(event) {
     event.preventDefault();
     this.showLoader = true;
-    console.log("this.movieInfo ", this.movieInfo);
     if (this.movieInfo && this.movieInfo.length > 0) {
       this.movieManagementService.bulkUploadMovie(this.movieInfo).
         then((success) => {

@@ -198,13 +198,16 @@ export class AddMovieComponent implements OnInit {
 
   addMovie(addMovieForm) {
     this.validationError = null;
-    console.log("addMovieForm ", addMovieForm);
     this.showLoader = true;
-    addMovieForm['ReleaseDate'] = new Date(addMovieForm['ReleaseDate'].epoc).toISOString();
+
+    let newDATA = Object.assign({}, addMovieForm);
+
+    newDATA['ReleaseDate'] = new Date(`${addMovieForm['ReleaseDate'].date.month}/${addMovieForm['ReleaseDate'].date.day + 1}/${addMovieForm['ReleaseDate'].date.year}`).toISOString();
+
     if (addMovieForm.id) {
-      addMovieForm.ModifiedOn = new Date().toISOString();
-      addMovieForm.ModifiedBy = this.userInfo.username;
-      this.movieManagementService.updateMovie(addMovieForm, addMovieForm.id).
+      newDATA.ModifiedOn = new Date().toISOString();
+      newDATA.ModifiedBy = this.userInfo.username;
+      this.movieManagementService.updateMovie(newDATA, addMovieForm.id).
         then((success) => {
           console.log("Update success ", success);
           this.toastr.success('Movie Sucessfully Updated!', 'Success!');
@@ -220,9 +223,9 @@ export class AddMovieComponent implements OnInit {
           this.showLoader = false;
         });
     } else {
-      addMovieForm.CreatedBy = this.userInfo.username;
-      delete addMovieForm['id'];
-      this.movieManagementService.addMovie(addMovieForm).
+      newDATA.CreatedBy = this.userInfo.username;
+      delete newDATA['id'];
+      this.movieManagementService.addMovie(newDATA).
         then((success) => {
           console.log("Add success ", success);
           this.toastr.success('Movie Sucessfully Added!', 'Success!');
@@ -275,8 +278,8 @@ export class AddMovieComponent implements OnInit {
     this.addMovieForm.controls['ReleaseDate'].setValue({
       date: {
         year: releaseFullDate.getFullYear(),
+        day: releaseFullDate.getDate(),
         month: releaseFullDate.getMonth() + 1,
-        day: releaseFullDate.getDate()
       }
     });
     this.addMovieForm.controls['Synopsis'].setValue(movieInfo['Synopsis']);

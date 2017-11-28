@@ -65,7 +65,7 @@
                 </mfDefaultSorter>
               </th>
               <th class="text-center">
-                <strong>type</strong> 
+                <strong>type</strong>
               </th>
               <th class="text-center">
                 <strong>Action</strong>
@@ -101,7 +101,7 @@
 
           <tbody *ngIf=" movies && movies.length === 0 ">
             <tr>
-              <td colspan="5">
+              <td colspan="6">
                 <strong>There are no movies!</strong>
               </td>
             </tr>
@@ -109,7 +109,7 @@
 
           <tfoot *ngIf=" movies && movies.length > 10 ">
             <tr>
-              <td colspan="5">
+              <td colspan="6">
                 <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
               </td>
             </tr>

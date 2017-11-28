@@ -3,6 +3,7 @@ table {
 		mfpaginator {
 			.pagination {
 				margin-bottom: 0 !important;
+				justify-content: center;
 
 				&.pull-right.float-sm-right {
 					display: none !important;
@@ -30,11 +31,11 @@ table {
 	th {
 		position: relative;
 		// .text-nowrap {
-		// 	position: absolute;
-		// 	top: 0;
-		// 	bottom: 0;
-		// 	left: 0;
-		// 	right: 0;
+		//  position: absolute;
+		//  top: 0;
+		//  bottom: 0;
+		//  left: 0;
+		//  right: 0;
 		// }
 	}
 

@@ -45,7 +45,7 @@
       </div>
 
       <div class="card-body">
-        <table class="table table-bordered table-responsive" [mfData]="movies" #mf="mfDataTable" [mfRowsOnPage]="10">
+        <table class="table table-bordered table-responsive" [mfData]="filteredMovies" #mf="mfDataTable" [mfRowsOnPage]="10">
           <thead class="black-muted-bg">
             <tr>
               <th>
@@ -73,7 +73,7 @@
             </tr>
           </thead>
           <tbody *ngIf=" movies && movies.length > 0 ">
-            <tr *ngFor=" let item of mf.data | searchfilter: 'Title,Language,Type' : searchTerm; let i = index ">
+            <tr *ngFor=" let item of mf.data; let i = index ">
               <td>{{ i + 1 }}</td>
               <td class="text-left">
                 <div class="movie-image">

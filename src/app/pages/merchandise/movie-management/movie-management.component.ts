@@ -19,6 +19,7 @@ export class MovieManagementComponent implements OnInit {
 
   searchTerm: any;
   movies: any;
+  filteredMovies: any;
   deleteLoader: Number;
   bigLoader = false;
 
@@ -42,6 +43,7 @@ export class MovieManagementComponent implements OnInit {
       then((moviesInfo) => {
         console.log("movies ", moviesInfo);
         this.movies = moviesInfo.Data.Records;
+        this.filteredMovies = this.movies;
         this.bigLoader = false;
       }).catch((error) => {
         console.log("error ", error);
@@ -54,7 +56,10 @@ export class MovieManagementComponent implements OnInit {
   }
 
   searchMovie(searchTerm) {
-    this.searchTerm = searchTerm;
+    this.filteredMovies = this.movies.filter( (item) => {
+      const caseInsensitiveSearch = new RegExp(`${searchTerm}`,"i");
+      return caseInsensitiveSearch.test(item.Title) || caseInsensitiveSearch.test(item.Language) || caseInsensitiveSearch.test(item.Type);
+    });
   }
 
   bulkUpload() {

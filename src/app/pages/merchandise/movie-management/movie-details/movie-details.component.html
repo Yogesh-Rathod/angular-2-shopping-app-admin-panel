@@ -8,11 +8,10 @@
     </h2>
   </div>
 
+  <div class="loader-container pos_absolute" *ngIf="bigLoader">
+    <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+  </div>
   <div class="card-body pos_relative">
-
-    <div class="loader-container pos_absolute" *ngIf="bigLoader">
-      <img src="assets/img/ajax-loader.gif" alt="Loader Image">
-    </div>
 
     <div class="basic-info row" *ngIf="movieInfo">
       <div class="col-4 basic-info-left">
@@ -98,6 +97,9 @@
       <div class="loader-container pos_absolute" *ngIf="unmappedLoader">
         <img src="assets/img/ajax-loader.gif" alt="Loader Image">
       </div>
+      <h6 class="no-text-transform">
+        List of unmapped movies:
+      </h6>
       <table class="table table-bordered table-responsive" [mfData]="unmappedMovies" #first="mfDataTable" [mfRowsOnPage]="10">
         <thead class="black-muted-bg">
           <tr>
@@ -168,6 +170,9 @@
       <div class="loader-container pos_absolute" *ngIf="mappedLoader">
         <img src="assets/img/ajax-loader.gif" alt="Loader Image">
       </div>
+      <h6 class="no-text-transform">
+        List of mapped movies:
+      </h6>
       <table class="table table-bordered table-responsive" [mfData]="mappedMovies" #second="mfDataTable" [mfRowsOnPage]="10">
         <thead class="black-muted-bg">
           <tr>

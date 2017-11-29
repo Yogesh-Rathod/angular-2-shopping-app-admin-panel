@@ -10,6 +10,10 @@ input,
     text-transform: initial;
 }
 
+.no-text-transform {
+    text-transform: initial !important;
+}
+
 .card-header {
     background: #209e91 !important;
 }
@@ -124,6 +128,10 @@ i.fa {
     img {
         margin: 10px auto;
         display: block; // transform: rotateX(180deg);
+    }
+
+    & + .card-body {
+        min-height: 100px;
     }
 }
 

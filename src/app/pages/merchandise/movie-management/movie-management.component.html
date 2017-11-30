@@ -51,7 +51,7 @@
               <th>
                 <strong>No.</strong>
               </th>
-              <th class="text-center">
+              <th class="text-center image">
                 <strong>Image</strong>
               </th>
               <th class="text-left">
@@ -75,7 +75,7 @@
           <tbody *ngIf=" filteredMovies && filteredMovies.length > 0 ">
             <tr *ngFor=" let item of mf.data; let i = index ">
               <td>{{ i + 1 }}</td>
-              <td class="text-left">
+              <td class="text-left image">
                 <div class="movie-image">
                   <img *ngIf="item.LandscapeUrl" class="img-fluid" [src]="item.LandscapeUrl" alt="Movie Image" onError="this.src='assets/images/movies/no-preview.jpg'">
                   <img class="img-fluid" *ngIf="!item.LandscapeUrl" src="assets/images/movies/no-preview.jpg" alt="Movie Image">

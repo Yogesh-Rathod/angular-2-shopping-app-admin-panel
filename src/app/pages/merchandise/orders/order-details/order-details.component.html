@@ -8,10 +8,10 @@
       <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
         height="35">
 
-      <button class="btn btn-danger float-right" *ngIf="orderInfo" (click)="deleteOrder()">
+      <!-- <button class="btn btn-danger float-right" *ngIf="orderInfo" (click)="deleteOrder()">
         <i class="fa fa-trash-o" aria-hidden="true"></i>
         Delete
-      </button>
+      </button> -->
       <button class="btn btn-success float-right" *ngIf="orderInfo">
         <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
         Invoice (PDF)
@@ -21,7 +21,7 @@
 
     </h2>
   </div>
-  
+
   <div class="card-body" *ngIf="orderInfo">
 
     <div class="loader-container pos_absolute" *ngIf="bigLoader">

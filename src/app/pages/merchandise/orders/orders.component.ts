@@ -82,6 +82,7 @@ export class OrdersComponent implements OnInit {
       endDate: [''],
       orderStatus: [[]],
       poNumber: [''],
+      rtoCheck: ['']
     });
   }
 

@@ -32,13 +32,13 @@
       <!-- Tabs Top UI -->
       <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" href="#info" role="tab" data-toggle="tab">Info</a>
+          <a class="nav-link " href="#info" role="tab" data-toggle="tab">Info</a>
         </li>
         <li class="nav-item">
           <a class="nav-link " href="#billingInfo" role="tab" data-toggle="tab">Billing Info</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="#shippingInfo" role="tab" data-toggle="tab">Shipping Info</a>
+          <a class="nav-link active" href="#shippingInfo" role="tab" data-toggle="tab">Shipping Info</a>
         </li>
         <li class="nav-item">
           <a class="nav-link " href="#products" role="tab" data-toggle="tab">Products</a>
@@ -47,14 +47,14 @@
     </div>
 
     <div class="tab-content col-12 no_left_padding no_right_padding">
-      <div role="tabpanel" class="tab-pane fade in active" id="info">
+      <div role="tabpanel" class="tab-pane fade in " id="info">
         <app-basic-info class="col-12" [orderInfo]="orderInfo"></app-basic-info>
       </div>
       <div role="tabpanel" class="tab-pane fade in" id="billingInfo">
         <app-billing-info class="col-12" [orderInfo]="orderInfo"></app-billing-info>
       </div>
-      <div role="tabpanel" class="tab-pane fade in" id="shippingInfo">
-        <app-shipping-info class="col-12"></app-shipping-info>
+      <div role="tabpanel" class="tab-pane fade in active" id="shippingInfo">
+        <app-shipping-info class="col-12" [orderInfo]="orderInfo"></app-shipping-info>
       </div>
       <div role="tabpanel" class="tab-pane fade in" id="products">
         <app-products class="col-12" [orderInfo]="orderInfo"></app-products>

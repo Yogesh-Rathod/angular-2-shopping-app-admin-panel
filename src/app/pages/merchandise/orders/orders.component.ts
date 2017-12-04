@@ -19,17 +19,25 @@ export class OrdersComponent implements OnInit {
   orders: any;
   orderStatus = [
     {
-      id: 'Processing',
-      itemName: 'Processing'
+      id: 'Fresh',
+      itemName: 'Fresh'
     },
     {
-      id: 'Pending',
-      itemName: 'Pending'
+      id: 'Processed',
+      itemName: 'Processed'
     },
     {
-      id: 'Completed',
-      itemName: 'Completed'
-    }
+      id: 'Shipped',
+      itemName: 'Shipped'
+    },
+    {
+      id: 'Delivered',
+      itemName: 'Delivered'
+    },
+    {
+      id: 'Cancelled',
+      itemName: 'Cancelled'
+    },
   ];
   orderStatusDropdownSettings = {
     singleSelection: false,
@@ -39,24 +47,7 @@ export class OrdersComponent implements OnInit {
     enableSearchFilter: true,
     classes: 'col-8 no_padding'
   };
-  shippingStatus = [
-    {
-      id: 'Delivered',
-      itemName: 'Delivered'
-    },
-    {
-      id: 'Shipped',
-      itemName: 'Shipped'
-    },
-    {
-      id: 'Shipping not required',
-      itemName: 'Shipping not required'
-    },
-    {
-      id: 'Not yet shipped',
-      itemName: 'Not yet shipped'
-    }
-  ];
+  programName = ['RBI', 'SBI', 'TOI'];
   stores = ['store 1', 'store 2', 'store 3'];
   paymentMethod = ['All', 'Check / Money Order', 'Credit Card', 'PayPal Standard', 'Purchase Order'];
   public myDatePickerOptions: IMyDpOptions = {
@@ -85,13 +76,12 @@ export class OrdersComponent implements OnInit {
   // For Creating Add Category Form
   searchForm() {
     this.searchProductForm = this.fb.group({
-      name: [''],
+      programName: [''],
+      supplierName: [''],
       startDate: [''],
       endDate: [''],
-      store: [''],
       orderStatus: [[]],
-      shippingStatus: [[]],
-      paymentMethod: ['']
+      poNumber: [''],
     });
   }
 

@@ -161,9 +161,9 @@
 								{{ item.createdOn | date: 'shortDate' }}
 							</td>
 							<td class="action">
-								<button class="btn btn-secondary" [routerLink]="['./order-details/', item.id]" title="View Details">
-									<i class="fa fa-eye" aria-hidden="true"></i>
-									View
+								<button class="btn btn-secondary" [routerLink]="['./order-details/', item.id]" title="View or Edit Details">
+									<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+									View / Edit
 								</button>
 							</td>
 						</tr>

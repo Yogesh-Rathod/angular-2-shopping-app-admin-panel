@@ -2,3 +2,29 @@
   border: 1px solid rgba(0,0,0,.125);
   box-shadow: none;
 }
+
+.fa[data-toggle="tooltip"] {
+  color: #209e91;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.info-record {
+  margin-bottom: 20px;
+
+  div:first-child {
+    padding-top: 8px;
+  }
+
+  &.rto-report {
+    [type="checkbox"] {
+      margin-top: 10px;
+    }
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

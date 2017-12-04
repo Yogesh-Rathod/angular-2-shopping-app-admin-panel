@@ -17,6 +17,7 @@ export class OrderDetailsComponent implements OnInit {
   orderInfo: any;
   orders: any;
   deleteLoader = false;
+  bigLoader = false;
 
   constructor(
     private _location: Location,

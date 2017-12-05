@@ -8,6 +8,7 @@ import { CKEditorModule } from 'ng2-ckeditor';
 import { MyDatePickerModule } from 'mydatepicker';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { DateTimePickerModule } from 'ng-pick-datetime';
+import { CsvService } from "angular2-json2csv";
 
 import { ProductsComponent} from './products.component';
 import { ProductsService, VendorsService } from 'app/services';
@@ -32,7 +33,8 @@ import { AddProductComponent } from "./add-product/add-product.component";
   ],
   providers: [
     ProductsService,
-    VendorsService
+    VendorsService,
+    CsvService
   ]
 })
 export class ProductsModule {}

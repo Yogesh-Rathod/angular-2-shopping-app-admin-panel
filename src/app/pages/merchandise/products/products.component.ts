@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as json2csv from 'json2csv';
+import { CsvService } from "angular2-json2csv";
 
 import * as _ from 'lodash';
 declare let $: any;
@@ -40,6 +41,7 @@ export class ProductsComponent implements OnInit {
   dropDownAction = ['Delete Selected', 'Deactivate Selected', 'Approve Selected', 'Reject Selected'];
 
   constructor(
+    private csvService: CsvService,
     public toastr: ToastsManager,
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -115,8 +117,9 @@ export class ProductsComponent implements OnInit {
 
     var fields = ['approvalStatus', 'name', 'MrpPrice', 'status'];
     try {
-      var result = json2csv({ data: this.products, fields: fields });
-      console.log(result);
+      this.csvService.download(this.products, 'this.products');
+      // var result = json2csv({ data: this.products, fields: fields });
+      // console.log(result);
     } catch (err) {
       // Errors are thrown for bad options, or if the data is empty and no fields are provided.
       // Be sure to provide fields if it is possible that your data array will be empty.

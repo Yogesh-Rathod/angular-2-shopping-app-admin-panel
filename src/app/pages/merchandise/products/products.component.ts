@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as json2csv from 'json2csv';
+
 import * as _ from 'lodash';
 declare let $: any;
 
@@ -106,6 +108,20 @@ export class ProductsComponent implements OnInit {
   searchProduct(searchProductForm) {
     console.log('searchProductForm', searchProductForm);
     this.atLeastOneFieldRequires(searchProductForm);
+  }
+
+  exportProducts() {
+    console.log("this.products ", this.products);
+
+    var fields = ['approvalStatus', 'name', 'MrpPrice', 'status'];
+    try {
+      var result = json2csv({ data: this.products, fields: fields });
+      console.log(result);
+    } catch (err) {
+      // Errors are thrown for bad options, or if the data is empty and no fields are provided.
+      // Be sure to provide fields if it is possible that your data array will be empty.
+      console.error(err);
+    }
   }
 
   bulkUpload() {

@@ -42,6 +42,18 @@ export class ShippingInfoComponent implements OnInit {
 
   updateShippingInfoForm(shippingInfo) {
     console.log("shippingInfo ", shippingInfo);
+    shippingInfo['dispatchDate'] = new Date(`
+      ${shippingInfo['dispatchDate'].date.year}-
+      ${shippingInfo['dispatchDate'].date.month}-
+      ${shippingInfo['dispatchDate'].date.day}`
+    ).toISOString();
+    shippingInfo['deliveryDate'] = new Date(`
+    ${shippingInfo['deliveryDate'].date.year}-
+    ${shippingInfo['deliveryDate'].date.month}-
+    ${shippingInfo['deliveryDate'].date.day}`
+  ).toISOString();
+  console.log("shippingInfo['dispatchDate'] ", shippingInfo['dispatchDate']);
+  console.log("shippingInfo['deliveryDate'] ", shippingInfo['deliveryDate']);
 
   }
 

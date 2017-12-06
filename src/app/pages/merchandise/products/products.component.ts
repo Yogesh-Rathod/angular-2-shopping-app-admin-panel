@@ -118,8 +118,8 @@ export class ProductsComponent implements OnInit {
     var fields = ['approvalStatus', 'name', 'MrpPrice', 'status'];
     try {
       this.csvService.download(this.products, 'this.products');
-      // var result = json2csv({ data: this.products, fields: fields });
-      // console.log(result);
+      var result = json2csv({ data: this.products, fields: fields });
+      console.log(result);
     } catch (err) {
       // Errors are thrown for bad options, or if the data is empty and no fields are provided.
       // Be sure to provide fields if it is possible that your data array will be empty.

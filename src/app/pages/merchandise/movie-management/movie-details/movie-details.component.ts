@@ -59,7 +59,8 @@ export class MovieDetailsComponent implements OnInit {
     if (this.movieId) {
       this.movieManagementService.getMoviedetails(this.movieId).
       then((moviesInfo) => {
-          this.movieInfo = moviesInfo.Data;
+        console.log("moviesInfo ", moviesInfo);
+        this.movieInfo = moviesInfo.Data;
           this.bigLoader = false;
           this.initTooltip();
         }).catch((error) => {
@@ -79,7 +80,7 @@ export class MovieDetailsComponent implements OnInit {
     if (this.movieId) {
       this.movieManagementService.getUnmappedMovies().
         then((unmappedMovies) => {
-          // console.log("unmappedMovies ", unmappedMovies);
+          console.log("unmappedMovies ", unmappedMovies);
           this.unmappedMovies = unmappedMovies.Data.Records;
           this.unmappedLoader = false;
         }).catch((error) => {

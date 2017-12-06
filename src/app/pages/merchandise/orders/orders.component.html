@@ -14,7 +14,7 @@
 					<div class="form-group col-3">
 						<label for="programName" class="text-right">
 							Program Name
-							<i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A program name."></i>
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A program name."></i>
 						</label>
 						<select id="programName" class="form-control" formControlName="programName">
 							<option value="all">All</option>
@@ -26,8 +26,8 @@
 
 					<div class="form-group col-3">
 						<label for="supplierName" class="text-right">
-							Supplier Name
-							<i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific Supplier Name."></i>
+							Vendor Name
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific Vendor Name."></i>
 						</label>
 						<select id="supplierName" class="form-control" formControlName="supplierName">
 							<option value="all">All</option>
@@ -40,7 +40,7 @@
 					<div class="form-group col-3">
 						<label for="startDate" class="text-right">
 							Start Date
-							<i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select Start Date for search."></i>
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select Start Date for search."></i>
 						</label>
 						<my-date-picker id="startDate" class="no_padding" name="startDate" [options]="myDatePickerOptions" formControlName="startDate">
 						</my-date-picker>
@@ -49,7 +49,7 @@
 					<div class="form-group col-3">
 						<label for="endDate" class="text-right">
 							End Date
-							<i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select End Date for search."></i>
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select End Date for search."></i>
 						</label>
 						<my-date-picker id="endDate" class="no_padding" name="endDate" [options]="myDatePickerOptions" formControlName="endDate">
 						</my-date-picker>
@@ -58,7 +58,7 @@
 					<div class="form-group col-3">
 						<label for="orderStatus" class="text-right">
 							Order status
-							<i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by Order status."></i>
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by Order status."></i>
 						</label>
 						<angular2-multiselect id="orderStatus" [data]="orderStatus" formControlName="orderStatus" [settings]="orderStatusDropdownSettings">
 						</angular2-multiselect>
@@ -67,7 +67,7 @@
 					<div class="form-group col-3">
 						<label for="poNumber" class="text-right">
 							 PO Number
-							<i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by PO Number."></i>
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by PO Number."></i>
 						</label>
 						<input type="text" id="poNumber" class="form-control" formControlName="poNumber">
 					</div>
@@ -77,7 +77,7 @@
 							<input type="checkbox" id="rtoCheck" formControlName="rtoCheck">
 							<label for="rtoCheck" class="text-right">
 								RTO Orders
-								<i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Include RTO Orders in search."></i>
+								<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Include RTO Orders in search."></i>
 							</label>
 						</div>
 					</div>

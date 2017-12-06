@@ -4,7 +4,7 @@
     <div class="info-record row">
       <div class="col-3 text-right bold">
         Order status
-        <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Order status"></i>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Order status"></i>
       </div>
       <div class="col-9">
         <span class="bold" *ngIf="orderInfo.orderStatus">{{ orderInfo.orderStatus }}</span>
@@ -19,7 +19,7 @@
     <div class="info-record row">
       <div class="col-3 text-right bold">
         Order #
-        <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The unique number of this order."></i>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The unique number of this order."></i>
       </div>
       <div class="col-9">
         <span *ngIf="orderInfo.no">
@@ -31,7 +31,7 @@
     <div class="info-record row">
       <div class="col-3 text-right bold">
         Item Code
-        <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Internal reference for order."></i>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Internal reference for order."></i>
       </div>
       <div class="col-9">
         <span *ngIf="orderInfo.guid">
@@ -43,7 +43,7 @@
     <div class="info-record row">
       <div class="col-3 text-right bold">
         Store
-        <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A store name in which this order was placed."></i>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A store name in which this order was placed."></i>
       </div>
       <div class="col-9">
         <span *ngIf="orderInfo.store">
@@ -61,7 +61,7 @@
     <div class="info-record row">
       <div class="col-3 text-right bold">
         Customer
-        <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The customer who placed this order."></i>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The customer who placed this order."></i>
       </div>
       <div class="col-9">
         <span *ngIf="orderInfo.customerInfo.name">
@@ -76,7 +76,7 @@
     <div class="info-record row">
       <div class="col-3 text-right bold">
         Customer IP address
-        <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Customer IP address from where order has been placed."></i>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Customer IP address from where order has been placed."></i>
       </div>
       <div class="col-9">
         <span *ngIf="orderInfo.customerInfo.ipAddress">
@@ -88,7 +88,7 @@
     <div class="info-record row">
       <div class="col-3 text-right bold">
         Order subtotal
-        <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The subtotal of this order."></i>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The subtotal of this order."></i>
       </div>
       <div class="col-9">
         <span *ngIf="orderInfo.subtotal">
@@ -100,7 +100,7 @@
     <div class="info-record row">
       <div class="col-3 text-right bold">
         Order shipping
-        <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The total shipping cost for this order."></i>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The total shipping cost for this order."></i>
       </div>
       <div class="col-9">
         <span *ngIf="orderInfo.shipping">
@@ -112,7 +112,7 @@
     <div class="info-record row">
       <div class="col-3 text-right bold">
         Order total
-        <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The total cost of this order (includes discounts, shipping and tax)."></i>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The total cost of this order (includes discounts, shipping and tax)."></i>
       </div>
       <div class="col-9">
         <span *ngIf="orderInfo.orderTotal">
@@ -124,7 +124,7 @@
     <div class="info-record row">
       <div class="col-3 text-right bold">
         Payment method
-        <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The payment method used for this transaction. You can manage Payment Methods from Configuration : Payment : Payment Methods."></i>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The payment method used for this transaction. You can manage Payment Methods from Configuration : Payment : Payment Methods."></i>
       </div>
       <div class="col-9">
         <span *ngIf="orderInfo.paymentMethod">
@@ -142,7 +142,7 @@
     <div class="info-record row">
       <div class="col-3 text-right bold">
         Payment status
-        <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The status of the payment."></i>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The status of the payment."></i>
       </div>
       <div class="col-9">
         <span *ngIf="orderInfo.paymentStatus">
@@ -154,7 +154,7 @@
     <div class="info-record row">
       <div class="col-3 text-right bold">
         Created on
-        <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The date/time the order was placed/created."></i>
+        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The date/time the order was placed/created."></i>
       </div>
       <div class="col-9">
         <span *ngIf="orderInfo.createdOn">

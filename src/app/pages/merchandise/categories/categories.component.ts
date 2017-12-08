@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AES } from "crypto-js/aes";
 import * as CryptoJS from "crypto-js";
 import * as utf8 from 'utf8';
 

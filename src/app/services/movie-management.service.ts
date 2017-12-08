@@ -5,6 +5,8 @@ import 'rxjs/add/operator/toPromise';
 import { environment } from './../../environments';
 import { AppState } from 'app/app.service';
 import { ResponseHandingService } from 'lrshared_modules/services';
+import * as CryptoJS from "crypto-js";
+import * as utf8 from 'utf8';
 
 @Injectable()
 export class MovieManagementService {
@@ -27,8 +29,8 @@ export class MovieManagementService {
       "Genre": "legendary",
       "Writer": "Sanjay Leela Bhansali, Prakash Kapadia",
       "Music": "Sanchit Balhara, Sanjay Leela Bhansali",
-      "Starring": "	Deepika Padukone, Shahid Kapoor, Ranveer Singh",
-      "Director": "	Sanjay Leela Bhansali",
+      "Starring": " Deepika Padukone, Shahid Kapoor, Ranveer Singh",
+      "Director": " Sanjay Leela Bhansali",
       "Synopsis": "The film is based on the legend of Rani Padmini (also known as Padmavati), a legendary Hindu Rajput queen, mentioned in Padmavat, an Awadhi language epic poem written by Sufi poet Malik Muhammad Jayasi in 1540.[1] According to Padmavat, she was the wife of Ratan Sen (called Rawal Ratan Singh in later legends), the Rajput ruler of Mewar.",
       "ReleaseDate": "2017-11-21T09:37:53.130Z",
       "ImageUrl": "https://upload.wikimedia.org/wikipedia/en/4/47/Padmavati_Poster.jpg",
@@ -78,9 +80,33 @@ export class MovieManagementService {
     return this.moviesInfo;
   }
 
+  createHMACSignature(requestMethod, requestURL, body = '' ) {
+    let requestUrl = encodeURI(requestURL),
+        timestamp = + new Date(),
+        nounce = btoa(CryptoJS.lib.WordArray.random(8)),
+        signatureRaw = `clientId${requestMethod}${requestUrl}${timestamp}${nounce}`;
+
+    if (body) {
+      const contentString = JSON.stringify(body),
+          updatedContent = btoa(CryptoJS.SHA256(CryptoJS.MD5(utf8.encode(contentString))));
+      signatureRaw = signatureRaw + updatedContent;
+    }
+
+    const clientSecret = utf8.encode('clientSecret');
+    signatureRaw = utf8.encode(signatureRaw);
+
+    const finalSignature = btoa(CryptoJS.HmacSHA256(signatureRaw, clientSecret));
+
+    console.log("finalSignature ", finalSignature);
+    return `clientId:${finalSignature}:${nounce}:${timestamp}`;
+  }
+
   getMovies() {
-    // return this.moviesInfo;
     const url = `${environment.moviesApiUrl}Event`;
+    this.headers.append('HMACheader', this.createHMACSignature('get', url));
+    console.log("this.headers ", this.headers);
+    this.headers.delete('HMACheader');
+    // return this.moviesInfo;
     return this.http.get(url, this.options)
       .toPromise()
       .then(response => this.responseHandingService.handleResponse(response))
@@ -105,6 +131,10 @@ export class MovieManagementService {
 
   addMovie(movieInfo) {
     const url = `${environment.moviesApiUrl}Event`;
+
+    this.headers.append('HMACheader', this.createHMACSignature('post', url, movieInfo));
+    this.headers.delete('HMACheader');
+
     return this.http.post(url, movieInfo, this.options)
       .toPromise()
       .then(response => this.responseHandingService.handleResponse(response))

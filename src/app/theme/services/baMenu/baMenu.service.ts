@@ -1,3 +1,4 @@
+
 import {Injectable} from '@angular/core';
 import {Router, Routes} from '@angular/router';
 import * as _ from 'lodash';
@@ -9,8 +10,10 @@ export class BaMenuService {
   menuItems = new BehaviorSubject<any[]>([]);
 
   protected _currentMenuItem = {};
+  userRole: any;
 
-  constructor(private _router:Router) { }
+  constructor(private _router:Router) {
+  }
 
   /**
    * Updates the routes in the menu
@@ -31,7 +34,13 @@ export class BaMenuService {
     return this._currentMenuItem;
   }
 
+  getUserRole() {
+    this.userRole = localStorage.getItem('userRole');
+    // console.log("this.userRole ", this.userRole);
+  }
+
   public selectMenuItem(menuItems:any[]):any[] {
+    this.getUserRole();
     let items = [];
     menuItems.forEach((item) => {
       this._selectItem(item);
@@ -43,7 +52,31 @@ export class BaMenuService {
       if (item.children && item.children.length > 0) {
         item.children = this.selectMenuItem(item.children);
       }
-      items.push(item);
+
+
+      const adminPermissions = ['User Management', 'Catalog Management', 'Categories', 'Vendors', 'Products', 'Catalog Management', 'Order Management', 'Movie Management', 'Merchandise'];
+      const vendorPermissions = ['Merchandise', 'Products'];
+      const operationPermissions = ['Catalog Management', 'Categories', 'Vendors', 'Products', 'Catalog Management', 'Order Management', 'Movie Management', 'Merchandise'];
+
+      switch (this.userRole) {
+        case 'Admin':
+          if (adminPermissions.indexOf(item.title) > -1) {
+            items.push(item);
+          }
+          break;
+        case 'Vendor':
+          if (vendorPermissions.indexOf(item.title) > -1) {
+            items.push(item);
+          }
+          break;
+        case 'Operations':
+          if (operationPermissions.indexOf(item.title) > -1) {
+            items.push(item);
+          }
+          break;
+        default:
+          break;
+      }
     });
     return items;
   }

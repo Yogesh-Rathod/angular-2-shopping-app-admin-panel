@@ -6,7 +6,6 @@ import { AppTranslationModule } from '../../../app.translation.module';
 import { routing } from './vendor.routes';
 import { CKEditorModule } from 'ng2-ckeditor';
 
-import { SearchVendorPipe } from './search-vendor.pipe';
 import { VendorComponent} from './vendor.component';
 import { VendorsService } from 'app/services';
 import { AddVendorComponent } from './add-vendor/add-vendor.component';
@@ -23,7 +22,6 @@ import { AddVendorComponent } from './add-vendor/add-vendor.component';
   ],
   declarations: [
     VendorComponent,
-    SearchVendorPipe,
     AddVendorComponent
   ],
   providers: [

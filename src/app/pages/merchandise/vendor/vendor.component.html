@@ -20,10 +20,11 @@
 				<form>
 
 					<div class="form-group row">
-						<label for="name" class="col-3 col-xl-2 text-right">Vendor Name
+						<label for="name" class="col-3 col-xl-2 text-right">Vendor Search
 							<span class="mandatory">*</span>
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by Vendor Name, Email or Code"></i>
 						</label>
-						<input type="text" #searchText class="form-control col-4" id="name" placeholder="Vendor Name">
+						<input type="text" #searchText class="form-control col-4" id="name" placeholder="Vendor Search">
 						<button type="submit" class="btn btn-primary searchbutton" (click)=" searchVendor(searchText.value) ">
 							<i class="fa fa-search" aria-hidden="true"></i>
 							Search
@@ -56,14 +57,21 @@
 				</button>
 
 
-				<table class="table table-bordered table-responsive" [mfData]="vendorsList" #mf="mfDataTable" [mfRowsOnPage]="10">
+				<table class="table table-bordered table-responsive" [mfData]="filteredVendorsList" #mf="mfDataTable" [mfRowsOnPage]="10">
 					<thead class="black-muted-bg">
 						<tr>
 							<th class="text-center">
 								<input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
 							</th>
 							<th class="text-left">
-								<strong>Name</strong>
+								<mfDefaultSorter by="first_name">
+									<strong>Name</strong>
+								</mfDefaultSorter>
+							</th>
+							<th class="text-left">
+								<mfDefaultSorter by="suffix">
+									<strong>Code</strong>
+								</mfDefaultSorter>
 							</th>
 							<th>
 								<strong>Email</strong>
@@ -76,16 +84,19 @@
 							</th>
 						</tr>
 					</thead>
-					<tbody *ngIf=" vendorsList && vendorsList.length > 0 ">
-						<tr *ngFor=" let item of mf.data | searchfilter: 'first_name,last_name' : searchTerm; let i = index;">
+					<tbody *ngIf=" filteredVendorsList && filteredVendorsList.length > 0 ">
+						<tr *ngFor=" let item of mf.data; let i = index;">
 							<td class="text-center">
 								<input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
 							</td>
 							<td class="text-left">
 								{{ item.first_name }} {{ item.last_name }}
 							</td>
-							<td>{{ item.email }}</td>
-							<td class="text-center"	>
+							<td class="text-left no-text-transform">
+								{{ item.suffix }}
+							</td>
+							<td class="no-text-transform">{{ item.email }}</td>
+							<td class="text-center" >
 								<i *ngIf=" item.status " class="fa fa-check" aria-hidden="true"></i>
 								<i *ngIf=" !item.status " class="fa fa-times" aria-hidden="true"></i>
 							</td>
@@ -104,17 +115,17 @@
 						</tr>
 					</tbody>
 
-					<tbody *ngIf=" vendorsList && vendorsList.length === 0 ">
+					<tbody *ngIf=" filteredVendorsList && filteredVendorsList.length === 0 ">
 						<tr>
-							<td colspan="5">
+							<td colspan="6">
 								<strong>There are no vendors!</strong>
 							</td>
 						</tr>
 					</tbody>
 
-					<tfoot *ngIf=" vendorsList && vendorsList.length > 10 ">
+					<tfoot *ngIf=" filteredVendorsList && filteredVendorsList.length > 10 ">
 						<tr>
-							<td colspan="5">
+							<td colspan="6">
 								<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
 							</td>
 						</tr>

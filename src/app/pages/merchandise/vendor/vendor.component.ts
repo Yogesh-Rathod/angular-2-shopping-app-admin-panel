@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+declare let $: any;
 
 import { VendorsService } from 'app/services';
 import { VendorsBulkUploadComponent } from './bulk-upload/bulk-upload.component';
@@ -16,6 +17,7 @@ import { VendorDeletePopupComponent } from './delete-popup/delete-popup.componen
 export class VendorComponent implements OnInit {
 
   vendorsList: any;
+  filteredVendorsList: any;
   searchTerm: any;
   bigLoader = false;
   deleteLoader: Number;
@@ -31,6 +33,9 @@ export class VendorComponent implements OnInit {
   }
 
   ngOnInit() {
+    $(document).ready(() => {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
     this.getAllVendors();
   }
 
@@ -75,10 +80,14 @@ export class VendorComponent implements OnInit {
 
   getAllVendors() {
     this.vendorsList = this.vendorsService.getVendors();
+    this.filteredVendorsList = this.vendorsList;
   }
 
   searchVendor(searchText) {
-    this.searchTerm = searchText;
+    this.filteredVendorsList = this.vendorsList.filter((item) => {
+      const caseInsensitiveSearch = new RegExp(`${searchText.trim()}`, "i");
+      return caseInsensitiveSearch.test(item.first_name) || caseInsensitiveSearch.test(item.last_name) || caseInsensitiveSearch.test(item.email) || caseInsensitiveSearch.test(item.suffix);
+    });
   }
 
   deactivateAll() {

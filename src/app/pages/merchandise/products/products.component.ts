@@ -88,6 +88,7 @@ export class ProductsComponent implements OnInit {
   getAllProducts() {
     this.products = this.productsService.getProducts();
   }
+
   getAllVendors() {
     this.vendors = this.vendorsService.getVendors();
   }

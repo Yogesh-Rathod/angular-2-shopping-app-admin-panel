@@ -227,7 +227,9 @@
                     <span class="mandatory">*</span>
                   </label>
                   <select id="vendor" formControlName="vendor" class="form-control col-8">
-                    <option *ngFor="let item of vendors" value="{{ item }}">{{ item }}</option>
+                    <option *ngFor="let item of vendors" [ngValue]="item">
+                      {{ item.first_name }} {{ item.last_name }}
+                    </option>
                   </select>
                 </div>
                 <div class="form-group row">

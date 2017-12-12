@@ -32,7 +32,7 @@ export class AddProductComponent implements OnInit {
   showLoader = false;
   deleteLoader = false;
   categories = [];
-  vendors = ['vendor 1', 'vendor 2'];
+  vendors: any;
   categoriesDropdownSettings = {
     singleSelection: false,
     text: "Select Categories",
@@ -74,6 +74,7 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+    this.getAllVendors();
     this.getAllCategories();
     this.getProductInfoForEdit();
     this.bigLoader = false;
@@ -189,6 +190,10 @@ export class AddProductComponent implements OnInit {
     if (!RegEx.Numbers.test(`${e.key}`) && `${e.key}`.length === 1) {
       e.preventDefault();
     }
+  }
+
+  getAllVendors() {
+    this.vendors = this.vendorsService.getVendors();
   }
 
   getProductInfoForEdit() {

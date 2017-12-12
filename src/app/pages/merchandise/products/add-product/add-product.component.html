@@ -92,6 +92,24 @@
                 </div>
 
                 <div class="form-group row">
+                  <label for="FullDescription" class="col-3 text-right">
+                    Specifications
+                    <span class="mandatory">*</span>
+                  </label>
+                  <div class="col-9 row specifications pos_relative" formArrayName="specifications">
+                    <div class="col-12 row" *ngFor="let prop of addProductForm.get('specifications').controls; let i = index">
+                      <div [formGroupName]="i" class="row no_margin">
+                        <input class="form-control col-6" formControlName="key" placeholder="Key">
+                        <input class="form-control col-6" formControlName="value" placeholder="Value">
+                      </div>
+                      <i (click)="removeStructure(i)" class="fa fa-minus" aria-hidden="true"></i>
+                    </div>
+                    <i (click)="appendMore()" class="col-1" class="fa fa-plus" aria-hidden="true"></i>
+                    <!-- <button (click)="appendMore()" type="button">Append More</button> -->
+                  </div>
+                </div>
+
+                <div class="form-group row">
                   <label for="sku" class="col-3 text-right">
                     SKU
                     <span class="mandatory">*</span>

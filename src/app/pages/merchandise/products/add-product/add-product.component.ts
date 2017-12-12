@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import './ckeditor.loader';
 import 'ckeditor';
 import { IMyDpOptions } from 'mydatepicker';
@@ -52,6 +52,7 @@ export class AddProductComponent implements OnInit {
   };
   bankId: any;
   vendorId: any;
+  specifications: any = [];
 
   constructor(
     private modalService: NgbModal,
@@ -116,6 +117,7 @@ export class AddProductComponent implements OnInit {
           Validators.maxLength(5000)
         ])
       ],
+      'specifications': this.fb.array([this.createControl()]),
       'sku': [
         '',
         Validators.required
@@ -163,6 +165,23 @@ export class AddProductComponent implements OnInit {
       'size': [''],
       'reOrderLevel': [''],
       'comments': ['']
+    });
+  }
+
+  appendMore() {
+    this.specifications = this.addProductForm.get('specifications') as FormArray;
+    this.specifications.push(this.createControl());
+  }
+
+  removeStructure(index) {
+    const arrayControl = <FormArray>this.addProductForm.controls['specifications'];
+    arrayControl.removeAt(index);
+  }
+
+  createControl() {
+    return this.fb.group({
+      key: ['', Validators.required],
+      value: ['', Validators.required]
     });
   }
 

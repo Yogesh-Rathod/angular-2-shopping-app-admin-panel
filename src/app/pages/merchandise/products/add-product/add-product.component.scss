@@ -68,6 +68,29 @@
   box-shadow: none;
 }
 
+.specifications {
+	i {
+		position: absolute;
+		right: 15px;
+		top: 10px;
+		cursor: pointer;
+
+		&.fa-minus {
+			right: -15px;
+		}
+	}
+
+	> div {
+		margin-bottom: 10px;
+
+		&:first-child {
+			.fa-minus {
+				display: none;
+			}
+		}
+	}
+}
+
 :host /deep/ .owl-datetime-input.owl-datetime-main-input {
     height: 34px;
     font-size: 14px;

@@ -74,14 +74,14 @@
 		right: 15px;
 		top: 10px;
 		cursor: pointer;
+	}
 
-		&.fa-minus {
-			right: -15px;
-		}
+	input.col-6 {
+		margin-left: 10px;
 	}
 
 	> div {
-		margin-bottom: 10px;
+		margin-bottom: 10px !important;
 
 		&:first-child {
 			.fa-minus {

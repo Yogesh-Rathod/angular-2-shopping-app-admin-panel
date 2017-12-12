@@ -96,10 +96,10 @@
                     Specifications
                     <span class="mandatory">*</span>
                   </label>
-                  <div class="col-9 row specifications pos_relative" formArrayName="specifications">
-                    <div class="col-12 row" *ngFor="let prop of addProductForm.get('specifications').controls; let i = index">
+                  <div class="col-9 no_padding specifications pos_relative" formArrayName="specifications">
+                    <div class="col-12 row no_margin no_padding" *ngFor="let prop of addProductForm.get('specifications').controls; let i = index">
                       <div [formGroupName]="i" class="row no_margin">
-                        <input class="form-control col-6" formControlName="key" placeholder="Key">
+                        <input class="form-control col-5" formControlName="key" placeholder="Key">
                         <input class="form-control col-6" formControlName="value" placeholder="Value">
                       </div>
                       <i (click)="removeStructure(i)" class="fa fa-minus" aria-hidden="true"></i>

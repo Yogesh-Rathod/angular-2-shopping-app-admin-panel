@@ -3,11 +3,15 @@
 
     <div class="catSearch clearfix card-header">
       <h2 class="card-title ">
-        Manage Program Catalog's
-        <button class="btn btn-primary float-right" (click)=" bulkUpload() ">
+        Manage Catalog's
+        <button class="btn btn-primary float-right" [routerLink]="['./add-movie']">
+          <i class="fa fa-plus-square" aria-hidden="true"></i>
+          Create Catalog
+        </button>
+        <!-- <button class="btn btn-primary float-right" (click)=" bulkUpload() ">
           <i class="fa fa-download" aria-hidden="true"></i>
           Import
-        </button>
+        </button> -->
       </h2>
     </div>
 
@@ -17,11 +21,11 @@
 
           <div class="form-group row">
             <label for="name" class="col-3 col-xl-2 text-right">
-               Program Name
+               Catalog Name
               <span class="mandatory">*</span>
-              <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by Program Name."></i>
+              <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by Catalog Name."></i>
             </label>
-            <input type="text" #searchText class="form-control col-4" id="name" placeholder="Program Name">
+            <input type="text" #searchText class="form-control col-4" id="name" placeholder="Catalog Name">
             <button type="submit" class="btn btn-primary searchbutton" (click)=" searchBank(searchText.value) ">
               <i class="fa fa-search" aria-hidden="true"></i>
               Search
@@ -42,7 +46,7 @@
           Sync Products
         </button>
 
-        <table class="table table-bordered table-responsive" [mfData]="banks" #mf="mfDataTable" [mfRowsOnPage]="10">
+        <table class="table table-bordered table-responsive" [mfData]="filteredCatalogs" #mf="mfDataTable" [mfRowsOnPage]="10">
           <thead class="black-muted-bg">
             <tr>
                 <th class="text-center">
@@ -50,7 +54,7 @@
                 </th>
               <th class="text-left">
                  <mfDefaultSorter by="name">
-                   <strong>Program Name</strong>
+                   <strong>Catalog Name</strong>
                  </mfDefaultSorter>
               </th>
               <th class="text-center">
@@ -63,18 +67,13 @@
                   <strong>Created Date</strong>
                 </mfDefaultSorter>
               </th>
-              <th>
-                <mfDefaultSorter by="type">
-                  <strong>Type</strong>
-                </mfDefaultSorter>
-              </th>
               <th class="text-center">
                 <strong>Action</strong>
               </th>
             </tr>
           </thead>
-          <tbody *ngIf=" banks && banks.length > 0 ">
-            <tr *ngFor=" let item of mf.data | searchfilter: 'name' : searchTerm; let i = index ">
+          <tbody *ngIf=" filteredCatalogs && filteredCatalogs.length > 0 ">
+            <tr *ngFor=" let item of mf.data; let i = index ">
               <td class="text-center">
                 <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
               </td>
@@ -86,8 +85,10 @@
                 <i *ngIf=" !item.status " class="fa fa-times" aria-hidden="true"></i>
               </td>
               <td>{{ item.createdOn | date }}</td>
-              <td>{{ item.type }}</td>
               <td class="text-center">
+                <button class="btn btn-secondary" [routerLink]="['./edit-movie/', item.id]" title="Edit">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
                 <button class="btn btn-secondary" [routerLink]="['./bank-details/', item.id]" title="View Details">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </button>
@@ -95,15 +96,15 @@
             </tr>
           </tbody>
 
-          <tbody *ngIf=" banks && banks.length === 0 ">
+          <tbody *ngIf=" filteredCatalogs && filteredCatalogs.length === 0 ">
             <tr>
               <td colspan="5">
-                <strong>There are no banks!</strong>
+                <strong>There are no filteredCatalogs!</strong>
               </td>
             </tr>
           </tbody>
 
-          <tfoot *ngIf=" banks && banks.length > 10 ">
+          <tfoot *ngIf=" filteredCatalogs && filteredCatalogs.length > 10 ">
             <tr>
               <td colspan="5">
                 <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>

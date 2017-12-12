@@ -6,7 +6,7 @@ export class CatalogManagementService {
   banksInfo = [
     {
       id: 12233,
-      name: 'Saraswat',
+      name: 'Catalog 1',
       status: true,
       createdOn: '1510296629648',
       vendorCount: 3,
@@ -101,7 +101,7 @@ export class CatalogManagementService {
     },
     {
       id: 12235,
-      name: 'SBI',
+      name: 'Catalog 2',
       status: true,
       createdOn: '1451586600000',
       vendorCount: 3,
@@ -196,7 +196,7 @@ export class CatalogManagementService {
     },
     {
       id: 12234,
-      name: 'PNB',
+      name: 'Catalog 3',
       status: true,
       createdOn: '1467829800000',
       vendorCount: 3,

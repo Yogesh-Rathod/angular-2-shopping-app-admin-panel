@@ -10,7 +10,6 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
 
 import { routing } from './catalog-management.routes';
 import { CatalogManagementComponent } from './catalog-management.component';
-import { SearchBankPipe } from './search-banks.pipe';
 import { BankDetailsComponent } from './bank-details/bank-details.component';
 import { BasicInfoComponent } from "./bank-details/basic-info/basic-info.component";
 import { ProductsInfoComponent } from './bank-details/products-info/products-info.component';
@@ -31,7 +30,6 @@ import { CatalogManagementService } from 'app/services';
   ],
   declarations: [
     CatalogManagementComponent,
-    SearchBankPipe,
     BankDetailsComponent,
     BasicInfoComponent,
     ProductsInfoComponent,

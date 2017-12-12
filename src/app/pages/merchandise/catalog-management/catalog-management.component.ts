@@ -18,7 +18,8 @@ export class CatalogManagementComponent implements OnInit {
 
   searchTerm: any;
   showLoader = false;
-  banks: any;
+  catalog: any;
+  filteredCatalogs: any;
   showSelectedDelete = false;
   selectAllCheckbox = false;
 
@@ -37,12 +38,15 @@ export class CatalogManagementComponent implements OnInit {
   }
 
   getBankInfo() {
-    this.banks = this.catalogManagementService.getBanks();
+    this.catalog = this.catalogManagementService.getBanks();
+    this.filteredCatalogs = this.catalog;
   }
 
   searchBank(searchText) {
-    console.log("searchText ", searchText);
-    this.searchTerm = searchText;
+    this.filteredCatalogs = this.catalog.filter((item) => {
+      const caseInsensitiveSearch = new RegExp(`${searchText.trim()}`, "i");
+      return caseInsensitiveSearch.test(item.name) || caseInsensitiveSearch.test(item.status);
+    });
   }
 
   bulkUpload() {
@@ -52,13 +56,13 @@ export class CatalogManagementComponent implements OnInit {
   selectAll(e) {
     if (e.target.checked) {
       this.selectAllCheckbox = true;
-      _.forEach(this.banks, (item) => {
+      _.forEach(this.catalog, (item) => {
         item.isChecked = true;
       });
       this.showSelectedDelete = true;
     } else {
       this.selectAllCheckbox = false;
-      _.forEach(this.banks, (item) => {
+      _.forEach(this.catalog, (item) => {
         item.isChecked = false;
       });
       this.showSelectedDelete = false;
@@ -75,7 +79,7 @@ export class CatalogManagementComponent implements OnInit {
 
     let isCheckedArray = [];
 
-    _.forEach(this.banks, (item) => {
+    _.forEach(this.filteredCatalogs, (item) => {
       if (item.isChecked) {
         this.showSelectedDelete = true;
         isCheckedArray.push(item);

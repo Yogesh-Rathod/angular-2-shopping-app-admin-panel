@@ -6,15 +6,15 @@
 				Manage Products
 				<button class="btn btn-primary float-right" (click)=" bulkUpload() ">
 					<i class="fa fa-download" aria-hidden="true"></i>
-					Import
+					Bulk Import
 				</button>
 				<button *ngIf="!vendorId" class="btn btn-primary float-right" [routerLink]="['/merchandise/products/add-product']">
 					<i class="fa fa-plus-square" aria-hidden="true"></i>
-					Add New
+					Add New Product
 				</button>
 				<button *ngIf="vendorId" class="btn btn-primary float-right" [routerLink]="['/merchandise/products/vendorproducts/add-product',vendorId]">
 					<i class="fa fa-plus-square" aria-hidden="true"></i>
-					Add New
+					Add New Product
 				</button>
 			</h2>
 		</div>
@@ -40,10 +40,18 @@
 
 					<div class="form-group col-3">
 						<label for="id">
-							Product Id
-							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A product Id."></i>
+							Product Code
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A product Code."></i>
 						</label>
-						<input type="text" class="form-control" id="id" placeholder="Product Id" formControlName="name">
+						<input type="text" class="form-control" id="id" placeholder="Product Code" formControlName="code">
+					</div>
+
+					<div class="form-group col-3">
+						<label for="id">
+							Parent Product Code
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A parent product Code."></i>
+						</label>
+						<input type="text" class="form-control" id="id" placeholder="Parent Product Code" formControlName="parentCode">
 					</div>
 
 					<div class="form-group col-3">

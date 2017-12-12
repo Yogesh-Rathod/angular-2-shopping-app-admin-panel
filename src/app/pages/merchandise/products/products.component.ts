@@ -25,7 +25,6 @@ export class ProductsComponent implements OnInit {
   deleteLoader: Number;
   products: any;
   categories: any;
-  stores = ['store 1', 'store 2', 'store 3'];
   productTypes = [
     'simple',
     'grouped (product with variants)'
@@ -72,7 +71,8 @@ export class ProductsComponent implements OnInit {
   searchForm() {
     this.searchProductForm = this.fb.group({
       name: [''],
-      store: [''],
+      code: [''],
+      parentCode: [''],
       category: [''],
       productType: [''],
       manufacturer: [''],

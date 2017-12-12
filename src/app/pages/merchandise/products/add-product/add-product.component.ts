@@ -81,70 +81,72 @@ export class AddProductComponent implements OnInit {
   createForm() {
     this.addProductForm = this.fb.group({
       'id': [''],
+      'code': [
+        '',
+        Validators.compose([
+          Validators.required
+        ])
+      ],
+      'productCode': [
+        '',
+        Validators.compose([
+          Validators.required
+        ])
+      ],
       'name': [
-        '', 
+        '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(1), 
+          Validators.minLength(1),
           Validators.maxLength(100)
         ])
       ],
       'shortDescription': [
-        '', 
+        '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(1), 
+          Validators.minLength(1),
           Validators.maxLength(1000)
         ])
       ],
       'fullDescription': [
-        '', 
+        '',
         Validators.compose([
-          Validators.minLength(1), 
+          Validators.minLength(1),
           Validators.maxLength(5000)
         ])
       ],
       'sku': [
-        '', 
+        '',
         Validators.required
       ],
       'status': [
-        '', 
+        '',
         Validators.required
       ],
       'currency': [''],
       'netPrice': [
-        '', 
+        '',
         Validators.required
       ],
       'netShipping': [
-        '', 
+        '',
         Validators.required
       ],
       'MrpPrice': [
-        '', 
+        '',
         Validators.required
       ],
       'oldPrice': [''],
-      'retailPrice': [
-        '', 
-        Validators.required
-      ],
-      'retailShipping': [
-        '', 
-        Validators.required
-      ],
-      'rpi': [
-        '', 
-        Validators.required
-      ],
+      'netTaxes': [''],
+      'netTaxes2': [''],
       'applicableDate': [''],
       'stockQuantity': [
-        '', 
+        '',
         Validators.required
       ],
       'categories': [
-        [], 
+        [],
         Validators.required
       ],
       'vendor': [
@@ -156,7 +158,11 @@ export class AddProductComponent implements OnInit {
       'pictureTitle': [''],
       'pictureDisplayorder': [''],
       'type': [''],
-      'brand': ['']
+      'brand': [''],
+      'color': [''],
+      'size': [''],
+      'reOrderLevel': [''],
+      'comments': ['']
     });
   }
 
@@ -178,16 +184,16 @@ export class AddProductComponent implements OnInit {
           this.addProductForm.controls['shortDescription'].setValue(product.shortDescription);
           this.addProductForm.controls['fullDescription'].setValue(product.fullDescription);
           this.addProductForm.controls['sku'].setValue(product.sku);
-          this.addProductForm.controls['status'].setValue(product.status); 
+          this.addProductForm.controls['status'].setValue(product.status);
           this.addProductForm.controls['currency'].setValue(product.currency);
           this.addProductForm.controls['netPrice'].setValue(product.netPrice);
           this.addProductForm.controls['netShipping'].setValue(product.netShipping);
           this.addProductForm.controls['MrpPrice'].setValue(product.MrpPrice);
           this.addProductForm.controls['oldPrice'].setValue(product.MrpPrice);
-          this.addProductForm.controls['retailPrice'].setValue(product.retailPrice);
-          this.addProductForm.controls['retailShipping'].setValue(product.retailShipping);
-          this.addProductForm.controls['rpi'].setValue(product.rpi);
-          this.addProductForm.controls['stockQuantity'].setValue(product.stockQuantity); 
+          // this.addProductForm.controls['retailPrice'].setValue(product.retailPrice);
+          // this.addProductForm.controls['retailShipping'].setValue(product.retailShipping);
+          // this.addProductForm.controls['rpi'].setValue(product.rpi);
+          this.addProductForm.controls['stockQuantity'].setValue(product.stockQuantity);
           this.addProductForm.controls['vendor'].setValue(product.vendor);
           // this.addProductForm.controls['pictureName'].setValue(product.picture[0].url);
           this.addProductForm.controls['pictureAlt'].setValue(product.picture[0].alt);

@@ -55,6 +55,20 @@
               </div>
               <div class="card-body collapse show" id="collapseExample">
                 <div class="form-group row">
+                  <label for="name" class="col-3 text-right">Code
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="name" placeholder="Code" formControlName="code">
+                </div>
+
+                <div class="form-group row">
+                  <label for="name" class="col-3 text-right">Parent Code
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="name" placeholder="Parent Code" formControlName="productCode">
+                </div>
+
+                <div class="form-group row">
                   <label for="name" class="col-3 text-right">Name
                     <span class="mandatory">*</span>
                   </label>
@@ -125,7 +139,7 @@
                   <input type="text" class="form-control col-9" id="netPrice" placeholder="Net Price" formControlName="netPrice" (keydown)='validatenumber($event)'>
                 </div>
                 <div class="form-group row">
-                  <label for="netShipping" class="col-3 text-right">Shipping netShipping
+                  <label for="netShipping" class="col-3 text-right">Net Shipping <br>Price
                     <span class="mandatory">*</span>
                   </label>
                   <input type="text" class="form-control col-9" id="netShipping" placeholder="Shipping Price" formControlName="netShipping" (keydown)='validatenumber($event)'>
@@ -137,6 +151,16 @@
                   <input type="text" class="form-control col-9" id="Price" placeholder="MRP Price" formControlName="MrpPrice" (keydown)='validatenumber($event)'>
                 </div>
                 <div class="form-group row" *ngIf=" productId ">
+                  <label for="applicableDate" class="col-3 text-right">
+                    Apply From
+                    <span class="mandatory">*</span>
+                  </label>
+                  <my-date-picker id="applicableDate" class="col-5 no_padding" name="applicableDate" [options]="myDatePickerOptions" formControlName="applicableDate">
+                  </my-date-picker>
+                  <owl-date-time class="col-4" [type]="'timer'" [placeHolder]="'hh:mm'" [dateFormat]="'hh:mm'">
+                  </owl-date-time>
+                </div>
+                <div class="form-group row" *ngIf=" productId ">
                   <label for="oldPrice" class="col-3 text-right">Old MRP Price
                   </label>
                   <input type="text" class="form-control col-9" id="oldPrice" placeholder="Old MRP Price" formControlName="oldPrice" (keydown)='validatenumber($event)' [ngClass]="{ 'disabled': productId }" tabindex="-1">
@@ -145,36 +169,17 @@
                 <hr>
 
                 <div class="form-group row">
-                  <label for="Price" class="col-3 text-right">Retail Price
+                  <label for="Price" class="col-3 text-right">Net Taxes
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="Price" placeholder="Retail Price" formControlName="retailPrice" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="Price" placeholder="Net Taxes" formControlName="netTaxes">
                 </div>
                 <div class="form-group row">
-                  <label for="retailShipping" class="col-3 text-right">Retail Shipping
+                  <label for="retailShipping" class="col-3 text-right">
+                     Net Taxes 2
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="retailShipping" placeholder="Retail Shipping" formControlName="retailShipping" (keydown)='validatenumber($event)'>
-                </div>
-                <div class="form-group row">
-                  <label for="rpi" class="col-3 text-right">Retails Price Inclusive (RPI)
-                    <span class="mandatory">*</span>
-                  </label>
-                  <input type="text" class="form-control col-9" id="rpi" placeholder="Retails Price Inclusive (RPI)" formControlName="rpi" (keydown)='validatenumber($event)'>
-                </div>
-                <div class="form-group row" *ngIf=" productId ">
-                  <label for="applicableDate" class="col-3 text-right">
-                    Apply From
-                    <span class="mandatory">*</span>
-                  </label>
-                  <my-date-picker id="applicableDate" class="col-5 no_padding" name="applicableDate" [options]="myDatePickerOptions" formControlName="applicableDate">
-                  </my-date-picker>
-                  <owl-date-time
-                    class="col-4"
-                    [type]="'timer'"
-                    [placeHolder]="'hh:mm'"
-                    [dateFormat]="'hh:mm'">
-                  </owl-date-time>
+                  <input type="text" class="form-control col-9" id="retailShipping" placeholder="Net Taxes 2" formControlName="netTaxes2">
                 </div>
               </div>
             </div>
@@ -184,7 +189,7 @@
             <div class="card fadeIn animated">
               <div class="card-header" data-toggle="collapse" href="#mappings" aria-expanded="true" aria-controls="mappings">
                 <h3 class="card-title">
-                  Mappings
+                  Other
                   <span class="float-right">
                     <i class="fa fa-minus-square" aria-hidden="true"></i>
                   </span>
@@ -223,6 +228,28 @@
                   <label for="Brand" class="col-4 text-right">Brand
                   </label>
                   <input type="text" class="form-control col-8" id="Brand" placeholder="Brand" formControlName="brand">
+                </div>
+                <div class="form-group row">
+                  <label for="Color" class="col-4 text-right">Color
+                  </label>
+                  <input type="text" class="form-control col-8" id="Color" placeholder="Color" formControlName="color">
+                </div>
+                <div class="form-group row">
+                  <label for="Size" class="col-4 text-right">Size
+                  </label>
+                  <input type="text" class="form-control col-8" id="Size" placeholder="Size" formControlName="size">
+                </div>
+                <div class="form-group row">
+                  <label for="reOrderLevel" class="col-4 text-right">Re Order Level
+                  </label>
+                  <input type="text" class="form-control col-8" id="reOrderLevel" placeholder="Re Order Level" formControlName="reOrderLevel">
+                </div>
+                <div class="form-group row">
+                  <label for="Comments" class="col-4 text-right">
+                    Comments
+                    <span class="mandatory">*</span>
+                  </label>
+                  <textarea class="form-control col-8" id="Comments" placeholder="Comments" formControlName="comments"></textarea>
                 </div>
               </div>
             </div>

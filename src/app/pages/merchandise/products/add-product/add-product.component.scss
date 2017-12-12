@@ -40,7 +40,7 @@
 			}
 		}
 	}
-	
+
 	.tabs-section {
 		margin-left: -23px;
 	}
@@ -66,4 +66,10 @@
 .card {
   border: 1px solid rgba(0,0,0,.125);
   box-shadow: none;
+}
+
+:host /deep/ .owl-datetime-input.owl-datetime-main-input {
+    height: 34px;
+    font-size: 14px;
+    padding-left: 10px;
 }

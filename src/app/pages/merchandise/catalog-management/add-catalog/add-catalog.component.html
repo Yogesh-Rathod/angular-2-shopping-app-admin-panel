@@ -1,0 +1,20 @@
+<div class="animated fadeIn card orderDetails">
+  <div class="card-header clearfix">
+    <h2 class="card-title">
+      <span *ngIf="!catalogId">Add</span>
+      <span *ngIf="catalogId">Edit</span>
+      {{ 'merchandise.categories.category' | translate }}
+
+      <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
+        height="35">
+
+      <button *ngIf=" catalogId " class="btn btn-danger float-right" (click)="deleteCatalog()" [disabled]="deleteLoader">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+        Delete
+      </button>
+      <span class="goBack float-right" [routerLink]="['/merchandise/catalog-management']">
+        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to catalog's list</span>
+
+    </h2>
+  </div>
+</div>

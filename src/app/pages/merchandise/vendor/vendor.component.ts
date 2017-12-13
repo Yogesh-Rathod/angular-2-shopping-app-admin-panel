@@ -108,37 +108,8 @@ export class VendorComponent implements OnInit {
     this.showSelectedDelete = false;
   }
 
-  deleteAll() {
-    const activeModal = this.modalService.open(VendorDeletePopupComponent, { size: 'sm' });
-    activeModal.componentInstance.modalText = 'vendors';
-
-    activeModal.result.then((status) => {
-      if (status) {
-        this.vendorsList = [];
-        this.toastr.success('Successfully Deleted!', 'Success!');
-        this.selectAllCheckbox = false;
-        this.showSelectedDelete = false;
-      }
-    });
-  }
-
   bulkUpload() {
     const activeModal = this.modalService.open(VendorsBulkUploadComponent, { size: 'sm' });
-  }
-
-  deleteVendor(item, index) {
-    const activeModal = this.modalService.open(VendorDeletePopupComponent, { size: 'sm' });
-    activeModal.componentInstance.modalText = 'vendor';
-
-    activeModal.result.then( (status) => {
-      if (status) {
-        this.deleteLoader = index;
-        _.remove(this.vendorsList, item);
-        this.vendorsService.editVendor(this.vendorsList);
-        this.deleteLoader = NaN;
-        this.toastr.success('Successfully Deleted!', 'Success!');
-      }
-    });
   }
 
 }

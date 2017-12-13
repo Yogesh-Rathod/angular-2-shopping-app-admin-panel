@@ -45,12 +45,6 @@
 				</div>
 
 				<button
-					class="btn btn-danger float-right deleteSelectedButton" [ngClass]="{'disabled': !showSelectedDelete }"
-					(click)="deleteAll()">
-					Delete Selected
-				</button>
-
-				<button
 				class="btn btn-info float-right deleteSelectedButton" [ngClass]="{'disabled': !showSelectedDelete }"
 				(click)="deactivateAll()">
 					Deactivate Selected
@@ -106,9 +100,6 @@
 								</button>
 								<button class="btn btn-secondary" [routerLink]="['/merchandise/products/vendorproducts', item.id]" title="View Products">
 									<i class="fa fa-eye" aria-hidden="true"></i>
-								</button>
-								<button class="btn btn-danger" (click)="deleteVendor(item, i)" title="Delete" [disabled]="deleteLoader == i">
-									<i class="fa fa-trash-o" aria-hidden="true"></i>
 								</button>
 								<img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
 							</td>

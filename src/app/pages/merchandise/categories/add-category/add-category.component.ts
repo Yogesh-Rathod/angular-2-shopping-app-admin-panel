@@ -29,6 +29,8 @@ export class AddCategoryComponent implements OnInit {
   categories: any;
   categoryId: any;
   categoryInfo: any;
+  type = ['Merchandise', 'Gift Card'];
+  level = ['Category', 'Sub Category', 'Sub Sub Category'];
 
   constructor(
     private modalService: NgbModal,
@@ -59,7 +61,7 @@ export class AddCategoryComponent implements OnInit {
       'id': [''],
       'name': ['', Validators.compose([Validators.required,
         Validators.minLength(1), Validators.maxLength(100)])],
-      'display_name': [],
+      'type': ['Merchandise'],
       // 'description': ['', Validators.compose([Validators.required,
       //   Validators.minLength(1), Validators.maxLength(1000)])],
       'picture': [''],
@@ -74,7 +76,7 @@ export class AddCategoryComponent implements OnInit {
     this.showLoader = true;
     const categoryInfo = {
       name: addCategoryFormValues.name,
-      display_name: addCategoryFormValues.display_name,
+      // display_name: addCategoryFormValues.display_name,
       parent_name: addCategoryFormValues.parentCat ? addCategoryFormValues.parentCat.breadCrumb : null,
       level: addCategoryFormValues.parentCat ? addCategoryFormValues.parentCat.level + 1 : null ,
       published: addCategoryFormValues.published,
@@ -111,7 +113,7 @@ export class AddCategoryComponent implements OnInit {
  console.log("this.categoryInfo ", this.categoryInfo);
           this.addCategoryForm.controls['id'].setValue(category.id);
           this.addCategoryForm.controls['name'].setValue(category.name);
-          this.addCategoryForm.controls['display_name'].setValue(category.display_name);
+          // this.addCategoryForm.controls['display_name'].setValue(category.display_name);
           // this.addCategoryForm.controls['description'].setValue(category.description);
           this.addCategoryForm.controls['order'].setValue(category.display_order);
           this.addCategoryForm.controls['published'].setValue(category.published);
@@ -125,21 +127,21 @@ export class AddCategoryComponent implements OnInit {
     }
   }
 
-  deleteCategory() {
+  // deleteCategory() {
 
-    const activeModal = this.modalService.open(CategoryDeletePopupComponent, { size: 'sm' });
+  //   const activeModal = this.modalService.open(CategoryDeletePopupComponent, { size: 'sm' });
 
-    activeModal.result.then((status) => {
-      if (status) {
-        this.deleteLoader = true;
-        _.remove(this.categories, this.categoryInfo );
-        this.merchandiseService.editCategories(this.categories);
-        this.toastr.success('Sucessfully Deleted!', 'Sucess!');
-        this.deleteLoader = false;
-        this.router.navigate(['../']);
-      }
-    });
-  }
+  //   activeModal.result.then((status) => {
+  //     if (status) {
+  //       this.deleteLoader = true;
+  //       _.remove(this.categories, this.categoryInfo );
+  //       this.merchandiseService.editCategories(this.categories);
+  //       this.toastr.success('Sucessfully Deleted!', 'Sucess!');
+  //       this.deleteLoader = false;
+  //       this.router.navigate(['../']);
+  //     }
+  //   });
+  // }
 
   resetForm() {
     this.createForm();

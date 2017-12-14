@@ -8,10 +8,10 @@
 
 				<img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
 
-				<button *ngIf=" categoryId " class="btn btn-danger float-right" (click)="deleteCategory()" [disabled]="deleteLoader">
+				<!-- <button *ngIf=" categoryId " class="btn btn-danger float-right" (click)="deleteCategory()" [disabled]="deleteLoader">
 					<i class="fa fa-trash-o" aria-hidden="true"></i>
 					 Delete
-				</button>
+				</button> -->
 				<span class="goBack float-right" [routerLink]="['/merchandise/categories']"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to category list</span>
 
 			</h2>
@@ -26,16 +26,34 @@
 					<input type="text" class="form-control col-9" id="name" placeholder="Name" formControlName="name">
 				</div>
 
-				<div class="form-group row">
+				<!-- <div class="form-group row">
 					<label for="display_name" class="col-3 text-right">Display Name (if any)
 					</label>
 					<input type="text" class="form-control col-9" id="display_name" placeholder="Display Name" formControlName="display_name">
-				</div>
+				</div> -->
 
 				<!-- <div class="form-group row">
 					<label for="Description" class="col-3 text-right">Description <span class="mandatory">*</span></label>
 					<ckeditor class="form-control col-9" [config]="config" formControlName="description"></ckeditor>
 				</div> -->
+
+				<div class="form-group row">
+					<label for="type" class="col-3 text-right">Type</label>
+					<select id="type" formControlName="type" class="form-control col-9">
+						<option *ngFor="let item of type" [ngValue]="item">
+							{{ item }}
+						</option>
+					</select>
+				</div>
+
+				<div class="form-group row">
+					<label for="level" class="col-3 text-right">Level</label>
+					<select id="level" formControlName="level" class="form-control col-9">
+						<option *ngFor="let item of level" [ngValue]="item">
+							{{ item }}
+						</option>
+					</select>
+				</div>
 
 				<div class="form-group row">
 					<label for="Picture" class="col-3 text-right">Picture</label>

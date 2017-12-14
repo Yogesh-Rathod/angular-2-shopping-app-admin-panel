@@ -9,7 +9,6 @@ import { CKEditorModule } from 'ng2-ckeditor';
 import { CategoriesComponent } from './categories.component';
 import { MerchandiseService, XlsxToJsonService } from 'app/services';
 import { AddCategoryComponent } from './add-category/add-category.component';
-import { SearchCategoryPipe } from './search-category.pipe';
 
 @NgModule({
   imports: [
@@ -23,8 +22,7 @@ import { SearchCategoryPipe } from './search-category.pipe';
   ],
   declarations: [
     CategoriesComponent,
-    AddCategoryComponent,
-    SearchCategoryPipe
+    AddCategoryComponent
   ],
   providers: [
     MerchandiseService,

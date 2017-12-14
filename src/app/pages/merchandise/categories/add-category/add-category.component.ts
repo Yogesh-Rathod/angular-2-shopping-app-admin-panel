@@ -60,12 +60,12 @@ export class AddCategoryComponent implements OnInit {
       'name': ['', Validators.compose([Validators.required,
         Validators.minLength(1), Validators.maxLength(100)])],
       'display_name': [],
-      'description': ['', Validators.compose([Validators.required,
-        Validators.minLength(1), Validators.maxLength(1000)])],
+      // 'description': ['', Validators.compose([Validators.required,
+      //   Validators.minLength(1), Validators.maxLength(1000)])],
       'picture': [''],
       'parentCat': [''],
       'order': ['', Validators.compose([Validators.required])],
-      'published': ['']
+      'published': ['TRUE']
     });
   }
 
@@ -79,7 +79,7 @@ export class AddCategoryComponent implements OnInit {
       level: addCategoryFormValues.parentCat ? addCategoryFormValues.parentCat.level + 1 : null ,
       published: addCategoryFormValues.published,
       display_order: addCategoryFormValues.order,
-      description: addCategoryFormValues.description,
+      // description: addCategoryFormValues.description,
       breadCrumb: addCategoryFormValues.parentCat ? `${addCategoryFormValues.parentCat.breadCrumb} >> ${addCategoryFormValues.name}` : addCategoryFormValues.name
     };
     if (addCategoryFormValues.id) {
@@ -112,7 +112,7 @@ export class AddCategoryComponent implements OnInit {
           this.addCategoryForm.controls['id'].setValue(category.id);
           this.addCategoryForm.controls['name'].setValue(category.name);
           this.addCategoryForm.controls['display_name'].setValue(category.display_name);
-          this.addCategoryForm.controls['description'].setValue(category.description);
+          // this.addCategoryForm.controls['description'].setValue(category.description);
           this.addCategoryForm.controls['order'].setValue(category.display_order);
           this.addCategoryForm.controls['published'].setValue(category.published);
         }

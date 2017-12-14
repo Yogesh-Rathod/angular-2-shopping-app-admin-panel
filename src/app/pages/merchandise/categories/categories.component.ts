@@ -19,8 +19,8 @@ import { CategoryDeletePopupComponent } from './delete-popup/delete-popup.compon
 })
 export class CategoriesComponent implements OnInit {
 
-  categories: any[] = [];
-  searchTerm: any;
+  categories: any;
+  categoriesFiltered: any;
   showLoader = false;
   deleteLoader: Number;
 
@@ -41,26 +41,14 @@ export class CategoriesComponent implements OnInit {
 
   getAllCategories() {
     this.categories = this.merchandiseService.getCategories();
+    this.categoriesFiltered = this.categories;
     // console.log("this.categories", this.categories);
   }
 
   searchCategory(searchTerm) {
-    // console.log("searchTerm", searchTerm);
-    this.searchTerm = searchTerm;
-  }
-
-  deleteCategory(item, index) {
-
-    const activeModal = this.modalService.open(CategoryDeletePopupComponent, { size: 'sm' });
-
-    activeModal.result.then((status) => {
-      if (status) {
-        this.deleteLoader = index;
-        _.remove(this.categories, item);
-        this.merchandiseService.editCategories(this.categories);
-        this.deleteLoader = NaN;
-        this.toastr.success('Successfully Deleted!', 'Success!');
-      }
+    this.categoriesFiltered = this.categories.filter((item) => {
+      const caseInsensitiveSearch = new RegExp(`${searchTerm.trim()}`, "i");
+      return caseInsensitiveSearch.test(item.breadCrumb);
     });
   }
 

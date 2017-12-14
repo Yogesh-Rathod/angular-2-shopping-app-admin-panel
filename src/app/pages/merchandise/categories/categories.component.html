@@ -40,7 +40,7 @@
 
 		<div class="filters card col-12">
 			<div class="card-body">
-				<table class="table table-bordered table-responsive"  [mfData]="categories" #mf="mfDataTable" [mfRowsOnPage]="10">
+				<table class="table table-bordered table-responsive"  [mfData]="categoriesFiltered" #mf="mfDataTable" [mfRowsOnPage]="10">
 					<thead class="black-muted-bg">
 						<tr>
 							<!-- <th>No.</th> -->
@@ -50,8 +50,8 @@
 							<th class="text-center"><strong>Action</strong></th>
 						</tr>
 					</thead>
-					<tbody *ngIf=" categories && categories.length > 0 ">
-						<tr *ngFor=" let item of mf.data | searchfilter: 'breadCrumb' : searchTerm; let i = index " >
+					<tbody *ngIf=" categoriesFiltered && categoriesFiltered.length > 0 ">
+						<tr *ngFor=" let item of mf.data; let i = index " >
 							<!-- <td>{{ i + 1 }}</td> -->
 							<td class="text-left">
 								{{ item.breadCrumb }}
@@ -68,15 +68,12 @@
 								<button class="btn btn-secondary" [routerLink]="['./edit-category/', item.id]" title="Edit">
 									<i class="fa fa-pencil" aria-hidden="true"></i>
 								</button>
-								<button class="btn btn-danger" (click)="deleteCategory(item, i)" title="Delete" [disabled]="deleteLoader == i">
-									<i class="fa fa-trash-o" aria-hidden="true"></i>
-								</button>
 								<img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
 							</td>
 						</tr>
 					</tbody>
 
-					<tbody *ngIf=" categories && categories.length === 0 ">
+					<tbody *ngIf=" categoriesFiltered && categoriesFiltered.length === 0 ">
 						<tr>
 							<td colspan="5">
 								<strong>There are no categories!</strong>
@@ -84,7 +81,7 @@
 						</tr>
 					</tbody>
 
-					<tfoot *ngIf=" categories && categories.length > 10 ">
+					<tfoot *ngIf=" categoriesFiltered && categoriesFiltered.length > 10 ">
 						<tr>
 							<td colspan="5">
 								<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>

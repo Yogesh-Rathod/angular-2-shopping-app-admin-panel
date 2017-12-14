@@ -144,10 +144,10 @@ export class AddProductComponent implements OnInit {
       'netTaxes': [''],
       'netTaxes2': [''],
       'applicableDate': [''],
-      'stockQuantity': [
-        '',
-        Validators.required
-      ],
+      // 'stockQuantity': [
+      //   '',
+      //   Validators.required
+      // ],
       'categories': [
         [],
         Validators.required
@@ -164,7 +164,7 @@ export class AddProductComponent implements OnInit {
       'brand': [''],
       'color': [''],
       'size': [''],
-      'reOrderLevel': [''],
+      // 'reOrderLevel': [''],
       'comments': ['']
     });
   }
@@ -217,7 +217,7 @@ export class AddProductComponent implements OnInit {
           // this.addProductForm.controls['retailPrice'].setValue(product.retailPrice);
           // this.addProductForm.controls['retailShipping'].setValue(product.retailShipping);
           // this.addProductForm.controls['rpi'].setValue(product.rpi);
-          this.addProductForm.controls['stockQuantity'].setValue(product.stockQuantity);
+          // this.addProductForm.controls['stockQuantity'].setValue(product.stockQuantity);
           this.addProductForm.controls['vendor'].setValue(product.vendor);
           // this.addProductForm.controls['pictureName'].setValue(product.picture[0].url);
           this.addProductForm.controls['pictureAlt'].setValue(product.picture[0].alt);
@@ -252,7 +252,7 @@ export class AddProductComponent implements OnInit {
       oldPrice: addProductForm.oldPrice,
       vendor: addProductForm.vendor,
       retailPrice: addProductForm.retailPrice,
-      stockQuantity: addProductForm.stockQuantity,
+      // stockQuantity: addProductForm.stockQuantity,
       productType: 'Simple',
       status: addProductForm.status,
       categories: addProductForm.categories

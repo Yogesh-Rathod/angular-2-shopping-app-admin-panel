@@ -212,9 +212,9 @@
 									<button class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.id]" title="Edit">
 										<i class="fa fa-pencil" aria-hidden="true"></i>
 									</button>
-									<button class="btn btn-danger" (click)="deleteProduct(item, i)" title="Delete" [disabled]="deleteLoader == i">
+									<!-- <button class="btn btn-danger" (click)="deleteProduct(item, i)" title="Delete" [disabled]="deleteLoader == i">
 										<i class="fa fa-trash-o" aria-hidden="true"></i>
-									</button>
+									</button> -->
 									<img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
 								</td>
 							</tr>

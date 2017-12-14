@@ -37,7 +37,7 @@ export class ProductsComponent implements OnInit {
   atLeastOnePresent = false;
   vendorId: any;
   vendorInfo: any;
-  dropDownAction = ['Delete Selected', 'Deactivate Selected', 'Approve Selected', 'Reject Selected'];
+  dropDownAction = ['Deactivate Selected', 'Approve Selected', 'Reject Selected'];
 
   constructor(
     private csvService: CsvService,
@@ -284,21 +284,20 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  deleteProduct(item, index) {
-    const activeModal = this.modalService.open(ProductsDeletePopupComponent, { size: 'sm' });
-    activeModal.componentInstance.modalText = 'product';
+  // deleteProduct(item, index) {
+  //   const activeModal = this.modalService.open(ProductsDeletePopupComponent, { size: 'sm' });
+  //   activeModal.componentInstance.modalText = 'product';
 
-    activeModal.result.then((status) => {
-      if (status) {
-        this.deleteLoader = index;
-        _.remove(this.products, item);
-        this.productsService.editProduct(this.products);
-        this.deleteLoader = NaN;
-        this.toastr.success('Successfully Deleted!', 'Success!');
-      }
-    });
-
-  }
+  //   activeModal.result.then((status) => {
+  //     if (status) {
+  //       this.deleteLoader = index;
+  //       _.remove(this.products, item);
+  //       this.productsService.editProduct(this.products);
+  //       this.deleteLoader = NaN;
+  //       this.toastr.success('Successfully Deleted!', 'Success!');
+  //     }
+  //   });
+  // }
 
   resetForm() {
     this.searchForm();

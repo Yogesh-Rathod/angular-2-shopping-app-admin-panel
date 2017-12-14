@@ -140,7 +140,7 @@ export class AddVendorComponent implements OnInit {
         ])
       ],
       'status': [
-        '',
+        'TRUE',
         Validators.compose([
           Validators.required
         ])

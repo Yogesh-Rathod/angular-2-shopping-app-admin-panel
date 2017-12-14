@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { Pages } from './pages.component';
 import { ModuleWithProviders } from '@angular/core';
 import { NotFoundComponent } from '../not-found/not-found.component';
+import { HomeComponent } from 'app/pages/home/home.component';
 
 export const routes: Routes = [
   {
@@ -39,14 +40,17 @@ export const routes: Routes = [
       {
         path: 'movie-management',
         loadChildren: './merchandise/movie-management/movie-management.module#MovieManagementModule'
+      },
+      {
+        path: 'home',
+        component: HomeComponent
+      },
+      {
+        path: 'PageNotFound',
+        component: NotFoundComponent
       }
     ]
   },
-  // To Be Done At The End
-  // {
-  //   path: 'PageNotFound',
-  //   component: NotFoundComponent
-  // }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forChild(routes);

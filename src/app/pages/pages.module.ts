@@ -21,6 +21,7 @@ import { BankDeletePopupComponent } from './merchandise/catalog-management/delet
 import { MovieDeletePopupComponent } from './merchandise/movie-management/delete-popup/delete-popup.component';
 
 import { XlsxToJsonService } from 'app/services';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { XlsxToJsonService } from 'app/services';
     CategoryDeletePopupComponent,
     ProductsDeletePopupComponent,
     BankDeletePopupComponent,
-    MovieDeletePopupComponent
+    MovieDeletePopupComponent,
+    HomeComponent
   ],
   providers: [
     MerchandiseService,

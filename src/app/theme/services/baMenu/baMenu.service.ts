@@ -54,7 +54,7 @@ export class BaMenuService {
       }
 
 
-      const adminPermissions = ['User Management', 'Catalog Management', 'Categories', 'Vendors', 'Products', 'Catalog Management', 'Order Management', 'Movie Management', 'Merchandise'];
+      const adminPermissions = ['Home', 'User Management', 'Catalog Management', 'Categories', 'Vendors', 'Products', 'Catalog Management', 'Order Management', 'Movie Management', 'Merchandise'];
       const vendorPermissions = ['Merchandise', 'Products'];
       const operationPermissions = ['Catalog Management', 'Categories', 'Vendors', 'Products', 'Catalog Management', 'Order Management', 'Movie Management', 'Merchandise'];
 

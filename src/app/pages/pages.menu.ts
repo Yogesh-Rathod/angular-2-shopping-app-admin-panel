@@ -1,6 +1,18 @@
 
 const menus = [
   {
+    path: 'home',
+    data: {
+      menu: {
+        title: 'Home',
+        icon: 'ion-home',
+        selected: false,
+        expanded: false,
+        order: 1
+      }
+    }
+  },
+  {
     path: 'merchandise',
     data: {
       menu: {

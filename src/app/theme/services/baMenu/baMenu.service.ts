@@ -53,30 +53,33 @@ export class BaMenuService {
         item.children = this.selectMenuItem(item.children);
       }
 
+      // TO BE DONE ONCE PERMISSIONS ARE FINALISED
 
-      const adminPermissions = ['Home', 'User Management', 'Catalog Management', 'Categories', 'Vendors', 'Products', 'Catalog Management', 'Order Management', 'Movie Management', 'Merchandise'];
-      const vendorPermissions = ['Merchandise', 'Products'];
-      const operationPermissions = ['Catalog Management', 'Categories', 'Vendors', 'Products', 'Catalog Management', 'Order Management', 'Movie Management', 'Merchandise'];
+      // const adminPermissions = ['Home', 'User Management', 'Catalog Management', 'Categories', 'Vendors', 'Products', 'Catalog Management', 'Order Management', 'Movie Management', 'Merchandise'];
+      // const vendorPermissions = ['Merchandise', 'Products'];
+      // const operationPermissions = ['Catalog Management', 'Categories', 'Vendors', 'Products', 'Catalog Management', 'Order Management', 'Movie Management', 'Merchandise'];
 
-      switch (this.userRole) {
-        case 'Admin':
-          if (adminPermissions.indexOf(item.title) > -1) {
-            items.push(item);
-          }
-          break;
-        case 'Vendor':
-          if (vendorPermissions.indexOf(item.title) > -1) {
-            items.push(item);
-          }
-          break;
-        case 'Operations':
-          if (operationPermissions.indexOf(item.title) > -1) {
-            items.push(item);
-          }
-          break;
-        default:
-          break;
-      }
+      // switch (this.userRole) {
+      //   case 'Admin':
+      //     if (adminPermissions.indexOf(item.title) > -1) {
+      //       items.push(item);
+      //     }
+      //     break;
+      //   case 'Vendor':
+      //     if (vendorPermissions.indexOf(item.title) > -1) {
+      //       items.push(item);
+      //     }
+      //     break;
+      //   case 'Operations':
+      //     if (operationPermissions.indexOf(item.title) > -1) {
+      //       items.push(item);
+      //     }
+      //     break;
+      //   default:
+      //     break;
+      // }
+
+      items.push(item);
     });
     return items;
   }

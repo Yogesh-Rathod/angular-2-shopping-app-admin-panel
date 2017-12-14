@@ -18,7 +18,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'merchandise/categories',
+        redirectTo: 'home',
         pathMatch: 'full'
       },
       {

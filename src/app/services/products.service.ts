@@ -54,7 +54,7 @@ export class ProductsService {
       retailPrice: 26990,
       stockQuantity: 20,
       productType: 'Simple',
-      status: 'Inative',
+      status: 'Inactive',
       categories: '',
       approvalStatus: 'Rejected'
     },

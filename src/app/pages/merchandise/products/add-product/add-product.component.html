@@ -8,10 +8,6 @@
       <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
         height="35">
 
-      <button *ngIf=" productId && !bankId " class="btn btn-danger float-right" (click)="deleteProduct()" [disabled]="deleteLoader">
-        <i class="fa fa-trash-o" aria-hidden="true"></i>
-        Delete
-      </button>
       <span class="goBack float-right" (click)="goBack()">
         <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to products list</span>
 
@@ -55,10 +51,10 @@
               </div>
               <div class="card-body collapse show" id="collapseExample">
                 <div class="form-group row">
-                  <label for="name" class="col-3 text-right">Code
+                  <label for="name" class="col-3 text-right">Product Code
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="name" placeholder="Code" formControlName="code">
+                  <input type="text" class="form-control col-9" id="name" placeholder="Code" formControlName="code" [readonly]="productId">
                 </div>
 
                 <div class="form-group row">
@@ -109,13 +105,13 @@
                   </div>
                 </div>
 
-                <div class="form-group row">
+                <!-- <div class="form-group row">
                   <label for="sku" class="col-3 text-right">
                     SKU
                     <span class="mandatory">*</span>
                   </label>
                   <input type="text" class="form-control col-9" id="name" placeholder="SKU" formControlName="sku">
-                </div>
+                </div> -->
 
                 <div class="form-group row">
                   <label for="status" class="col-3 text-right">
@@ -270,6 +266,16 @@
                     <span class="mandatory">*</span>
                   </label>
                   <textarea class="form-control col-8" id="Comments" placeholder="Comments" formControlName="comments"></textarea>
+                </div>
+                <div class="form-group row">
+                  <label for="approvalStatus" class="col-4 text-right">
+                    Approval Status
+                  </label>
+                  <select id="approvalStatus" formControlName="approvalStatus" class="form-control col-8"  [class.disabled]="!productId">
+                    <option *ngFor="let item of approvalStatus" [ngValue]="item">
+                      {{ item }}
+                    </option>
+                  </select>
                 </div>
               </div>
             </div>

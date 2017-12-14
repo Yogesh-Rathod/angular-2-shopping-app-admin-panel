@@ -38,6 +38,7 @@ export class ProductsComponent implements OnInit {
   vendorId: any;
   vendorInfo: any;
   dropDownAction = ['Deactivate Selected', 'Approve Selected', 'Reject Selected'];
+  approvalStatus = ['Pending', 'Approved', 'Rejected'];
 
   constructor(
     private csvService: CsvService,
@@ -77,7 +78,8 @@ export class ProductsComponent implements OnInit {
       productType: [''],
       manufacturer: [''],
       status: [''],
-      vendor: ['']
+      vendor: [''],
+      approvalStatus: ['']
     });
   }
 

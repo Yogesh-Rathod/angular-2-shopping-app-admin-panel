@@ -53,6 +53,7 @@ export class AddProductComponent implements OnInit {
   bankId: any;
   vendorId: any;
   specifications: any = [];
+  approvalStatus = ['Pending', 'Approved', 'Rejected'];
 
   constructor(
     private modalService: NgbModal,
@@ -119,10 +120,10 @@ export class AddProductComponent implements OnInit {
         ])
       ],
       'specifications': this.fb.array([this.createControl()]),
-      'sku': [
-        '',
-        Validators.required
-      ],
+      // 'sku': [
+      //   '',
+      //   Validators.required
+      // ],
       'status': [
         '',
         Validators.required
@@ -165,7 +166,8 @@ export class AddProductComponent implements OnInit {
       'color': [''],
       'size': [''],
       // 'reOrderLevel': [''],
-      'comments': ['']
+      'comments': [''],
+      'approvalStatus': ['Pending']
     });
   }
 
@@ -207,7 +209,7 @@ export class AddProductComponent implements OnInit {
           this.addProductForm.controls['name'].setValue(product.name);
           this.addProductForm.controls['shortDescription'].setValue(product.shortDescription);
           this.addProductForm.controls['fullDescription'].setValue(product.fullDescription);
-          this.addProductForm.controls['sku'].setValue(product.sku);
+          // this.addProductForm.controls['sku'].setValue(product.sku);
           this.addProductForm.controls['status'].setValue(product.status);
           this.addProductForm.controls['currency'].setValue(product.currency);
           this.addProductForm.controls['netPrice'].setValue(product.netPrice);
@@ -247,7 +249,7 @@ export class AddProductComponent implements OnInit {
       name: addProductForm.name ? addProductForm.name : undefined,
       shortDescription: addProductForm.shortDescription,
       fullDescription: addProductForm.fullDescription,
-      sku: addProductForm.sku,
+      // sku: addProductForm.sku,
       MrpPrice: addProductForm.MrpPrice,
       oldPrice: addProductForm.oldPrice,
       vendor: addProductForm.vendor,
@@ -289,21 +291,6 @@ export class AddProductComponent implements OnInit {
       }
     });
     this.categories = categoriesArray;
-  }
-
-  deleteProduct() {
-    const activeModal = this.modalService.open(ProductsDeletePopupComponent, { size: 'sm' });
-    activeModal.componentInstance.modalText = 'product';
-
-    activeModal.result.then((status) => {
-      if (status) {
-        this.deleteLoader = true;
-        _.remove(this.products, this.productInfo);
-        this.productsService.editProduct(this.products);
-        this.deleteLoader = false;
-        this.goBack();
-      }
-    });
   }
 
   uploadProductImage(addProductForm) {

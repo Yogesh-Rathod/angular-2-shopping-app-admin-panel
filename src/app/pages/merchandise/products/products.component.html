@@ -95,6 +95,19 @@
 						</select>
 					</div>
 
+					<div class="form-group col-3">
+						<label for="approvalStatus">
+							Approval Status
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Product Approval Status' property."></i>
+						</label>
+						<select id="approvalStatus" class="form-control col-12" formControlName="approvalStatus">
+							<option value="all">All</option>
+							<option *ngFor="let item of approvalStatus" value="{{ item }}">
+								{{ item }}
+							</option>
+						</select>
+					</div>
+
 					<div class="form-group col-12">
 						<button type="submit" class="btn btn-primary searchButton">
 							<i class="fa fa-search" aria-hidden="true"></i>

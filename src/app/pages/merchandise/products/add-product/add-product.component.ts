@@ -181,6 +181,10 @@ export class AddProductComponent implements OnInit {
     arrayControl.removeAt(index);
   }
 
+  get specificationsFunction(): FormGroup {
+    return this.addProductForm.get('specifications') as FormGroup;
+  }
+
   createControl() {
     return this.fb.group({
       key: ['', Validators.required],

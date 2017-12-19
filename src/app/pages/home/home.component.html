@@ -1,5 +1,5 @@
 <div class="jumbotron">
-  <h1 class="display-3">Hello, world!</h1>
+  <h1 class="display-3">Hello, <span class="no-text-transform" *ngIf="userInfo">{{ userInfo.username }}</span><span *ngIf="!userInfo">World</span>!</h1>
   <p class="lead">
     This is merchandise operations panel.
   </p>

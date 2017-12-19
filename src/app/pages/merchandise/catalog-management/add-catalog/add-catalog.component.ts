@@ -71,11 +71,14 @@ export class AddCatalogComponent implements OnInit {
       'name': ['', Validators.compose([Validators.required,
       Validators.minLength(1), Validators.maxLength(100)])],
       'vendors': [[]],
-      'programs': [[]]
+      'programs': [[]],
+      'status': ['TRUE', Validators.required]
     });
   }
 
-  addCatalog(addCatalogForm) {}
+  addCatalog(addCatalogForm) {
+    console.log("addCatalogForm ", addCatalogForm);
+  }
 
   deleteCatalog() {}
 }

@@ -1,5 +1,9 @@
-.form-group label{
+.form-group label {
     margin-top: 10px;
+
+    &.status {
+        margin-top: 0;
+    }
 }
 
 .btn {

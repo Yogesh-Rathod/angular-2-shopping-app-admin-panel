@@ -40,6 +40,14 @@
       </div>
 
       <div class="form-group row">
+        <label for="status" class="status col-3 text-right">
+            status
+            <span class="mandatory">*</span>
+        </label>
+        <input type="checkbox" id="status" formControlName="status">
+      </div>
+
+      <div class="form-group row">
         <label class="col-3 text-right"></label>
         <input *ngIf=" !catalogId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addCatalogForm.valid || showLoader ">
         <input *ngIf=" catalogId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addCatalogForm.valid || showLoader ">

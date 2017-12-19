@@ -41,9 +41,13 @@ export class CategoriesComponent implements OnInit {
 
   getAllCategories() {
     this.categories = this.merchandiseService.getCategories();
-    this.categoriesFiltered = this.categories;
+    this.categoriesFiltered = this.generateTreeStructure(this.categories);
     // console.log("this.categories", this.categories);
-    this.generateTreeStructure(this.categories);
+  }
+
+  showChildrens(item) {
+    console.log("item ", item);
+
   }
 
   generateTreeStructure(array) {
@@ -59,7 +63,6 @@ export class CategoriesComponent implements OnInit {
       mappedArr[arrElem.id] = arrElem;
       mappedArr[arrElem.id]['children'] = [];
     }
-
 
     for (let id in mappedArr) {
       if (mappedArr.hasOwnProperty(id)) {

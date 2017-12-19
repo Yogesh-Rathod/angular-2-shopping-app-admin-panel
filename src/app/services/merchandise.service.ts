@@ -123,6 +123,17 @@ export class MerchandiseService {
       display_order: 4,
       breadCrumb: 'Apparel >> Accessories >> Caps >> Armani Caps',
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti cumque earum placeat officiis culpa est maiores. Optio sint earum odit cumque, blanditiis eligendi ipsum eveniet accusamus illo. Aspernatur, assumenda, at.'
+    },
+    {
+      id: 21,
+      name: 'Furniture',
+      parentid: '',
+      level: 4,
+      parent_name: 'Furniture',
+      published: true,
+      display_order: 4,
+      breadCrumb: 'Furniture',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti cumque earum placeat officiis culpa est maiores. Optio sint earum odit cumque, blanditiis eligendi ipsum eveniet accusamus illo. Aspernatur, assumenda, at.'
     }
   ];
 

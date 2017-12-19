@@ -53,10 +53,13 @@
 						<tr *ngFor=" let item of mf.data; let i = index " >
 							<!-- <td>{{ i + 1 }}</td> -->
 							<td class="text-left">
-								{{ item.breadCrumb }}
-								<!-- <span *ngIf=" item.parent_name ">
-									{{ item.parent_name }} >>
-								</span> {{ item.name }} -->
+								<i (click)="showChildrens(item)" [class.hidden]="item.children.length <= 0" class="fa fa-plus" aria-hidden="true"></i>
+									{{ item.name }}
+								<div class="children">
+									<div *ngFor="let children of item.children">
+										{{ children.name }}
+									</div>
+								</div>
 							</td>
 							<td class="text-center">
 								<i *ngIf=" item.published " class="fa fa-check" aria-hidden="true"></i>

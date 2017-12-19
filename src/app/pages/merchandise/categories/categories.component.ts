@@ -43,6 +43,39 @@ export class CategoriesComponent implements OnInit {
     this.categories = this.merchandiseService.getCategories();
     this.categoriesFiltered = this.categories;
     // console.log("this.categories", this.categories);
+    this.generateTreeStructure(this.categories);
+  }
+
+  generateTreeStructure(array) {
+    let tree = [],
+      mappedArr = {},
+      arrElem,
+      mappedElem;
+
+    // First map the nodes of the array to an object -> create a hash table.
+    let arrayLength = array.length;
+    for (let i = 0; i < arrayLength; i++) {
+      arrElem = array[i];
+      mappedArr[arrElem.id] = arrElem;
+      mappedArr[arrElem.id]['children'] = [];
+    }
+
+
+    for (let id in mappedArr) {
+      if (mappedArr.hasOwnProperty(id)) {
+        mappedElem = mappedArr[id];
+        // If the element is not at the root level, add it to its parent array of children.
+        if (mappedElem.parentid) {
+          mappedArr[mappedElem['parentid']]['children'].push(mappedElem);
+        }
+        // If the element is at the root level, add it to first level elements array.
+        else {
+          tree.push(mappedElem);
+        }
+      }
+    }
+    console.log("tree ", tree);
+    return tree;
   }
 
   searchCategory(searchTerm) {

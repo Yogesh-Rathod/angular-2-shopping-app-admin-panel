@@ -16,6 +16,7 @@ export class MerchandiseService {
     },
     {
       id: 2,
+      parentid: 1,
       name: 'Desktops',
       level: 2,
       parent_name: 'Computers',
@@ -26,6 +27,7 @@ export class MerchandiseService {
     },
     {
       id: 3,
+      parentid: 1,
       name: 'Software',
       level: 2,
       parent_name: 'Computers',
@@ -37,6 +39,7 @@ export class MerchandiseService {
     {
       id: 4,
       name: 'Electronics',
+      parentid: '',
       level: 1,
       parent_name: null,
       published: true,
@@ -47,6 +50,7 @@ export class MerchandiseService {
     {
       id: 5,
       name: 'Cell phones',
+      parentid: 4,
       level: 2,
       parent_name: 'Electronics',
       published: false,
@@ -57,6 +61,7 @@ export class MerchandiseService {
     {
       id: 6,
       name: 'Others',
+      parentid: 4,
       level: 2,
       parent_name: 'Electronics',
       published: true,
@@ -67,6 +72,7 @@ export class MerchandiseService {
     {
       id: 7,
       name: 'Apparel',
+      parentid: '',
       level: 1,
       parent_name: null,
       published: false,
@@ -77,6 +83,7 @@ export class MerchandiseService {
     {
       id: 8,
       name: 'Clothing',
+      parentid: 7,
       level: 2,
       parent_name: 'Apparel',
       published: true,
@@ -86,6 +93,7 @@ export class MerchandiseService {
     },
     {
       id: 9,
+      parentid: 7,
       name: 'Accessories',
       level: 2,
       parent_name: 'Apparel',
@@ -97,6 +105,7 @@ export class MerchandiseService {
     {
       id: 10,
       name: 'Caps',
+      parentid: 7,
       level: 3,
       parent_name: 'Apparel >> Accessories',
       published: false,
@@ -107,6 +116,7 @@ export class MerchandiseService {
     {
       id: 11,
       name: 'Armani Caps',
+      parentid: 10,
       level: 4,
       parent_name: 'Apparel >> Accessories >> Caps',
       published: true,

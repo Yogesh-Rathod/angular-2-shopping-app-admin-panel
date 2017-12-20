@@ -40,8 +40,20 @@ export class CategoriesComponent implements OnInit {
   }
 
   getAllCategories() {
-    this.categories = this.merchandiseService.getCategories();
-    this.categoriesFiltered = this.generateTreeStructure(this.categories);
+    this.showLoader = true;
+    this.merchandiseService.getCategories().
+      then((categories) => {
+        console.log("categories ", categories);
+        this.categories = categories.Data;
+        this.categoriesFiltered = this.categories;
+        this.showLoader = false;
+      }).catch((error) => {
+        console.log("error ", error);
+        this.showLoader = false;
+      });
+    this.categories = []
+    // this.merchandiseService.getCategories();
+    // this.categoriesFiltered = this.generateTreeStructure(this.categories);
     // console.log("this.categories", this.categories);
   }
 
@@ -84,7 +96,7 @@ export class CategoriesComponent implements OnInit {
   searchCategory(searchTerm) {
     this.categoriesFiltered = this.categories.filter((item) => {
       const caseInsensitiveSearch = new RegExp(`${searchTerm.trim()}`, "i");
-      return caseInsensitiveSearch.test(item.breadCrumb);
+      return caseInsensitiveSearch.test(item.Name);
     });
   }
 

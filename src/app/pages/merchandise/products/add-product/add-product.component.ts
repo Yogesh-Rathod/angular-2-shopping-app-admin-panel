@@ -279,7 +279,8 @@ export class AddProductComponent implements OnInit {
   }
 
   getAllCategories() {
-    this.categories = this.merchandiseService.getCategories();
+    this.categories = [];
+    // this.merchandiseService.getCategories();
     let categoriesArray = [];
     _.forEach(this.categories, (category) => {
       if (category.parent_name) {

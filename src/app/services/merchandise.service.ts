@@ -1,7 +1,23 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Http, RequestOptions, Headers } from '@angular/http';
+import 'rxjs/add/operator/toPromise';
+
+import { environment } from './../../environments';
+import { AppState } from 'app/app.service';
+import { ResponseHandingService } from 'lrshared_modules/services';
+// import * as CryptoJS from "crypto-js";
+// import * as utf8 from 'utf8';
 
 @Injectable()
 export class MerchandiseService {
+
+  headers = new Headers({
+    'Content-Type': 'application/json',
+    'Accept': 'q=0.8;application/json;q=0.9'
+  });
+  options = new RequestOptions({ headers: this.headers });
+
   // All Operations Related To Categories
   private categories: any[] = [
     {
@@ -137,10 +153,19 @@ export class MerchandiseService {
     }
   ];
 
-  constructor() {}
+  constructor(
+    private http: Http,
+    private global: AppState,
+    private responseHandingService: ResponseHandingService) {
+  }
 
   getCategories() {
-    return this.categories;
+    const url = `${environment.merchandiseApiUrl}Categories?categoryName=electronics`;
+    console.log("url ", url);
+    return this.http.get(url, this.options)
+      .toPromise()
+      .then(response => this.responseHandingService.handleResponse(response))
+      .catch(reason => this.responseHandingService.handleError(reason));
   }
 
   addCategory(categoryInfo) {

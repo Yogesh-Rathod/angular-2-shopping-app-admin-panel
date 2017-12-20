@@ -52,7 +52,8 @@ export class AddCategoryComponent implements OnInit {
   }
 
   getAllCategories() {
-    this.categories = this.merchandiseService.getCategories();
+    this.categories = [];
+    // this.merchandiseService.getCategories();
     console.log("this.categories", this.categories);
   }
 
@@ -96,7 +97,8 @@ export class AddCategoryComponent implements OnInit {
     this.showLoader = false;
     this.toastr.success('Sucessfully Done!', 'Sucess!');
     this.router.navigate(['../']);
-    this.categories = this.merchandiseService.getCategories();
+    this.categories = [];
+    // this.merchandiseService.getCategories();
   }
 
   imageUpload(event) {
@@ -106,7 +108,8 @@ export class AddCategoryComponent implements OnInit {
 
   getCategoryInfoForEdit() {
     if ( this.categoryId ) {
-      const categories = this.merchandiseService.getCategories();
+      const categories = [];
+      // this.merchandiseService.getCategories();
       _.forEach(categories, (category) => {
         if (category.id === parseInt(this.categoryId) ) {
           this.categoryInfo = category;

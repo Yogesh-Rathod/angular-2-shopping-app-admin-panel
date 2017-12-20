@@ -42,7 +42,6 @@
 				<table class="table table-bordered table-responsive"  [mfData]="categoriesFiltered" #mf="mfDataTable" [mfRowsOnPage]="10">
 					<thead class="black-muted-bg">
 						<tr>
-							<!-- <th>No.</th> -->
 							<th class="text-left"><strong>Name</strong></th>
 							<th class="text-center"><strong>Published</strong></th>
 							<th class="text-center"><strong>Display Order</strong></th>
@@ -51,23 +50,17 @@
 					</thead>
 					<tbody *ngIf=" categoriesFiltered && categoriesFiltered.length > 0 ">
 						<tr *ngFor=" let item of mf.data; let i = index " >
-							<!-- <td>{{ i + 1 }}</td> -->
 							<td class="text-left">
-								<i (click)="showChildrens(item)" [class.hidden]="item.children.length <= 0" class="fa fa-plus" aria-hidden="true"></i>
-									{{ item.name }}
-								<div class="children">
-									<div *ngFor="let children of item.children">
-										{{ children.name }}
-									</div>
-								</div>
+								<i (click)="showChildrens(item)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-plus" aria-hidden="true"></i>
+									{{ item.Name }}
 							</td>
 							<td class="text-center">
 								<i *ngIf=" item.published " class="fa fa-check" aria-hidden="true"></i>
 								<i *ngIf=" !item.published " class="fa fa-times" aria-hidden="true"></i>
 							</td>
-							<td class="text-center">{{ item.display_order }}</td>
+							<td class="text-center">{{ item.DisplayOrder }}</td>
 							<td class="text-center">
-								<button class="btn btn-secondary" [routerLink]="['./edit-category/', item.id]" title="Edit">
+								<button class="btn btn-secondary" [routerLink]="['./edit-category/', item.Id]" title="Edit">
 									<i class="fa fa-pencil" aria-hidden="true"></i>
 								</button>
 								<img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
@@ -91,6 +84,7 @@
 						</tr>
 					</tfoot>
 				</table>
+
 			</div>
 
 		</div>

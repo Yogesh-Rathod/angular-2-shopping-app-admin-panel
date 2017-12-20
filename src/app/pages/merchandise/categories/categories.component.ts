@@ -21,7 +21,7 @@ export class CategoriesComponent implements OnInit {
 
   categories: any;
   categoriesFiltered: any;
-  showLoader = false;
+  showLoader = true;
   deleteLoader: Number;
 
   constructor(
@@ -51,15 +51,14 @@ export class CategoriesComponent implements OnInit {
         console.log("error ", error);
         this.showLoader = false;
       });
-    this.categories = []
-    // this.merchandiseService.getCategories();
+    // this.categories = this.merchandiseService.getCategories();
     // this.categoriesFiltered = this.generateTreeStructure(this.categories);
+    // this.showLoader = false;
     // console.log("this.categories", this.categories);
   }
 
   showChildrens(item) {
-    console.log("item ", item);
-
+    item.showChild = !item.showChild;
   }
 
   generateTreeStructure(array) {
@@ -73,7 +72,7 @@ export class CategoriesComponent implements OnInit {
     for (let i = 0; i < arrayLength; i++) {
       arrElem = array[i];
       mappedArr[arrElem.id] = arrElem;
-      mappedArr[arrElem.id]['children'] = [];
+      mappedArr[arrElem.id]['SubCategories'] = [];
     }
 
     for (let id in mappedArr) {
@@ -81,7 +80,7 @@ export class CategoriesComponent implements OnInit {
         mappedElem = mappedArr[id];
         // If the element is not at the root level, add it to its parent array of children.
         if (mappedElem.parentid) {
-          mappedArr[mappedElem['parentid']]['children'].push(mappedElem);
+          mappedArr[mappedElem['parentid']]['SubCategories'].push(mappedElem);
         }
         // If the element is at the root level, add it to first level elements array.
         else {

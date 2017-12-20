@@ -37,6 +37,66 @@
 
 		<div class="spacer col-12"></div>
 
+		<div class="card">
+			<div class="card-body pos_relative">
+
+				<div class="loader-container pos_absolute" *ngIf="showLoader">
+					<img src="assets/img/ajax-loader.gif" alt="Loader Image">
+				</div>
+
+				<div class="tree-structure">
+					<div class="tree-row" *ngFor="let item of categoriesFiltered">
+						<div class="clearfix firstChildren">
+							<i *ngIf="!item.showChild" (click)="showChildrens(item)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-plus" aria-hidden="true"></i>
+							<i *ngIf="item.showChild" (click)="showChildrens(item)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-minus" aria-hidden="true"></i>
+
+
+							<span>
+								{{ item.Name }}
+							</span>
+							<button class="btn btn-secondary float-right" [routerLink]="['./edit-category/', item.Id]" title="Edit">
+								<i class="fa fa-pencil" aria-hidden="true"></i>
+							</button>
+						</div>
+
+						<div class="tree-container" *ngIf="item.showChild">
+							<div class="tree-row" *ngFor="let children of item.SubCategories">
+								<div class="clearfix secondChildren">
+									<i (click)="showChildrens(children)" [class.hidden]="children.SubCategories.length <= 0" class="fa fa-plus" aria-hidden="true"></i>
+									<span>
+										{{ children.Name }}
+									</span>
+									<button class="btn btn-secondary float-right" [routerLink]="['./edit-category/', children.Id]" title="Edit">
+										<i class="fa fa-pencil" aria-hidden="true"></i>
+									</button>
+								</div>
+
+								<div class="tree-container" *ngIf="children.showChild">
+									<div class="tree-row" *ngFor="let child of children.SubCategories">
+										<div class="clearfix secondChildren">
+											<i (click)="showChildrens(children)" [class.hidden]="child.SubCategories.length <= 0" class="fa fa-plus" aria-hidden="true"></i>
+											<span>
+													{{ child.Name }}
+											</span>
+											<button class="btn btn-secondary float-right" [routerLink]="['./edit-category/', child.Id]" title="Edit">
+													<i class="fa fa-pencil" aria-hidden="true"></i>
+											</button>
+										</div>
+									</div>
+
+								</div>
+
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- <div class="spacer col-12"></div>
+
 		<div class="filters card col-12">
 			<div class="card-body">
 				<table class="table table-bordered table-responsive"  [mfData]="categoriesFiltered" #mf="mfDataTable" [mfRowsOnPage]="10">
@@ -87,7 +147,7 @@
 
 			</div>
 
-		</div>
+		</div> -->
 
 	</div>
 </div>

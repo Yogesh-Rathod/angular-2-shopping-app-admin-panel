@@ -22,9 +22,9 @@ export class MerchandiseService {
   private categories: any[] = [
     {
       id: 1,
-      name: 'Computers',
+      Name: 'Computers',
       level: 1,
-      parent_name: null,
+      parent_Name: null,
       published: true,
       display_order: 1,
       breadCrumb: 'Computers',
@@ -33,9 +33,9 @@ export class MerchandiseService {
     {
       id: 2,
       parentid: 1,
-      name: 'Desktops',
+      Name: 'Desktops',
       level: 2,
-      parent_name: 'Computers',
+      parent_Name: 'Computers',
       published: false,
       display_order: 1,
       breadCrumb: 'Computers >> Desktops',
@@ -44,9 +44,9 @@ export class MerchandiseService {
     {
       id: 3,
       parentid: 1,
-      name: 'Software',
+      Name: 'Software',
       level: 2,
-      parent_name: 'Computers',
+      parent_Name: 'Computers',
       published: true,
       display_order: 2,
       breadCrumb: 'Computers >> Software',
@@ -54,10 +54,10 @@ export class MerchandiseService {
     },
     {
       id: 4,
-      name: 'Electronics',
+      Name: 'Electronics',
       parentid: '',
       level: 1,
-      parent_name: null,
+      parent_Name: null,
       published: true,
       display_order: 2,
       breadCrumb: 'Electronics',
@@ -65,10 +65,10 @@ export class MerchandiseService {
     },
     {
       id: 5,
-      name: 'Cell phones',
+      Name: 'Cell phones',
       parentid: 4,
       level: 2,
-      parent_name: 'Electronics',
+      parent_Name: 'Electronics',
       published: false,
       display_order: 1,
       breadCrumb: 'Electronics >> Cell phones',
@@ -76,10 +76,10 @@ export class MerchandiseService {
     },
     {
       id: 6,
-      name: 'Others',
+      Name: 'Others',
       parentid: 4,
       level: 2,
-      parent_name: 'Electronics',
+      parent_Name: 'Electronics',
       published: true,
       display_order: 2,
       breadCrumb: 'Electronics >> Others',
@@ -87,10 +87,10 @@ export class MerchandiseService {
     },
     {
       id: 7,
-      name: 'Apparel',
+      Name: 'Apparel',
       parentid: '',
       level: 1,
-      parent_name: null,
+      parent_Name: null,
       published: false,
       display_order: 3,
       breadCrumb: 'Apparel',
@@ -98,10 +98,10 @@ export class MerchandiseService {
     },
     {
       id: 8,
-      name: 'Clothing',
+      Name: 'Clothing',
       parentid: 7,
       level: 2,
-      parent_name: 'Apparel',
+      parent_Name: 'Apparel',
       published: true,
       display_order: 1,
       breadCrumb: 'Apparel >> Clothing',
@@ -110,9 +110,9 @@ export class MerchandiseService {
     {
       id: 9,
       parentid: 7,
-      name: 'Accessories',
+      Name: 'Accessories',
       level: 2,
-      parent_name: 'Apparel',
+      parent_Name: 'Apparel',
       published: false,
       display_order: 2,
       breadCrumb: 'Apparel >> Accessories',
@@ -120,10 +120,10 @@ export class MerchandiseService {
     },
     {
       id: 10,
-      name: 'Caps',
+      Name: 'Caps',
       parentid: 7,
       level: 3,
-      parent_name: 'Apparel >> Accessories',
+      parent_Name: 'Apparel >> Accessories',
       published: false,
       display_order: 3,
       breadCrumb: 'Apparel >> Accessories >> Caps',
@@ -131,10 +131,10 @@ export class MerchandiseService {
     },
     {
       id: 11,
-      name: 'Armani Caps',
+      Name: 'Armani Caps',
       parentid: 10,
       level: 4,
-      parent_name: 'Apparel >> Accessories >> Caps',
+      parent_Name: 'Apparel >> Accessories >> Caps',
       published: true,
       display_order: 4,
       breadCrumb: 'Apparel >> Accessories >> Caps >> Armani Caps',
@@ -142,10 +142,10 @@ export class MerchandiseService {
     },
     {
       id: 21,
-      name: 'Furniture',
+      Name: 'Furniture',
       parentid: '',
       level: 4,
-      parent_name: 'Furniture',
+      parent_Name: 'Furniture',
       published: true,
       display_order: 4,
       breadCrumb: 'Furniture',
@@ -161,11 +161,12 @@ export class MerchandiseService {
 
   getCategories() {
     const url = `${environment.merchandiseApiUrl}Categories?categoryName=electronics`;
-    console.log("url ", url);
     return this.http.get(url, this.options)
       .toPromise()
       .then(response => this.responseHandingService.handleResponse(response))
       .catch(reason => this.responseHandingService.handleError(reason));
+
+    // return this.categories;
   }
 
   addCategory(categoryInfo) {

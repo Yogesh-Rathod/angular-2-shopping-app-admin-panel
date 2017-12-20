@@ -47,14 +47,29 @@
 	color: #209e91;
 }
 
-i.fa-plus {
+i.fa-plus,
+i.fa-minus {
 	cursor: pointer;
 }
 
-
-.table-row {
-	> div {
-		border: 1px solid #000;
+.tree-structure {
+	.tree-row {
 		padding: 10px;
+		border: 1px solid #e4e4e4;
+		.tree-row {
+			margin-left: 30px;
+			> div {
+				// visibility: visible;
+			}
+		}
+		.tree-container {
+		    margin-top: 10px;
+		}
 	}
 }
+
+.card-body.pos_relative {
+	min-height: 100px;
+}
+
+

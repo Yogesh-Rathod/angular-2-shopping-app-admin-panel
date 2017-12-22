@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   canActivate() {
     let userInfo = this._cookieService.get('MERCHANDISE.userData');
     if (userInfo) {
-      this.router.navigate(['/']);
+      // this.router.navigate(['/']);
     }
     return true;
   }
@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         this.isToasterPresent = true;
       }
       setTimeout(() => {
-        this.router.navigate(['/home']);
+        // this.router.navigate(['/home']);
         // this.router.navigate(['/login']);
       }, 1000);
     }

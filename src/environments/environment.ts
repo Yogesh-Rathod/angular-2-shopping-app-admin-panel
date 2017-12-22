@@ -12,10 +12,10 @@ export const environment = {
   loginUrl: 'http://localhost:4300/',
   usersUrl: 'http://192.168.250.222:8088',
   customersAPIUrl: 'http://192.168.250.232:8310',
-  rbacUrl: 'http://192.168.250.222:8088/security',
+  rbacUrl: 'http://192.168.61.203/LRAS.Brix.InternalUserManagementAPI/',
   masterApiUrl: '',
   storeApiUrl: '',
-  appName: 'CRM',
+  appName: 'MERCHANDISE',
   domainName: 'localhost',
   timeOut: 30000,
   crm: {

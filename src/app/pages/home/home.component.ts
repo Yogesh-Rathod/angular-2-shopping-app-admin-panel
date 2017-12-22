@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private appStateManagementService: AppStateManagementService
   ) {
-    this.appStateManagementService.retrieveAppStateCK('CRM.userData').
+    this.appStateManagementService.retrieveAppStateCK('MERCHANDISE.userData').
       then((userInfo) => {
         this.userInfo = JSON.parse(userInfo);
       }).catch((error) => {

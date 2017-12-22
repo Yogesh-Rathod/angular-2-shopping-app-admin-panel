@@ -52,8 +52,6 @@
 						<div class="clearfix firstChildren">
 							<i *ngIf="!item.showChild" (click)="showChildrens(item)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-plus" aria-hidden="true"></i>
 							<i *ngIf="item.showChild" (click)="showChildrens(item)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-minus" aria-hidden="true"></i>
-
-
 							<span>
 								{{ item.Name }}
 							</span>
@@ -65,7 +63,8 @@
 						<div class="tree-container" *ngIf="item.showChild">
 							<div class="tree-row" *ngFor="let children of item.SubCategories">
 								<div class="clearfix secondChildren">
-									<i (click)="showChildrens(children)" [class.hidden]="children.SubCategories.length <= 0" class="fa fa-plus" aria-hidden="true"></i>
+									<i *ngIf="!children.showChild" (click)="showChildrens(children)" [class.hidden]="children.SubCategories.length <= 0" class="fa fa-plus" aria-hidden="true"></i>
+									<i *ngIf="children.showChild" (click)="showChildrens(children)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-minus" aria-hidden="true"></i>
 									<span>
 										{{ children.Name }}
 									</span>

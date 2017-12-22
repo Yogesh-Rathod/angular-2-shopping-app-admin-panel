@@ -41,19 +41,19 @@ export class CategoriesComponent implements OnInit {
 
   getAllCategories() {
     this.showLoader = true;
-    // this.merchandiseService.getCategories().
-    //   then((categories) => {
-    //     console.log("categories ", categories);
-    //     this.categories = categories.Data;
-    //     this.categoriesFiltered = this.categories;
-    //     this.showLoader = false;
-    //   }).catch((error) => {
-    //     console.log("error ", error);
-    //     this.showLoader = false;
-    //   });
-    this.categories = this.merchandiseService.getCategories();
-    this.categoriesFiltered = this.generateTreeStructure(this.categories);
-    this.showLoader = false;
+    this.merchandiseService.getCategories().
+      then((categories) => {
+        console.log("categories ", categories);
+        this.categories = categories.Data;
+        this.categoriesFiltered = this.categories;
+        this.showLoader = false;
+      }).catch((error) => {
+        console.log("error ", error);
+        this.showLoader = false;
+      });
+    // this.categories = this.merchandiseService.getCategories();
+    // this.categoriesFiltered = this.generateTreeStructure(this.categories);
+    // this.showLoader = false;
     // console.log("this.categories", this.categories);
   }
 

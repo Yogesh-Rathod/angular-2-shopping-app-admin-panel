@@ -98,7 +98,7 @@ export class UserService {
 
         addUser(data): Promise<any> {
                 const url = `${environment.rbacUrl}Profile`;
-                this.headers.append('LRSignAuth', this.createHMACSignature('POST', url, data));
+                this.headers.set('LRSignAuth', this.createHMACSignature('POST', url, data));
                 return this.http.post(url, JSON.stringify(data), this.options)
                         .timeout(environment.timeOut)
                         .toPromise()
@@ -135,7 +135,7 @@ export class UserService {
 
         fetchSingleUser(id): Promise<any> {
                 const url = `${environment.rbacUrl}/Profile/${id}`;
-                this.headers.append('LRSignAuth', this.createHMACSignature('GET', url));
+                this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
                 // const header = new Headers();
                 // this.commSer.createAuthorizationHeader(header, environment.appName === 'CRM');
                 // header.append('XServiceName', `resolvedUsersByApplication`);
@@ -268,7 +268,7 @@ export class UserService {
 
         fetchRoles() {
                 const url = `${environment.rbacUrl}Role/All`;
-                this.headers.append('LRSignAuth', this.createHMACSignature('GET', url));
+                this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
                 return this.http.get(url, this.options)
                         .toPromise()
                         .then(this.responseHandler.handleResponse)
@@ -277,7 +277,7 @@ export class UserService {
 
       fetchModules() {
               const url = `${environment.rbacUrl}Module/All`;
-                this.headers.append('LRSignAuth', this.createHMACSignature('GET', url));
+                this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
                 return this.http.get(url, this.options)
                         .toPromise()
                         .then(this.responseHandler.handleResponse)

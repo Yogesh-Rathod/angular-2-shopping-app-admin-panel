@@ -1,0 +1,13 @@
+.table > thead > tr > th:first-child, .table > thead > tr > th {
+    font-weight: bold;
+    text-align: left;
+}
+.table > tbody > tr > td:first-child {
+    text-align: left;
+}
+
+.alignCenter { 
+    vertical-align: middle;
+    line-height: inherit;
+    padding: 10px;
+}

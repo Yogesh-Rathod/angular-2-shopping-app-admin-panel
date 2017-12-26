@@ -1,0 +1,12 @@
+.labelText{
+    font-weight: bold;
+}
+.form-control[disabled] {
+    background-color: #e6e0e0 !important;
+    color: #544c4c !important;
+    border-color: #bbb1b1;
+}
+.edit{
+    color: #009688;
+    cursor:pointer;
+}

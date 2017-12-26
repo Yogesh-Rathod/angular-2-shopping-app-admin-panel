@@ -1,0 +1,81 @@
+<!-- Add User -->
+<div class="card">
+    <div class="card-header">
+        <span>Add User</span>
+        <span class="goBack float-right" [routerLink]="['/user-management']">
+            <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to users list</span>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="addUserForm" (ngSubmit)="addUser(addUserForm.value)">
+            <input type="hidden"  formControlName="Id">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">{{'userMangement.username'|translate}}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="email" class="form-control" placeholder="{{'userMangement.username'|translate}}" formControlName="UserName">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Password
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="password" class="form-control" placeholder="Password" formControlName="Password">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Email
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="email" class="form-control" placeholder="Email" formControlName="EmailId">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="program" class="control-label" translate>Mobile No.
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input class="form-control" minlength="10" maxlength="10" formControlName="Mobile" placeholder="Mobile No.">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="program" class="control-label" translate>Status
+                            <span class="text-danger">*</span>
+                        </label>
+                        <select class="selectPicker form-control" formControlName="IsActive">
+                            <option value="">Select Status</option>
+                            <option value="true">ACTIVE</option>
+                            <option value="false">INACTIVE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 form-group" *ngIf="modulesList">
+                    <label for="modules" class="control-label" translate>Select Modules
+                        <span class="text-danger">*</span>
+                    </label>
+                    <angular2-multiselect [data]="modulesList" [settings]="programOptionSettings" formControlName="UserModules"></angular2-multiselect>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="roles" class="control-label">Role
+                            <span class="text-danger">*</span>
+                        </label>
+                        <angular2-multiselect [data]="availableUserRoles" [settings]="roleOptionSettings" formControlName="Roles"></angular2-multiselect>
+                    </div>
+                </div>
+
+                <div class="col-md-3" style="margin: 25px 0;">
+                    <button type="submit" class="btn btn-primary" type="submit" [disabled]="!newUserRecord || !addUserForm.valid">
+                        Add
+                        <img [hidden]="isLoading.newUser" src="assets/img/loader.gif" style="width:15px;">
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

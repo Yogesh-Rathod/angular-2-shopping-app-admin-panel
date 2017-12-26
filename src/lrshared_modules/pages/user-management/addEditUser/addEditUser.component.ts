@@ -11,6 +11,7 @@ import { environment } from 'environments/environment';
 import { validators } from 'lrshared_modules/Validations';
 import 'rxjs/add/operator/takeWhile';
 import { getAuthority } from 'lrshared_modules/rbacConfig';
+import * as _ from 'lodash';
 
 import { AppState } from 'app/app.service';
 import { CommonService } from 'lrshared_modules/services/common-services.service';
@@ -98,6 +99,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         this.appStateManagementService.retrieveAppStateCK('MERCHANDISE.userData').
             then((userInfo) => {
                 this.userInfo = JSON.parse(userInfo);
+                console.log("this.userInfo ", this.userInfo);
             }).catch((error) => {
                 this.userInfo = {
                     username: 'Unknown User'
@@ -131,8 +133,8 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
                 Validators.required,
                 Validators.pattern(validators.mobileNo),
             ]],
-            CreatedOn: [new Date().toISOString()],
-            CreatedBy: [this.userInfo.username],
+            // CreatedOn: [new Date().toISOString()],
+            CreatedBy: [''],
             Password: ['', [
                 Validators.required,
                 Validators.minLength(4),
@@ -188,51 +190,42 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
     /************ Add new User **********/
     addUser(addForm) {
+        this.isLoading.newUser = true;
         console.log("addForm ", addForm);
         let userData = Object.assign({}, addForm);
         userData.UserCredential = {};
         userData.UserCredential.Password = addForm.Password;
         userData.UserCredential.IsActive = addForm.IsActive;
+        userData.CreatedBy = this.userInfo.username;
         delete userData.Password;
         delete userData.IsActive;
         userData.Roles = userData.Roles.map((item) => {
             item.RoleName = item.itemName;
             item.IsActive = addForm.IsActive;
-            delete item.id; delete item.itemName;
+            // delete item.id; delete item.itemName;
             return item;
         });
         userData.UserModules = userData.UserModules.map((item) => {
             item.ModuleName = item.itemName;
             item.IsActive = addForm.IsActive;
-            delete item.id; delete item.itemName;
+            // delete item.id; delete item.itemName;
             return item;
         });
-        // this.isLoading.newUser = false;
-        // this.newUserRecord = false;
-        // this.assignedProgram = addForm.program;
 
         console.log("userData ", userData);
         if (userData.Id) {
             // Edit Form Code
         } else {
-            delete userData.Id;
+            // delete userData.Id;
             this.userService.addUser(JSON.stringify(userData)).then((res) => {
-                try {
-                    this.newUserRecord = true;
-                    this.userId = res.payload.id;
-
-                    // Create UPA and then assign CRM program to agent
-                    this.addUserInProgram(res.payload);
-
-                    // Create Agent
-                    addForm.email = addForm.username;
-                    this.addAgent(addForm, res.payload.id);
-                } catch (ex) {
-                    console.log(ex);
+                console.log("res ", res);
+                if (res.Code === 500) {
+                    this.toastr.error(res.Message);
                 }
+
             }).catch(rej => {
                 this.isLoading.newUser = true;
-                this.newUserRecord = true;
+                // this.newUserRecord = true;
 
                 this.toastr.error(rej.message);
             });

@@ -98,7 +98,7 @@ export class UserService {
 
         addUser(data): Promise<any> {
                 const url = `${environment.rbacUrl}Profile`;
-                this.headers.append('LRSignAuth', this.createHMACSignature('POST', url, data));
+                this.headers.set('LRSignAuth', this.createHMACSignature('POST', url, data));
                 return this.http.post(url, JSON.stringify(data), this.options)
                         .timeout(environment.timeOut)
                         .toPromise()
@@ -268,16 +268,16 @@ export class UserService {
 
         fetchRoles() {
                 const url = `${environment.rbacUrl}Role/All`;
-                this.headers.append('LRSignAuth', this.createHMACSignature('GET', url));
+                this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
                 return this.http.get(url, this.options)
                         .toPromise()
                         .then(this.responseHandler.handleResponse)
                         .catch((err) => this.responseHandler.handleError(err));
         }
 
-      fetchModules() {
-              const url = `${environment.rbacUrl}Module/All`;
-                this.headers.append('LRSignAuth', this.createHMACSignature('GET', url));
+        fetchModules() {
+                const url = `${environment.rbacUrl}Module/All`;
+                this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
                 return this.http.get(url, this.options)
                         .toPromise()
                         .then(this.responseHandler.handleResponse)

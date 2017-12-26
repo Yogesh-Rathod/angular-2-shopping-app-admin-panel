@@ -38,29 +38,27 @@ export class LoginService {
         let requestUrl = encodeURIComponent(requestURL).toLowerCase(),
         timestamp = + new Date(),
         nounce = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.random(8)),
-        signatureRaw = `lvbportal${requestMethod}${requestUrl}${timestamp}${nounce}`;
+        signatureRaw = `${environment.hmacCliendId}${requestMethod}${requestUrl}${timestamp}${nounce}`;
 
         if (body) {
             const contentString = JSON.stringify(body),
             updatedContent = CryptoJS.enc.Base64.stringify(CryptoJS.MD5(utf8.encode(contentString)));
             signatureRaw = signatureRaw + updatedContent;
         }
-
-        const clientSecret = utf8.encode('secret');
+        // Secret Will Be Updated Later On
+        const clientSecret = utf8.encode(environment.hmacClientSecret);
         const finalSignature = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(utf8.encode(signatureRaw), clientSecret));
 
         console.log("finalSignature ", `lvbportal:${finalSignature}:${nounce}:${timestamp}`);
-        return `lvbportal:${finalSignature}:${nounce}:${timestamp}`;
+        return `${environment.hmacCliendId}:${finalSignature}:${nounce}:${timestamp}`;
     }
 
     userLogin(data): Promise<any> {
         const url = `${environment.rbacUrl}Auth/Login`;
         this.headers.append('LRSignAuth', this.createHMACSignature('POST', url, data));
- console.log("this.headers ", this.headers);
-        // return ;
         const options = new RequestOptions({ headers: this.headers });
         return this.http.post(url, JSON.stringify(data), this.options)
-            // .timeout(environment.timeOut)
+            .timeout(environment.timeOut)
             .toPromise()
             .then(this.handleResponse)
             .catch(this.handleError);

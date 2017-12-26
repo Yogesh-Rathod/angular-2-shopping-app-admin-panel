@@ -141,7 +141,7 @@ export class LoginComponent implements OnInit {
 
     this._state.notifyDataChanged('loginSetCookie', true);
 
-    this._cookieService.put(`${environment.appName}.token`, JSON.stringify(loginPayload.token));
+    this._cookieService.put(`${environment.appName}.token`, JSON.stringify(loginPayload));
 
     this._cookieService.put(`${environment.appName}.userData`, JSON.stringify({
       username: loginPayload.username || this.loginForm.value.email.toLowerCase(),

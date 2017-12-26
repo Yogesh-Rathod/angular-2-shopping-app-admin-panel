@@ -16,6 +16,8 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
 import { CommonService } from 'lrshared_modules/services/common-services.service';
 import { ResponseHandingService } from 'lrshared_modules/services/response-handling.service';
+import * as CryptoJS from "crypto-js";
+import * as utf8 from 'utf8';
 
 @Injectable()
 export class UserService {
@@ -23,7 +25,6 @@ export class UserService {
         headers = new Headers({
                 'headers': '',
                 'Authorization': `Bearer ${'someToken'}`,
-                'LRSignAuth': 'lvbportal:1:1:1',
                 'ModuleId': '5eaf0cad-e3b4-11e7-8376-00155d0a0867',
                 'Content-Type': 'application/json',
                 'Accept': 'q=0.8;application/json;q=0.9'
@@ -35,6 +36,25 @@ export class UserService {
                 private commSer: CommonService,
                 private responseHandler: ResponseHandingService,
         ) {
+        }
+
+        createHMACSignature(requestMethod, requestURL, body = '') {
+                let requestUrl = encodeURIComponent(requestURL).toLowerCase(),
+                        timestamp = + new Date(),
+                        nounce = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.random(8)),
+                        signatureRaw = `lvbportal${requestMethod}${requestUrl}${timestamp}${nounce}`;
+
+                if (body) {
+                        const contentString = JSON.stringify(body),
+                                updatedContent = CryptoJS.enc.Base64.stringify(CryptoJS.MD5(utf8.encode(contentString)));
+                        signatureRaw = signatureRaw + updatedContent;
+                }
+
+                const clientSecret = utf8.encode('secret');
+                const finalSignature = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(utf8.encode(signatureRaw), clientSecret));
+
+                console.log("finalSignature ", `lvbportal:${finalSignature}:${nounce}:${timestamp}`);
+                return `lvbportal:${finalSignature}:${nounce}:${timestamp}`;
         }
 
         userData(): Promise<any> {

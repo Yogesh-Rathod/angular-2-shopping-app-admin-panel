@@ -16,6 +16,8 @@ export const environment = {
   masterApiUrl: '',
   storeApiUrl: '',
   appName: 'MERCHANDISE',
+  hmacCliendId: 'lvbportal',
+  hmacClientSecret: 'secret',
   domainName: 'localhost',
   timeOut: 30000,
   crm: {

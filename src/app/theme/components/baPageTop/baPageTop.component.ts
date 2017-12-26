@@ -35,6 +35,7 @@ export class BaPageTop {
   }
 
     signOut() {
+      console.log("signOut ");
       this.cookieService.removeAll();
       this.router.navigate(['/login']);
     }

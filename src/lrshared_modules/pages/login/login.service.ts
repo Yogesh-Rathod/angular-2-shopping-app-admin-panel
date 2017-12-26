@@ -55,8 +55,7 @@ export class LoginService {
 
     userLogin(data): Promise<any> {
         const url = `${environment.rbacUrl}Auth/Login`;
-        this.headers.append('LRSignAuth', this.createHMACSignature('POST', url, data));
-        const options = new RequestOptions({ headers: this.headers });
+        this.headers.set('LRSignAuth', this.createHMACSignature('POST', url, data));
         return this.http.post(url, JSON.stringify(data), this.options)
             .timeout(environment.timeOut)
             .toPromise()

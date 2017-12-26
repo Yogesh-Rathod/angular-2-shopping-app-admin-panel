@@ -135,7 +135,7 @@ export class UserService {
 
         fetchSingleUser(id): Promise<any> {
                 const url = `${environment.rbacUrl}/Profile/${id}`;
-                this.headers.append('LRSignAuth', this.createHMACSignature('GET', url));
+                this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
                 // const header = new Headers();
                 // this.commSer.createAuthorizationHeader(header, environment.appName === 'CRM');
                 // header.append('XServiceName', `resolvedUsersByApplication`);
@@ -275,8 +275,8 @@ export class UserService {
                         .catch((err) => this.responseHandler.handleError(err));
         }
 
-        fetchModules() {
-                const url = `${environment.rbacUrl}Module/All`;
+      fetchModules() {
+              const url = `${environment.rbacUrl}Module/All`;
                 this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
                 return this.http.get(url, this.options)
                         .toPromise()

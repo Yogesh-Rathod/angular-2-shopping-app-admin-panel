@@ -113,6 +113,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         // this.getApplicationData();
         this.fetchRoles();
         this.fetchModules();
+        this.fetchSingleUserData('ec5a9eb8-d752-4a33-8c41-760296fc595e');
         if (this.userId) {
             this.fetchSingleUserData('ec5a9eb8-d752-4a33-8c41-760296fc595e');
         }
@@ -132,7 +133,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
             ]],
             Mobile: ['', [
                 Validators.required,
-                // Validators.pattern(validators.mobileNo),
+                Validators.pattern(validators.mobileNo),
             ]],
             // CreatedOn: [new Date().toISOString()],
             CreatedBy: [''],
@@ -220,10 +221,13 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         // console.log("userData ", userData);
         if (userData.Id) {
             // Edit Form Code
-            this.userService.updateUser(JSON.stringify(userData)).then((res) => {
+            this.userService.updateUser(userData).then((res) => {
                 console.log("res ", res);
                 if (res.Code === 500) {
                     this.toastr.error(res.Message, 'Error');
+                } else if (res.Code === 200) {
+                    this.toastr.success('User updated successfully!');
+                    this._location.back();
                 }
                 this.isLoading.newUser = true;
             }).catch(rej => {
@@ -239,7 +243,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
                 if (res.Code === 500) {
                     this.toastr.error(res.Message, 'Error');
                 } else if (res.Code === 200) {
-                    this.toastr.success('User Successfully Added!');
+                    this.toastr.success('User successfully added!');
                     this._location.back();
                 }
                 this.isLoading.newUser = true;

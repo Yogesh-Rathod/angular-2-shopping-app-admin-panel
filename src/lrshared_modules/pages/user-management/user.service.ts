@@ -161,9 +161,6 @@ export class UserService {
         updateUser(data): Promise<any> {
                 const url = `${environment.rbacUrl}Profile`;
                 this.headers.set('LRSignAuth', this.createHMACSignature('PUT', url, data));
-                console.log("data ", JSON.parse(data));
-                console.log("this.headers ", this.headers);
-
                 return this.http.put(url, JSON.stringify(data), this.options)
                         .timeout(environment.timeOut)
                         .toPromise()

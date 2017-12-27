@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgUploaderModule } from 'ngx-uploader';
 import { AppTranslationModule } from '../app.translation.module';
+import { ChangePasswordComponent } from './components/baPageTop/change-password/change-password.component'
 
 import {
   BaThemeConfig,
@@ -73,6 +74,7 @@ const NGA_COMPONENTS = [
   BaPictureUploader,
   BaSidebar,
   BaFileUploader,
+  ChangePasswordComponent
 ];
 
 const NGA_DIRECTIVES = [
@@ -119,6 +121,9 @@ const NGA_VALIDATORS = [
     ...NGA_DIRECTIVES,
     ...NGA_COMPONENTS,
   ],
+  entryComponents:[
+    ChangePasswordComponent
+  ]
 })
 export class NgaModule {
   static forRoot(): ModuleWithProviders {

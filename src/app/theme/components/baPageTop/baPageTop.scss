@@ -200,3 +200,14 @@
     cursor: pointer;
   }
 }
+
+.top-dropdown-menu.profile-dropdown{
+    width: 185px;
+}
+
+.top-dropdown-menu.profile-dropdown .dropdown-item a{
+    padding: 10px 20px;
+}
+.dropdown-item{
+    padding: 0px;
+}

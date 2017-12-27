@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {GlobalState} from '../../../global.state';
 import { CookieService } from 'ngx-cookie';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {ChangePasswordComponent} from './change-password/change-password.component';
 
 @Component({
   selector: 'ba-page-top',
@@ -18,12 +20,23 @@ export class BaPageTop {
     private cookieService: CookieService,
     private router: Router,
     private route: ActivatedRoute,
+    private modalService: NgbModal
   ) {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });
   }
 
+  changePassword(){
+    const activeModal = this.modalService.open(ChangePasswordComponent, { size: 'sm' });
+        activeModal.result.then((status) => {
+          console.log("status ", status);
+          if (status) {
+          //  this.getAllMovies();
+            console.log("Called Popup");          
+          }
+        });
+  }
   public toggleMenu() {
     this.isMenuCollapsed = !this.isMenuCollapsed;
     this._state.notifyDataChanged('menu.isCollapsed', this.isMenuCollapsed);

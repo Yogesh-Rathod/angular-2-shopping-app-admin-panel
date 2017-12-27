@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { Location } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
@@ -41,7 +41,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         newUser: true,
     };
     isLoader = {
-        newUser: false,
+        newUser: true,
         editUser: false,
         userData: true,
         newAuth: false,
@@ -74,6 +74,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     userInfo: any = { username: 'Unknown User' };
 
     constructor(
+        private _location: Location,
         private userService: UserService,
         public toastr: ToastsManager,
         private modalService: NgbModal,
@@ -112,8 +113,8 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         // this.getApplicationData();
         this.fetchRoles();
         this.fetchModules();
+        this.fetchSingleUserData('ec5a9eb8-d752-4a33-8c41-760296fc595e');
         if (this.userId) {
-            this.fetchSingleUserData(this.userId);
         }
     }
 
@@ -131,7 +132,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
             ]],
             Mobile: ['', [
                 Validators.required,
-                Validators.pattern(validators.mobileNo),
+                // Validators.pattern(validators.mobileNo),
             ]],
             // CreatedOn: [new Date().toISOString()],
             CreatedBy: [''],
@@ -190,13 +191,16 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
     /************ Add new User **********/
     addUser(addForm) {
-        this.isLoading.newUser = true;
-        console.log("addForm ", addForm);
+        this.isLoading.newUser = false;
+        // console.log("addForm ", addForm);
         let userData = Object.assign({}, addForm);
         userData.UserCredential = {};
+        userData.UserCredential.Id = 'String';
         userData.UserCredential.Password = addForm.Password;
         userData.UserCredential.IsActive = addForm.IsActive;
+        userData.UserCredential.IsLocked = addForm.IsActive;
         userData.CreatedBy = this.userInfo.username;
+        userData.CreatedOn = new Date().toISOString();
         delete userData.Password;
         delete userData.IsActive;
         userData.Roles = userData.Roles.map((item) => {
@@ -207,22 +211,35 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         });
         userData.UserModules = userData.UserModules.map((item) => {
             item.ModuleName = item.itemName;
+            delete item.ChildModules;
             item.IsActive = addForm.IsActive;
             // delete item.id; delete item.itemName;
             return item;
         });
 
-        console.log("userData ", userData);
+        // console.log("userData ", userData);
         if (userData.Id) {
             // Edit Form Code
+            this.userService.updateUser(JSON.stringify(userData)).then((res) => {
+                console.log("res ", res);
+                if (res.Code === 500) {
+                    this.toastr.error(res.Message, 'Error');
+                }
+                this.isLoading.newUser = true;
+            }).catch(rej => {
+                this.isLoading.newUser = true;
+                // this.newUserRecord = true;
+
+                this.toastr.error(rej.message);
+            });
         } else {
-            // delete userData.Id;
+            delete userData.Id;
             this.userService.addUser(JSON.stringify(userData)).then((res) => {
                 console.log("res ", res);
                 if (res.Code === 500) {
-                    this.toastr.error(res.Message);
+                    this.toastr.error(res.Message, 'Error');
                 }
-
+                this.isLoading.newUser = true;
             }).catch(rej => {
                 this.isLoading.newUser = true;
                 // this.newUserRecord = true;
@@ -286,83 +303,45 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         // this.isLoader.userData = false;
         this.userService.fetchSingleUser(userId).
             then((res) => {
-                if (res.payload.length !== 0) {
-                    this.userInfoData = res.Data;
-                    // this.userAccessData = res.payload;
-                    this.userAvailable = true;
+                if (res.Code === 500) {
+                    this.toastr.error(res.Message, 'Error');
+                    this._location.back();;
                 }
+                console.log("res ", res);
+                this.userInfoData = res.Data;
+                this.addUserForm.controls['Id'].patchValue(this.userInfoData.Id);
+                this.addUserForm.controls['UserName'].patchValue(this.userInfoData.UserName);
+                this.addUserForm.controls['EmailId'].patchValue(this.userInfoData.EmailId);
+                this.addUserForm.controls['Mobile'].patchValue(this.userInfoData.Mobile);
+                this.addUserForm.controls['Password'].patchValue(this.userInfoData.Password);
+                this.addUserForm.controls['IsActive'].patchValue(this.userInfoData.IsActive);
+                this.userInfo.Roles = this.userInfoData.Roles.map((item) => {
+                    item.id = item.Id;
+                    item.itemName = item.RoleName;
+                    return item;
+                });
+                this.addUserForm.controls['Roles'].patchValue(this.userInfo.Roles);
+                this.userInfo.UserModules = this.userInfoData.UserModules.map((item) => {
+                    item.id = item.Id;
+                    item.itemName = item.ModuleName;
+                    return item;
+                });
+                this.addUserForm.controls['UserModules'].patchValue(this.userInfoData.UserModules);
+
+                // if (res.payload.length !== 0) {
+                //     this.userInfoData = res.Data;
+                //     // this.userAccessData = res.payload;
+                //     this.userAvailable = true;
+                // }
                 this.isLoader.userData = false;
-                this.isLoader.authority = false;
+                // this.isLoader.authority = false;
 
             }).catch(rej => {
-                this.isLoader.userData = false;
-                this.isLoader.authority = false;
-                this.userAvailable = false;
+                // this.isLoader.userData = false;
+                // this.isLoader.authority = false;
+                // this.userAvailable = false;
             });
 
-
-        this.userInfoData = {
-            "Id": "ec5a9eb8-d752-4a33-8c41-760296fc595e",
-            "UserName": "yogesh",
-            "EmailId": "yogesh.rathod@loylty.in",
-            "Mobile": "8286875250",
-            "IsActive": false,
-            "CreatedOn": "2017-12-22T10:48:51",
-            "CreatedBy": "yogesh",
-            "ModifiedOn": null,
-            "ModifiedBy": null,
-            "Roles": [
-                {
-                    "Id": "f0ede6b9-e3b3-11e7-8376-00155d0a0867",
-                    "RoleName": "SuperAdmin",
-                    "Description": "Super Admin",
-                    "IsActive": true,
-                    "CreatedOn": "2017-12-18T00:00:00",
-                    "ModifiedOn": "2017-12-18T00:00:00"
-                }
-            ],
-            "UserModules": [
-                {
-                    "Id": "aa7b3eb7-e5f4-11e7-ae2f-00155dc90735",
-                    "ModuleName": "ParentTestModule2",
-                    "Description": "parent test module 2",
-                    "IsActive": true,
-                    "ParentModuleId": null,
-                    "CreatedOn": "2017-12-18T00:00:00",
-                    "ModifiedOn": "2017-12-18T00:00:00",
-                    "ChildModules": [
-                        {
-                            "Id": "bfa54f10-e5f4-11e7-ae2f-00155dc90735",
-                            "ModuleName": "ChildModule3",
-                            "Description": "Child Module 3",
-                            "IsActive": true,
-                            "ParentModuleId": "aa7b3eb7-e5f4-11e7-ae2f-00155dc90735",
-                            "CreatedOn": "2017-12-18T00:00:00",
-                            "ModifiedOn": "2017-12-18T00:00:00",
-                            "ChildModules": []
-                        }
-                    ]
-                }
-            ]
-        };
-        this.addUserForm.controls['Id'].patchValue(this.userInfoData.Id);
-        this.addUserForm.controls['UserName'].patchValue(this.userInfoData.UserName);
-        this.addUserForm.controls['EmailId'].patchValue(this.userInfoData.EmailId);
-        this.addUserForm.controls['Mobile'].patchValue(this.userInfoData.Mobile);
-        this.addUserForm.controls['Password'].patchValue(this.userInfoData.Password);
-        this.addUserForm.controls['IsActive'].patchValue(this.userInfoData.IsActive);
-        this.userInfo.Roles = this.userInfoData.Roles.map((item) => {
-            item.id = item.Id;
-            item.itemName = item.RoleName;
-            return item;
-        });
-        this.addUserForm.controls['Roles'].patchValue(this.userInfo.Roles);
-        this.userInfo.UserModules = this.userInfoData.UserModules.map((item) => {
-            item.id = item.Id;
-            item.itemName = item.ModuleName;
-            return item;
-        });
-        this.addUserForm.controls['UserModules'].patchValue(this.userInfoData.UserModules);
     }
 
     // Edit particular authority

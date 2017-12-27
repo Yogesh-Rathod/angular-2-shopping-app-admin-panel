@@ -43,11 +43,10 @@ export class UserService {
 
 
         createHMACSignature(requestMethod, requestURL, body = '') {
-                console.log("authToken ", this.authToken);
                 let requestUrl = encodeURIComponent(requestURL).toLowerCase(),
-                timestamp = + new Date(),
-                nounce = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.random(8)),
-                signatureRaw = `${environment.hmacCliendId}${requestMethod}${requestUrl}${timestamp}${nounce}`;
+                        timestamp = + new Date(),
+                        nounce = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.random(8)),
+                        signatureRaw = `${environment.hmacCliendId}${requestMethod}${requestUrl}${timestamp}${nounce}`;
 
                 if (body) {
                         const contentString = JSON.stringify(body),
@@ -99,6 +98,8 @@ export class UserService {
         addUser(data): Promise<any> {
                 const url = `${environment.rbacUrl}Profile`;
                 this.headers.set('LRSignAuth', this.createHMACSignature('POST', url, data));
+                console.log("data ", JSON.parse(data));
+                console.log("this.headers ", this.headers);
                 return this.http.post(url, JSON.stringify(data), this.options)
                         .timeout(environment.timeOut)
                         .toPromise()
@@ -134,12 +135,8 @@ export class UserService {
         }
 
         fetchSingleUser(id): Promise<any> {
-                const url = `${environment.rbacUrl}/Profile/${id}`;
+                const url = `${environment.rbacUrl}Profile/${id}`;
                 this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
-                // const header = new Headers();
-                // this.commSer.createAuthorizationHeader(header, environment.appName === 'CRM');
-                // header.append('XServiceName', `resolvedUsersByApplication`);
-                // const options = new RequestOptions({ headers: header });
 
                 return this.http.get(url, this.options)
                         .timeout(environment.timeOut)
@@ -163,15 +160,13 @@ export class UserService {
                         .catch((err) => this.responseHandler.handleError(err));
         }
 
-        updateUser(data, username): Promise<any> {
-                const url = `${environment.rbacUrl}/user/${username}/`;
+        updateUser(data): Promise<any> {
+                const url = `${environment.rbacUrl}Profile`;
+                this.headers.set('LRSignAuth', this.createHMACSignature('PUT', url, data));
+                console.log("data ", JSON.parse(data));
+                console.log("this.headers ", this.headers);
 
-                const header = new Headers();
-                this.commSer.createAuthorizationHeader(header);
-                header.append('XServiceName', `updateuser`);
-                const options = new RequestOptions({ headers: header });
-
-                return this.http.patch(url, data, options)
+                return this.http.patch(url, JSON.stringify(data), this.options)
                         .timeout(environment.timeOut)
                         .toPromise()
                         .then(this.responseHandler.handleResponse)
@@ -275,8 +270,8 @@ export class UserService {
                         .catch((err) => this.responseHandler.handleError(err));
         }
 
-      fetchModules() {
-              const url = `${environment.rbacUrl}Module/All`;
+        fetchModules() {
+                const url = `${environment.rbacUrl}Module/All`;
                 this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
                 return this.http.get(url, this.options)
                         .toPromise()

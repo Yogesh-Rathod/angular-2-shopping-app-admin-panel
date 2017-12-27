@@ -113,8 +113,8 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         // this.getApplicationData();
         this.fetchRoles();
         this.fetchModules();
-        this.fetchSingleUserData('ec5a9eb8-d752-4a33-8c41-760296fc595e');
         if (this.userId) {
+            this.fetchSingleUserData('ec5a9eb8-d752-4a33-8c41-760296fc595e');
         }
     }
 

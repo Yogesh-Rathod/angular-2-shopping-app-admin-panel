@@ -166,7 +166,7 @@ export class UserService {
                 console.log("data ", JSON.parse(data));
                 console.log("this.headers ", this.headers);
 
-                return this.http.patch(url, JSON.stringify(data), this.options)
+                return this.http.put(url, JSON.stringify(data), this.options)
                         .timeout(environment.timeOut)
                         .toPromise()
                         .then(this.responseHandler.handleResponse)

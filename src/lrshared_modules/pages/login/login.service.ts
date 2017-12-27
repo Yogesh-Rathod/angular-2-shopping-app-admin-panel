@@ -73,6 +73,7 @@ export class LoginService {
     }
 
     handleError(error: any): Promise<any> {
+        console.log("Login handleError ", error);
         let rejParse;
         try {
             rejParse = JSON.parse(error._body);
@@ -92,8 +93,8 @@ export class LoginService {
     }
 
     handleResponse(response: any): Promise<any> {
+        console.log("Login handleResponse ", response);
         const emptyArr: any = [];
-        console.log("response ", response);
         if (response.status >= 200 || response.status < 204) {
             return response.json();
         } else if (response.status === 204) {

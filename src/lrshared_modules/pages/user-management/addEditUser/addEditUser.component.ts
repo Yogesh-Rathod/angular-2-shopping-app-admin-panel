@@ -234,10 +234,13 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
             });
         } else {
             delete userData.Id;
-            this.userService.addUser(JSON.stringify(userData)).then((res) => {
+            this.userService.addUser(userData).then((res) => {
                 console.log("res ", res);
                 if (res.Code === 500) {
                     this.toastr.error(res.Message, 'Error');
+                } else if (res.Code === 200) {
+                    this.toastr.success('User Successfully Added!');
+                    this._location.back();
                 }
                 this.isLoading.newUser = true;
             }).catch(rej => {
@@ -305,7 +308,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
             then((res) => {
                 if (res.Code === 500) {
                     this.toastr.error(res.Message, 'Error');
-                    this._location.back();;
+                    this._location.back();
                 }
                 console.log("res ", res);
                 this.userInfoData = res.Data;

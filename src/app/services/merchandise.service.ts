@@ -160,13 +160,7 @@ export class MerchandiseService {
   }
 
   getCategories() {
-    const url = `${environment.merchandiseApiUrl}Categories`;
-    return this.http.get(url, this.options)
-      .toPromise()
-      .then(response => this.responseHandingService.handleResponse(response))
-      .catch(reason => this.responseHandingService.handleError(reason));
-
-    // return this.categories;
+    return this.categories;
   }
 
   addCategory(categoryInfo) {

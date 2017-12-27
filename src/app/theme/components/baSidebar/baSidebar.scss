@@ -24,7 +24,7 @@ $angle-right: '\f101';
       font-size: 13px;
       text-decoration: none;
       color: $sidebar-text;
-      padding-left: 52px;
+      padding-left: 45px;
       height: auto;
       line-height: 29px;
       &:hover {
@@ -81,6 +81,14 @@ $angle-right: '\f101';
       background-color: $primary;
       a.al-sidebar-list-link {
         color: $sidebar-text;
+        span {
+          display: inline-block;
+          width: 120px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          vertical-align: top;
+        }
         b {
           color: $sidebar-text;
         }
@@ -121,6 +129,15 @@ $angle-right: '\f101';
     white-space: nowrap;
     overflow: hidden;
     cursor: pointer;
+    span {
+        display: inline-block;
+        width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: top;
+    }
+
     &:hover {
       color: $primary;
       b {
@@ -183,7 +200,7 @@ $angle-right: '\f101';
         width: 16px;
       }
     }
-    
+
     .slimScrollBar, .slimScrollRail {
       display: none !important;
     }

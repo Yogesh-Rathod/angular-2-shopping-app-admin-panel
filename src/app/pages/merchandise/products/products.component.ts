@@ -60,7 +60,7 @@ export class ProductsComponent implements OnInit {
     });
     this.searchForm();
     this.getAllProducts();
-    this.getAllCategories();
+    // this.getAllCategories();
     this.getAllVendors();
     this.bigLoader = false;
     if (this.vendorId) {

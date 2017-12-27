@@ -13,10 +13,51 @@ const menus = [
     }
   },
   {
+    path: 'seller',
+    data: {
+      menu: {
+        title: 'Seller',
+        icon: 'ion-pricetags',
+        selected: false,
+        expanded: false,
+        order: 1
+      }
+    },
+    children: [
+      {
+        path: 'profile',
+        data: {
+          menu: {
+            title: 'Profile',
+            pathMatch: 'partial'
+          }
+        }
+      },
+      {
+        path: 'orders',
+        data: {
+          menu: {
+            title: 'Orders',
+            pathMatch: 'partial'
+          }
+        }
+      },
+      {
+        path: 'returns',
+        data: {
+          menu: {
+            title: 'Returns',
+            pathMatch: 'partial'
+          }
+        }
+      }
+    ]
+  },
+  {
     path: 'merchandise',
     data: {
       menu: {
-        title: 'Merchandise',
+        title: 'Product Management',
         icon: 'ion-bag',
         selected: true,
         expanded: true,
@@ -51,29 +92,16 @@ const menus = [
           }
         }
       },
-      //===== If Orders Should be Seperate option in Menu
-      // {
-      //   path: 'orders',
-      //   data: {
-      //     menu: {
-      //       title: 'Orders',
-      //       pathMatch: 'partial'
-      //     }
-      //   }
-      // }
-    ]
-  },
-  {
-    path: 'catalog-management',
-    data: {
-      menu: {
-        title: 'Catalog Management',
-        icon: 'ion-document',
-        selected: false,
-        expanded: false,
-        order: 1
+      {
+        path: 'catalog-management',
+        data: {
+          menu: {
+            title: 'Catalog Management',
+            pathMatch: 'partial'
+          }
+        }
       }
-    }
+    ]
   },
   {
     path: 'orders',
@@ -85,7 +113,36 @@ const menus = [
         expanded: false,
         order: 1
       }
-    }
+    },
+    children: [
+      {
+        path: '',
+        data: {
+          menu: {
+            title: 'Orders',
+            pathMatch: 'partial'
+          }
+        }
+      },
+      {
+        path: 'rto',
+        data: {
+          menu: {
+            title: 'RTO',
+            pathMatch: 'partial'
+          }
+        }
+      },
+      {
+        path: 'reports',
+        data: {
+          menu: {
+            title: 'Reports',
+            pathMatch: 'partial'
+          }
+        }
+      }
+    ]
   },
   {
     path: 'movie-management',

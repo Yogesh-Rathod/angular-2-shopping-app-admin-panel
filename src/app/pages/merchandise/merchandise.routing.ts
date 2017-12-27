@@ -23,7 +23,11 @@ const routes: Routes = [
       {
         path: 'vendors',
         loadChildren: './vendor/vendor.module#VendorModule'
-      }
+      },
+      {
+        path: 'catalog-management',
+        loadChildren: './catalog-management/catalog-management.module#CatalogManagementModule'
+      },
     ],
   },
 ];

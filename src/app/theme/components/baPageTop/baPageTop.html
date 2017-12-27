@@ -9,6 +9,7 @@
         <img src="{{ ( 'avatar' | baProfilePicture ) }}">
       </a>
       <ul class="dropdown-menu top-dropdown-menu profile-dropdown" aria-labelledby="user-profile-dd">
+        <li class="dropdown-item"><a (click)="changePassword()" class="change-password"><i class="fa fa-key"></i>Change Password</a></li>
         <li class="dropdown-item"><a (click)="signOut()" class="signout"><i class="fa fa-power-off"></i>Sign out</a></li>
       </ul>
     </div>

@@ -1,3 +1,133 @@
-<p>
-  orders works!
-</p>
+<div class="row top20 clearfix fadeIn animated">
+    <div class="col-12">
+
+        <div class="catSearch clearfix card-header">
+            <h2 class="card-title ">
+                Manage Orders
+            </h2>
+        </div>
+
+        <div class="filters card fadeIn animated">
+            <div class="card-body no_top_padding">
+                <form class="row order-search-form" [formGroup]="searchProductForm" (ngSubmit)=" searchProduct(searchProductForm.value) ">
+
+                    <div class="form-group col-3">
+                        <label for="programName" class="text-right">
+                            Program Name
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A program name."></i>
+                        </label>
+                        <select id="programName" class="form-control" formControlName="programName">
+                            <option value="all">All</option>
+                            <option *ngFor="let item of programName" value="{{ item }}">
+                                {{ item }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="startDate" class="text-right">
+                            Start Date
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select Start Date for search."></i>
+                        </label>
+                        <my-date-picker id="startDate" class="no_padding" name="startDate" [options]="myDatePickerOptions" formControlName="startDate">
+                        </my-date-picker>
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="endDate" class="text-right">
+                            End Date
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select End Date for search."></i>
+                        </label>
+                        <my-date-picker id="endDate" class="no_padding" name="endDate" [options]="myDatePickerOptions" formControlName="endDate">
+                        </my-date-picker>
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="orderStatus" class="text-right">
+                            Order status
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by Order status."></i>
+                        </label>
+                        <angular2-multiselect id="orderStatus" [data]="orderStatus" formControlName="orderStatus" [settings]="orderStatusDropdownSettings">
+                        </angular2-multiselect>
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="poNumber" class="text-right">
+                            PO Number
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by PO Number."></i>
+                        </label>
+                        <input type="text" id="poNumber" class="form-control" formControlName="poNumber">
+                    </div>
+
+                    <div class="form-group col-3">
+                        <div class="rtoCheck">
+                            <input type="checkbox" id="rtoCheck" formControlName="rtoCheck">
+                            <label for="rtoCheck" class="text-right">
+                                RTO Orders
+                                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Include RTO Orders in search."></i>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-12 searchButton">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            Search
+                        </button>
+                        <span class="btn btn-primary" (click)="resetForm()">
+                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                            Reset
+                        </span>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="spacer col-12"></div>
+
+        <div class="filters card col-12">
+            <div class="card-body pos_relative no_left_padding no_right_padding">
+
+                <div class="loader-container pos_absolute" *ngIf="bigLoader">
+                    <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+                </div>
+
+                <div class="tabs-section">
+                  <!-- Tabs Top UI -->
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#Fresh" role="tab" data-toggle="tab">Fresh</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link " href="#Processed" role="tab" data-toggle="tab">Processed</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link " href="#Shipped" role="tab" data-toggle="tab">Shipped</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link " href="#Delivered" role="tab" data-toggle="tab">Delivered</a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="tab-content col-12 no_left_padding no_right_padding">
+                  <div role="tabpanel" class="tab-pane fade in active" id="Fresh">
+                    <app-fresh class="col-12"></app-fresh>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade in" id="Processed">
+                    <app-processed class="col-12"></app-processed>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade in " id="shippingInfo">
+                    <!-- <app-shipping-info class="col-12" [orderInfo]="orderInfo"></app-shipping-info> -->
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade in" id="Delivered">
+                    <app-delivered class="col-12"></app-delivered>
+                  </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

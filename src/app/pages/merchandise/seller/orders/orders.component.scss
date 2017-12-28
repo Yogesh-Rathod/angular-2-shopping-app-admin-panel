@@ -1,0 +1,116 @@
+.catSearch {
+    .btn {
+        &.btn-primary {
+            background-color: #0275d8 !important;
+            border-color: #0275d8 !important;
+            margin-top: -6px;
+        }
+        &+.btn {
+            margin-right: 10px;
+        }
+    }
+}
+
+.tabs-section {
+    margin-left: -15px;
+}
+
+.fade.active {
+    opacity: 1;
+}
+
+
+
+.orderNoField {
+    .go-button {
+        vertical-align: middle;
+        background: #00acd6;
+        color: #fff;
+        padding: 10px;
+        cursor: pointer;
+    }
+    .form-control {
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+    }
+}
+
+.form-group {
+    select {
+        text-transform: capitalize;
+    }
+    label {
+        margin-top: 10px;
+        .fa[data-toggle="tooltip"] {
+            color: #209e91;
+        }
+    }
+    .btn {
+        &+.btn {
+            margin-left: 15px;
+        }
+    }
+}
+
+.product-image {
+    width: 100px;
+}
+
+.order-search-form {
+    .form-group {
+        margin-bottom: 0;
+    }
+    .searchButton {
+        margin-top: 10px;
+    }
+}
+
+table {
+    tr {
+        th {
+            white-space: normal;
+            padding: 10px 8px;
+            vertical-align: middle; // &.customer { width: 150px; }
+            &.orderno {
+                width: 65px;
+            }
+            &.store {
+                width: 70px;
+            }
+        } // .action { width: 100px; }
+        td {
+            line-height: 25px;
+            &.customer {
+                // word-break: break-word;
+            }
+            &.order-status {
+                span {
+                    padding: .2em .6em .3em;
+                    border-radius: .25em;
+                    &.delivered {
+                        background-color: #00a65a;
+                        color: #fff;
+                    }
+                    &.pending {
+                        background-color: #f39c12;
+                        color: #fff;
+                    }
+                    &.processing {
+                        background-color: #00c0ef;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+        .createDate {
+            width: 110px;
+        }
+    }
+}
+
+.rtoCheck {
+    margin-top: 33px;
+    label {
+        margin-left: 5px;
+    }
+}

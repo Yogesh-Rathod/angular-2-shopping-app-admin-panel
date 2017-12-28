@@ -4,10 +4,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../../app.translation.module';
 import { routing } from './seller.routes';
-import { CKEditorModule } from 'ng2-ckeditor';
+import { MyDatePickerModule } from 'mydatepicker';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 import { ProfileComponent } from './profile/profile.component';
 import { OrdersComponent } from './orders/orders.component';
+import { ProductsService, OrdersService } from 'app/services';
+import { FreshComponent } from './orders/fresh/fresh.component';
+import { ProcessedComponent } from './orders/processed/processed.component';
+import { DeliveredComponent } from './orders/delivered/delivered.component';
 
 @NgModule({
   imports: [
@@ -17,13 +22,19 @@ import { OrdersComponent } from './orders/orders.component';
     routing,
     ReactiveFormsModule,
     DataTableModule,
-    CKEditorModule
+    MyDatePickerModule,
+    AngularMultiSelectModule
   ],
   declarations: [
     ProfileComponent,
-    OrdersComponent
+    OrdersComponent,
+    FreshComponent,
+    ProcessedComponent,
+    DeliveredComponent
   ],
   providers: [
+    ProductsService,
+    OrdersService
   ],
 })
 export class SellerModule {}

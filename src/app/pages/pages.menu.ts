@@ -59,8 +59,8 @@ const menus = [
       menu: {
         title: 'Product Management',
         icon: 'ion-bag',
-        selected: true,
-        expanded: true,
+        selected: false,
+        expanded: false,
         order: 0
       }
     },

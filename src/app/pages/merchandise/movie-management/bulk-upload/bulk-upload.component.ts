@@ -29,7 +29,7 @@ export class MovieBulkUploadComponent implements OnInit {
     private toastr: ToastsManager,
     private activeModal: NgbActiveModal
     ) {
-    this.appStateManagementService.retrieveAppStateCK('CRM.userData').
+    this.appStateManagementService.retrieveAppStateCK('MERCHANDISE.userData').
       then((userInfo) => {
         this.userInfo = JSON.parse(userInfo);
       }).catch((error) => {
@@ -70,7 +70,7 @@ export class MovieBulkUploadComponent implements OnInit {
   }
 
   convertJSONResponse(result) {
-    // console.log("result ", result);
+    console.log("result ", result);
     _.forEach(result, (movie) => {
       const movieInformation = {
         "Title": movie['Title*'],

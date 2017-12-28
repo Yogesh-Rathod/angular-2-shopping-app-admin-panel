@@ -46,9 +46,13 @@ export const routes: Routes = [
         component: HomeComponent
       },
       {
-        path: 'PageNotFound',
-        component: NotFoundComponent
+        path: 'seller',
+        loadChildren: './merchandise/seller/seller.module#SellerModule'
       }
+      // {
+      //   path: 'PageNotFound',
+      //   component: NotFoundComponent
+      // }
     ]
   },
 ];

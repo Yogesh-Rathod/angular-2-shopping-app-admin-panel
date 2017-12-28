@@ -7,7 +7,6 @@ import { MerchandiseComponent } from './merchandise.component';
 import { routing } from './merchandise.routing';
 import { MerchandiseService } from 'app/services';
 
-
 @NgModule({
   imports: [
     CommonModule,

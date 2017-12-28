@@ -13,3 +13,5 @@ export * from './catalogManagement.service';
 export * from './movie-management.service';
 
 export * from './xlsx-to-json.service';
+
+export * from './json-to-excel.service';

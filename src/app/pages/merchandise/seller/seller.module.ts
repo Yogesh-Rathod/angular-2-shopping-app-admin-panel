@@ -9,7 +9,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
 
 import { ProfileComponent } from './profile/profile.component';
 import { OrdersComponent } from './orders/orders.component';
-import { ProductsService, OrdersService } from 'app/services';
+import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
 import { FreshComponent } from './orders/fresh/fresh.component';
 import { ProcessedComponent } from './orders/processed/processed.component';
 import { DeliveredComponent } from './orders/delivered/delivered.component';
@@ -34,7 +34,8 @@ import { DeliveredComponent } from './orders/delivered/delivered.component';
   ],
   providers: [
     ProductsService,
-    OrdersService
+    OrdersService,
+    JsonToExcelService
   ],
 })
 export class SellerModule {}

@@ -112,6 +112,7 @@ export class LoginComponent implements OnInit {
             this.isHidden = true;
             if (res.Code === 500) {
               this.toastr.error('Login failed! Please recheck username & password.');
+              return;
             }
             const loginPayload = {
               accessToken: res.Data.Accesstoken,

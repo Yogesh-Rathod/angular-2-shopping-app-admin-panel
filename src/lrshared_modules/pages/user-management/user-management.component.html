@@ -7,52 +7,90 @@
         <form novalidate (ngSubmit)="Search(filter.value)" [formGroup]="filter">
             <div class="row">
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" formControlName="searchText" title="Search with Name, Username, Email or Program Name" placeholder="search here">
+                    <input type="text" class="form-control" formControlName="searchText" title="Search with Name, Username, Email or Program Name" placeholder="Search user">
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary" type="submit" [disabled]="filter.get('searchText').value==''">Search</button>
+                    <button class="btn btn-primary" type="submit">Search</button>
                     <button class="btn btn-danger" type="button" (click)="reset()">Reset</button>
                 </div>
             </div>
         </form>
         <div *ngIf="!isLoading.userList">
-            <table class="table table-bordered" *ngIf="userListData && userListData.length>0" width="100%">
-                <thead>
-                    <tr class="black-muted-bg">
-                        <th width="15%">{{'userMangement.name'|translate}}</th>
-                        <th width="20%">Username</th>
-                        <th width="20%">Program</th>
-                        <th width="20%">{{'userMangement.email'|translate}}</th>
-                        <th width="15%">{{'userMangement.mobile'|translate}}</th>
-                        <th width="10%">{{'userMangement.status'|translate}}</th>
-                        <th width="10%">{{'userMangement.action'|translate}}</th>
+            <table class="table table-bordered table-responsive" [mfData]="filteredUserListData" #mf="mfDataTable" [mfRowsOnPage]="10">
+                <thead class="black-muted-bg">
+                    <tr>
+                        <th>
+                            <mfDefaultSorter by="UserName">
+                                <strong>Username</strong>
+                            </mfDefaultSorter>
+                        </th>
+                        <th class="text-center image">
+                            <mfDefaultSorter by="EmailId">
+                                <strong>Email</strong>
+                            </mfDefaultSorter>
+                        </th>
+                        <th class="text-left">
+                            <mfDefaultSorter by="IsActive">
+                                <strong>Status</strong>
+                            </mfDefaultSorter>
+                        </th>
+                        <th class="text-center">
+                            <mfDefaultSorter by="Mobile">
+                                <strong>Mobile</strong>
+                            </mfDefaultSorter>
+                        </th>
+                        <th class="text-center">
+                            <strong>Roles</strong>
+                        </th>
+                        <th class="text-center">
+                            <strong>Action</strong>
+                        </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr *ngFor="let user of userListData | paginate : {
-                        itemsPerPage: itemsPerPage,
-                        currentPage: p,
-                        totalItems: userListData.length
-                      };">
-                        <td class="alignCenter">{{(user.subject ? user.subject.name : 'NA') || 'NA'}}</td>
-                        <td class="alignCenter">
-                            <span style="word-break:break-all">{{(user.subject ? user.subject.username : 'NA') || 'NA'}}</span>
+                <tbody *ngIf=" filteredUserListData && filteredUserListData.length > 0 ">
+                    <tr *ngFor=" let item of mf.data;">
+                        <td class="text-left image">
+                            {{ item.UserName ? item.UserName : 'Not Available' }}
                         </td>
-                        <td class="alignCenter">{{(user.loyltyProgram ? user.loyltyProgram.programName : 'NA') || 'NA'}}</td>
-                        <td class="alignCenter">{{(user.subject ? user.subject.email : 'NA') || 'NA'}}</td>
-                        <td class="alignCenter">{{(user.subject ? user.subject.mobile : 'NA') || 'NA'}}</td>
-                        <td class="alignCenter">{{(user.subject ? user.subject.status : 'NA') || 'NA'}}</td>
-                        <td class="alignCenter">
-                            <a href="javascript:void(0)" routerLink="edit/{{user.subject.id}}">
-                                <i class="ion-edit" title="Edit user"></i>
-                            </a>
+                        <td class="text-left no-text-transform">
+                            {{ item.EmailId ? item.EmailId : 'Not Available' }}
+                        </td>
+                        <td class="text-center">
+                            <span *ngIf="item.IsActive; else elseBlock">
+                                <span>Active</span>
+                            </span>
+                            <ng-template #elseBlock>
+                                <span>Inactive</span>
+                            </ng-template>
+                        </td>
+                        <td class="text-center">{{ item.Mobile ? item.Mobile : 'Not Available' }}</td>
+                        <td class="text-center">
+                            <span *ngIf="item.Roles.length > 0">
+                                <span *ngFor="let item of item.Roles">
+                                    {{ item.RoleName }}
+                                </span>
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-secondary" [routerLink]="['./edit-user/', item.Id]" title="Edit User">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
-                <tfoot>
-                    <tr *ngIf="userListData && userListData.length != 0 && (userListData.length > itemsPerPage)">
-                        <td colspan="12" class="text-center" style="padding:15px; border-color: transparent;">
-                            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+                <tbody *ngIf=" filteredUserListData && filteredUserListData.length === 0 ">
+                    <tr>
+                        <td colspan="6">
+                            <strong>There are no movies!</strong>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tfoot *ngIf=" filteredUserListData && filteredUserListData.length > 10 ">
+                    <tr>
+                        <td colspan="6">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
                         </td>
                     </tr>
                 </tfoot>

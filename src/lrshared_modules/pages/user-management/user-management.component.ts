@@ -18,6 +18,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
     disabledButton: boolean;
     availableUserListData = [];
     userListData = [];
+    filteredUserListData: any;
     filter: FormGroup;
     isLoading = {
         userList: true
@@ -63,47 +64,28 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
     userList() {
         this.isLoading.userList = true;
-        this.userListData = [
-            {
-                subject: {
-                    id: 1235,
-                    name: 'Yogesh',
-                    username: 'yogesh.rathod',
-                    email: 'yrathod101@gmail.com',
-                    mobile: '8286875250',
-                    status: 'Active',
-                },
-                loyltyProgram: {
-                    programName: 'Some Program'
-                }
-            }
-        ];
-        this.isLoading.userList = false;
-        // this.userService.getAllUsers()
-        //     .then((res) => {
+        // this.isLoading.userList = false;
+        this.userService.getAllUsers()
+            .then((res) => {
+                // console.log("getAllUsers res ", res);
         //         this.availableUserListData = res.payload;
-        //         this.userListData = res.payload;
-        //         this.isLoading.userList = false;
-        //     })
-        //     .catch(rej => {
+                this.userListData = res.Data;
+                this.filteredUserListData = this.userListData;
+                console.log("this.userListData ", this.userListData);
+                this.isLoading.userList = false;
+            })
+            .catch(rej => {
+                    console.log("getAllUsers rej ", rej);
         //         this.isLoading.userList = false;
         //         this.toastr.error(rej.message);
-        //     });
+            });
     }
 
     Search(value) {
-        this.p = 1;
-        this.userListData = this.userListData.filter((data) => {
-            if (data.loyltyProgram.programName.toLowerCase() == value.searchText.toLowerCase()
-                || data.subject.name.toLowerCase() == value.searchText.toLowerCase()
-                || data.subject.username.toLowerCase() == value.searchText.toLowerCase()
-                || data.subject.email == value.searchText
-            ) {
-                return data;
-            }
-
-        })
-
+        this.filteredUserListData = this.userListData.filter((item) => {
+            const caseInsensitiveSearch = new RegExp(`${value.searchText.trim()}`, "i");
+            return caseInsensitiveSearch.test(item.UserName) || caseInsensitiveSearch.test(item.EmailId) || caseInsensitiveSearch.test(item.RoleName) || caseInsensitiveSearch.test(item.Mobile);
+        });
     }
     reset() {
         this.p = 1;

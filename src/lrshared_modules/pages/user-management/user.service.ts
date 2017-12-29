@@ -81,14 +81,9 @@ export class UserService {
         }
 
         getAllUsers() {
-                const url = `${environment.rbacUrl}/resolvedUsersByApplication`;
-
-                const header = new Headers();
-                this.commSer.createAuthorizationHeader(header,true);
-                header.append('XServiceName', `allResolvedUsersByApplication`);
-                const options = new RequestOptions({ headers: header });
-
-                return this.http.post(url, '', options)
+                let url = `${environment.rbacUrl}Profile/All`;
+                this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
+                return this.http.get(url, this.options)
                         .timeout(environment.timeOut)
                         .toPromise()
                         .then(this.responseHandler.handleResponse)

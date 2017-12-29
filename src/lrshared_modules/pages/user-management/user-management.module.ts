@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { UserManagementComponent } from 'lrshared_modules/pages/user-management/user-management.component';
 import { routing } from 'lrshared_modules/pages/user-management/user-management.routing';
 import { NgaModule } from 'app/theme/nga.module';
+import { DataTableModule } from "angular2-datatable";
+
 import { AddEditUserComponent } from 'lrshared_modules/pages/user-management/addEditUser/addEditUser.component';
 import { FormsModule as AngularFormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddEditAuthorityComponent } from 'lrshared_modules/pages/user-management/addEditAuthority/addEditAuthority.component';
@@ -19,7 +21,8 @@ import { LoaderModule } from 'lrshared_modules/components/loader/loader.module';
     AngularFormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    LoaderModule
+    LoaderModule,
+    DataTableModule
   ],
   declarations: [
     UserManagementComponent,

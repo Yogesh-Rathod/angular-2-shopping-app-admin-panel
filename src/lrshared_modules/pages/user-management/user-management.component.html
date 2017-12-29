@@ -5,13 +5,12 @@
     </div>
     <div class="card-body" style="overflow: scroll;">
         <form novalidate (ngSubmit)="Search(filter.value)" [formGroup]="filter">
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <input type="text" class="form-control" formControlName="searchText" title="Search with Name, Username, Email or Program Name" placeholder="Search user">
+            <div>
+                <div class="form-group row no_margin">
+                    <input type="text" class="form-control col-md-4" formControlName="searchText" title="Search with Name, Username, Email or Program Name" placeholder="Search user">
+                    <button class="btn btn-primary" type="submit">Search</button>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary" type="submit">Search</button>
-                    <button class="btn btn-danger" type="button" (click)="reset()">Reset</button>
                 </div>
             </div>
         </form>
@@ -24,12 +23,12 @@
                                 <strong>Username</strong>
                             </mfDefaultSorter>
                         </th>
-                        <th class="text-center image">
+                        <th class="text-left image">
                             <mfDefaultSorter by="EmailId">
                                 <strong>Email</strong>
                             </mfDefaultSorter>
                         </th>
-                        <th class="text-left">
+                        <th class="text-center">
                             <mfDefaultSorter by="IsActive">
                                 <strong>Status</strong>
                             </mfDefaultSorter>
@@ -49,7 +48,7 @@
                 </thead>
                 <tbody *ngIf=" filteredUserListData && filteredUserListData.length > 0 ">
                     <tr *ngFor=" let item of mf.data;">
-                        <td class="text-left image">
+                        <td class="text-left no-text-transform">
                             {{ item.UserName ? item.UserName : 'Not Available' }}
                         </td>
                         <td class="text-left no-text-transform">
@@ -72,7 +71,7 @@
                             </span>
                         </td>
                         <td class="text-center">
-                            <button class="btn btn-secondary" [routerLink]="['./edit-user/', item.Id]" title="Edit User">
+                            <button class="btn btn-secondary" [routerLink]="['./edit/', item.Id]" title="Edit User">
                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                             </button>
                         </td>
@@ -81,8 +80,8 @@
 
                 <tbody *ngIf=" filteredUserListData && filteredUserListData.length === 0 ">
                     <tr>
-                        <td colspan="6">
-                            <strong>There are no movies!</strong>
+                        <td colspan="6" class="text-center">
+                            <strong>There are no users!</strong>
                         </td>
                     </tr>
                 </tbody>

@@ -6,8 +6,12 @@
     text-align: left;
 }
 
-.alignCenter { 
+.alignCenter {
     vertical-align: middle;
     line-height: inherit;
     padding: 10px;
+}
+
+.btn.btn-primary {
+    margin-left: 15px;
 }

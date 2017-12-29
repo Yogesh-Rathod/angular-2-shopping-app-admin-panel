@@ -41,7 +41,7 @@ export class Pages {
             var customMenu = [];
             customMenu.push(standardMenu[0]);
             for(var i=1; i < standardMenu.length; i++){
-                if(standardMenu[i].MenuCode.indexOf(MenuListArray) > -1){
+                if(MenuListArray.indexOf(standardMenu[i].MenuCode) > -1){
                     customMenu.push(standardMenu[i]);
                 }
             }

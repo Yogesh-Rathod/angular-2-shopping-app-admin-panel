@@ -93,7 +93,6 @@ export class LoginService {
     }
 
     handleResponse(response: any): Promise<any> {
-        console.log("Login handleResponse ", response);
         const emptyArr: any = [];
         if (response.status >= 200 || response.status < 204) {
             return response.json();

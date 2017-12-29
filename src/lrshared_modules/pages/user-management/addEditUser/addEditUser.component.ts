@@ -52,7 +52,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     addAuthorityOfUser = false;
     isCrm = environment.appName === 'CRM';
     roleOptionSettings = {
-        singleSelection: true,
+        singleSelection: false,
         selectAllText: 'Select All',
         unSelectAllText: 'Unselect All',
         enableSearchFilter: true,

@@ -38,7 +38,7 @@
                                 <strong>Mobile</strong>
                             </mfDefaultSorter>
                         </th>
-                        <th class="text-center">
+                        <th class="text-center roles">
                             <strong>Roles</strong>
                         </th>
                         <th class="text-center">
@@ -63,10 +63,11 @@
                             </ng-template>
                         </td>
                         <td class="text-center">{{ item.Mobile ? item.Mobile : 'Not Available' }}</td>
-                        <td class="text-center">
+                        <td class="text-center roles">
                             <span *ngIf="item.Roles.length > 0">
-                                <span *ngFor="let item of item.Roles">
-                                    {{ item.RoleName }}
+                                <span *ngFor="let children of item.Roles; let i = index;">
+                                    {{ children.RoleName }}
+                                    <span *ngIf="!(i === (item.Roles.length - 1))">,</span>
                                 </span>
                             </span>
                         </td>

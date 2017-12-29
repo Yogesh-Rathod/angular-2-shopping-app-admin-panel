@@ -101,7 +101,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.createForm();
         // this.getApplicationData();
-        // this.fetchRoles();
+        this.fetchRoles();
         // this.fetchSingleUserData();
         if (this.userId) {
             this.fetchSingleUserData('8ea38a29-5af4-4ff0-8b1d-7315bcbe26da');

@@ -179,36 +179,6 @@ export class UserService {
                         .catch((err) => this.responseHandler.handleError(err));
         }
 
-        addAgent(data): Promise<any> {
-                const url = `${environment.crmUrl}/agent`;
-
-                const header = new Headers();
-                this.commSer.createAuthorizationHeader(header);
-                header.append('XServiceName', `createAgent`);
-                const options = new RequestOptions({ headers: header });
-
-                return this.http.post(url, data, options)
-                        .timeout(environment.timeOut)
-                        .toPromise()
-                        .then(this.responseHandler.handleResponse)
-                        .catch((err) => this.responseHandler.handleError(err));
-        }
-
-        assignAgentProgram(agentId, programId): Promise<any> {
-                const url = `${environment.crmUrl}/agent/${agentId}/program/${programId}`;
-
-                const header = new Headers();
-                this.commSer.createAuthorizationHeader(header);
-                header.append('XServiceName', `assignProgramToAgent`);
-                const options = new RequestOptions({ headers: header });
-
-                return this.http.post(url, '', options)
-                        .timeout(environment.timeOut)
-                        .toPromise()
-                        .then(this.responseHandler.handleResponse)
-                        .catch((err) => this.responseHandler.handleError(err));
-        }
-
         getAgents(programId): Promise<any> {
                 const url = `${environment.crmUrl}/program/${programId}/agents`;
 
@@ -234,18 +204,6 @@ export class UserService {
 
                 return this.http.get(url, options)
                         .timeout(environment.timeOut)
-                        .toPromise()
-                        .then(this.responseHandler.handleResponse)
-                        .catch((err) => this.responseHandler.handleError(err));
-        }
-
-        getUserInfo(userName) {
-                const url = `${environment.rbacUrl}/user/${userName}`;
-                const header = new Headers();
-                this.commSer.createAuthorizationHeader(header);
-                header.append('XServiceName', `getUserByEmail`);
-                const options = new RequestOptions({ headers: header });
-                return this.http.get(url, options)
                         .toPromise()
                         .then(this.responseHandler.handleResponse)
                         .catch((err) => this.responseHandler.handleError(err));

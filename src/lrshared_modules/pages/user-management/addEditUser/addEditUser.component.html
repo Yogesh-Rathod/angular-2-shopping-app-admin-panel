@@ -5,7 +5,12 @@
         <span class="goBack float-right" [routerLink]="['/user-management']">
             <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to users list</span>
     </div>
-    <div class="card-body">
+    <div class="card-body pos_relative">
+
+        <div class="loader-container pos_absolute" *ngIf="isLoading.userInfo">
+            <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+        </div>
+
         <form [formGroup]="addUserForm" (ngSubmit)="addUser(addUserForm.value)">
             <input type="hidden"  formControlName="Id">
             <div class="row">

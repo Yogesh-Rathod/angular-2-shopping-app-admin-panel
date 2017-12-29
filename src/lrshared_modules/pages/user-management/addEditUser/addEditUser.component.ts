@@ -59,18 +59,8 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         classes: 'myclass custom-class',
         text: this.isCrm ? 'Select Role' : 'Select Roles'
     };
-    programOptionSettings = {
-        singleSelection: false,
-        selectAllText: 'Select All',
-        unSelectAllText: 'Unselect All',
-        enableSearchFilter: true,
-        classes: 'myclass custom-class',
-        text: 'Select Modules',
-        disabled: false
-    };
     userAvailable = true;
-    modulesList = [{id: 1, itemName: '1'}];
-    availableUserRoles = [{id:1, itemName: '1'}];
+    availableUserRoles = [];
     userInfo: any = { username: 'Unknown User' };
 
     constructor(
@@ -111,11 +101,10 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.createForm();
         // this.getApplicationData();
-        this.fetchRoles();
-        this.fetchModules();
-        // this.fetchSingleUserData('ec5a9eb8-d752-4a33-8c41-760296fc595e');
+        // this.fetchRoles();
+        // this.fetchSingleUserData();
         if (this.userId) {
-            this.fetchSingleUserData('ec5a9eb8-d752-4a33-8c41-760296fc595e');
+            this.fetchSingleUserData('8ea38a29-5af4-4ff0-8b1d-7315bcbe26da');
         }
     }
 
@@ -139,13 +128,9 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
             CreatedBy: [''],
             Password: ['', [
                 Validators.required,
-                Validators.minLength(4),
-                // Validators.pattern(validators.usernameOrEmail),
+                Validators.pattern(validators.password),
             ]],
             IsActive: ['true', [
-                Validators.required,
-            ]],
-            UserModules: [[], [
                 Validators.required,
             ]],
             Roles: [[], [
@@ -169,21 +154,10 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     fetchRoles() {
         this.userService.fetchRoles()
             .then((res) => {
+                console.log("fetchRoles res ", res);
                 this.availableUserRoles = res.Data.map(item => {
                     item.id = item.Id;
                     item.itemName = item.RoleName;
-                    return item;
-                });
-            })
-            .catch(rej => { });
-    }
-
-    fetchModules() {
-        this.userService.fetchModules()
-            .then((res) => {
-                this.modulesList = res.Data.map(item => {
-                    item.id = item.Id;
-                    item.itemName = item.ModuleName;
                     return item;
                 });
             })
@@ -206,13 +180,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         delete userData.IsActive;
         userData.Roles = userData.Roles.map((item) => {
             item.RoleName = item.itemName;
-            item.IsActive = addForm.IsActive;
-            // delete item.id; delete item.itemName;
-            return item;
-        });
-        userData.UserModules = userData.UserModules.map((item) => {
-            item.ModuleName = item.itemName;
-            delete item.ChildModules;
             item.IsActive = addForm.IsActive;
             // delete item.id; delete item.itemName;
             return item;
@@ -303,7 +270,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
 
     // Fetch ser info after creating user
-    fetchSingleUserData(userId) {
+    fetchSingleUserData(userId?) {
         this.isLoader.userData = true;
         this.isLoader.authority = true;
         this.userAvailable = true;
@@ -314,7 +281,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
                     this.toastr.error(res.Message, 'Error');
                     this._location.back();
                 }
-                console.log("res ", res);
+                console.log("fetchSingleUser res ", res);
                 this.userInfoData = res.Data;
                 this.addUserForm.controls['Id'].patchValue(this.userInfoData.Id);
                 this.addUserForm.controls['UserName'].patchValue(this.userInfoData.UserName);
@@ -328,12 +295,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
                     return item;
                 });
                 this.addUserForm.controls['Roles'].patchValue(this.userInfo.Roles);
-                this.userInfo.UserModules = this.userInfoData.UserModules.map((item) => {
-                    item.id = item.Id;
-                    item.itemName = item.ModuleName;
-                    return item;
-                });
-                this.addUserForm.controls['UserModules'].patchValue(this.userInfoData.UserModules);
 
                 // if (res.payload.length !== 0) {
                 //     this.userInfoData = res.Data;

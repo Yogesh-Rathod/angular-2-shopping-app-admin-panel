@@ -22,7 +22,8 @@
                         <label class="control-label">Password
                             <span class="text-danger">*</span>
                         </label>
-                        <input type="password" class="form-control" placeholder="Password" formControlName="Password">
+                        <input type="password" class="form-control" placeholder="Password" formControlName="Password" >
+
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -52,13 +53,6 @@
                             <option value="false">INACTIVE</option>
                         </select>
                     </div>
-                </div>
-                <div class="col-md-3 form-group" *ngIf="modulesList">
-                    <label for="modules" class="control-label" translate>Select Modules
-                        <span class="text-danger">*</span>
-                    </label>
-                    <angular2-multiselect [data]="modulesList" [settings]="programOptionSettings" formControlName="UserModules"></angular2-multiselect>
-
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">

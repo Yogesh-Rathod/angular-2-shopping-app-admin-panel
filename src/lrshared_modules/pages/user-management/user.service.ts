@@ -132,8 +132,8 @@ export class UserService {
                         });
         }
 
-        fetchSingleUser(id): Promise<any> {
-                const url = `${environment.rbacUrl}Profile/${id}`;
+        fetchSingleUser(id?: String): Promise<any> {
+                let url = id ? `${environment.rbacUrl}Profile/${id}` : `${environment.rbacUrl}Profile`;
                 this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
 
                 return this.http.get(url, this.options)
@@ -258,15 +258,6 @@ export class UserService {
 
         fetchRoles() {
                 const url = `${environment.rbacUrl}Role/All`;
-                this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
-                return this.http.get(url, this.options)
-                        .toPromise()
-                        .then(this.responseHandler.handleResponse)
-                        .catch((err) => this.responseHandler.handleError(err));
-        }
-
-        fetchModules() {
-                const url = `${environment.rbacUrl}Module/All`;
                 this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
                 return this.http.get(url, this.options)
                         .toPromise()

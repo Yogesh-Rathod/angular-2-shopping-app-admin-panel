@@ -108,7 +108,7 @@ export class LoginComponent implements OnInit {
 
         this.loginService.userLogin({ UserName: loginForm.value.email, Password: loginForm.value.password })
           .then((res) => {
-            console.log("res ", res);
+            console.log("Login res ", res);
             this.isHidden = true;
             if (res.Code === 500) {
               this.toastr.error('Login failed! Please recheck username & password.');

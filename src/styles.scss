@@ -189,9 +189,14 @@ i.fa {
     height: 37px;
 }
 
-a.cke_button {
-    height: 25px;
+.cke_button {
+    height: 25px !important;
 }
+
+.dropdown-list {
+    z-index: 999 !important;
+}
+
 
 
 // Media Queries

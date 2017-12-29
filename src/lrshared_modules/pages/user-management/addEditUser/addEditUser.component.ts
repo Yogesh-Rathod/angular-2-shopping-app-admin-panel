@@ -52,7 +52,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     addAuthorityOfUser = false;
     isCrm = environment.appName === 'CRM';
     roleOptionSettings = {
-        singleSelection: this.isCrm,
+        singleSelection: true,
         selectAllText: 'Select All',
         unSelectAllText: 'Unselect All',
         enableSearchFilter: true,
@@ -104,7 +104,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         this.fetchRoles();
         // this.fetchSingleUserData();
         if (this.userId) {
-            this.fetchSingleUserData('8ea38a29-5af4-4ff0-8b1d-7315bcbe26da');
+            this.fetchSingleUserData(this.userId);
         }
     }
 
@@ -160,11 +160,11 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
                     item.itemName = item.RoleName;
                     return item;
                 });
+                this.isLoading.userInfo = false;
             })
             .catch(rej => { });
     }
 
-    /************ Add new User **********/
     addUser(addForm) {
         this.isLoading.newUser = false;
         // console.log("addForm ", addForm);
@@ -177,17 +177,15 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         userData.CreatedBy = this.userInfo.username;
         userData.CreatedOn = new Date().toISOString();
         delete userData.Password;
-        delete userData.IsActive;
         userData.Roles = userData.Roles.map((item) => {
             item.RoleName = item.itemName;
             item.IsActive = addForm.IsActive;
-            // delete item.id; delete item.itemName;
             return item;
         });
 
-        // console.log("userData ", userData);
+        console.log("userData ", userData);
         if (userData.Id) {
-            // Edit Form Code
+            // Edit User
             this.userService.updateUser(userData).then((res) => {
                 console.log("res ", res);
                 if (res.Code === 500) {
@@ -199,11 +197,10 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
                 this.isLoading.newUser = true;
             }).catch(rej => {
                 this.isLoading.newUser = true;
-                // this.newUserRecord = true;
-
                 this.toastr.error(rej.message);
             });
         } else {
+            // Add User
             delete userData.Id;
             this.userService.addUser(userData).then((res) => {
                 console.log("res ", res);
@@ -223,53 +220,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         }
     }
 
-    addUserInProgram(createdUserRes) {
-        let i = 0;
-        for (const selectedProgram of this.assignedProgram) {
-            this.pushUserInfo = [];
-            this.pushUserInfo.push({ 'program': selectedProgram });
-            this.pushUserInfo.push({ 'user': createdUserRes });
-            this.pushUserInfo.push({ 'application': this.globalInfo[0] });
-            // Assign role
-            // Create UPA
-            this.userService.assignProgramUser(
-                JSON.stringify(this.pushUserInfo),
-                createdUserRes.id,
-                selectedProgram.id,
-                this.globalInfo[0].id
-            )
-                .then((res) => {
-                    this.isLoading.newUser = true;
-                    // this.assignRole(res.payload.id, selectedProgram, i === this.assignedProgram.length - 1);
-                    ++i;
-
-                    // Assign program to user if CRM USer
-                    if (environment.appName === 'CRM') {
-                        this.assignAgentProgram(createdUserRes.email, selectedProgram);
-                    }
-                }).catch(rej => {
-                    this.isLoading.newUser = true;
-                });
-        }
-    }
-
-    addAgent(data, userId) {
-        this.userService.addAgent(JSON.stringify(data)).then((res) => {
-            this.isLoader.newUser = true;
-            this.toastr.success(res.message);
-            // Add user and route to edit user
-            // this.router.navigate([`user_management/edit/${userId}`]);
-        }).catch(rej => { });
-    }
-
-    // Assign Program to agent if CRM USER
-    assignAgentProgram(userId, selectedProgram) {
-        this.userService.assignAgentProgram(userId, selectedProgram.programId).then((res) => {
-        }).catch(rej => { });
-    }
-
-
-    // Fetch ser info after creating user
     fetchSingleUserData(userId?) {
         this.isLoader.userData = true;
         this.isLoader.authority = true;
@@ -296,18 +246,14 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
                 });
                 this.addUserForm.controls['Roles'].patchValue(this.userInfo.Roles);
 
-                // if (res.payload.length !== 0) {
-                //     this.userInfoData = res.Data;
-                //     // this.userAccessData = res.payload;
-                //     this.userAvailable = true;
-                // }
                 this.isLoader.userData = false;
-                // this.isLoader.authority = false;
+                this.isLoading.userInfo = false;
 
             }).catch(rej => {
-                // this.isLoader.userData = false;
-                // this.isLoader.authority = false;
-                // this.userAvailable = false;
+                this.isLoader.userData = false;
+                this.isLoading.userInfo = false;
+                this.toastr.error(rej.Message, 'Error');
+                this._location.back();
             });
 
     }
@@ -344,41 +290,12 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         modal.componentInstance.assignedRoles = '';
     }
 
-    // Edit user information
-    // editUser(editForm) {
-    //     this.isLoading.userInfo = false;
-    //     this.userSubmited = false;
-    //     const userId = this.route.snapshot.params['id'];
-    //     this.userService.updateUser(editForm, this.userInfoData.username).then((res) => {
-    //         this.fetchSingleUserData(this.userId);
-    //         this.isLoading.userInfo = true;
-    //         this.userSubmited = true;
-    //         this.toastr.success('Information has been updated');
-    //     }).catch(rej => {
-    //         this.isLoading.userInfo = true;
-    //         this.userSubmited = true;
-    //         this.toastr.error(rej.message);
-    //     });
-    // }
-
     // Get app data (application id and name)
     getApplicationData() {
         this.globalInfo = this.globals.get('applicationData');
         this._state.subscribe('applicationData', (applicationData) => {
             this.globalInfo = applicationData;
         });
-    }
-
-    getUserInfo(userName) {
-        this.userService.getUserInfo(userName).then((res) => {
-            this.addUserInProgram(res.payload);
-        }).catch(rej => { console.log(rej); });
-    }
-
-    crmUser(userId) {
-        this.userService.userByUserId(userId).then((res) => {
-            console.log(res.payload);
-        }).catch(rej => { console.log(rej); });
     }
 
 }

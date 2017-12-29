@@ -2,6 +2,7 @@
 const menus = [
   {
     path: 'home',
+    MenuCode:'HOM',
     data: {
       menu: {
         title: 'Home',
@@ -14,6 +15,7 @@ const menus = [
   },
   {
     path: 'seller',
+    MenuCode:'SLR',
     data: {
       menu: {
         title: 'Seller',
@@ -55,6 +57,7 @@ const menus = [
   },
   {
     path: 'merchandise',
+    MenuCode:'PRD',
     data: {
       menu: {
         title: 'Product Management',
@@ -105,6 +108,7 @@ const menus = [
   },
   {
     path: 'orders',
+    MenuCode:'ORD',
     data: {
       menu: {
         title: 'Order Management',
@@ -146,6 +150,7 @@ const menus = [
   },
   {
     path: 'movie-management',
+    MenuCode:'MOV',    
     data: {
       menu: {
         title: 'Movie Management',
@@ -158,6 +163,7 @@ const menus = [
   },
   {
     path: 'user-management',
+    MenuCode:'SYS',    
     data: {
       menu: {
         title: 'User Management',

@@ -30,7 +30,7 @@ export const routes: Routes = [
         loadChildren: 'lrshared_modules/pages/user-management/user-management.module#UserManagementModule'
       },
       {
-        path: 'orders',
+        path: 'order-management',
         loadChildren: './merchandise/orders/orders.module#OrdersModule'
       },
       // {

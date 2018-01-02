@@ -16,6 +16,7 @@ import { BasicInfoComponent } from './order-details/basic-info/basic-info.compon
 import { BillingInfoComponent } from './order-details/billing-info/billing-info.component';
 import { ShippingInfoComponent } from './order-details/shipping-info/shipping-info.component';
 import { ProductsComponent } from './order-details/products/products.component';
+import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { ProductsComponent } from './order-details/products/products.component';
     BasicInfoComponent,
     BillingInfoComponent,
     ShippingInfoComponent,
-    ProductsComponent
+    ProductsComponent,
+    ReportsComponent
   ],
   providers: [
     MerchandiseService,

@@ -7,6 +7,7 @@ import { getAuthority } from 'lrshared_modules/rbacConfig';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { FormBuilder, FormGroup } from '@angular/forms';
+declare let $: any;
 
 @Component({
     selector: 'user',
@@ -40,6 +41,9 @@ export class UserManagementComponent implements OnInit {
     }
 
     ngOnInit() {
+        $(document).ready(() => {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
         this.filter = this.fb.group({
             searchText: ['']
         });

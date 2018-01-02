@@ -56,4 +56,8 @@ export class OrderDetailsComponent implements OnInit {
     this._location.back();
   }
 
+  goBack() {
+    this._location.back();
+  }
+
 }

@@ -12,6 +12,7 @@ import { validators } from 'lrshared_modules/Validations';
 import 'rxjs/add/operator/takeWhile';
 import { getAuthority } from 'lrshared_modules/rbacConfig';
 import * as _ from 'lodash';
+declare let $: any;
 
 import { AppState } from 'app/app.service';
 import { CommonService } from 'lrshared_modules/services/common-services.service';
@@ -99,6 +100,9 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        $(document).ready(() => {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
         this.createForm();
         // this.getApplicationData();
         this.fetchRoles();

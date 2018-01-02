@@ -18,6 +18,7 @@
                     <div class="form-group">
                         <label class="control-label">{{'userMangement.username'|translate}}
                             <span class="text-danger">*</span>
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Choose Username"></i>
                         </label>
                         <input type="email" class="form-control" placeholder="{{'userMangement.username'|translate}}" formControlName="UserName">
                     </div>
@@ -26,6 +27,7 @@
                     <div class="form-group">
                         <label class="control-label">Password
                             <span class="text-danger">*</span>
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Choose Password. (Min. length: 10, Must contain 1 capital letter, 1 number & 1 symbol. )"></i>
                         </label>
                         <input type="password" class="form-control" placeholder="Password" formControlName="Password" >
 
@@ -35,6 +37,7 @@
                     <div class="form-group">
                         <label class="control-label">Email
                             <span class="text-danger">*</span>
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Enter email."></i>
                         </label>
                         <input type="email" class="form-control" placeholder="Email" formControlName="EmailId">
                     </div>
@@ -43,6 +46,7 @@
                     <div class="form-group">
                         <label for="program" class="control-label" translate>Mobile No.
                             <span class="text-danger">*</span>
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Enter mobile number."></i>
                         </label>
                         <input class="form-control" minlength="10" maxlength="10" formControlName="Mobile" placeholder="Mobile No.">
                     </div>
@@ -51,6 +55,7 @@
                     <div class="form-group">
                         <label for="program" class="control-label" translate>Status
                             <span class="text-danger">*</span>
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Choose status."></i>
                         </label>
                         <select class="selectPicker form-control" formControlName="IsActive">
                             <option value="">Select Status</option>
@@ -63,6 +68,7 @@
                     <div class="form-group">
                         <label for="roles" class="control-label">Role
                             <span class="text-danger">*</span>
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Choose roles."></i>
                         </label>
                         <angular2-multiselect [data]="availableUserRoles" [settings]="roleOptionSettings" formControlName="Roles"></angular2-multiselect>
                     </div>

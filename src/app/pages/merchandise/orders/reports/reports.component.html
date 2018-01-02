@@ -1,0 +1,88 @@
+<div class="row top20 clearfix fadeIn animated">
+  <div class="col-12">
+
+    <div class="catSearch clearfix card-header">
+      <h2 class="card-title ">
+        Reports
+      </h2>
+    </div>
+
+    <div class="filters card fadeIn animated">
+      <div class="card-body">
+        <form class="row order-search-form" [formGroup]="searchOrdersForm" (ngSubmit)=" searchOrders(searchOrdersForm.value) ">
+
+          <div class="form-group col-3">
+            <label for="supplierName" class="text-right">
+              Supplier Name
+              <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific Vendor Name."></i>
+            </label>
+            <select id="supplierName" class="form-control" formControlName="supplierName">
+              <option value="all">All</option>
+              <option *ngFor="let item of stores" value="{{ item }}">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-3">
+            <label for="poNumber" class="text-right">
+              PO Number
+              <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by PO Number."></i>
+            </label>
+            <input type="text" id="poNumber" class="form-control" formControlName="poNumber">
+          </div>
+
+          <div class="form-group col-3">
+            <label for="startDate" class="text-right">
+              Start Date
+              <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select Start Date for search."></i>
+            </label>
+            <my-date-picker id="startDate" class="no_padding" name="startDate" [options]="myDatePickerOptions" formControlName="startDate">
+            </my-date-picker>
+          </div>
+
+          <div class="form-group col-3">
+            <label for="endDate" class="text-right">
+              End Date
+              <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select End Date for search."></i>
+            </label>
+            <my-date-picker id="endDate" class="no_padding" name="endDate" [options]="myDatePickerOptions" formControlName="endDate">
+            </my-date-picker>
+          </div>
+
+          <div class="form-group col-12 searchButton">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa fa-search" aria-hidden="true"></i>
+              Search
+            </button>
+            <span class="btn btn-primary" (click)="resetForm()">
+              <i class="fa fa-refresh" aria-hidden="true"></i>
+              Reset
+            </span>
+          </div>
+
+        </form>
+
+        <table class="table table-bordered table-responsive">
+           <!-- [mfData]="orders" #mf="mfDataTable" [mfRowsOnPage]="10" -->
+          <thead class="black-muted-bg">
+            <tr>
+              <th class="text-center">PO Status</th>
+              <th class="text-center">Age</th>
+              <th class="text-center">No. of orders</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center">12345</td>
+              <td class="text-center">0-21</td>
+              <td class="text-center">
+                <span [routerLink]="['../orders/order-details/12333']">12333</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

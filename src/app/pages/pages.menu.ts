@@ -107,7 +107,7 @@ const menus = [
     ]
   },
   {
-    path: 'orders',
+    path: 'order-management',
     MenuCode:'ORD',
     data: {
       menu: {
@@ -120,7 +120,7 @@ const menus = [
     },
     children: [
       {
-        path: '',
+        path: 'orders',
         data: {
           menu: {
             title: 'Orders',
@@ -150,7 +150,7 @@ const menus = [
   },
   {
     path: 'movie-management',
-    MenuCode:'MOV',    
+    MenuCode:'MOV',
     data: {
       menu: {
         title: 'Movie Management',
@@ -163,7 +163,7 @@ const menus = [
   },
   {
     path: 'user-management',
-    MenuCode:'SYS',    
+    MenuCode:'SYS',
     data: {
       menu: {
         title: 'User Management',

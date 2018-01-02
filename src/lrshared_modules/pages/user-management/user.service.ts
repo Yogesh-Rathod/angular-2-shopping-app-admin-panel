@@ -34,12 +34,16 @@ export class UserService {
 
         headers = new Headers({
                 'headers': '',
-                'Authorization': `Bearer ${this.authToken.accessToken}`,
                 'ModuleId': environment.moduleId,
                 'Content-Type': 'application/json',
                 'Accept': 'q=0.8;application/json;q=0.9'
         });
         options = new RequestOptions({ headers: this.headers });
+
+        crateAuthorization() {
+                const token = JSON.parse(this.cookieService.get('MERCHANDISE.token'));
+                return `Bearer ${token.accessToken}`;
+        }
 
 
         createHMACSignature(requestMethod, requestURL, body = '') {
@@ -82,6 +86,7 @@ export class UserService {
 
         getAllUsers() {
                 let url = `${environment.rbacUrl}Profile/All`;
+                this.headers.set('Authorization', this.crateAuthorization());
                 this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
                 return this.http.get(url, this.options)
                         .timeout(environment.timeOut)
@@ -92,6 +97,7 @@ export class UserService {
 
         addUser(data): Promise<any> {
                 const url = `${environment.rbacUrl}Profile`;
+                this.headers.set('Authorization', this.crateAuthorization());
                 this.headers.set('LRSignAuth', this.createHMACSignature('POST', url, data));
                 return this.http.post(url, JSON.stringify(data), this.options)
                         .timeout(environment.timeOut)
@@ -129,6 +135,7 @@ export class UserService {
 
         fetchSingleUser(id?: String): Promise<any> {
                 let url = id ? `${environment.rbacUrl}Profile/${id}` : `${environment.rbacUrl}Profile`;
+                this.headers.set('Authorization', this.crateAuthorization());
                 this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
 
                 return this.http.get(url, this.options)
@@ -155,6 +162,7 @@ export class UserService {
 
         updateUser(data): Promise<any> {
                 const url = `${environment.rbacUrl}Profile`;
+                this.headers.set('Authorization', this.crateAuthorization());
                 this.headers.set('LRSignAuth', this.createHMACSignature('PUT', url, data));
                 return this.http.put(url, JSON.stringify(data), this.options)
                         .timeout(environment.timeOut)
@@ -211,6 +219,7 @@ export class UserService {
 
         fetchRoles() {
                 const url = `${environment.rbacUrl}Role/All`;
+                this.headers.set('Authorization', this.crateAuthorization());
                 this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
                 return this.http.get(url, this.options)
                         .toPromise()

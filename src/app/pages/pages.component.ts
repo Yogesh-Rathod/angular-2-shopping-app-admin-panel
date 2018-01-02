@@ -33,6 +33,7 @@ export class Pages {
     getUserInfo(){
         this.userService.fetchSingleUser().
         then((res) => {
+            console.log("res.Data.UserMenuItems ", res.Data.UserMenuItems);
             let userMenus = res.Data.UserMenuItems;
             let standardMenu = PAGES_MENU[0].children;
             var MenuListArray = userMenus.map(function(item) {
@@ -47,7 +48,7 @@ export class Pages {
             }
             PAGES_MENU[0].children = customMenu;
             this._menuService.updateMenuByRoutes(<Routes>PAGES_MENU);
-            
+
         }).catch(rej => {
             console.log("Error: ",rej);
         });

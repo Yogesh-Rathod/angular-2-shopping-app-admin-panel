@@ -35,15 +35,15 @@
       </div>
     </div>
 
-    <div class="spacer col-12"></div>
+    <!-- <div class="spacer col-12"></div> -->
 
-    <div class="filters card col-12 pos_relative">
+    <div class="filters card col-12 pos_relative no_top_padding">
 
-      <div class="loader-container pos_absolute" *ngIf="bigLoader">
+      <div class="loader-container pos_absolute " *ngIf="bigLoader">
         <img src="assets/img/ajax-loader.gif" alt="Loader Image">
       </div>
 
-      <div class="card-body">
+      <div class="table-container">
         <table class="table table-bordered table-responsive" [mfData]="filteredMovies" #mf="mfDataTable" [mfRowsOnPage]="10">
           <thead class="black-muted-bg">
             <tr>

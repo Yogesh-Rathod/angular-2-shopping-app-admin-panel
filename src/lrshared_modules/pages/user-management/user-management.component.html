@@ -7,8 +7,12 @@
         <form novalidate (ngSubmit)="Search(filter.value)" [formGroup]="filter">
             <div>
                 <div class="form-group row no_margin">
-                    <input type="text" class="form-control col-md-4" formControlName="searchText" title="Search with Name, Username, Email or Program Name" placeholder="Search user">
-                    <button class="btn btn-primary" type="submit">Search</button>
+                    <label for="name" class="col-3 col-xl-2 text-right">
+                        User Search
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search with Username, Email, Mobile or Role."></i>
+                    </label>
+                    <input type="text" class="form-control col-md-4" formControlName="searchText" >
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i>Search</button>
                 </div>
                 <div class="form-group">
                 </div>

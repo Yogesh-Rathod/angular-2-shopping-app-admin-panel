@@ -79,7 +79,7 @@ export class UserManagementComponent implements OnInit {
     Search(value) {
         this.filteredUserListData = this.userListData.filter((item) => {
             const caseInsensitiveSearch = new RegExp(`${value.searchText.trim()}`, "i");
-            return caseInsensitiveSearch.test(item.UserName) || caseInsensitiveSearch.test(item.EmailId) || caseInsensitiveSearch.test(item.RoleName) || caseInsensitiveSearch.test(item.Mobile);
+            return caseInsensitiveSearch.test(item.UserName) || caseInsensitiveSearch.test(item.EmailId) || caseInsensitiveSearch.test(item.Mobile);
         });
     }
 

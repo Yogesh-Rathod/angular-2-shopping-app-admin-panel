@@ -171,6 +171,17 @@ export class UserService {
                         .catch((err) => this.responseHandler.handleError(err));
         }
 
+        changePassword(data): Promise<any> {
+                const url = `${environment.rbacUrl}Profile/ChangePassword`;
+                this.headers.set('Authorization', this.crateAuthorization());
+                this.headers.set('LRSignAuth', this.createHMACSignature('PUT', url, data));
+                return this.http.put(url, JSON.stringify(data), this.options)
+                        .timeout(environment.timeOut)
+                        .toPromise()
+                        .then(this.responseHandler.handleResponse)
+                        .catch((err) => this.responseHandler.handleError(err));
+        }
+
         assignRole(roleId, userId, program): Promise<any> {
                 const url = `${environment.rbacUrl}/resolvedUser/${userId}/`;
 

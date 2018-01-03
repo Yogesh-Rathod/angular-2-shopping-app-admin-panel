@@ -30,6 +30,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     globalInfo: any;
     roleData: any;
     addUserForm: FormGroup;
+    changePasswordForm: FormGroup;
     userInfoData: any;
     pushUserInfo = [];
     assignedProgram = [];
@@ -40,6 +41,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     isLoading = {
         userInfo: true,
         newUser: true,
+        changePassword: true
     };
     isLoader = {
         newUser: true,
@@ -91,7 +93,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         this.appStateManagementService.retrieveAppStateCK('MERCHANDISE.userData').
             then((userInfo) => {
                 this.userInfo = JSON.parse(userInfo);
-                console.log("this.userInfo ", this.userInfo);
             }).catch((error) => {
                 this.userInfo = {
                     username: 'Unknown User'
@@ -109,6 +110,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         // this.fetchSingleUserData();
         if (this.userId) {
             this.fetchSingleUserData(this.userId);
+            this.updatePasswordForm();
         }
     }
 
@@ -143,6 +145,16 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         });
     }
 
+    updatePasswordForm() {
+        this.changePasswordForm = this.fb.group({
+            UserId: ['', [Validators.required]],
+            Password: ['', [
+                Validators.required,
+                Validators.pattern(validators.password),
+            ]]
+        });
+    }
+
     ngOnDestroy() {
         this.alive = false;
     }
@@ -158,7 +170,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     fetchRoles() {
         this.userService.fetchRoles()
             .then((res) => {
-                console.log("fetchRoles res ", res);
                 this.availableUserRoles = res.Data.map(item => {
                     item.id = item.Id;
                     item.itemName = item.RoleName;
@@ -171,7 +182,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
     addUser(addForm) {
         this.isLoading.newUser = false;
-        // console.log("addForm ", addForm);
         let userData = Object.assign({}, addForm);
         userData.UserCredential = {};
         userData.UserCredential.Id = 'String';
@@ -186,12 +196,10 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
             item.IsActive = addForm.IsActive;
             return item;
         });
-
-        console.log("userData ", userData);
         if (userData.Id) {
             // Edit User
             this.userService.updateUser(userData).then((res) => {
-                console.log("res ", res);
+                console.log("updateUser res ", res);
                 if (res.Code === 500) {
                     this.toastr.error(res.Message, 'Error');
                 } else if (res.Code === 200) {
@@ -207,7 +215,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
             // Add User
             delete userData.Id;
             this.userService.addUser(userData).then((res) => {
-                console.log("res ", res);
+                console.log("addUser res ", res);
                 if (res.Code === 500) {
                     this.toastr.error(res.Message, 'Error');
                 } else if (res.Code === 200) {
@@ -224,7 +232,25 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         }
     }
 
+    changePassword(changePasswordForm) {
+        this.isLoading.changePassword = false;
+        this.userService.changePassword(changePasswordForm).then((res) => {
+            console.log("changePassword res ", res);
+            if (res.Code === 500) {
+                this.toastr.error(res.Message, 'Error');
+            } else if (res.Code === 200) {
+                this.toastr.success('Password updated successfully!');
+                this._location.back();
+            }
+            this.isLoading.changePassword = true;
+        }).catch(rej => {
+            this.isLoading.changePassword = true;
+            this.toastr.error(rej.message);
+        });
+    }
+
     fetchSingleUserData(userId?) {
+        this.addUserForm.controls['Password'].setValidators(null);
         this.isLoader.userData = true;
         this.isLoader.authority = true;
         this.userAvailable = true;
@@ -238,10 +264,10 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
                 console.log("fetchSingleUser res ", res);
                 this.userInfoData = res.Data;
                 this.addUserForm.controls['Id'].patchValue(this.userInfoData.Id);
+                this.changePasswordForm.controls['UserId'].patchValue(this.userInfoData.Id);
                 this.addUserForm.controls['UserName'].patchValue(this.userInfoData.UserName);
                 this.addUserForm.controls['EmailId'].patchValue(this.userInfoData.EmailId);
                 this.addUserForm.controls['Mobile'].patchValue(this.userInfoData.Mobile);
-                this.addUserForm.controls['Password'].patchValue(this.userInfoData.Password);
                 this.addUserForm.controls['IsActive'].patchValue(this.userInfoData.IsActive);
                 this.userInfo.Roles = this.userInfoData.Roles.map((item) => {
                     item.id = item.Id;
@@ -252,6 +278,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
                 this.isLoader.userData = false;
                 this.isLoading.userInfo = false;
+                this.checkFormValidation();
 
             }).catch(rej => {
                 this.isLoader.userData = false;
@@ -260,6 +287,12 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
                 this._location.back();
             });
 
+    }
+
+    checkFormValidation() {
+        for (var i in this.addUserForm.controls) {
+            this.addUserForm.controls[i].markAsTouched();
+        }
     }
 
     // Edit particular authority

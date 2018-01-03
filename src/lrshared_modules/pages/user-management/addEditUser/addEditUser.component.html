@@ -12,6 +12,10 @@
         </div>
 
         <form [formGroup]="addUserForm" (ngSubmit)="addUser(addUserForm.value)">
+
+            <h4 *ngIf="userId">
+                Update basic info
+            </h4>
             <input type="hidden"  formControlName="Id">
             <div class="row">
                 <div class="col-md-3">
@@ -23,7 +27,7 @@
                         <input type="email" class="form-control" placeholder="{{'userMangement.username'|translate}}" formControlName="UserName">
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" *ngIf="!userId">
                     <div class="form-group">
                         <label class="control-label">Password
                             <span class="text-danger">*</span>
@@ -57,7 +61,7 @@
                             <span class="text-danger">*</span>
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Choose status."></i>
                         </label>
-                        <select class="selectPicker form-control" formControlName="IsActive">
+                        <select class="selectPicker form-control" formControlName="IsActive" [class.disabled]="!userId">
                             <option value="">Select Status</option>
                             <option value="true">ACTIVE</option>
                             <option value="false">INACTIVE</option>
@@ -75,9 +79,34 @@
                 </div>
 
                 <div class="col-md-3" style="margin: 25px 0;">
-                    <button type="submit" class="btn btn-primary" type="submit" [disabled]="!newUserRecord || !addUserForm.valid">
-                        Add
+                    <button type="submit" class="btn btn-primary" [disabled]="!newUserRecord || !addUserForm.valid">
+                        <span *ngIf="!userId">Add</span>
+                        <span *ngIf="userId">Update</span>
                         <img [hidden]="isLoading.newUser" src="assets/img/loader.gif" style="width:15px;">
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <form  *ngIf="userId" [formGroup]="changePasswordForm" (ngSubmit)="changePassword(changePasswordForm.value)">
+            <h4 *ngIf="userId">
+                Update password
+            </h4>
+            <input type="hidden" formControlName="UserId">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Password
+                            <span class="text-danger">*</span>
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Choose Password. (Min. length: 10, Must contain 1 capital letter, 1 number & 1 symbol. )"></i>
+                        </label>
+                        <input type="password" class="form-control" placeholder="Password" formControlName="Password">
+                    </div>
+                </div>
+                <div class="col-md-3" style="margin: 25px 0;">
+                    <button type="submit" class="btn btn-primary" [disabled]="!newUserRecord || !changePasswordForm.valid">
+                        <span>Change Password</span>
+                        <img [hidden]="isLoading.changePassword" src="assets/img/loader.gif" style="width:15px;">
                     </button>
                 </div>
             </div>

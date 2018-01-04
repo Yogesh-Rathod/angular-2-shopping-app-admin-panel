@@ -40,7 +40,11 @@ export class UserService {
 
         crateAuthorization() {
                 const token = JSON.parse(this.cookieService.get('MERCHANDISE.token'));
-                return `Bearer ${token.accessToken}`;
+                if (token) {
+                        return `Bearer ${token.accessToken}`;
+                } else {
+                        return 'Bearer ';
+                }
         }
 
 

@@ -8,15 +8,24 @@ import { ReportsComponent } from './reports/reports.component';
 const routes: Routes = [
   {
     path: 'orders',
-    component: OrdersComponent
+    component: OrdersComponent,
+    data: {
+      MenuCode: 'ORD'
+    }
   },
   {
     path: 'orders/order-details/:orderId',
-    component: OrderDetailsComponent
+    component: OrderDetailsComponent,
+    data: {
+      MenuCode: 'ORD'
+    }
   },
   {
     path: 'reports',
-    component: ReportsComponent
+    component: ReportsComponent,
+    data: {
+      MenuCode: 'ORD'
+    }
   }
 ];
 

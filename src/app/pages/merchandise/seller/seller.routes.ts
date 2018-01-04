@@ -7,14 +7,23 @@ const routes: Routes = [
   {
     path: 'seller',
     component: ProfileComponent,
+    data: {
+      MenuCode: 'SLR'
+    }
   },
   {
     path: 'profile',
-    component: ProfileComponent
+    component: ProfileComponent,
+    data: {
+      MenuCode: 'SLR'
+    }
   },
   {
     path: 'orders',
-    component: OrdersComponent
+    component: OrdersComponent,
+    data: {
+      MenuCode: 'SLR'
+    }
   }
 ];
 

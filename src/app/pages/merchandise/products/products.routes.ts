@@ -11,23 +11,38 @@ const routes: Routes = [
   },
   {
     path: 'vendorproducts/:vendorId',
-    component: ProductsComponent
+    component: ProductsComponent,
+    data: {
+      MenuCode: 'PRD'
+    }
   },
   {
     path: 'vendorproducts/add-product/:vendorId',
-    component: AddProductComponent
+    component: AddProductComponent,
+    data: {
+      MenuCode: 'PRD'
+    }
   },
   {
     path: 'add-product',
-    component: AddProductComponent
+    component: AddProductComponent,
+    data: {
+      MenuCode: 'PRD'
+    }
   },
   {
     path: 'edit-product/:productId',
-    component: AddProductComponent
+    component: AddProductComponent,
+    data: {
+      MenuCode: 'PRD'
+    }
   },
   {
     path: 'edit-product/:productId/:bankId',
-    component: AddProductComponent
+    component: AddProductComponent,
+    data: {
+      MenuCode: 'PRD'
+    }
   }
 ];
 

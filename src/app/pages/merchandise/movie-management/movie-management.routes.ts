@@ -14,19 +14,31 @@ const routes: Routes = [
   },
   {
     path: 'add-movie',
-    component: AddMovieComponent
+    component: AddMovieComponent,
+    data: {
+      MenuCode: 'MOV'
+    }
   },
   {
     path: 'edit-movie/:movieId',
-    component: AddMovieComponent
+    component: AddMovieComponent,
+    data: {
+      MenuCode: 'MOV'
+    }
   },
   {
     path: 'add-cinema',
-    component: AddCinemaComponent
+    component: AddCinemaComponent,
+    data: {
+      MenuCode: 'MOV'
+    }
   },
   {
     path: 'movie-details/:movieId',
-    component: MovieDetailsComponent
+    component: MovieDetailsComponent,
+    data: {
+      MenuCode: 'MOV'
+    }
   }
 ];
 

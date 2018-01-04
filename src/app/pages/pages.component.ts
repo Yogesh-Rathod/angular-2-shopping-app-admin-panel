@@ -31,27 +31,30 @@ export class Pages {
   }
 
     getUserInfo(){
-        this.userService.fetchSingleUser().
-        then((res) => {
-            let userMenus = res.Data.UserMenuItems;
-            let standardMenu = PAGES_MENU[0].children;
-            var MenuListArray = userMenus.map(function(item) {
-                return item['MenuCode'];
-            });
-            var customMenu = [];
-            customMenu.push(standardMenu[0]);
-            for(var i=1; i < standardMenu.length; i++){
-                if(MenuListArray.indexOf(standardMenu[i].MenuCode) > -1){
-                    customMenu.push(standardMenu[i]);
+        // To check if User has LoggedIn
+        const userData = this._cookieService.get('MERCHANDISE.userData');
+        if (userData) {
+            this.userService.fetchSingleUser().
+            then((res) => {
+                let userMenus = res.Data.UserMenuItems;
+                let standardMenu = PAGES_MENU[0].children;
+                var MenuListArray = userMenus.map(function(item) {
+                    return item['MenuCode'];
+                });
+                var customMenu = [];
+                customMenu.push(standardMenu[0]);
+                for(var i=1; i < standardMenu.length; i++){
+                    if(MenuListArray.indexOf(standardMenu[i].MenuCode) > -1){
+                        customMenu.push(standardMenu[i]);
+                    }
                 }
-            }
-            this._cookieService.put('MenuListAllowed', MenuListArray);
-            var PAGES_MENU_NEW = JSON.parse(JSON.stringify(PAGES_MENU));
-            PAGES_MENU_NEW[0].children = customMenu;
-            this._menuService.updateMenuByRoutes(<Routes>PAGES_MENU_NEW);
-
-        }).catch(rej => {
-            console.log("Error: ",rej);
-        });
+                this._cookieService.put('MenuListAllowed', MenuListArray);
+                var PAGES_MENU_NEW = JSON.parse(JSON.stringify(PAGES_MENU));
+                PAGES_MENU_NEW[0].children = customMenu;
+                this._menuService.updateMenuByRoutes(<Routes>PAGES_MENU_NEW);
+            }).catch(rej => {
+                console.log("Error: ",rej);
+            });
+        }
     }
 }

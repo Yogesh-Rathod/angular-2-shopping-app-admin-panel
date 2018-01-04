@@ -10,24 +10,21 @@ export const routes: Routes = [
     path: '',
     component: UserManagementComponent,
     data: {
-      friendlyName: 'User Management',
-      name: 'userManagement'
+      MenuCode: 'SYS'
     }
   },
   {
     path: 'edit/:id',
     loadChildren: 'lrshared_modules/pages/user-management/addEditUser/addEditUser.module#AddEditUserModule',
     data: {
-      friendlyName: 'Edit User',
-      name: 'editUser'  
+      MenuCode: 'SYS'
     }
   },
   {
     path: 'add',
     loadChildren: 'lrshared_modules/pages/user-management/addEditUser/addEditUser.module#AddEditUserModule',
     data: {
-      friendlyName: 'Add User',
-      name: 'addUser'
+      MenuCode: 'SYS'
     }
   },
 ];

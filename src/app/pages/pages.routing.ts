@@ -23,15 +23,24 @@ export const routes: Routes = [
       },
       {
         path: 'merchandise',
-        loadChildren: './merchandise/merchandise.module#MerchandiseModule'
+        loadChildren: './merchandise/merchandise.module#MerchandiseModule',
+        data: {
+          MenuCode: 'PRD'
+        }
       },
       {
         path: 'user-management',
-        loadChildren: 'lrshared_modules/pages/user-management/user-management.module#UserManagementModule'
+        loadChildren: 'lrshared_modules/pages/user-management/user-management.module#UserManagementModule',
+        data: {
+          MenuCode: 'SYS'
+        }
       },
       {
         path: 'order-management',
-        loadChildren: './merchandise/orders/orders.module#OrdersModule'
+        loadChildren: './merchandise/orders/orders.module#OrdersModule',
+        data: {
+          MenuCode: 'ORD'
+        }
       },
       // {
       //   path: 'catalog-management',
@@ -39,15 +48,24 @@ export const routes: Routes = [
       // },
       {
         path: 'movie-management',
-        loadChildren: './merchandise/movie-management/movie-management.module#MovieManagementModule'
+        loadChildren: './merchandise/movie-management/movie-management.module#MovieManagementModule',
+        data: {
+          MenuCode: 'MOV'
+        }
       },
       {
         path: 'home',
-        component: HomeComponent
+        component: HomeComponent,
+        data: {
+          MenuCode: 'HOM'
+        }
       },
       {
         path: 'seller',
-        loadChildren: './merchandise/seller/seller.module#SellerModule'
+        loadChildren: './merchandise/seller/seller.module#SellerModule',
+        data: {
+          MenuCode: 'SLR'
+        }
       }
       // {
       //   path: 'PageNotFound',

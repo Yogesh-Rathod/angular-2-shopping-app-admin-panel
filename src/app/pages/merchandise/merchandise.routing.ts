@@ -15,18 +15,30 @@ const routes: Routes = [
       {
         path: 'categories',
         loadChildren: './categories/categories.module#CategoriesModule',
+        data: {
+          MenuCode: 'PRD'
+        }
       },
       {
         path: 'products',
-        loadChildren: './products/products.module#ProductsModule'
+        loadChildren: './products/products.module#ProductsModule',
+        data: {
+          MenuCode: 'PRD'
+        }
       },
       {
         path: 'vendors',
-        loadChildren: './vendor/vendor.module#VendorModule'
+        loadChildren: './vendor/vendor.module#VendorModule',
+        data: {
+          MenuCode: 'PRD'
+        }
       },
       {
         path: 'catalog-management',
-        loadChildren: './catalog-management/catalog-management.module#CatalogManagementModule'
+        loadChildren: './catalog-management/catalog-management.module#CatalogManagementModule',
+        data: {
+          MenuCode: 'PRD'
+        }
       },
     ],
   },

@@ -45,6 +45,7 @@ export class Pages {
                     customMenu.push(standardMenu[i]);
                 }
             }
+            this._cookieService.put('MenuListAllowed', MenuListArray);
             var PAGES_MENU_NEW = JSON.parse(JSON.stringify(PAGES_MENU));
             PAGES_MENU_NEW[0].children = customMenu;
             this._menuService.updateMenuByRoutes(<Routes>PAGES_MENU_NEW);

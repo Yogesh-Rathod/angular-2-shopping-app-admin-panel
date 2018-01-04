@@ -34,7 +34,6 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       userAuthorization = userAuthorization.split(',');
     }
     const hasAuthority = _.includes(userAuthorization, route.data.MenuCode);
-    console.log("route.data.MenuCode ", route.data.MenuCode);
     if (userInfo && !hasAuthority) {
       if (route.data.MenuCode !== 'HOM') {
         if (!this.isToasterPresent) {

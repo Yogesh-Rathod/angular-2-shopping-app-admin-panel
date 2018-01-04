@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { BaMenuService } from '../theme';
 import { PAGES_MENU } from './pages.menu';
-// import { CookieService } from 'angular2-cookie/core';
 import { AppState } from 'app/app.service';
 import { UserService } from 'lrshared_modules/pages/user-management/user.service';
+import { CookieService } from 'ngx-cookie';
 
 @Component({
   selector: 'pages',
@@ -13,7 +13,7 @@ import { UserService } from 'lrshared_modules/pages/user-management/user.service
 export class Pages {
   constructor(
     private _menuService: BaMenuService,
-    // private _cookieService: CookieService,
+    private _cookieService: CookieService,
     private global: AppState,
     private userService: UserService,
   ) {
@@ -45,10 +45,10 @@ export class Pages {
                     customMenu.push(standardMenu[i]);
                 }
             }
-            var PAGES_MENU_NEW = JSON.parse(JSON.stringify(PAGES_MENU));            
+            var PAGES_MENU_NEW = JSON.parse(JSON.stringify(PAGES_MENU));
             PAGES_MENU_NEW[0].children = customMenu;
             this._menuService.updateMenuByRoutes(<Routes>PAGES_MENU_NEW);
-            
+
         }).catch(rej => {
             console.log("Error: ",rej);
         });

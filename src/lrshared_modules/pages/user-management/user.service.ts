@@ -30,8 +30,6 @@ export class UserService {
         ) {
         }
 
-        authToken = JSON.parse(this.cookieService.get('MERCHANDISE.token'));
-
         headers = new Headers({
                 'headers': '',
                 'ModuleId': environment.moduleId,

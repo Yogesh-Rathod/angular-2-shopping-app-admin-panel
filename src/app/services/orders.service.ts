@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { RequestOptions, Http, Headers } from '@angular/http';
 import { CommonService, ResponseHandingService } from 'lrshared_modules/services';
 import { CommonAppService } from 'app/services/common.services';
-import { CookieService } from 'ngx-cookie';
 import { environment } from 'environments';
 
 @Injectable()
@@ -10,7 +9,6 @@ export class OrdersService {
 
 
     constructor(
-        private cookieService: CookieService,
         private http: Http,
         private responseHandler: ResponseHandingService,
         private commonAppSer: CommonAppService
@@ -151,7 +149,7 @@ export class OrdersService {
 
 
     getOrdersByPONumber() {
-        let url = `${environment.merchandiseUrl}Order`;
+        let url = `${environment.merchandiseUrl}Merchandise/Order/`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.get(url, this.options)
             .timeout(environment.timeOut)

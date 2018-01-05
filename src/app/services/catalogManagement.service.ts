@@ -1,7 +1,26 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'environments';
+import { CommonAppService } from 'app/services/common.services';
+import { Http, Headers, RequestOptions } from '@angular/http';
+import { ResponseHandingService } from 'lrshared_modules/services';
 
 @Injectable()
 export class CatalogManagementService {
+
+    constructor(
+        private http: Http,
+        private responseHandler: ResponseHandingService,
+        private commonAppSer: CommonAppService
+    ) {
+    }
+
+    headers = new Headers({
+        'headers': '',
+        'ModuleId': environment.moduleId,
+        'Content-Type': 'application/json',
+        'Accept': 'q=0.8;application/json;q=0.9'
+    });
+    options = new RequestOptions({ headers: this.headers });    
 
     banksInfo = [
         {
@@ -292,7 +311,14 @@ export class CatalogManagementService {
     ];
 
     getBanks() {
-        return this.banksInfo;
+    //    return this.banksInfo;
+    let url = `${environment.merchandiseUrl}Merchandise/Catalog`;
+    this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+    return this.http.get(url, this.options)
+        .timeout(environment.timeOut)
+        .toPromise()
+        .then(this.responseHandler.handleResponse)
+        .catch((err) => this.responseHandler.handleError(err));
     }
 
     updateBanks(banks) {

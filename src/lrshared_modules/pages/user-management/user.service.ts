@@ -15,6 +15,7 @@ import { CookieService } from 'ngx-cookie';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
 import { CommonService } from 'lrshared_modules/services/common-services.service';
+import { CommonAppService } from 'app/services/common.services';
 import { ResponseHandingService } from 'lrshared_modules/services/response-handling.service';
 import * as CryptoJS from "crypto-js";
 import * as utf8 from 'utf8';
@@ -26,6 +27,7 @@ export class UserService {
                 private cookieService: CookieService,
                 private http: Http,
                 private commSer: CommonService,
+                private commonAppSer: CommonAppService,
                 private responseHandler: ResponseHandingService,
         ) {
         }
@@ -37,35 +39,6 @@ export class UserService {
                 'Accept': 'q=0.8;application/json;q=0.9'
         });
         options = new RequestOptions({ headers: this.headers });
-
-        crateAuthorization() {
-                const token = JSON.parse(this.cookieService.get('MERCHANDISE.token'));
-                if (token) {
-                        return `Bearer ${token.accessToken}`;
-                } else {
-                        return 'Bearer ';
-                }
-        }
-
-
-        createHMACSignature(requestMethod, requestURL, body = '') {
-                let requestUrl = encodeURIComponent(requestURL).toLowerCase(),
-                        timestamp = + new Date(),
-                        nounce = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.random(8)),
-                        signatureRaw = `${environment.hmacCliendId}${requestMethod}${requestUrl}${timestamp}${nounce}`;
-
-                if (body) {
-                        const contentString = JSON.stringify(body),
-                        updatedContent = CryptoJS.enc.Base64.stringify(CryptoJS.MD5(utf8.encode(contentString)));
-                        signatureRaw = signatureRaw + updatedContent;
-                }
-                // Secret Will Be Updated Later On
-                const clientSecret = utf8.encode(environment.hmacClientSecret);
-                const finalSignature = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(utf8.encode(signatureRaw), clientSecret));
-
-                console.log("finalSignature ", `lvbportal:${finalSignature}:${nounce}:${timestamp}`);
-                return `${environment.hmacCliendId}:${finalSignature}:${nounce}:${timestamp}`;
-        }
 
         userData(): Promise<any> {
                 const url = `${environment.rbacUrl}/resolvedUsersByProgramAndApplication`;
@@ -88,8 +61,9 @@ export class UserService {
 
         getAllUsers() {
                 let url = `${environment.rbacUrl}Profile/All`;
-                this.headers.set('Authorization', this.crateAuthorization());
-                this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
+       //         this.headers.set('Authorization', this.crateAuthorization());
+                this.headers.set('Authorization', this.commonAppSer.crateAuthorization() );
+                this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
                 return this.http.get(url, this.options)
                         .timeout(environment.timeOut)
                         .toPromise()
@@ -99,8 +73,8 @@ export class UserService {
 
         addUser(data): Promise<any> {
                 const url = `${environment.rbacUrl}Profile`;
-                this.headers.set('Authorization', this.crateAuthorization());
-                this.headers.set('LRSignAuth', this.createHMACSignature('POST', url, data));
+                this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+                this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, data));
                 return this.http.post(url, JSON.stringify(data), this.options)
                         .timeout(environment.timeOut)
                         .toPromise()
@@ -137,8 +111,8 @@ export class UserService {
 
         fetchSingleUser(id?: String): Promise<any> {
                 let url = id ? `${environment.rbacUrl}Profile/${id}` : `${environment.rbacUrl}Profile`;
-                this.headers.set('Authorization', this.crateAuthorization());
-                this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
+                this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+                this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
 
                 return this.http.get(url, this.options)
                         .timeout(environment.timeOut)
@@ -164,8 +138,8 @@ export class UserService {
 
         updateUser(data): Promise<any> {
                 const url = `${environment.rbacUrl}Profile`;
-                this.headers.set('Authorization', this.crateAuthorization());
-                this.headers.set('LRSignAuth', this.createHMACSignature('PUT', url, data));
+                this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+                this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, data));
                 return this.http.put(url, JSON.stringify(data), this.options)
                         .timeout(environment.timeOut)
                         .toPromise()
@@ -175,8 +149,8 @@ export class UserService {
 
         changePassword(data): Promise<any> {
                 const url = `${environment.rbacUrl}Profile/ChangePassword`;
-                this.headers.set('Authorization', this.crateAuthorization());
-                this.headers.set('LRSignAuth', this.createHMACSignature('PUT', url, data));
+                this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+                this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, data));
                 return this.http.put(url, JSON.stringify(data), this.options)
                         .timeout(environment.timeOut)
                         .toPromise()
@@ -232,8 +206,8 @@ export class UserService {
 
         fetchRoles() {
                 const url = `${environment.rbacUrl}Role/All`;
-                this.headers.set('Authorization', this.crateAuthorization());
-                this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
+                this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+                this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
                 return this.http.get(url, this.options)
                         .toPromise()
                         .then(this.responseHandler.handleResponse)

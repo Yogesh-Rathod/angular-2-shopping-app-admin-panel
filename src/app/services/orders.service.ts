@@ -1,7 +1,36 @@
 import { Injectable } from '@angular/core';
+import { RequestOptions, Http, Headers } from '@angular/http';
+import { CommonService, ResponseHandingService } from 'lrshared_modules/services';
+import { CookieService } from 'ngx-cookie';
+import { environment } from 'environments';
 
 @Injectable()
 export class OrdersService {
+
+
+    constructor(
+        private cookieService: CookieService,
+        private http: Http,
+        private responseHandler: ResponseHandingService,
+) {
+}
+
+headers = new Headers({
+        'headers': '',
+        'ModuleId': environment.moduleId,
+        'Content-Type': 'application/json',
+        'Accept': 'q=0.8;application/json;q=0.9'
+});
+options = new RequestOptions({ headers: this.headers });
+
+crateAuthorization() {
+        const token = JSON.parse(this.cookieService.get('MERCHANDISE.token'));
+        if (token) {
+                return `Bearer ${token.accessToken}`;
+        } else {
+                return 'Bearer ';
+        }
+}
 
   ordersInfo = [
     {
@@ -126,6 +155,19 @@ export class OrdersService {
       paymentMethod: 'Check / Money Order',
     },
   ];
+
+
+  getOrdersByPONumber() {
+    let url = `${environment.merchandiseApiUrl}Order`;
+    this.headers.set('Authorization', this.crateAuthorization());
+    return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(
+                this.responseHandler.handleResponse
+            )
+            .catch((err) => this.responseHandler.handleError(err));
+}
 
   getOrders() {
     return this.ordersInfo;

@@ -20,10 +20,17 @@
 		<div class="card-body">
 
 			<form class="col-12" [formGroup]=" addCategoryForm " (ngSubmit)=" addCategory(addCategoryForm.value) ">
-				<input type="hidden" formControlName="id">
+				<input type="hidden" formControlName="Id">
 				<div class="form-group row">
 					<label for="name" class="col-3 text-right">Name <span class="mandatory">*</span></label>
-					<input type="text" class="form-control col-9" id="name" placeholder="Name" formControlName="name">
+					<input type="text" class="form-control col-9" id="name" placeholder="Name" formControlName="Name">
+				</div>
+
+				<div class="form-group row">
+					<label for="Description" class="col-3 text-right">Description
+						<span class="mandatory">*</span>
+					</label>
+					<textarea class="form-control col-9" formControlName="Description"></textarea>
 				</div>
 
 				<!-- <div class="form-group row">
@@ -34,17 +41,17 @@
 
 				<!-- <div class="form-group row">
 					<label for="Description" class="col-3 text-right">Description <span class="mandatory">*</span></label>
-					<ckeditor class="form-control col-9" [config]="config" formControlName="description"></ckeditor>
+					<ckeditor class="form-control col-9" [config]="config" formControlName="Description"></ckeditor>
 				</div> -->
 
-				<div class="form-group row">
+				<!-- <div class="form-group row">
 					<label for="type" class="col-3 text-right">Type</label>
 					<select id="type" formControlName="type" class="form-control col-9">
 						<option *ngFor="let item of type" [ngValue]="item">
 							{{ item }}
 						</option>
 					</select>
-				</div>
+				</div> -->
 
 				<!-- <div class="form-group row">
 					<label for="level" class="col-3 text-right">Level</label>
@@ -55,17 +62,17 @@
 					</select>
 				</div> -->
 
-				<div class="form-group row">
+				<!-- <div class="form-group row">
 					<label for="Picture" class="col-3 text-right">Picture</label>
 					<input type="file" class="form-control col-9" id="Picture" (change)=" imageUpload($event) ">
-				</div>
+				</div> -->
 
 				<div class="form-group row">
 					<label for="ParentCategory" class="col-3 text-right">Parent Category</label>
-					<select id="ParentCategory" class="form-control col-9" formControlName="parentCat" *ngIf=" categories ">
+					<select id="ParentCategory" class="form-control col-9" formControlName="ParentCategoryId" *ngIf=" categories ">
 						<option></option>
 						<ng-container *ngFor="let category of categories">
-							<option *ngIf="category.level < categoriesMaxLevel " [ngValue]="category">{{ category.breadCrumb }}</option>
+							<option [ngValue]="category.Id">{{ category.Name }}</option>
 						</ng-container>
 					</select>
 					<select *ngIf=" !categories " class="form-control col-9">
@@ -75,12 +82,12 @@
 
 				<div class="form-group row">
 					<label for="Displayorder" class="col-3 text-right">Display order <span class="mandatory">*</span></label>
-					<input type="number" class="form-control col-9" id="name" placeholder="Displayorder" formControlName="order">
+					<input type="number" class="form-control col-9" id="name" placeholder="Displayorder" formControlName="DisplayOrder">
 				</div>
 
 				<div class="form-group row">
 					<label for="published" class="col-3 text-right">Published</label>
-					<input type="checkbox" id="published" formControlName="published">
+					<input type="checkbox" id="published" formControlName="IsActive">
 				</div>
 
 				<div class="form-group row">

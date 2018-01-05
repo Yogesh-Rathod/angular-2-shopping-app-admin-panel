@@ -55,6 +55,10 @@
 							<span>
 								{{ item.Name }}
 							</span>
+							<span class="status" *ngIf="item.Status">
+								Status: {{ item.Status }}
+							</span>
+							<span class="status" *ngIf="!item.Status">Status: Not Available</span>
 							<button class="btn btn-secondary float-right" [routerLink]="['./edit-category/', item.Id]" title="Edit">
 								<i class="fa fa-pencil" aria-hidden="true"></i>
 							</button>

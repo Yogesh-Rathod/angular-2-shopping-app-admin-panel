@@ -41,28 +41,15 @@ export class CategoriesComponent implements OnInit {
 
   getAllCategories() {
     this.showLoader = true;
-    // this.merchandiseService.getCategories().
-    //   then((categories) => {
-    //     console.log("categories ", categories);
-    //     this.categories = categories.Data;
-    //     this.categoriesFiltered = this.categories;
-    //     this.showLoader = false;
-    //   }).catch((error) => {
-    //     console.log("error ", error);
-    //     this.showLoader = false;
-    //   });
     this.categories = this.merchandiseService.getCategories().
       then((categories) => {
-        console.log("categories ", categories);
-
+        this.categories = categories.Data;
+        this.categoriesFiltered = this.generateTreeStructure(this.categories);
+        this.showLoader = false;
       }).catch((error) => {
         console.log("error ", error);
-
       });
-    // this.categoriesFiltered = this.generateTreeStructure(this.categories);
-    // this.showLoader = false;
-    // console.log("this.categories", this.categories);
-  }
+    }
 
   showChildrens(item) {
     item.showChild = !item.showChild;
@@ -78,16 +65,16 @@ export class CategoriesComponent implements OnInit {
     let arrayLength = array.length;
     for (let i = 0; i < arrayLength; i++) {
       arrElem = array[i];
-      mappedArr[arrElem.id] = arrElem;
-      mappedArr[arrElem.id]['SubCategories'] = [];
+      mappedArr[arrElem.Id] = arrElem;
+      mappedArr[arrElem.Id]['SubCategories'] = [];
     }
 
-    for (let id in mappedArr) {
-      if (mappedArr.hasOwnProperty(id)) {
-        mappedElem = mappedArr[id];
+    for (let Id in mappedArr) {
+      if (mappedArr.hasOwnProperty(Id)) {
+        mappedElem = mappedArr[Id];
         // If the element is not at the root level, add it to its parent array of children.
-        if (mappedElem.parentid) {
-          mappedArr[mappedElem['parentid']]['SubCategories'].push(mappedElem);
+        if (mappedElem.ParentCategoryId) {
+          mappedArr[mappedElem['ParentCategoryId']]['SubCategories'].push(mappedElem);
         }
         // If the element is at the root level, add it to first level elements array.
         else {
@@ -100,10 +87,14 @@ export class CategoriesComponent implements OnInit {
   }
 
   searchCategory(searchTerm) {
-    this.categoriesFiltered = this.categories.filter((item) => {
-      const caseInsensitiveSearch = new RegExp(`${searchTerm.trim()}`, "i");
-      return caseInsensitiveSearch.test(item.Name);
-    });
+    if (searchTerm) {
+      this.categoriesFiltered = this.categories.filter((item) => {
+        const caseInsensitiveSearch = new RegExp(`${searchTerm.trim()}`, "i");
+        return caseInsensitiveSearch.test(item.Name);
+      });
+    } else {
+      this.categoriesFiltered = this.generateTreeStructure(this.categories);
+    }
   }
 
   bulkUpload() {

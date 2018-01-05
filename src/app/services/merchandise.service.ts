@@ -22,139 +22,6 @@ export class MerchandiseService {
   options = new RequestOptions({ headers: this.headers });
 
   // All Operations Related To Categories
-  private categories: any[] = [
-    {
-      id: 1,
-      Name: 'Computers',
-      level: 1,
-      parent_Name: null,
-      published: true,
-      display_order: 1,
-      breadCrumb: 'Computers',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti cumque earum placeat officiis culpa est maiores. Optio sint earum odit cumque, blanditiis eligendi ipsum eveniet accusamus illo. Aspernatur, assumenda, at.'
-    },
-    {
-      id: 2,
-      parentid: 1,
-      Name: 'Desktops',
-      level: 2,
-      parent_Name: 'Computers',
-      published: false,
-      display_order: 1,
-      breadCrumb: 'Computers >> Desktops',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti cumque earum placeat officiis culpa est maiores. Optio sint earum odit cumque, blanditiis eligendi ipsum eveniet accusamus illo. Aspernatur, assumenda, at.'
-    },
-    {
-      id: 3,
-      parentid: 1,
-      Name: 'Software',
-      level: 2,
-      parent_Name: 'Computers',
-      published: true,
-      display_order: 2,
-      breadCrumb: 'Computers >> Software',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti cumque earum placeat officiis culpa est maiores. Optio sint earum odit cumque, blanditiis eligendi ipsum eveniet accusamus illo. Aspernatur, assumenda, at.'
-    },
-    {
-      id: 4,
-      Name: 'Electronics',
-      parentid: '',
-      level: 1,
-      parent_Name: null,
-      published: true,
-      display_order: 2,
-      breadCrumb: 'Electronics',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti cumque earum placeat officiis culpa est maiores. Optio sint earum odit cumque, blanditiis eligendi ipsum eveniet accusamus illo. Aspernatur, assumenda, at.'
-    },
-    {
-      id: 5,
-      Name: 'Cell phones',
-      parentid: 4,
-      level: 2,
-      parent_Name: 'Electronics',
-      published: false,
-      display_order: 1,
-      breadCrumb: 'Electronics >> Cell phones',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti cumque earum placeat officiis culpa est maiores. Optio sint earum odit cumque, blanditiis eligendi ipsum eveniet accusamus illo. Aspernatur, assumenda, at.'
-    },
-    {
-      id: 6,
-      Name: 'Others',
-      parentid: 4,
-      level: 2,
-      parent_Name: 'Electronics',
-      published: true,
-      display_order: 2,
-      breadCrumb: 'Electronics >> Others',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti cumque earum placeat officiis culpa est maiores. Optio sint earum odit cumque, blanditiis eligendi ipsum eveniet accusamus illo. Aspernatur, assumenda, at.'
-    },
-    {
-      id: 7,
-      Name: 'Apparel',
-      parentid: '',
-      level: 1,
-      parent_Name: null,
-      published: false,
-      display_order: 3,
-      breadCrumb: 'Apparel',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti cumque earum placeat officiis culpa est maiores. Optio sint earum odit cumque, blanditiis eligendi ipsum eveniet accusamus illo. Aspernatur, assumenda, at.'
-    },
-    {
-      id: 8,
-      Name: 'Clothing',
-      parentid: 7,
-      level: 2,
-      parent_Name: 'Apparel',
-      published: true,
-      display_order: 1,
-      breadCrumb: 'Apparel >> Clothing',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti cumque earum placeat officiis culpa est maiores. Optio sint earum odit cumque, blanditiis eligendi ipsum eveniet accusamus illo. Aspernatur, assumenda, at.'
-    },
-    {
-      id: 9,
-      parentid: 7,
-      Name: 'Accessories',
-      level: 2,
-      parent_Name: 'Apparel',
-      published: false,
-      display_order: 2,
-      breadCrumb: 'Apparel >> Accessories',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti cumque earum placeat officiis culpa est maiores. Optio sint earum odit cumque, blanditiis eligendi ipsum eveniet accusamus illo. Aspernatur, assumenda, at.'
-    },
-    {
-      id: 10,
-      Name: 'Caps',
-      parentid: 7,
-      level: 3,
-      parent_Name: 'Apparel >> Accessories',
-      published: false,
-      display_order: 3,
-      breadCrumb: 'Apparel >> Accessories >> Caps',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti cumque earum placeat officiis culpa est maiores. Optio sint earum odit cumque, blanditiis eligendi ipsum eveniet accusamus illo. Aspernatur, assumenda, at.'
-    },
-    {
-      id: 11,
-      Name: 'Armani Caps',
-      parentid: 10,
-      level: 4,
-      parent_Name: 'Apparel >> Accessories >> Caps',
-      published: true,
-      display_order: 4,
-      breadCrumb: 'Apparel >> Accessories >> Caps >> Armani Caps',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti cumque earum placeat officiis culpa est maiores. Optio sint earum odit cumque, blanditiis eligendi ipsum eveniet accusamus illo. Aspernatur, assumenda, at.'
-    },
-    {
-      id: 21,
-      Name: 'Furniture',
-      parentid: '',
-      level: 4,
-      parent_Name: 'Furniture',
-      published: true,
-      display_order: 4,
-      breadCrumb: 'Furniture',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti cumque earum placeat officiis culpa est maiores. Optio sint earum odit cumque, blanditiis eligendi ipsum eveniet accusamus illo. Aspernatur, assumenda, at.'
-    }
-  ];
 
   constructor(
     private cookieService: CookieService,
@@ -192,10 +59,6 @@ export class MerchandiseService {
     return `${environment.hmacCliendId}:${finalSignature}:${nounce}:${timestamp}`;
   }
 
-  getDummyCategories() {
-    return this.categories;
-  }
-
   getCategories() {
     let url = `${environment.merchandiseUrl}Merchandise/Category`;
     this.headers.set('Authorization', this.crateAuthorization());
@@ -208,13 +71,19 @@ export class MerchandiseService {
   }
 
   addCategory(categoryInfo) {
-    this.categories.push(categoryInfo);
-    return this.categories;
+    const url = `${environment.merchandiseUrl}Merchandise/AddToApprovalCategory`;
+    this.headers.set('Authorization', this.crateAuthorization());
+    // this.headers.set('LRSignAuth', this.createHMACSignature('POST', url, categoryInfo));
+    return this.http.post(url, JSON.stringify(categoryInfo), this.options)
+      .timeout(environment.timeOut)
+      .toPromise()
+      .then(this.responseHandler.handleResponse)
+      .catch((err) => this.responseHandler.handleError(err));
   }
 
   editCategories(categories) {
-    this.categories = categories;
-    return this.categories;
+    // this.categories = categories;
+    // return this.categories;
   }
 
 }

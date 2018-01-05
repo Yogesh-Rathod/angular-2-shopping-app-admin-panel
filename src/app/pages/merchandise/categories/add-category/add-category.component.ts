@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
+import { Location } from '@angular/common';
 
 import { Config } from 'app/pages/app-config';
 import { MerchandiseService } from 'app/services';
@@ -33,6 +34,7 @@ export class AddCategoryComponent implements OnInit {
   level = ['Category', 'Sub Category', 'Sub Sub Category'];
 
   constructor(
+    private location: Location,
     private modalService: NgbModal,
     private fb: FormBuilder,
     private merchandiseService: MerchandiseService,
@@ -52,53 +54,47 @@ export class AddCategoryComponent implements OnInit {
   }
 
   getAllCategories() {
-    this.categories = [];
-    // this.merchandiseService.getCategories();
-    console.log("this.categories", this.categories);
+    this.showLoader = true;
+    this.merchandiseService.getCategories().
+      then((categories) => {
+        this.categories = categories.Data;
+        this.showLoader = false;
+      }).catch((error) => {
+        console.log("error ", error);
+      });
   }
 
   createForm() {
     this.addCategoryForm = this.fb.group({
-      'id': [''],
-      'name': ['', Validators.compose([Validators.required,
+      'Id': [''],
+      'Name': ['', Validators.compose([Validators.required,
         Validators.minLength(1), Validators.maxLength(100)])],
-      'type': ['Merchandise'],
-      // 'description': ['', Validators.compose([Validators.required,
-      //   Validators.minLength(1), Validators.maxLength(1000)])],
-      'picture': [''],
-      'parentCat': [''],
-      'order': ['', Validators.compose([Validators.required])],
-      'published': ['TRUE']
+      'Description': ['', Validators.compose([Validators.required,
+        Validators.minLength(1), Validators.maxLength(1000)])],
+      'ParentCategoryId': [''],
+      'DisplayOrder': ['', Validators.compose([Validators.required])],
+      'IsActive': ['TRUE']
     });
   }
 
   addCategory(addCategoryFormValues) {
     console.log("addCategoryFormValues ", addCategoryFormValues);
     this.showLoader = true;
-    const categoryInfo = {
-      name: addCategoryFormValues.name,
-      // display_name: addCategoryFormValues.display_name,
-      parent_name: addCategoryFormValues.parentCat ? addCategoryFormValues.parentCat.breadCrumb : null,
-      level: addCategoryFormValues.parentCat ? addCategoryFormValues.parentCat.level + 1 : null ,
-      published: addCategoryFormValues.published,
-      display_order: addCategoryFormValues.order,
-      // description: addCategoryFormValues.description,
-      breadCrumb: addCategoryFormValues.parentCat ? `${addCategoryFormValues.parentCat.breadCrumb} >> ${addCategoryFormValues.name}` : addCategoryFormValues.name
-    };
-    if (addCategoryFormValues.id) {
-      categoryInfo['id'] = addCategoryFormValues.id;
-      const index = _.findIndex(this.categories, { id: categoryInfo['id'] } );
-      this.categories.splice(index, 1, categoryInfo );
-      this.merchandiseService.editCategories(this.categories);
+    if (addCategoryFormValues.Id) {
     } else {
-      categoryInfo['id'] = Math.floor(Math.random() * 89999 + 10000);
-      this.merchandiseService.addCategory(categoryInfo);
+      delete addCategoryFormValues.Id;
+      this.merchandiseService.addCategory(addCategoryFormValues).
+        then((response) => {
+          console.log("response ", response);
+          if (response.Code === 200 ) {
+            this.toastr.success('Category sent for approval process.', 'Sucess!');
+            this.location.back();
+            this.showLoader = false;
+          }
+        }).catch((error) => {
+          console.log("error ", error);
+        });
     }
-    this.showLoader = false;
-    this.toastr.success('Sucessfully Done!', 'Sucess!');
-    this.router.navigate(['../']);
-    this.categories = [];
-    // this.merchandiseService.getCategories();
   }
 
   imageUpload(event) {
@@ -129,22 +125,6 @@ export class AddCategoryComponent implements OnInit {
       });
     }
   }
-
-  // deleteCategory() {
-
-  //   const activeModal = this.modalService.open(CategoryDeletePopupComponent, { size: 'sm' });
-
-  //   activeModal.result.then((status) => {
-  //     if (status) {
-  //       this.deleteLoader = true;
-  //       _.remove(this.categories, this.categoryInfo );
-  //       this.merchandiseService.editCategories(this.categories);
-  //       this.toastr.success('Sucessfully Deleted!', 'Sucess!');
-  //       this.deleteLoader = false;
-  //       this.router.navigate(['../']);
-  //     }
-  //   });
-  // }
 
   resetForm() {
     this.createForm();

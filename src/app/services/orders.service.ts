@@ -151,7 +151,7 @@ export class OrdersService {
 
 
     getOrdersByPONumber() {
-        let url = `${environment.merchandiseApiUrl}Order`;
+        let url = `${environment.merchandiseUrl}Order`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.get(url, this.options)
             .timeout(environment.timeOut)

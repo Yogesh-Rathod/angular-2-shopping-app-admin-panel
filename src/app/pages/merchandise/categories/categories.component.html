@@ -72,10 +72,11 @@
 									<span>
 										{{ item.Name }}
 									</span>
-									<span class="status" *ngIf="item.Status">
-										Status: {{ item.IsActive }}
+									<span class="status">
+                                        Is Active:
+                                        <span *ngIf="item.IsActive">{{ item.IsActive }}</span>
+                                        <span *ngIf="!item.IsActive">False</span>
 									</span>
-									<span class="status" *ngIf="!item.Status">Status: Not Available</span>
 									<button class="btn btn-secondary float-right" [routerLink]="['./edit-category/', item.Id]" title="Edit">
 										<i class="fa fa-pencil" aria-hidden="true"></i>
 									</button>
@@ -91,8 +92,10 @@
 											<span>
 												{{ children.Name }}
                                             </span>
-                                            <span class="status" *ngIf="children.IsActive">
-                                                Status: {{ children.IsActive }}
+                                            <span class="status">
+                                                 Is Active:
+                                                <span *ngIf="children.IsActive">{{ children.IsActive }}</span>
+                                                <span *ngIf="!children.IsActive">False</span>
                                             </span>
 											<button class="btn btn-secondary float-right" [routerLink]="['./edit-category/', children.Id]" title="Edit">
 												<i class="fa fa-pencil" aria-hidden="true"></i>
@@ -106,8 +109,10 @@
 													<span>
 														{{ child.Name }}
                                                     </span>
-                                                    <span class="status" *ngIf="child.IsActive">
-                                                        Status: {{ child.IsActive }}
+                                                    <span class="status">
+                                                         Is Active:
+                                                        <span *ngIf="child.IsActive">{{ child.IsActive }}</span>
+                                                        <span *ngIf="!child.IsActive">False</span>
                                                     </span>
 													<button class="btn btn-secondary float-right" [routerLink]="['./edit-category/', child.Id]" title="Edit">
 														<i class="fa fa-pencil" aria-hidden="true"></i>
@@ -121,8 +126,10 @@
                                                             <span>
                                                                 {{ lastChild.Name }}
                                                             </span>
-                                                            <span class="status" *ngIf="lastChild.IsActive">
-                                                                Status: {{ lastChild.IsActive }}
+                                                            <span class="status">
+                                                                 Is Active:
+                                                                <span *ngIf="lastChild.IsActive">{{ lastChild.IsActive }}</span>
+                                                                <span *ngIf="!lastChild.IsActive">False</span>
                                                             </span>
                                                             <button class="btn btn-secondary float-right" [routerLink]="['./edit-category/', lastChild.Id]" title="Edit">
                                                                 <i class="fa fa-pencil" aria-hidden="true"></i>

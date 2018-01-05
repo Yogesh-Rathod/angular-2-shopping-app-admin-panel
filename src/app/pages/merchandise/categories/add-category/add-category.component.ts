@@ -84,7 +84,7 @@ export class AddCategoryComponent implements OnInit {
             Validators.minLength(1), Validators.maxLength(100)])],
             'Description': ['', Validators.compose([Validators.required,
             Validators.minLength(1), Validators.maxLength(1000)])],
-            'ParentCategoryId': [''],
+            'ParentCategoryId': [[]],
             'DisplayOrder': ['', Validators.compose([Validators.required])],
             'IsActive': ['TRUE']
         });
@@ -93,7 +93,11 @@ export class AddCategoryComponent implements OnInit {
     addCategory(addCategoryFormValues) {
         console.log("addCategoryFormValues ", addCategoryFormValues);
         this.showLoader = true;
-        addCategoryFormValues.Status = addCategoryFormValues.IsActive;
+        if (addCategoryFormValues.ParentCategoryId.lenght > 0) {
+            addCategoryFormValues.ParentCategoryId = addCategoryFormValues.ParentCategoryId[0].Id;
+        } else {
+            addCategoryFormValues.ParentCategoryId = '';
+        }
         if (addCategoryFormValues.Id) {
             this.merchandiseService.addCategory(addCategoryFormValues).
                 then((response) => {

@@ -19,7 +19,7 @@ export class CommonAppService {
         private http: Http,
         private global: AppState,
         private cookieService: CookieService
-        
+
     ) {
 
     }
@@ -60,21 +60,21 @@ export class CommonAppService {
     crateAuthorization() {
         const token = JSON.parse(this.cookieService.get('MERCHANDISE.token'));
         if (token) {
-                return `Bearer ${token.accessToken}`;
+            return `Bearer ${token.accessToken}`;
         } else {
-                return 'Bearer ';
+            return 'Bearer ';
         }
     }
 
     createHMACSignature(requestMethod, requestURL, body = '') {
         let requestUrl = encodeURIComponent(requestURL).toLowerCase(),
-        timestamp = + new Date(),
-        nounce = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.random(8)),
-        signatureRaw = `${environment.hmacCliendId}${requestMethod}${requestUrl}${timestamp}${nounce}`;
+            timestamp = + new Date(),
+            nounce = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.random(8)),
+            signatureRaw = `${environment.hmacCliendId}${requestMethod}${requestUrl}${timestamp}${nounce}`;
 
         if (body) {
             const contentString = JSON.stringify(body),
-            updatedContent = CryptoJS.enc.Base64.stringify(CryptoJS.MD5(utf8.encode(contentString)));
+                updatedContent = CryptoJS.enc.Base64.stringify(CryptoJS.MD5(utf8.encode(contentString)));
             signatureRaw = signatureRaw + updatedContent;
         }
         // Secret Will Be Updated Later On

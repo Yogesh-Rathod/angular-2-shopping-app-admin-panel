@@ -20,7 +20,7 @@ export class CatalogManagementService {
         'Content-Type': 'application/json',
         'Accept': 'q=0.8;application/json;q=0.9'
     });
-    options = new RequestOptions({ headers: this.headers });    
+    options = new RequestOptions({ headers: this.headers });
 
     banksInfo = [
         {
@@ -310,19 +310,19 @@ export class CatalogManagementService {
         },
     ];
 
-    getBanks() {
-    //    return this.banksInfo;
-    let url = `${environment.merchandiseUrl}Merchandise/Catalog`;
-    this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
-    return this.http.get(url, this.options)
-        .timeout(environment.timeOut)
-        .toPromise()
-        .then(this.responseHandler.handleResponse)
-        .catch((err) => this.responseHandler.handleError(err));
+    getCatalogsList() {
+        //    return this.banksInfo;
+        let url = `${environment.merchandiseUrl}Merchandise/Catalog`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
     }
 
-    updateBanks(banks) {
-        this.banksInfo = banks;
+    updateCatalog(_catalog) {
+        this.banksInfo = _catalog;
         return this.banksInfo;
     }
 }

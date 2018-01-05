@@ -16,15 +16,21 @@
   <div class="card-body">
 
     <form class="col-12" [formGroup]=" addCatalogForm " (ngSubmit)=" addCatalog(addCatalogForm.value) ">
-      <input type="hidden" formControlName="id">
+      <input type="hidden" formControlName="Id">
 
       <div class="form-group row">
         <label for="name" class="col-3 text-right">
           Name
           <span class="mandatory">*</span>
         </label>
-        <input type="text" class="form-control col-9" id="name" placeholder="Name" formControlName="name">
+        <input type="text" class="form-control col-9" id="name" placeholder="Name" formControlName="Name">
       </div>
+      <div class="form-group row">
+            <label for="name" class="col-3 text-right">
+                    Description
+            </label>
+            <textarea class="form-control col-9" id="description" placeholder="Description" formControlName="Description"></textarea>
+          </div>
 
       <div class="form-group row">
         <label for="vendors" class="col-3 text-right">Vendors </label>
@@ -41,10 +47,9 @@
 
       <div class="form-group row">
         <label for="status" class="status col-3 text-right">
-            status
-            <span class="mandatory">*</span>
+                IsActive
         </label>
-        <input type="checkbox" id="status" formControlName="status">
+        <input type="checkbox" id="IsActive" formControlName="IsActive">
       </div>
 
       <div class="form-group row">
@@ -52,7 +57,7 @@
         <input *ngIf=" !catalogId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addCatalogForm.valid || showLoader ">
         <input *ngIf=" catalogId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addCatalogForm.valid || showLoader ">
         <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-        <span class="btn btn-secondary" [routerLink]="['/catalog-management']">Cancel</span>
+        <span class="btn btn-secondary" [routerLink]="['/merchandise/catalog-management']">Cancel</span>
       </div>
 
     </form>

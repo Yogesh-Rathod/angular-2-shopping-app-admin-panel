@@ -44,116 +44,115 @@
 					<img src="assets/img/ajax-loader.gif" alt="Loader Image">
 				</div>
 
-				<div class="tree-structure">
-					<div class="text-center" *ngIf="categoriesFiltered && categoriesFiltered.length === 0">
-						There are no categories.
-					</div>
-					<div class="tree-row" *ngFor="let item of categoriesFiltered">
-						<div class="clearfix firstChildren">
-							<i *ngIf="!item.showChild" (click)="showChildrens(item)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-plus" aria-hidden="true"></i>
-							<i *ngIf="item.showChild" (click)="showChildrens(item)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-minus" aria-hidden="true"></i>
-							<span>
-								{{ item.Name }}
-							</span>
-							<span class="status" *ngIf="item.Status">
-								Status: {{ item.Status }}
-							</span>
-							<span class="status" *ngIf="!item.Status">Status: Not Available</span>
-							<button class="btn btn-secondary float-right" [routerLink]="['./edit-category/', item.Id]" title="Edit">
-								<i class="fa fa-pencil" aria-hidden="true"></i>
-							</button>
-						</div>
+				<div class="tabs-section">
+					<!-- Tabs Top UI -->
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" href="#Approved" role="tab" data-toggle="tab">Approved</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link " href="#pending" role="tab" data-toggle="tab">Pending Approval</a>
+						</li>
+					</ul>
+				</div>
 
-						<div class="tree-container" *ngIf="item.showChild">
-							<div class="tree-row" *ngFor="let children of item.SubCategories">
-								<div class="clearfix secondChildren">
-									<i *ngIf="!children.showChild" (click)="showChildrens(children)" [class.hidden]="children.SubCategories.length <= 0" class="fa fa-plus" aria-hidden="true"></i>
-									<i *ngIf="children.showChild" (click)="showChildrens(children)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-minus" aria-hidden="true"></i>
+				<div class="tab-content no_left_padding no_right_padding">
+
+					<div role="tabpanel" class="tab-pane fade in active" id="Approved">
+						<div class="tree-structure col-12 no_padding">
+							<div class="text-center" *ngIf="categoriesFiltered && categoriesFiltered.length === 0">
+								There are no categories.
+							</div>
+							<div class="tree-row" *ngFor="let item of categoriesFiltered">
+								<div class="clearfix firstChildren">
+									<i *ngIf="!item.showChild" (click)="showChildrens(item)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-plus"
+									 aria-hidden="true"></i>
+									<i *ngIf="item.showChild" (click)="showChildrens(item)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-minus"
+									 aria-hidden="true"></i>
 									<span>
-										{{ children.Name }}
+										{{ item.Name }}
 									</span>
-									<button class="btn btn-secondary float-right" [routerLink]="['./edit-category/', children.Id]" title="Edit">
+									<span class="status" *ngIf="item.Status">
+										Status: {{ item.Status }}
+									</span>
+									<span class="status" *ngIf="!item.Status">Status: Not Available</span>
+									<button class="btn btn-secondary float-right" [routerLink]="['./edit-category/', item.Id]" title="Edit">
 										<i class="fa fa-pencil" aria-hidden="true"></i>
 									</button>
 								</div>
 
-								<div class="tree-container" *ngIf="children.showChild">
-									<div class="tree-row" *ngFor="let child of children.SubCategories">
+								<div class="tree-container" *ngIf="item.showChild">
+									<div class="tree-row" *ngFor="let children of item.SubCategories">
 										<div class="clearfix secondChildren">
-											<i (click)="showChildrens(children)" [class.hidden]="child.SubCategories.length <= 0" class="fa fa-plus" aria-hidden="true"></i>
+											<i *ngIf="!children.showChild" (click)="showChildrens(children)" [class.hidden]="children.SubCategories.length <= 0" class="fa fa-plus"
+											 aria-hidden="true"></i>
+											<i *ngIf="children.showChild" (click)="showChildrens(children)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-minus"
+											 aria-hidden="true"></i>
 											<span>
-													{{ child.Name }}
+												{{ children.Name }}
 											</span>
-											<button class="btn btn-secondary float-right" [routerLink]="['./edit-category/', child.Id]" title="Edit">
-													<i class="fa fa-pencil" aria-hidden="true"></i>
+											<button class="btn btn-secondary float-right" [routerLink]="['./edit-category/', children.Id]" title="Edit">
+												<i class="fa fa-pencil" aria-hidden="true"></i>
 											</button>
 										</div>
+
+										<div class="tree-container" *ngIf="children.showChild">
+											<div class="tree-row" *ngFor="let child of children.SubCategories">
+												<div class="clearfix secondChildren">
+													<i (click)="showChildrens(children)" [class.hidden]="child.SubCategories.length <= 0" class="fa fa-plus" aria-hidden="true"></i>
+													<span>
+														{{ child.Name }}
+													</span>
+													<button class="btn btn-secondary float-right" [routerLink]="['./edit-category/', child.Id]" title="Edit">
+														<i class="fa fa-pencil" aria-hidden="true"></i>
+													</button>
+												</div>
+											</div>
+
+										</div>
+
+
 									</div>
-
 								</div>
-
 
 							</div>
 						</div>
-
 					</div>
+
+					<div role="tabpanel" class="tab-pane fade" id="pending">
+						<table class="table table-bordered table-responsive" *ngIf="unApprovedCategories">
+							<thead class="black-muted-bg">
+								<tr>
+									<th>Name</th>
+									<th class="description">Description</th>
+									<th>Parent Id</th>
+									<th class="comment">Comment</th>
+									<!-- <th>Action</th> -->
+								</tr>
+							</thead>
+							<tbody>
+                                <tr *ngFor="let category of unApprovedCategories">
+                                    <td>{{ category.Name }}</td>
+                                    <td class="description">{{ category.Description }}</td>
+                                    <td>{{ category.ParentCategoryId }}</td>
+                                    <td class="comment">
+                                        <form  [formGroup]=" approvalForm " (ngSubmit)=" approveCategory(approvalForm.value) ">
+                                            <input type="hidden" formControlName="Id" [value]="category.Id">
+                                            <textarea cols="30" rows="3" class="form-control"  formControlName="Reason"></textarea>
+                                            <button type="submit" class="btn btn-success">
+                                                Approve
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+					</div>
+
 				</div>
+
 			</div>
 		</div>
-
-		<!-- <div class="spacer col-12"></div>
-
-		<div class="filters card col-12">
-			<div class="card-body">
-				<table class="table table-bordered table-responsive"  [mfData]="categoriesFiltered" #mf="mfDataTable" [mfRowsOnPage]="10">
-					<thead class="black-muted-bg">
-						<tr>
-							<th class="text-left"><strong>Name</strong></th>
-							<th class="text-center"><strong>Published</strong></th>
-							<th class="text-center"><strong>Display Order</strong></th>
-							<th class="text-center"><strong>Action</strong></th>
-						</tr>
-					</thead>
-					<tbody *ngIf=" categoriesFiltered && categoriesFiltered.length > 0 ">
-						<tr *ngFor=" let item of mf.data; let i = index " >
-							<td class="text-left">
-								<i (click)="showChildrens(item)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-plus" aria-hidden="true"></i>
-									{{ item.Name }}
-							</td>
-							<td class="text-center">
-								<i *ngIf=" item.published " class="fa fa-check" aria-hidden="true"></i>
-								<i *ngIf=" !item.published " class="fa fa-times" aria-hidden="true"></i>
-							</td>
-							<td class="text-center">{{ item.DisplayOrder }}</td>
-							<td class="text-center">
-								<button class="btn btn-secondary" [routerLink]="['./edit-category/', item.Id]" title="Edit">
-									<i class="fa fa-pencil" aria-hidden="true"></i>
-								</button>
-								<img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-							</td>
-						</tr>
-					</tbody>
-
-					<tbody *ngIf=" categoriesFiltered && categoriesFiltered.length === 0 ">
-						<tr>
-							<td colspan="5">
-								<strong>There are no categories!</strong>
-							</td>
-						</tr>
-					</tbody>
-
-					<tfoot *ngIf=" categoriesFiltered && categoriesFiltered.length > 10 ">
-						<tr>
-							<td colspan="5">
-								<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-
-			</div>
-
-		</div> -->
 
 	</div>
 </div>

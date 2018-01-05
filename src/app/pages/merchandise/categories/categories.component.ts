@@ -13,120 +13,119 @@ import { BulkUploadComponent } from './bulk-upload/bulk-upload.component';
 import { CategoryDeletePopupComponent } from './delete-popup/delete-popup.component';
 
 @Component({
-  selector: 'app-categories',
-  templateUrl: 'categories.component.html',
-  styleUrls: ['categories.component.scss']
+    selector: 'app-categories',
+    templateUrl: 'categories.component.html',
+    styleUrls: ['categories.component.scss']
 })
 export class CategoriesComponent implements OnInit {
 
-  categories: any;
-  categoriesFiltered: any;
-  showLoader = true;
-  deleteLoader: Number;
+    categories: any;
+    categoriesFiltered: any;
+    unApprovedCategories: any;
+    showLoader = true;
+    deleteLoader: Number;
+    approvalForm: FormGroup;
 
-  constructor(
-    private modalService: NgbModal,
-    public toastr: ToastsManager,
-    private fb: FormBuilder,
-    private merchandiseService: MerchandiseService) {
-  }
-
-  ngOnInit() {
-    $(document).ready(() => {
-      $('[data-toggle="tooltip"]').tooltip();
-    });
-    this.getAllCategories();
-    this.createHMACSignature();
-  }
-
-  getAllCategories() {
-    this.showLoader = true;
-    this.categories = this.merchandiseService.getCategories().
-      then((categories) => {
-        this.categories = categories.Data;
-        this.categoriesFiltered = this.generateTreeStructure(this.categories);
-        this.showLoader = false;
-      }).catch((error) => {
-        console.log("error ", error);
-      });
+    constructor(
+        private modalService: NgbModal,
+        public toastr: ToastsManager,
+        private fb: FormBuilder,
+        private merchandiseService: MerchandiseService) {
     }
 
-  showChildrens(item) {
-    item.showChild = !item.showChild;
-  }
-
-  generateTreeStructure(array) {
-    let tree = [],
-      mappedArr = {},
-      arrElem,
-      mappedElem;
-
-    // First map the nodes of the array to an object -> create a hash table.
-    let arrayLength = array.length;
-    for (let i = 0; i < arrayLength; i++) {
-      arrElem = array[i];
-      mappedArr[arrElem.Id] = arrElem;
-      mappedArr[arrElem.Id]['SubCategories'] = [];
+    ngOnInit() {
+        $(document).ready(() => {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        this.getAllCategories();
+        this.getUnApprovedCategories();
+        this.createForm();
     }
 
-    for (let Id in mappedArr) {
-      if (mappedArr.hasOwnProperty(Id)) {
-        mappedElem = mappedArr[Id];
-        // If the element is not at the root level, add it to its parent array of children.
-        if (mappedElem.ParentCategoryId) {
-          mappedArr[mappedElem['ParentCategoryId']]['SubCategories'].push(mappedElem);
+    createForm() {
+        this.approvalForm = this.fb.group({
+            'Id': [''],
+            'Reason': [''],
+            'IsActive': ['TRUE']
+        });
+    }
+
+    getAllCategories() {
+        this.showLoader = true;
+        this.categories = this.merchandiseService.getCategories().
+            then((categories) => {
+                this.categories = categories.Data;
+                this.categoriesFiltered = this.generateTreeStructure(this.categories);
+                this.showLoader = false;
+            }).catch((error) => {
+                console.log("error ", error);
+            });
+    }
+
+    getUnApprovedCategories() {
+        this.showLoader = true;
+        this.categories = this.merchandiseService.getUnApprovedCategories().
+            then((categories) => {
+                this.unApprovedCategories = categories.Data;
+                this.showLoader = false;
+            }).catch((error) => {
+                console.log("error ", error);
+            });
+    }
+
+    showChildrens(item) {
+        item.showChild = !item.showChild;
+    }
+
+    generateTreeStructure(array) {
+        let tree = [],
+            mappedArr = {},
+            arrElem,
+            mappedElem;
+
+        // First map the nodes of the array to an object -> create a hash table.
+        let arrayLength = array.length;
+        for (let i = 0; i < arrayLength; i++) {
+            arrElem = array[i];
+            mappedArr[arrElem.Id] = arrElem;
+            mappedArr[arrElem.Id]['SubCategories'] = [];
         }
-        // If the element is at the root level, add it to first level elements array.
-        else {
-          tree.push(mappedElem);
+
+        for (let Id in mappedArr) {
+            if (mappedArr.hasOwnProperty(Id)) {
+                mappedElem = mappedArr[Id];
+                // If the element is not at the root level, add it to its parent array of children.
+                if (mappedElem.ParentCategoryId) {
+                    mappedArr[mappedElem['ParentCategoryId']]['SubCategories'].push(mappedElem);
+                }
+                // If the element is at the root level, add it to first level elements array.
+                else {
+                    tree.push(mappedElem);
+                }
+            }
         }
-      }
-    }
-    console.log("tree ", tree);
-    return tree;
-  }
-
-  searchCategory(searchTerm) {
-    if (searchTerm) {
-      this.categoriesFiltered = this.categories.filter((item) => {
-        const caseInsensitiveSearch = new RegExp(`${searchTerm.trim()}`, "i");
-        return caseInsensitiveSearch.test(item.Name);
-      });
-    } else {
-      this.categoriesFiltered = this.generateTreeStructure(this.categories);
-    }
-  }
-
-  bulkUpload() {
-    const activeModal = this.modalService.open( BulkUploadComponent, { size: 'sm' } );
-  }
-
-  createHMACSignature() {
-    let requestUrl = encodeURI('http://localhost:3000/'),
-        timestamp = + new Date(),
-        nounce = btoa(CryptoJS.lib.WordArray.random(8)),
-        signatureRaw = `clientIdget${requestUrl}${timestamp}${nounce}`;
-
-    let content = {
-      username: 'Yogesh',
-      password: 'Password'
-    };
-    let contentString = '';
-
-    if (content) {
-      contentString = JSON.stringify(content);
-      let updatedContent = btoa( CryptoJS.SHA256(  CryptoJS.MD5( utf8.encode(contentString)  )  ) );
-      signatureRaw = signatureRaw + updatedContent;
+        console.log("tree ", tree);
+        return tree;
     }
 
-    const clientSecret = utf8.encode('clientSecret');
-    signatureRaw = utf8.encode(signatureRaw);
+    searchCategory(searchTerm) {
+        if (searchTerm) {
+            this.categoriesFiltered = this.categories.filter((item) => {
+                const caseInsensitiveSearch = new RegExp(`${searchTerm.trim()}`, "i");
+                return caseInsensitiveSearch.test(item.Name);
+            });
+        } else {
+            this.categoriesFiltered = this.generateTreeStructure(this.categories);
+        }
+    }
 
-    const finalSignature = btoa(CryptoJS.HmacSHA256(signatureRaw, clientSecret) );
+    approveCategory(approvalForm) {
+        console.log("approvalForm ", approvalForm);
+    }
 
-    console.log("finalSignature ", finalSignature);
-    return `clientId:${finalSignature}:${nounce}:${timestamp}`;
-  }
+    bulkUpload() {
+        const activeModal = this.modalService.open(BulkUploadComponent, { size: 'sm' });
+    }
 
 
 }

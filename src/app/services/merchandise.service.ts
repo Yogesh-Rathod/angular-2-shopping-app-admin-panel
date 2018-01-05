@@ -70,6 +70,17 @@ export class MerchandiseService {
       .catch((err) => this.responseHandler.handleError(err));
   }
 
+  getUnApprovedCategories() {
+    let url = `${environment.merchandiseUrl}Merchandise/CategoriesForApproval`;
+    this.headers.set('Authorization', this.crateAuthorization());
+    // this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
+    return this.http.get(url, this.options)
+      .timeout(environment.timeOut)
+      .toPromise()
+      .then(this.responseHandler.handleResponse)
+      .catch((err) => this.responseHandler.handleError(err));
+  }
+
   addCategory(categoryInfo) {
     const url = `${environment.merchandiseUrl}Merchandise/AddToApprovalCategory`;
     this.headers.set('Authorization', this.crateAuthorization());

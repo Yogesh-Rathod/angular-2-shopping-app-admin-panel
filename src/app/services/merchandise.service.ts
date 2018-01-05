@@ -22,7 +22,7 @@ export class MerchandiseService {
     });
     options = new RequestOptions({ headers: this.headers });
 
-  // All Operations Related To Categories
+    // All Operations Related To Categories
 
     constructor(
         private cookieService: CookieService,
@@ -32,42 +32,53 @@ export class MerchandiseService {
         private commonAppSer: CommonAppService) {
     }
 
-  getCategories() {
-    let url = `${environment.merchandiseUrl}Merchandise/Category`;
-      this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
-    // this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
-    return this.http.get(url, this.options)
-      .timeout(environment.timeOut)
-      .toPromise()
-      .then(this.responseHandler.handleResponse)
-      .catch((err) => this.responseHandler.handleError(err));
-  }
+    getCategories() {
+        let url = `${environment.merchandiseUrl}Merchandise/Category`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
 
-  getUnApprovedCategories() {
-    let url = `${environment.merchandiseUrl}Merchandise/CategoriesForApproval`;
-      this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
-    // this.headers.set('LRSignAuth', this.createHMACSignature('GET', url));
-    return this.http.get(url, this.options)
-      .timeout(environment.timeOut)
-      .toPromise()
-      .then(this.responseHandler.handleResponse)
-      .catch((err) => this.responseHandler.handleError(err));
-  }
+    getUnApprovedCategories() {
+        let url = `${environment.merchandiseUrl}Merchandise/CategoriesForApproval`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
 
-  addCategory(categoryInfo) {
-    const url = `${environment.merchandiseUrl}Merchandise/AddToApprovalCategory`;
-      this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
-    // this.headers.set('LRSignAuth', this.createHMACSignature('POST', url, categoryInfo));
-    return this.http.post(url, JSON.stringify(categoryInfo), this.options)
-      .timeout(environment.timeOut)
-      .toPromise()
-      .then(this.responseHandler.handleResponse)
-      .catch((err) => this.responseHandler.handleError(err));
-  }
+    addCategory(categoryInfo) {
+        const url = `${environment.merchandiseUrl}Merchandise/AddToApprovalCategory`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, categoryInfo));
+        return this.http.post(url, JSON.stringify(categoryInfo), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
 
-  editCategories(categories) {
-    // this.categories = categories;
-    // return this.categories;
-  }
+    approveCategory(categoryInfo) {
+        const url = `${environment.merchandiseUrl}Merchandise/ApproveCategory`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, categoryInfo));
+        return this.http.post(url, JSON.stringify(categoryInfo), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    editCategories(categories) {
+        // this.categories = categories;
+        // return this.categories;
+    }
 
 }

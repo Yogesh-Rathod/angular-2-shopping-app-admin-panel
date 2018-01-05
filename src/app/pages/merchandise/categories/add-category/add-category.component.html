@@ -68,8 +68,9 @@
 				</div> -->
 
 				<div class="form-group row">
-					<label for="ParentCategory" class="col-3 text-right">Parent Category</label>
-					<select id="ParentCategory" class="form-control col-9" formControlName="ParentCategoryId" *ngIf=" categories ">
+                    <label for="ParentCategory" class="col-3 text-right">Parent Category</label>
+                    <angular2-multiselect id="ParentCategory" [data]="categories" formControlName="ParentCategoryId" [settings]="categoriesDropdownSettings"></angular2-multiselect>
+					<!-- <select id="ParentCategory" class="form-control col-9" formControlName="ParentCategoryId" *ngIf=" categories ">
 						<option></option>
 						<ng-container *ngFor="let category of categories">
 							<option [ngValue]="category.Id">{{ category.Name }}</option>
@@ -77,7 +78,7 @@
 					</select>
 					<select *ngIf=" !categories " class="form-control col-9">
 						<option value="noCat">There are no categories yet!</option>
-					</select>
+					</select> -->
 				</div>
 
 				<div class="form-group row">

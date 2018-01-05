@@ -46,7 +46,7 @@ export class CategoriesComponent implements OnInit {
         this.approvalForm = this.fb.group({
             'Id': [''],
             'Reason': [''],
-            'IsActive': ['TRUE']
+            'IsApproved': ['TRUE']
         });
     }
 
@@ -120,9 +120,24 @@ export class CategoriesComponent implements OnInit {
     }
 
     approveCategory(approvalForm, category) {
-        console.log("approvalForm ", approvalForm);
-        console.log("categoryId ", category);
+        approvalForm.Id = category.Id;
         category.approvalLoader = true;
+        this.merchandiseService.approveCategory(approvalForm).
+            then((response) => {
+                console.log("response ", response);
+                if (response.Code === 200) {
+                    this.toastr.success('Category approved successfully.', 'Sucess!');
+                    category.approvalLoader = false;
+                    this.createForm();
+                    this.getAllCategories();
+                    this.getUnApprovedCategories();
+                } else if (response.Code === 500) {
+                    this.toastr.error('Could not approve category.', 'Error!');
+                    category.approvalLoader = false;
+                }
+            }).catch((error) => {
+                console.log("error ", error);
+            });
     }
 
     bulkUpload() {

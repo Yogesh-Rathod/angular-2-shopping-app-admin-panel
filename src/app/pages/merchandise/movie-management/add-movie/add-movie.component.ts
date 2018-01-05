@@ -52,9 +52,9 @@ export class AddMovieComponent implements OnInit {
     this.route.params.subscribe(params =>
       this.movieId = params['movieId']
     )
-    this.appStateManagementService.retrieveAppStateCK('CRM.userData').
+    this.appStateManagementService.retrieveAppStateCK('MERCHANDISE.userData').
       then((userInfo) => {
-        this.userInfo = JSON.parse(userInfo);
+          this.userInfo = JSON.parse(userInfo);
       }).catch((error) => {
         this.userInfo = {
           username: 'Unknown User'
@@ -179,7 +179,7 @@ export class AddMovieComponent implements OnInit {
           Validators.required
         ])
       ],
-      'RBCNUrl': [
+      'RBCNimageUrl': [
         '',
         Validators.compose([
           Validators.required
@@ -200,6 +200,7 @@ export class AddMovieComponent implements OnInit {
     this.validationError = null;
     this.showLoader = true;
 
+    console.log("addMovieForm['ReleaseDate'] ", addMovieForm['ReleaseDate']);
     addMovieForm['ReleaseDate'] = new Date(`
       ${addMovieForm['ReleaseDate'].date.year}-
       ${addMovieForm['ReleaseDate'].date.month}-
@@ -231,10 +232,15 @@ export class AddMovieComponent implements OnInit {
       delete addMovieForm['id'];
       this.movieManagementService.addMovie(addMovieForm).
         then((success) => {
-          console.log("Add success ", success);
-          this.toastr.success('Movie Sucessfully Added!', 'Success!');
-          this.showLoader = false;
-          this._location.back();
+            console.log("Add success ", success);
+            if (success.Code === 200) {
+                this.toastr.success('Movie Sucessfully Added!', 'Success!');
+                this.showLoader = false;
+                this._location.back();
+            } else if (success.Code === 500) {
+                this.showLoader = false;
+                this.toastr.error('Oops! Could not add movie.', 'Error!', { toastLife: 1500 });
+            }
         }).catch((error) => {
           console.log("error ", error);
           if (error.Code === 500) {
@@ -266,7 +272,7 @@ export class AddMovieComponent implements OnInit {
   }
 
   updateMovieInfo(movieInfo) {
-    const releaseFullDate = new Date(movieInfo['ReleaseDate']);
+    const releaseFullDate = new Date(movieInfo['ReleaseDate']+'.00Z');
     console.log("releaseFullDate ", releaseFullDate);
     this.addMovieForm.controls['id'].setValue(movieInfo.EventId);
     this.addMovieForm.controls['Title'].setValue(movieInfo.Title);
@@ -293,6 +299,7 @@ export class AddMovieComponent implements OnInit {
     this.addMovieForm.controls['ImageUrl'].setValue(movieInfo['ImageUrl']);
     this.addMovieForm.controls['PosterUrl'].setValue(movieInfo['PosterUrl']);
     this.addMovieForm.controls['LandscapeUrl'].setValue(movieInfo['LandscapeUrl']);
+    this.addMovieForm.controls['RBCNimageUrl'].setValue(movieInfo['RBCNimageUrl']);
     this.addMovieForm.controls['CreatedOn'].setValue(movieInfo['CreatedOn']);
     this.addMovieForm.controls['CreatedBy'].setValue(movieInfo['CreatedBy']);
     this.checkFormValidation();

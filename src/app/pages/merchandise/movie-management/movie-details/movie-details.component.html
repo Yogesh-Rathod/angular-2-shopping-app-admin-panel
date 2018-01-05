@@ -130,9 +130,9 @@
               {{ item.ProviderMovieName }}
             </td>
             <td class="text-center">
-              {{ item.language }}
+              {{ item.Language }}
             </td>
-            <td class="text-center">{{ item.ProviderMovieName }}</td>
+            <td class="text-center">{{ item.ProviderName }}</td>
           </tr>
         </tbody>
         <tbody *ngIf=" unmappedMovies && unmappedMovies.length === 0 ">
@@ -201,9 +201,9 @@
               {{ item.ProviderMovieName }}
             </td>
             <td class="text-center">
-              {{ item.language }}
+              {{ item.Language }}
             </td>
-            <td class="text-center">{{ item.ProviderMovieName }}</td>
+            <td class="text-center">{{ item.ProviderName }}</td>
           </tr>
         </tbody>
         <tbody *ngIf=" mappedMovies && mappedMovies.length === 0 ">

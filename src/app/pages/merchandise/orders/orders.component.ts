@@ -12,6 +12,7 @@ import { ProductsService, OrdersService } from 'app/services';
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
+    ordersNew: any;
 
   searchProductForm: FormGroup;
   bigLoader = true;
@@ -88,6 +89,7 @@ export class OrdersComponent implements OnInit {
 
   getAllOrders() {
     this.orders = this.ordersService.getOrders();
+    this.ordersNew = this.ordersService.getOrdersByPONumber();
   }
 
   searchProduct(searchProductForm) {

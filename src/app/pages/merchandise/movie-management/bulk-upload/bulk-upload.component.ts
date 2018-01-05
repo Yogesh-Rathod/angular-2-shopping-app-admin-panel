@@ -93,7 +93,7 @@ export class MovieBulkUploadComponent implements OnInit {
         "Sequence": movie['Sequence*'],
         "CreatedOn": new Date().toISOString(),
         "CreatedBy": this.userInfo.username,
-        'rbcnUrl': movie['Land scape Image Link_RBCN*']
+        'RBCNimageUrl': movie['Land scape Image Link_RBCN*']
       };
       this.movieInfo.push(movieInformation);
     });
@@ -105,10 +105,15 @@ export class MovieBulkUploadComponent implements OnInit {
     if (this.movieInfo && this.movieInfo.length > 0) {
       this.movieManagementService.bulkUploadMovie(this.movieInfo).
         then((success) => {
-          console.log("success ", success);
-          this.toastr.success('Movie Sucessfully Added!', 'Success!');
-          this.showLoader = false;
-          this.closeModal(true);
+            console.log("success ", success);
+            if (success.Code === 200) {
+                this.toastr.success('Movie Sucessfully Added!', 'Success!');
+                this.showLoader = false;
+                this.closeModal(true);
+            } else if (success.Code === 500) {
+                this.showLoader = false;
+                this.toastr.error('Oops! Could not add movie.', 'Error!', { toastLife: 1500 });
+            }
         }).catch((error) => {
           console.log("error ", error);
           if (error.Code === 500) {

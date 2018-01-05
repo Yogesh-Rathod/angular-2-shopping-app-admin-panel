@@ -119,8 +119,10 @@ export class CategoriesComponent implements OnInit {
         }
     }
 
-    approveCategory(approvalForm) {
+    approveCategory(approvalForm, category) {
         console.log("approvalForm ", approvalForm);
+        console.log("categoryId ", category);
+        category.approvalLoader = true;
     }
 
     bulkUpload() {

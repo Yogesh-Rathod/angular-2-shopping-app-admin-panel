@@ -136,12 +136,14 @@
                                     <td class="description">{{ category.Description }}</td>
                                     <td>{{ category.ParentCategoryId }}</td>
                                     <td class="comment">
-                                        <form  [formGroup]=" approvalForm " (ngSubmit)=" approveCategory(approvalForm.value) ">
-                                            <input type="hidden" formControlName="Id" [value]="category.Id">
+                                        <form  [formGroup]=" approvalForm " (ngSubmit)=" approveCategory(approvalForm.value, category) ">
                                             <textarea cols="30" rows="3" class="form-control"  formControlName="Reason"></textarea>
                                             <button type="submit" class="btn btn-success">
                                                 Approve
                                             </button>
+                                            <span>
+                                                <img src="assets/img/ajax-loader.gif" width="40" height="40" alt="Loder Image" *ngIf="category.approvalLoader">
+                                            </span>
                                         </form>
                                     </td>
                                 </tr>

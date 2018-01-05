@@ -183,8 +183,8 @@
         </div>
         <div *ngIf="movieId && movieInfo" class="col-3">
           <div class="img-container">
-            <img *ngIf="movieId && movieInfo.RBCNUrl" [src]="movieInfo.RBCNUrl" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
-            <img *ngIf="movieId && !movieInfo.RBCNUrl" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+            <img *ngIf="movieId && movieInfo.RBCNimageUrl" [src]="movieInfo.RBCNimageUrl" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
+            <img *ngIf="movieId && !movieInfo.RBCNimageUrl" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
           </div>
         </div>
         <div class="col-3">
@@ -201,7 +201,7 @@
         </div>
         <div class="col-3">
           <label for="RBCN">( RBCN Image )</label>
-          <input type="text" id="RBCN" class="form-control" formControlName="RBCNUrl">
+          <input type="text" id="RBCN" class="form-control" formControlName="RBCNimageUrl">
         </div>
       </div>
 

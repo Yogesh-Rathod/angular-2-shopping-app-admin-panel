@@ -19,7 +19,7 @@ import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { CommonService } from './services';
+import { CommonAppService } from './services';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { CustomToast } from './providers/custome_toast';
@@ -31,7 +31,7 @@ import { AuthGuard } from 'app/guards/auth-guard.service';
 const APP_PROVIDERS = [
   AppState,
   GlobalState,
-  CommonService,
+  CommonAppService,
   {provide: ToastOptions, useClass: CustomToast},
   CookieService,
   AuthGuard

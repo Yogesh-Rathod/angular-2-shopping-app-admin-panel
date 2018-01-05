@@ -67,12 +67,13 @@ export class AddCatalogComponent implements OnInit {
 
   createForm() {
     this.addCatalogForm = this.fb.group({
-      'id': [''],
-      'name': ['', Validators.compose([Validators.required,
+      'Id': [''],
+      'Name': ['', Validators.compose([Validators.required,
       Validators.minLength(1), Validators.maxLength(100)])],
+      'Description': [''],
       'vendors': [[]],
       'programs': [[]],
-      'status': ['TRUE', Validators.required]
+      'IsActive': ['TRUE', Validators.required]
     });
   }
 

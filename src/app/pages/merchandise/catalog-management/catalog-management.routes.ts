@@ -2,7 +2,7 @@ import { AuthGuard } from './../../../guards/auth-guard.service';
 import { Routes, RouterModule } from '@angular/router';
 
 import { CatalogManagementComponent } from './catalog-management.component';
-import { BankDetailsComponent } from './bank-details/bank-details.component';
+import { BankDetailsComponent } from './catalog-details/catalog-details.component';
 import { AddCatalogComponent } from './add-catalog/add-catalog.component';
 
 const routes: Routes = [

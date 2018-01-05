@@ -102,7 +102,8 @@ export class AddMovieComponent implements OnInit {
       "CensorRating": [
         '',
         Validators.compose([
-          Validators.required
+          Validators.required,
+            Validators.maxLength(20)
         ])
       ],
       'StarRating': [
@@ -114,7 +115,8 @@ export class AddMovieComponent implements OnInit {
       "Duration": [
         '',
         Validators.compose([
-          Validators.required
+          Validators.required,
+            Validators.pattern(RegEx.onlyNumber)
         ])
       ],
       "Genre": [
@@ -158,7 +160,8 @@ export class AddMovieComponent implements OnInit {
       'Sequence': [
         '',
         Validators.compose([
-          Validators.required
+          Validators.required,
+            Validators.pattern(RegEx.onlyNumber)
         ])
       ],
       'ImageUrl': [

@@ -93,7 +93,7 @@ export class AddCategoryComponent implements OnInit {
     addCategory(addCategoryFormValues) {
         console.log("addCategoryFormValues ", addCategoryFormValues);
         this.showLoader = true;
-        if (addCategoryFormValues.ParentCategoryId.lenght > 0) {
+        if (addCategoryFormValues.ParentCategoryId.length > 0) {
             addCategoryFormValues.ParentCategoryId = addCategoryFormValues.ParentCategoryId[0].Id;
         } else {
             addCategoryFormValues.ParentCategoryId = '';

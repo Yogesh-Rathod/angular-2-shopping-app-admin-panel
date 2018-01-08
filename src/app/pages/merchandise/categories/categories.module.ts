@@ -5,6 +5,7 @@ import { AppTranslationModule } from '../../../app.translation.module';
 import { routing } from './categories.routes';
 import { DataTableModule } from "angular2-datatable";
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { Typeahead } from 'ng2-typeahead';
 
 import { CKEditorModule } from 'ng2-ckeditor';
 import { CategoriesComponent } from './categories.component';
@@ -20,9 +21,10 @@ import { AddCategoryComponent } from './add-category/add-category.component';
     ReactiveFormsModule,
     CKEditorModule,
     DataTableModule,
-    AngularMultiSelectModule
-  ],
-  declarations: [
+    AngularMultiSelectModule,
+],
+declarations: [
+    Typeahead,
     CategoriesComponent,
     AddCategoryComponent
   ],

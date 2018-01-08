@@ -22,8 +22,10 @@
 			<form class="col-12" [formGroup]=" addCategoryForm " (ngSubmit)=" addCategory(addCategoryForm.value) ">
 				<input type="hidden" formControlName="Id">
 				<div class="form-group row">
-					<label for="name" class="col-3 text-right">Name <span class="mandatory">*</span></label>
-					<input type="text" class="form-control col-9" id="name" placeholder="Name" formControlName="Name">
+                    <label for="name" class="col-3 text-right">Name <span class="mandatory">*</span></label>
+                    <typeahead [list]="categories" [searchProperty]="'searchText'" [displayProperty]="'Name'" [maxSuggestions]="5" placeholder="Begin typing a fruit">
+                    </typeahead>
+					<!-- <input type="text" class="form-control col-9" id="name" placeholder="Name" formControlName="Name"> -->
 				</div>
 
 				<div class="form-group row">

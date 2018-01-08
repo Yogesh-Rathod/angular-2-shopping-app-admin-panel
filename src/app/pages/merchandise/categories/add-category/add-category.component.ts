@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import './ckeditor.loader';
-import 'ckeditor';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -19,10 +17,6 @@ import { CategoryDeletePopupComponent } from '../delete-popup/delete-popup.compo
 })
 export class AddCategoryComponent implements OnInit {
 
-    public config = {
-        uiColor: '#F0F3F4',
-        height: '200'
-    };
     addCategoryForm: FormGroup;
     showLoader = false;
     deleteLoader = false;

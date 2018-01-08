@@ -49,7 +49,6 @@ export class MovieManagementComponent implements OnInit {
         console.log("error ", error);
         if (error.Code === 500) {
           this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
-          this.movies = this.movieManagementService.getMoviesDummyData();
         }
         this.bigLoader = false;
       });

@@ -64,7 +64,7 @@
 								There are no categories.
 							</div>
 							<div class="tree-row" *ngFor="let item of categoriesFiltered">
-								<div class="clearfix firstChildren">
+								<div class="clearfix secondChildren">
 									<i *ngIf="!item.showChild" (click)="showChildrens(item)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-plus"
 									 aria-hidden="true"></i>
 									<i *ngIf="item.showChild" (click)="showChildrens(item)" [class.hidden]="item.SubCategories.length <= 0" class="fa fa-minus"

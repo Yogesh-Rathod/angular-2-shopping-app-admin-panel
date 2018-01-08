@@ -21,7 +21,7 @@ export class CategoriesComponent implements OnInit {
 
     categories: any;
     categoriesFiltered: any;
-    unApprovedCategories: any;
+    unApprovedCategories: any[];
     showLoader = true;
     deleteLoader: Number;
     approvalForm: FormGroup;

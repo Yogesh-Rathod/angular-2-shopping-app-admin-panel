@@ -152,7 +152,7 @@
 					</div>
 
 					<div role="tabpanel" class="tab-pane fade" id="pending">
-						<table class="table table-bordered table-responsive" *ngIf="unApprovedCategories">
+						<table class="table table-bordered table-responsive" >
 							<thead class="black-muted-bg">
 								<tr>
 									<th>Name</th>
@@ -162,7 +162,7 @@
 									<!-- <th>Action</th> -->
 								</tr>
 							</thead>
-							<tbody>
+							<tbody *ngIf="unApprovedCategories &&unApprovedCategories.length > 0">
                                 <tr *ngFor="let category of unApprovedCategories">
                                     <td>{{ category.Name }}</td>
                                     <td class="description">{{ category.Description }}</td>
@@ -180,6 +180,13 @@
                                     </td>
                                 </tr>
                             </tbody>
+                            <tfoot *ngIf="unApprovedCategories && unApprovedCategories.length === 0">
+                                <tr>
+                                    <td colspan="4">
+                                        There are no un-approved categories.
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </table>
 					</div>
 

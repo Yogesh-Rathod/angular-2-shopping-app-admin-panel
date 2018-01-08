@@ -23,14 +23,19 @@
 				<input type="hidden" formControlName="Id">
 				<div class="form-group row">
                     <label for="name" class="col-3 text-right">Name <span class="mandatory">*</span></label>
-                    <typeahead [list]="categories" [searchProperty]="'searchText'" [displayProperty]="'Name'" [maxSuggestions]="5" placeholder="Begin typing a fruit">
-                    </typeahead>
-					<!-- <input type="text" class="form-control col-9" id="name" placeholder="Name" formControlName="Name"> -->
+                    <input
+                        class="form-control"
+                        id="name"
+                        [source]="categories"
+                        list-formatter="Name"
+                        display-property-name="Name"
+                        max-num-list="10"
+                        auto-complete
+                        formControlName="Name"/>
 				</div>
 
 				<div class="form-group row">
 					<label for="Description" class="col-3 text-right">Description
-						<span class="mandatory">*</span>
 					</label>
 					<textarea class="form-control col-9" formControlName="Description"></textarea>
 				</div>

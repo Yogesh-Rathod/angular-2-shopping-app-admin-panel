@@ -38,7 +38,6 @@ export class AddCategoryComponent implements OnInit {
     };
     type = ['Merchandise', 'Gift Card'];
     level = ['Category', 'Sub Category', 'Sub Sub Category'];
-    categoryListNames: any;
 
     constructor(
         private location: Location,
@@ -72,10 +71,6 @@ export class AddCategoryComponent implements OnInit {
                     category.id = category.Id;
                     return category;
                 });
-                this.categoryListNames = this.categories.filter((category) => {
-                    return category.Name;
-                });
-                console.log("this.categoryListNames ", this.categoryListNames);
                 this.showLoader = false;
             }).catch((error) => {
                 console.log("error ", error);
@@ -87,7 +82,7 @@ export class AddCategoryComponent implements OnInit {
             'Id': [''],
             'Name': ['', Validators.compose([Validators.required,
             Validators.minLength(1), Validators.maxLength(100)])],
-            'Description': ['', Validators.compose([Validators.required,
+            'Description': ['', Validators.compose([
             Validators.minLength(1), Validators.maxLength(1000)])],
             'ParentCategoryId': [[]],
             'DisplayOrder': ['', Validators.compose([Validators.required])],
@@ -96,12 +91,14 @@ export class AddCategoryComponent implements OnInit {
     }
 
     addCategory(addCategoryFormValues) {
-        console.log("addCategoryFormValues ", addCategoryFormValues);
         this.showLoader = true;
         if (addCategoryFormValues.ParentCategoryId.length > 0) {
             addCategoryFormValues.ParentCategoryId = addCategoryFormValues.ParentCategoryId[0].Id;
         } else {
             addCategoryFormValues.ParentCategoryId = '';
+        }
+        if (typeof addCategoryFormValues.Name !== 'string') {
+            addCategoryFormValues.Name = addCategoryFormValues.Name.Name;
         }
         if (addCategoryFormValues.Id) {
             this.merchandiseService.addCategory(addCategoryFormValues).

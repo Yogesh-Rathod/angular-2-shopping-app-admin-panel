@@ -67,6 +67,7 @@ export class CategoriesComponent implements OnInit {
         this.categories = this.merchandiseService.getUnApprovedCategories().
             then((categories) => {
                 this.unApprovedCategories = categories.Data;
+                console.log("this.unApprovedCategories ", this.unApprovedCategories);
                 this.showLoader = false;
             }).catch((error) => {
                 console.log("error ", error);
@@ -104,7 +105,6 @@ export class CategoriesComponent implements OnInit {
                 }
             }
         }
-        console.log("tree ", tree);
         return tree;
     }
 

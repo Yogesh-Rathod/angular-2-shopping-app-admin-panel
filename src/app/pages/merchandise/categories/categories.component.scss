@@ -91,5 +91,13 @@ i.fa-minus {
 	max-width: 300px;
 }
 
+.secondChildren {
+    > i,
+    > span {
+        margin-top: 9px;
+    }
+}
+
+
 
 

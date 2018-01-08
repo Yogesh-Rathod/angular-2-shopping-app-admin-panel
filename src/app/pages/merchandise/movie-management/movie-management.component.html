@@ -53,12 +53,12 @@
               <th class="text-center image">
                 <strong>Image</strong>
               </th>
-              <th class="text-left">
+              <th class="text-left name">
                 <mfDefaultSorter by="Title">
                   <strong>Name</strong>
                 </mfDefaultSorter>
               </th>
-              <th class="text-center">
+              <th class="text-center language">
                 <mfDefaultSorter by="Language">
                   <strong>language</strong>
                 </mfDefaultSorter>
@@ -80,10 +80,10 @@
                   <img class="img-fluid" *ngIf="!item.LandscapeUrl" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
                 </div>
               </td>
-              <td class="text-left">
+              <td class="text-left name">
                 {{ item.Title }}
               </td>
-              <td class="text-center">
+              <td class="text-center language">
                  {{ item.Language }}
               </td>
               <td class="text-center">{{ item.Type }}</td>

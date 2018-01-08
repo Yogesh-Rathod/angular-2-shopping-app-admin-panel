@@ -18,7 +18,7 @@
         <div class="form-group row">
           <div class="col-md-2 input-label">Username</div>
           <input class="form-control col-md-10" [formControl]="email" type="text" placeholder="Username" [ngClass]="{
-          'has-error': loginForm.get('email').invalid && ( loginForm.get('email').dirty ||  loginForm.get('email').touched)          
+          'has-error': loginForm.get('email').invalid && ( loginForm.get('email').dirty ||  loginForm.get('email').touched)
         }">
           <div class="col-md-2"></div>
           <em *ngIf="(loginForm.get('email').invalid && ( loginForm.get('email').dirty ||  loginForm.get('email').touched))" class="text-danger col-md-10 padding5">Please enter proper username</em>
@@ -37,7 +37,7 @@
                   <img [hidden]="isHidden" src="assets/images/loader-white.gif" style="width:15px;">
                 </button>
 
-            <span class="btn-link float-right" (click)="forgotPassword = true">Reset Password</span>
+            <!-- <span class="btn-link float-right" (click)="forgotPassword = true">Reset Password</span> -->
           </div>
         </div>
 
@@ -50,7 +50,7 @@
         <div class="form-group row">
           <div class="col-md-2 input-label">Username</div>
           <input class="form-control col-md-10" [formControl]="forgotPasswordEmail" type="text" placeholder="Username" [ngClass]="{
-          'has-error': forgotPasswordForm.get('forgotPasswordEmail').invalid && ( forgotPasswordForm.get('forgotPasswordEmail').dirty ||  forgotPasswordForm.get('forgotPasswordEmail').touched)                    
+          'has-error': forgotPasswordForm.get('forgotPasswordEmail').invalid && ( forgotPasswordForm.get('forgotPasswordEmail').dirty ||  forgotPasswordForm.get('forgotPasswordEmail').touched)
         }">
           <div class="col-md-2"></div>
           <em *ngIf="(forgotPasswordForm.get('forgotPasswordEmail').invalid && ( forgotPasswordForm.get('forgotPasswordEmail').dirty ||  forgotPasswordForm.get('forgotPasswordEmail').touched))"

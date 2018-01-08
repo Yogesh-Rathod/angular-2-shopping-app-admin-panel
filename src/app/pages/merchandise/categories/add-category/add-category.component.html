@@ -17,7 +17,11 @@
 			</h2>
 		</div>
 
-		<div class="card-body">
+		<div class="card-body pos_relative">
+
+            <div class="loader-container pos_absolute" *ngIf="BigLoader">
+                <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+            </div>
 
 			<form class="col-12" [formGroup]=" addCategoryForm " (ngSubmit)=" addCategory(addCategoryForm.value) ">
 				<input type="hidden" formControlName="Id">

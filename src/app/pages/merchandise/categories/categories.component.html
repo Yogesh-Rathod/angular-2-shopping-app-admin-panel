@@ -157,7 +157,7 @@
 								<tr>
 									<th>Name</th>
 									<th class="description">Description</th>
-									<th>Parent Id</th>
+									<th>Parent Name</th>
 									<th class="comment">Comment</th>
 									<!-- <th>Action</th> -->
 								</tr>
@@ -166,7 +166,7 @@
                                 <tr *ngFor="let category of unApprovedCategories">
                                     <td>{{ category.Name }}</td>
                                     <td class="description">{{ category.Description }}</td>
-                                    <td>{{ category.ParentCategoryId }}</td>
+                                    <td>{{ category.ParentCategoryName }}</td>
                                     <td class="comment">
                                         <form  [formGroup]=" approvalForm " (ngSubmit)=" approveCategory(approvalForm.value, category) ">
                                             <textarea cols="30" rows="3" class="form-control"  formControlName="Reason"></textarea>
@@ -182,7 +182,7 @@
                             </tbody>
                             <tfoot *ngIf="unApprovedCategories && unApprovedCategories.length === 0">
                                 <tr>
-                                    <td colspan="4">
+                                    <td colspan="4" class="text-center">
                                         There are no un-approved categories.
                                     </td>
                                 </tr>

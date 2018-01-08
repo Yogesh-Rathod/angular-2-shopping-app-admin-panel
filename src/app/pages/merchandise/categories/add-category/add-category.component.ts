@@ -19,6 +19,7 @@ export class AddCategoryComponent implements OnInit {
 
     addCategoryForm: FormGroup;
     showLoader = false;
+    BigLoader = false;
     deleteLoader = false;
     categoriesMaxLevel = Config.categoriesMaxLevel;
     categories: any;
@@ -56,7 +57,7 @@ export class AddCategoryComponent implements OnInit {
     }
 
     getAllCategories() {
-        this.showLoader = true;
+        this.BigLoader = true;
         this.merchandiseService.getCategories().
             then((categories) => {
                 this.categories = categories.Data;
@@ -65,7 +66,7 @@ export class AddCategoryComponent implements OnInit {
                     category.id = category.Id;
                     return category;
                 });
-                this.showLoader = false;
+                this.BigLoader = false;
             }).catch((error) => {
                 console.log("error ", error);
             });
@@ -134,9 +135,23 @@ export class AddCategoryComponent implements OnInit {
     }
 
     getCategoryInfoForEdit() {
+        this.BigLoader = true;
         if (this.categoryId) {
-            console.log("this.categories ", this.categories);
-            this.addCategoryForm.controls['Id'].setValue(this.categoryId);
+            this.merchandiseService.getCategories(this.categoryId).
+                then((categoryInfo) => {
+                    this.categoryInfo = categoryInfo.Data;
+                    console.log("categoryInfo ", this.categoryInfo);
+                    this.addCategoryForm.controls['Id'].setValue(this.categoryInfo.Id);
+                    this.addCategoryForm.controls['Name'].setValue(this.categoryInfo.Name);
+                    this.addCategoryForm.controls['Description'].setValue(this.categoryInfo.Description);
+                    this.addCategoryForm.controls['DisplayOrder'].setValue(this.categoryInfo.DisplayOrder);
+                    this.addCategoryForm.controls['IsActive'].setValue(this.categoryInfo.IsActive);
+                    this.BigLoader = false;
+                }).catch((error) => {
+                    console.log("error ", error);
+                });
+            // console.log("this.categories ", this.categories);
+            // this.addCategoryForm.controls['Id'].setValue(this.categoryId);
         }
     }
 

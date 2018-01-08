@@ -30,8 +30,8 @@ export class MerchandiseService {
         private commonAppSer: CommonAppService) {
     }
 
-    getCategories() {
-        let url = `${environment.merchandiseUrl}Merchandise/Category`;
+    getCategories(categoryId?) {
+        let url = categoryId ? `${environment.merchandiseUrl}Merchandise/Category/${categoryId}` : `${environment.merchandiseUrl}Merchandise/Category`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)

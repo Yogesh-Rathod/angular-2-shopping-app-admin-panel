@@ -1,99 +1,54 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Http, RequestOptions, Headers } from '@angular/http';
+import 'rxjs/add/operator/toPromise';
+import { CookieService } from 'ngx-cookie';
+import { CommonAppService } from 'app/services/common.services';
+
+import { environment } from './../../environments';
+import { AppState } from 'app/app.service';
+import { ResponseHandingService } from 'lrshared_modules/services/response-handling.service';
+import * as CryptoJS from "crypto-js";
+import * as utf8 from 'utf8';
 
 @Injectable()
 export class ProductsService {
 
-    // Vendor Products
-    private products = [
-        {
-            id: 12345,
-            picture: [
-                {
-                    url: 'assets/images/products/home-office-336373_640.jpg',
-                    alt: 'some text',
-                    title: 'some text',
-                    displayOrder: 1
-                }
-            ],
-            name: 'Apple MacBook Air',
-            shortDescription: 'some short description',
-            fullDescription: 'Full Description',
-            sku: 'PG_CR_100',
-            currency: '₹ (INR)',
-            netPrice: 1000,
-            netShipping: 100,
-            MrpPrice: 156300,
-            oldPrice: null,
-            retailPrice: 155300,
-            retailShipping: 1000,
-            rpi: 1000,
-            stockQuantity: 2,
-            categories: '',
-            vendor: 'vendor 1',
-            productType: 'Simple',
-            type: 'Type of product',
-            status: 'Active',
-            brand: 'Spykar',
-            approvalStatus: 'Approved'
-        },
-        {
-            id: 12346,
-            picture: [
-                {
-                    url: 'assets/images/products/laptop-154091_640.png',
-                    alt: 'some text',
-                    title: 'some text',
-                    displayOrder: 1
-                }
-            ],
-            name: 'Dell Inspiron Core',
-            shortDescription: '',
-            fullDescription: '',
-            sku: 'Dell_Inspiron_Core_20',
-            MrpPrice: 27990,
-            retailPrice: 26990,
-            stockQuantity: 20,
-            productType: 'Simple',
-            status: 'Inactive',
-            categories: '',
-            approvalStatus: 'Rejected'
-        },
-        {
-            id: 12347,
-            picture: [
-                {
-                    url: 'assets/images/products/laptop-images.jpeg',
-                    alt: 'some text',
-                    title: 'some text',
-                    displayOrder: 1
-                }
-            ],
-            name: 'HP 15 Core i3',
-            shortDescription: '',
-            fullDescription: '',
-            sku: 'HP_15_Core_i3',
-            MrpPrice: 32990,
-            retailPrice: 26990,
-            stockQuantity: 20,
-            productType: 'Simple',
-            status: 'Active',
-            categories: '',
-            approvalStatus: 'Pending'
-        }
-    ];
+    headers = new Headers({
+        'headers': '',
+        'ModuleId': environment.moduleId,
+        'Content-Type': 'application/json',
+        'Accept': 'q=0.8;application/json;q=0.9'
+    });
+    options = new RequestOptions({ headers: this.headers });
+
+    constructor(
+        private cookieService: CookieService,
+        private http: Http,
+        private global: AppState,
+        private responseHandler: ResponseHandingService,
+        private commonAppSer: CommonAppService) {
+    }
 
     getProducts() {
-        return this.products;
+        let url = `${environment.merchandiseUrl}Operations/Product`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
     }
 
     addProduct(product) {
-        this.products.push(product);
-        return this.products;
+        // this.products.push(product);
+        // return this.products;
     }
 
     editProduct(products) {
-        this.products = products;
-        return this.products;
+        // this.products = products;
+        // return this.products;
     }
 
 

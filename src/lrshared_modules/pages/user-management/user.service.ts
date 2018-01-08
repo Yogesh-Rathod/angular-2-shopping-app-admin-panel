@@ -17,8 +17,6 @@ import { Router } from '@angular/router';
 import { CommonService } from 'lrshared_modules/services/common-services.service';
 import { CommonAppService } from 'app/services/common.services';
 import { ResponseHandingService } from 'lrshared_modules/services/response-handling.service';
-import * as CryptoJS from "crypto-js";
-import * as utf8 from 'utf8';
 
 @Injectable()
 export class UserService {

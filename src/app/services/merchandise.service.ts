@@ -8,8 +8,6 @@ import { CommonAppService } from 'app/services/common.services';
 import { environment } from './../../environments';
 import { AppState } from 'app/app.service';
 import { ResponseHandingService } from 'lrshared_modules/services/response-handling.service';
-import * as CryptoJS from "crypto-js";
-import * as utf8 from 'utf8';
 
 @Injectable()
 export class MerchandiseService {

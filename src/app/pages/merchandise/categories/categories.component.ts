@@ -66,8 +66,8 @@ export class CategoriesComponent implements OnInit {
         this.showLoader = true;
         this.categories = this.merchandiseService.getUnApprovedCategories().
             then((categories) => {
+                console.log("this.unApprovedCategories ", categories );
                 this.unApprovedCategories = categories.Data;
-                console.log("this.unApprovedCategories ", this.unApprovedCategories);
                 this.showLoader = false;
             }).catch((error) => {
                 console.log("error ", error);

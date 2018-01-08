@@ -38,6 +38,7 @@ export class AddCategoryComponent implements OnInit {
     };
     type = ['Merchandise', 'Gift Card'];
     level = ['Category', 'Sub Category', 'Sub Sub Category'];
+    categoryListNames: any;
 
     constructor(
         private location: Location,
@@ -70,7 +71,11 @@ export class AddCategoryComponent implements OnInit {
                     category.itemName = category.Name;
                     category.id = category.Id;
                     return category;
-                })
+                });
+                this.categoryListNames = this.categories.filter((category) => {
+                    return category.Name;
+                });
+                console.log("this.categoryListNames ", this.categoryListNames);
                 this.showLoader = false;
             }).catch((error) => {
                 console.log("error ", error);

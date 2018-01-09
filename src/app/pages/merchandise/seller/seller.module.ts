@@ -6,7 +6,7 @@ import { AppTranslationModule } from '../../../app.translation.module';
 import { routing } from './seller.routes';
 import { MyDatePickerModule } from 'mydatepicker';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
-
+import { ProductsModule } from '../products/products.module';
 import { ProfileComponent } from './profile/profile.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
@@ -15,27 +15,28 @@ import { ProcessedComponent } from './orders/processed/processed.component';
 import { DeliveredComponent } from './orders/delivered/delivered.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    AppTranslationModule,
-    routing,
-    ReactiveFormsModule,
-    DataTableModule,
-    MyDatePickerModule,
-    AngularMultiSelectModule
-  ],
-  declarations: [
-    ProfileComponent,
-    OrdersComponent,
-    FreshComponent,
-    ProcessedComponent,
-    DeliveredComponent
-  ],
-  providers: [
-    ProductsService,
-    OrdersService,
-    JsonToExcelService
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        AppTranslationModule,
+        routing,
+        ReactiveFormsModule,
+        DataTableModule,
+        MyDatePickerModule,
+        ProductsModule,
+        AngularMultiSelectModule
+    ],
+    declarations: [
+        ProfileComponent,
+        OrdersComponent,
+        FreshComponent,
+        ProcessedComponent,
+        DeliveredComponent
+    ],
+    providers: [
+        ProductsService,
+        OrdersService,
+        JsonToExcelService
+    ],
 })
-export class SellerModule {}
+export class SellerModule { }

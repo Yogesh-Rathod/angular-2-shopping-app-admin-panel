@@ -97,31 +97,30 @@ export class AddCategoryComponent implements OnInit {
             addCategoryFormValues.Name = addCategoryFormValues.Name.Name;
         }
 
-        if (addCategoryFormValues.category === 'new') {
-            addCategoryFormValues.ParentCategoryId = '';
-        } else if (addCategoryFormValues.subCategory === 'new') {
-            addCategoryFormValues.ParentCategoryId = addCategoryFormValues.category;
-        } else if (addCategoryFormValues['sub-sub-category'] === 'new') {
-            addCategoryFormValues.ParentCategoryId = addCategoryFormValues.subCategory;
-        }
-
         if (addCategoryFormValues.Id) {
             console.log("addCategoryFormValues ", addCategoryFormValues);
-            // this.merchandiseService.addCategory(addCategoryFormValues).
-            //     then((response) => {
-            //         console.log("response ", response);
-            //         if (response.Code === 200) {
-            //             this.toastr.success('Updated Category sent for approval process.', 'Sucess!');
-            //             this.location.back();
-            //             this.showLoader = false;
-            //         } else if (response.Code === 500) {
-            //             this.toastr.error('Category could not update.', 'Error!');
-            //             this.showLoader = false;
-            //         }
-            //     }).catch((error) => {
-            //         console.log("error ", error);
-            //     });
+            this.merchandiseService.addCategory(addCategoryFormValues).
+                then((response) => {
+                    console.log("response ", response);
+                    if (response.Code === 200) {
+                        this.toastr.success('Updated Category sent for approval process.', 'Sucess!');
+                        this.location.back();
+                        this.showLoader = false;
+                    } else if (response.Code === 500) {
+                        this.toastr.error('Category could not update.', 'Error!');
+                        this.showLoader = false;
+                    }
+                }).catch((error) => {
+                    console.log("error ", error);
+                });
         } else {
+            if (addCategoryFormValues.category === 'new') {
+                addCategoryFormValues.ParentCategoryId = '';
+            } else if (addCategoryFormValues.subCategory === 'new') {
+                addCategoryFormValues.ParentCategoryId = addCategoryFormValues.category;
+            } else if (addCategoryFormValues['sub-sub-category'] === 'new') {
+                addCategoryFormValues.ParentCategoryId = addCategoryFormValues.subCategory;
+            }
             delete addCategoryFormValues.Id;
             console.log("addCategoryFormValues ", addCategoryFormValues);
             this.merchandiseService.addCategory(addCategoryFormValues).
@@ -170,8 +169,6 @@ export class AddCategoryComponent implements OnInit {
                 then((categories) => {
                     this.level2Categories = categories.Data;
                     this.level2Categories = this.level2Categories.filter((category) => {
-                        console.log("selectedCategory ", selectedCategory);
-                        console.log("category.ParentCategoryId ", category.ParentCategoryId);
                         return selectedCategory == category.ParentCategoryId;
                     });
                 }).catch((error) => {

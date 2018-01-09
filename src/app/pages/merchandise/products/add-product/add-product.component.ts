@@ -251,7 +251,7 @@ export class AddProductComponent implements OnInit {
   }
 
   getAllCategories() {
-    this.merchandiseService.getCategories().
+      this.merchandiseService.getCategoriesByLevel(3).
         then((categories) => {
             this.categories = categories.Data;
             this.categories = this.categories.map((category) => {

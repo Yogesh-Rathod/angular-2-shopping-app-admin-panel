@@ -48,6 +48,7 @@ export class AddCategoryComponent implements OnInit {
         this.getAllCategories();
         if (this.categoryId) {
             this.getCategoryInfoForEdit();
+            this.addNewCategoryFields = true;
         }
     }
 
@@ -138,7 +139,7 @@ export class AddCategoryComponent implements OnInit {
                         console.log("error ", error);
                     });
             }
-        this.showLoader = false;
+        // this.showLoader = false;
     }
 
     imageUpload(event) {
@@ -165,14 +166,14 @@ export class AddCategoryComponent implements OnInit {
             this.addNewCategoryFields = true;
         } else {
             this.addNewCategoryFields = false;
-            this.merchandiseService.getCategoriesByLevel(3).
+            this.merchandiseService.getCategoriesByLevel(2).
                 then((categories) => {
                     this.level2Categories = categories.Data;
-                    // this.level2Categories = this.level2Categories.filter((category) => {
-                    //     if (selectedCategory == category.ParentCategoryId) {
-                    //         return category;
-                    //     }
-                    // });
+                    this.level2Categories = this.level2Categories.filter((category) => {
+                        console.log("selectedCategory ", selectedCategory);
+                        console.log("category.ParentCategoryId ", category.ParentCategoryId);
+                        return selectedCategory == category.ParentCategoryId;
+                    });
                 }).catch((error) => {
                     console.log("error ", error);
                 });

@@ -20,7 +20,7 @@
         <form class="col-12" [formGroup]=" addCategoryForm " (ngSubmit)=" addCategory(addCategoryForm.value) ">
             <input type="hidden" formControlName="Id">
 
-            <div class="form-group row">
+            <div class="form-group row" *ngIf="!categoryId">
                 <label for="type" class="col-3 text-right">
                     Type
                     <span class="mandatory">*</span>
@@ -33,7 +33,7 @@
                 </select>
             </div>
 
-            <div class="form-group row" *ngIf="addCategoryForm.controls['type'].value && addCategoryForm.controls['type'].value != 'new'">
+            <div class="form-group row" *ngIf="!categoryId && addCategoryForm.controls['type'].value && addCategoryForm.controls['type'].value != 'new'">
                 <label for="level" class="col-3 text-right">Category</label>
                 <select formControlName="category" id="level" class="form-control col-9" (change)="addNewCategorySelected('category'); level1Change()">
                     <option value="new">Add new</option>
@@ -55,7 +55,7 @@
 
             <div class="form-group row" *ngIf="addCategoryForm.controls['subCategory'].value && addCategoryForm.controls['subCategory'].value != 'new' && addCategoryForm.controls['category'].value != 'new'">
                 <label for="level" class="col-3 text-right">Sub sub Category</label>
-                <select formControlName="sub-sub-category" id="level" class="form-control col-9" (change)="addNewCategorySelected('sub-sub-category');">
+                <select formControlName="sub-sub-category" id="level" class="form-control col-9" (change)="addNewCategorySelected('sub-sub-category');" disabled>
                     <option value="new">Add new</option>
                     <option *ngFor="let item of level3Categories" [ngValue]="item.Id">
                         {{ item.Name }}

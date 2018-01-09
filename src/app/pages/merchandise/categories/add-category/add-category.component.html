@@ -25,41 +25,41 @@
                     Type
                     <span class="mandatory">*</span>
                 </label>
-                <select id="type" formControlName="type" class="form-control col-9" (change)="addNewCategorySelected('type')">
+                <select id="type" formControlName="type" class="form-control col-9" (change)="addNewCategorySelected('type')" disabled>
+                    <option value="new">Add new</option>
                     <option *ngFor="let item of type" [ngValue]="item">
                         {{ item }}
                     </option>
-                    <option value="new">Add new</option>
                 </select>
             </div>
 
             <div class="form-group row" *ngIf="addCategoryForm.controls['type'].value && addCategoryForm.controls['type'].value != 'new'">
                 <label for="level" class="col-3 text-right">Category</label>
                 <select formControlName="category" id="level" class="form-control col-9" (change)="addNewCategorySelected('category'); level1Change()">
+                    <option value="new">Add new</option>
                     <option *ngFor="let item of level1Categories" [ngValue]="item.Id">
                         {{ item.Name }}
                     </option>
-                    <option value="new">Add new</option>
                 </select>
             </div>
 
             <div class="form-group row" *ngIf="addCategoryForm.controls['category'].value && addCategoryForm.controls['category'].value != 'new'">
                 <label for="level" class="col-3 text-right">Sub Category</label>
-                <select formControlName="sub-category" id="level" class="form-control col-9" (change)="addNewCategorySelected('sub-category')">
+                <select formControlName="subCategory" id="level" class="form-control col-9" (change)="addNewCategorySelected('subCategory')">
+                    <option value="new">Add new</option>
                     <option *ngFor="let item of level2Categories" [ngValue]="item.Id">
                         {{ item.Name }}
                     </option>
-                    <option value="new">Add new</option>
                 </select>
             </div>
 
-            <div class="form-group row" *ngIf="addCategoryForm.controls['sub-category'].value && addCategoryForm.controls['sub-category'].value != 'new' && addCategoryForm.controls['category'].value != 'new'">
+            <div class="form-group row" *ngIf="addCategoryForm.controls['subCategory'].value && addCategoryForm.controls['subCategory'].value != 'new' && addCategoryForm.controls['category'].value != 'new'">
                 <label for="level" class="col-3 text-right">Sub sub Category</label>
                 <select formControlName="sub-sub-category" id="level" class="form-control col-9" (change)="addNewCategorySelected('sub-sub-category');">
+                    <option value="new">Add new</option>
                     <option *ngFor="let item of level3Categories" [ngValue]="item.Id">
                         {{ item.Name }}
                     </option>
-                    <option value="new">Add new</option>
                 </select>
             </div>
 

@@ -37,3 +37,10 @@
     width: 75%;
 }
 
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] {
+      color: #666666 !important;
+}
+
+

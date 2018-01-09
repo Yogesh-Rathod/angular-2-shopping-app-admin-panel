@@ -156,7 +156,7 @@
 							<thead class="black-muted-bg">
 								<tr>
 									<th>Name</th>
-									<th class="description">Description</th>
+									<!-- <th class="description">Description</th> -->
 									<th>Parent Name</th>
 									<th class="comment">Comment</th>
 									<!-- <th>Action</th> -->
@@ -165,7 +165,7 @@
 							<tbody *ngIf="unApprovedCategories &&unApprovedCategories.length > 0">
                                 <tr *ngFor="let category of unApprovedCategories">
                                     <td>{{ category.Name }}</td>
-                                    <td class="description">{{ category.Description }}</td>
+                                    <!-- <td class="description">{{ category.Description }}</td> -->
                                     <td>{{ category.ParentCategoryName }}</td>
                                     <td class="comment">
                                         <form  [formGroup]=" approvalForm " (ngSubmit)=" approveCategory(approvalForm.value, category) ">

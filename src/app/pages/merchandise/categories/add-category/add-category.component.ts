@@ -76,15 +76,15 @@ export class AddCategoryComponent implements OnInit {
     createForm() {
         this.addCategoryForm = this.fb.group({
             'Id': [''],
-            'type': ['', Validators.compose([Validators.required])],
+            'type': ['Merchandise', Validators.compose([Validators.required])],
             'category': [''],
-            'sub-category': [''],
+            'subCategory': [''],
             'sub-sub-category': ['new'],
             'Name': ['', Validators.compose([Validators.required,
             Validators.minLength(1), Validators.maxLength(100)])],
             // 'Description': ['', Validators.compose([
             // Validators.minLength(1), Validators.maxLength(1000)])],
-            'ParentCategoryId': [[]],
+            'ParentCategoryId': [''],
             'DisplayOrder': ['', Validators.compose([Validators.required])],
             'IsActive': ['TRUE']
         });
@@ -95,6 +95,15 @@ export class AddCategoryComponent implements OnInit {
         if (typeof addCategoryFormValues.Name !== 'string') {
             addCategoryFormValues.Name = addCategoryFormValues.Name.Name;
         }
+
+        if (addCategoryFormValues.category === 'new') {
+            addCategoryFormValues.ParentCategoryId = '';
+        } else if (addCategoryFormValues.subCategory === 'new') {
+            addCategoryFormValues.ParentCategoryId = addCategoryFormValues.category;
+        } else if (addCategoryFormValues['sub-sub-category'] === 'new') {
+            addCategoryFormValues.ParentCategoryId = addCategoryFormValues.subCategory;
+        }
+
         if (addCategoryFormValues.Id) {
             console.log("addCategoryFormValues ", addCategoryFormValues);
             // this.merchandiseService.addCategory(addCategoryFormValues).
@@ -114,21 +123,22 @@ export class AddCategoryComponent implements OnInit {
         } else {
             delete addCategoryFormValues.Id;
             console.log("addCategoryFormValues ", addCategoryFormValues);
-            // this.merchandiseService.addCategory(addCategoryFormValues).
-            //     then((response) => {
-            //         console.log("response ", response);
-            //         if (response.Code === 200) {
-            //             this.toastr.success('Category sent for approval process.', 'Sucess!');
-            //             this.location.back();
-            //             this.showLoader = false;
-            //         } else if (response.Code === 500) {
-            //             this.toastr.error('Category could not add.', 'Error!');
-            //             this.showLoader = false;
-            //         }
-            //     }).catch((error) => {
-            //         console.log("error ", error);
-            //     });
-        }
+            this.merchandiseService.addCategory(addCategoryFormValues).
+                then((response) => {
+                    console.log("response ", response);
+                    if (response.Code === 200) {
+                        this.toastr.success('Category sent for approval process.', 'Sucess!');
+                        this.location.back();
+                        this.showLoader = false;
+                    } else if (response.Code === 500) {
+                        this.toastr.error('Category could not add.', 'Error!');
+                        this.showLoader = false;
+                    }
+                }).catch((error) => {
+                        console.log("error ", error);
+                    });
+            }
+        this.showLoader = false;
     }
 
     imageUpload(event) {
@@ -143,7 +153,7 @@ export class AddCategoryComponent implements OnInit {
             this.addNewCategoryFields = false;
         }
 
-        if (selectItem === 'sub-category') {
+        if (selectItem === 'subCategory') {
             this.addNewCategoryFields = true;
         }
     }

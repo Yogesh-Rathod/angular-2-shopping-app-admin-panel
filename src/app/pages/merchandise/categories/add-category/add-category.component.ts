@@ -145,8 +145,6 @@ export class AddCategoryComponent implements OnInit {
 
         if (selectItem === 'sub-category') {
             this.addNewCategoryFields = true;
-        } else {
-            this.addNewCategoryFields = false;
         }
     }
 

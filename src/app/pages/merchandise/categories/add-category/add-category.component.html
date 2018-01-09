@@ -1,117 +1,100 @@
 <div class="animated fadeIn card addCategory">
 
-		<div class="card-header clearfix">
-			<h2 class="card-title" >
-				<span *ngIf="!categoryId">Add</span>
-				<span *ngIf="categoryId">Edit</span>
-				{{ 'merchandise.categories.category' | translate }}
+    <div class="card-header clearfix">
+        <h2 class="card-title">
+            <span *ngIf="!categoryId">Add</span>
+            <span *ngIf="categoryId">Edit</span>
+            {{ 'merchandise.categories.category' | translate }}
+            <span class="goBack float-right" [routerLink]="['/merchandise/categories']">
+                <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to category list</span>
 
-				<img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+        </h2>
+    </div>
 
-				<!-- <button *ngIf=" categoryId " class="btn btn-danger float-right" (click)="deleteCategory()" [disabled]="deleteLoader">
-					<i class="fa fa-trash-o" aria-hidden="true"></i>
-					 Delete
-				</button> -->
-				<span class="goBack float-right" [routerLink]="['/merchandise/categories']"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to category list</span>
+    <div class="card-body pos_relative">
 
-			</h2>
-		</div>
+        <div class="loader-container pos_absolute" *ngIf="BigLoader">
+            <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+        </div>
 
-		<div class="card-body pos_relative">
+        <form class="col-12" [formGroup]=" addCategoryForm " (ngSubmit)=" addCategory(addCategoryForm.value) ">
+            <input type="hidden" formControlName="Id">
 
-            <div class="loader-container pos_absolute" *ngIf="BigLoader">
-                <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+            <div class="form-group row">
+                <label for="type" class="col-3 text-right">
+                    Type
+                    <span class="mandatory">*</span>
+                </label>
+                <select id="type" formControlName="type" class="form-control col-9" (change)="addNewCategorySelected('type')">
+                    <option *ngFor="let item of type" [ngValue]="item">
+                        {{ item }}
+                    </option>
+                    <option value="new">Add new</option>
+                </select>
             </div>
 
-			<form class="col-12" [formGroup]=" addCategoryForm " (ngSubmit)=" addCategory(addCategoryForm.value) ">
-				<input type="hidden" formControlName="Id">
-				<div class="form-group row">
-                    <label for="name" class="col-3 text-right">Name <span class="mandatory">*</span></label>
-                    <input
-                        class="form-control"
-                        id="name"
-                        [source]="categories"
-                        list-formatter="Name"
-                        display-property-name="Name"
-                        max-num-list="10"
-                        auto-complete
-                        formControlName="Name"/>
-				</div>
+            <div class="form-group row" *ngIf="addCategoryForm.controls['type'].value && addCategoryForm.controls['type'].value != 'new'">
+                <label for="level" class="col-3 text-right">Category</label>
+<select formControlName="category" id="level" class="form-control col-9" (change)="addNewCategorySelected('category'); level1Change()">
+                    <option *ngFor="let item of level1Categories" [ngValue]="item.Id">
+                        {{ item.Name }}
+                    </option>
+                    <option value="new">Add new</option>
+                </select>
+            </div>
 
-				<div class="form-group row">
-					<label for="Description" class="col-3 text-right">Description
-					</label>
-					<textarea class="form-control col-9" formControlName="Description"></textarea>
-				</div>
+            <div class="form-group row" *ngIf="addCategoryForm.controls['category'].value && addCategoryForm.controls['category'].value != 'new'">
+                <label for="level" class="col-3 text-right">Sub Category</label>
+                <select formControlName="sub-category" id="level" class="form-control col-9" (change)="addNewCategorySelected('sub-category')">
+                    <option *ngFor="let item of level2Categories" [ngValue]="item.Id">
+                        {{ item.Name }}
+                    </option>
+                    <option value="new">Add new</option>
+                </select>
+            </div>
 
-				<!-- <div class="form-group row">
-					<label for="display_name" class="col-3 text-right">Display Name (if any)
-					</label>
-					<input type="text" class="form-control col-9" id="display_name" placeholder="Display Name" formControlName="display_name">
-				</div> -->
+            <div class="form-group row" *ngIf="addCategoryForm.controls['sub-category'].value && addCategoryForm.controls['sub-category'].value != 'new'">
+                <label for="level" class="col-3 text-right">Sub sub Category</label>
+                <select formControlName="sub-sub-category" id="level" class="form-control col-9" (change)="addNewCategorySelected('sub-sub-category');">
+                    <option *ngFor="let item of level3Categories" [ngValue]="item.Id">
+                        {{ item.Name }}
+                    </option>
+                    <option value="new">Add new</option>
+                </select>
+            </div>
 
-				<!-- <div class="form-group row">
-					<label for="Description" class="col-3 text-right">Description <span class="mandatory">*</span></label>
-					<ckeditor class="form-control col-9" [config]="config" formControlName="Description"></ckeditor>
-				</div> -->
+            <div class="col-12 no_padding" *ngIf="addNewCategoryFields">
+                <div class="form-group row">
+                    <label for="name" class="col-3 text-right">Name
+                        <span class="mandatory">*</span>
+                    </label>
+                    <input class="form-control" id="name" [source]="categories" list-formatter="Name" display-property-name="Name" max-num-list="10"
+                        auto-complete formControlName="Name" />
+                </div>
+                <div class="form-group row">
+                    <label for="Displayorder" class="col-3 text-right">Display order
+                        <span class="mandatory">*</span>
+                    </label>
+                    <input type="number" class="form-control col-9" id="name" placeholder="Displayorder" formControlName="DisplayOrder">
+                </div>
 
-				<!-- <div class="form-group row">
-					<label for="type" class="col-3 text-right">Type</label>
-					<select id="type" formControlName="type" class="form-control col-9">
-						<option *ngFor="let item of type" [ngValue]="item">
-							{{ item }}
-						</option>
-					</select>
-				</div> -->
+                <div class="form-group row">
+                    <label for="published" class="col-3 text-right">Published</label>
+                    <input type="checkbox" id="published" formControlName="IsActive" [class.disabled]="!categoryId">
+                </div>
 
-				<!-- <div class="form-group row">
-					<label for="level" class="col-3 text-right">Level</label>
-					<select id="level" formControlName="level" class="form-control col-9">
-						<option *ngFor="let item of level" [ngValue]="item">
-							{{ item }}
-						</option>
-					</select>
-				</div> -->
+            </div>
 
-				<!-- <div class="form-group row">
-					<label for="Picture" class="col-3 text-right">Picture</label>
-					<input type="file" class="form-control col-9" id="Picture" (change)=" imageUpload($event) ">
-				</div> -->
+            <div class="form-group row">
+                <label class="col-3 text-right"></label>
+                <input *ngIf=" !categoryId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addCategoryForm.valid || showLoader ">
+                <input *ngIf=" categoryId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addCategoryForm.valid || showLoader ">
+                <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+                <span class="btn btn-secondary" [routerLink]="['/merchandise/categories']">Cancel</span>
+            </div>
 
-				<div class="form-group row">
-                    <label for="ParentCategory" class="col-3 text-right">Parent Category</label>
-                    <angular2-multiselect id="ParentCategory" [data]="categories" formControlName="ParentCategoryId" [settings]="categoriesDropdownSettings"></angular2-multiselect>
-					<!-- <select id="ParentCategory" class="form-control col-9" formControlName="ParentCategoryId" *ngIf=" categories ">
-						<option></option>
-						<ng-container *ngFor="let category of categories">
-							<option [ngValue]="category.Id">{{ category.Name }}</option>
-						</ng-container>
-					</select>
-					<select *ngIf=" !categories " class="form-control col-9">
-						<option value="noCat">There are no categories yet!</option>
-					</select> -->
-				</div>
+        </form>
 
-				<div class="form-group row">
-					<label for="Displayorder" class="col-3 text-right">Display order <span class="mandatory">*</span></label>
-					<input type="number" class="form-control col-9" id="name" placeholder="Displayorder" formControlName="DisplayOrder">
-				</div>
-
-				<div class="form-group row">
-					<label for="published" class="col-3 text-right">Published</label>
-					<input type="checkbox" id="published" formControlName="IsActive" [class.disabled]="!categoryId">
-				</div>
-
-				<div class="form-group row">
-					<label class="col-3 text-right"></label>
-					<input *ngIf=" !categoryId " type="submit" class="btn btn-primary" value="Save"  [disabled]=" !addCategoryForm.valid || showLoader " >
-					<input *ngIf=" categoryId " type="submit" class="btn btn-primary" value="Update"  [disabled]=" !addCategoryForm.valid || showLoader " >
-					<img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-					<span class="btn btn-secondary" [routerLink]="['/merchandise/categories']">Cancel</span>
-				</div>
-
-			</form>
-
-		</div>
+    </div>
 
 </div>

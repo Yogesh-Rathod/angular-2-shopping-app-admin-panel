@@ -41,6 +41,17 @@ export class MerchandiseService {
             .catch((err) => this.responseHandler.handleError(err));
     }
 
+    getCategoriesByLevel(level?) {
+        let url = `${environment.merchandiseUrl}Merchandise/CategoriesByLevel/${level}`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
     getUnApprovedCategories() {
         let url = `${environment.merchandiseUrl}Merchandise/CategoriesForApproval`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());

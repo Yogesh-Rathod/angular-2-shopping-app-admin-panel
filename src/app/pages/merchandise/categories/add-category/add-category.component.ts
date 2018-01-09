@@ -20,19 +20,14 @@ export class AddCategoryComponent implements OnInit {
     addCategoryForm: FormGroup;
     showLoader = false;
     BigLoader = false;
-    deleteLoader = false;
-    categoriesMaxLevel = Config.categoriesMaxLevel;
     categories: any;
+    addNewCategoryFields = false;
     categoryId: any;
     categoryInfo: any;
-    categoriesDropdownSettings = {
-        singleSelection: true,
-        text: "Select Parent Category",
-        enableSearchFilter: true,
-        classes: 'col-9 no_padding'
-    };
+    level1Categories: any;
+    level2Categories: any;
+    level3Categories: any;
     type = ['Merchandise', 'Gift Card'];
-    level = ['Category', 'Sub Category', 'Sub Sub Category'];
 
     constructor(
         private location: Location,
@@ -61,12 +56,18 @@ export class AddCategoryComponent implements OnInit {
         this.merchandiseService.getCategories().
             then((categories) => {
                 this.categories = categories.Data;
-                this.categories = this.categories.map((category) => {
-                    category.itemName = category.Name;
-                    category.id = category.Id;
-                    return category;
-                });
                 this.BigLoader = false;
+                this.getLevel1Categories(1);
+            }).catch((error) => {
+                console.log("error ", error);
+            });
+    }
+
+    getLevel1Categories(level) {
+        this.merchandiseService.getCategoriesByLevel(level).
+            then((categories) => {
+                console.log("getCategoriesByLevel categories ", categories);
+                this.level1Categories = categories.Data;
             }).catch((error) => {
                 console.log("error ", error);
             });
@@ -75,10 +76,14 @@ export class AddCategoryComponent implements OnInit {
     createForm() {
         this.addCategoryForm = this.fb.group({
             'Id': [''],
+            'type': ['', Validators.compose([Validators.required])],
+            'category': [''],
+            'sub-category': [''],
+            'sub-sub-category': ['new'],
             'Name': ['', Validators.compose([Validators.required,
             Validators.minLength(1), Validators.maxLength(100)])],
-            'Description': ['', Validators.compose([
-            Validators.minLength(1), Validators.maxLength(1000)])],
+            // 'Description': ['', Validators.compose([
+            // Validators.minLength(1), Validators.maxLength(1000)])],
             'ParentCategoryId': [[]],
             'DisplayOrder': ['', Validators.compose([Validators.required])],
             'IsActive': ['TRUE']
@@ -87,51 +92,83 @@ export class AddCategoryComponent implements OnInit {
 
     addCategory(addCategoryFormValues) {
         this.showLoader = true;
-        if (addCategoryFormValues.ParentCategoryId.length > 0) {
-            addCategoryFormValues.ParentCategoryId = addCategoryFormValues.ParentCategoryId[0].Id;
-        } else {
-            addCategoryFormValues.ParentCategoryId = '';
-        }
         if (typeof addCategoryFormValues.Name !== 'string') {
             addCategoryFormValues.Name = addCategoryFormValues.Name.Name;
         }
         if (addCategoryFormValues.Id) {
-            this.merchandiseService.addCategory(addCategoryFormValues).
-                then((response) => {
-                    console.log("response ", response);
-                    if (response.Code === 200) {
-                        this.toastr.success('Category sent for approval process.', 'Sucess!');
-                        this.location.back();
-                        this.showLoader = false;
-                    } else if (response.Code === 500) {
-                        this.toastr.error('Category could not update.', 'Error!');
-                        this.showLoader = false;
-                    }
-                }).catch((error) => {
-                    console.log("error ", error);
-                });
+            console.log("addCategoryFormValues ", addCategoryFormValues);
+            // this.merchandiseService.addCategory(addCategoryFormValues).
+            //     then((response) => {
+            //         console.log("response ", response);
+            //         if (response.Code === 200) {
+            //             this.toastr.success('Updated Category sent for approval process.', 'Sucess!');
+            //             this.location.back();
+            //             this.showLoader = false;
+            //         } else if (response.Code === 500) {
+            //             this.toastr.error('Category could not update.', 'Error!');
+            //             this.showLoader = false;
+            //         }
+            //     }).catch((error) => {
+            //         console.log("error ", error);
+            //     });
         } else {
             delete addCategoryFormValues.Id;
-            this.merchandiseService.addCategory(addCategoryFormValues).
-                then((response) => {
-                    console.log("response ", response);
-                    if (response.Code === 200) {
-                        this.toastr.success('Category sent for approval process.', 'Sucess!');
-                        this.location.back();
-                        this.showLoader = false;
-                    } else if (response.Code === 500) {
-                        this.toastr.error('Category could not add.', 'Error!');
-                        this.showLoader = false;
-                    }
-                }).catch((error) => {
-                    console.log("error ", error);
-                });
+            console.log("addCategoryFormValues ", addCategoryFormValues);
+            // this.merchandiseService.addCategory(addCategoryFormValues).
+            //     then((response) => {
+            //         console.log("response ", response);
+            //         if (response.Code === 200) {
+            //             this.toastr.success('Category sent for approval process.', 'Sucess!');
+            //             this.location.back();
+            //             this.showLoader = false;
+            //         } else if (response.Code === 500) {
+            //             this.toastr.error('Category could not add.', 'Error!');
+            //             this.showLoader = false;
+            //         }
+            //     }).catch((error) => {
+            //         console.log("error ", error);
+            //     });
         }
     }
 
     imageUpload(event) {
         const uploadedImage = event.target.files[0] ? event.target.files[0].name : '';
         this.addCategoryForm.controls['picture'].setValue(uploadedImage);
+    }
+
+    addNewCategorySelected(selectItem) {
+        if (this.addCategoryForm.controls[selectItem].value === 'new') {
+            this.addNewCategoryFields = true;
+        } else {
+            this.addNewCategoryFields = false;
+        }
+
+        if (selectItem === 'sub-category') {
+            this.addNewCategoryFields = true;
+        } else {
+            this.addNewCategoryFields = false;
+        }
+    }
+
+    level1Change() {
+        const selectedCategory = this.addCategoryForm.controls['category'].value;
+        if (selectedCategory === 'new') {
+            console.log("selectedCategory ", selectedCategory);
+            this.addNewCategoryFields = true;
+        } else {
+            this.addNewCategoryFields = false;
+            this.merchandiseService.getCategoriesByLevel(3).
+                then((categories) => {
+                    this.level2Categories = categories.Data;
+                    // this.level2Categories = this.level2Categories.filter((category) => {
+                    //     if (selectedCategory == category.ParentCategoryId) {
+                    //         return category;
+                    //     }
+                    // });
+                }).catch((error) => {
+                    console.log("error ", error);
+                });
+        }
     }
 
     getCategoryInfoForEdit() {
@@ -141,17 +178,16 @@ export class AddCategoryComponent implements OnInit {
                 then((categoryInfo) => {
                     this.categoryInfo = categoryInfo.Data;
                     console.log("categoryInfo ", this.categoryInfo);
-                    this.addCategoryForm.controls['Id'].setValue(this.categoryInfo.Id);
+                    this.addCategoryForm.controls['Id'].setValue(this.categoryInfo.ApprovalCategoryId);
                     this.addCategoryForm.controls['Name'].setValue(this.categoryInfo.Name);
-                    this.addCategoryForm.controls['Description'].setValue(this.categoryInfo.Description);
+                    // this.addCategoryForm.controls['Description'].setValue(this.categoryInfo.Description);
                     this.addCategoryForm.controls['DisplayOrder'].setValue(this.categoryInfo.DisplayOrder);
                     this.addCategoryForm.controls['IsActive'].setValue(this.categoryInfo.IsActive);
+                    this.addCategoryForm.controls['ParentCategoryId'].setValue(this.categoryInfo.ParentCategoryId);
                     this.BigLoader = false;
                 }).catch((error) => {
                     console.log("error ", error);
                 });
-            // console.log("this.categories ", this.categories);
-            // this.addCategoryForm.controls['Id'].setValue(this.categoryId);
         }
     }
 

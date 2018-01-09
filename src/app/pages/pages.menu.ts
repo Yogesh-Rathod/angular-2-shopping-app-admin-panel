@@ -81,7 +81,7 @@ const menus = [
         path: 'vendors',
         data: {
           menu: {
-            title: 'Vendors',
+            title: 'Sellers',
             pathMatch: 'partial'
           }
         }

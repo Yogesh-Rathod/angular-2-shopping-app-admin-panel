@@ -3,7 +3,7 @@
 
 		<div class="catSearch clearfix card-header">
 			<h2 class="card-title ">
-				Manage Vendors
+				Manage Sellers
 				<button class="btn btn-primary float-right" (click)=" bulkUpload() ">
 					<i class="fa fa-download" aria-hidden="true"></i>
 					Import
@@ -20,10 +20,10 @@
 				<form>
 
 					<div class="form-group row">
-						<label for="name" class="col-3 col-xl-2 text-right">Vendor Search
-							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by Vendor Name, Email or Code"></i>
+						<label for="name" class="col-3 col-xl-2 text-right">Seller Search
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by Seller Name, Email or Code"></i>
 						</label>
-						<input type="text" #searchText class="form-control col-4" id="name" placeholder="Vendor Search">
+						<input type="text" #searchText class="form-control col-4" id="name" placeholder="Seller Search">
 						<button type="submit" class="btn btn-primary searchbutton" (click)=" searchVendor(searchText.value) ">
 							<i class="fa fa-search" aria-hidden="true"></i>
 							Search

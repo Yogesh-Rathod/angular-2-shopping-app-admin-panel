@@ -83,20 +83,20 @@ export class AddProductComponent implements OnInit {
 
   createForm() {
     this.addProductForm = this.fb.group({
-      'id': [''],
-      'code': [
+      'Id': [''],
+      'Sku': [
         '',
         Validators.compose([
           Validators.required
         ])
       ],
-      'productCode': [
+      'ParentProductCode': [
         '',
         Validators.compose([
           Validators.required
         ])
       ],
-      'name': [
+      'Name': [
         '',
         Validators.compose([
           Validators.required,
@@ -104,7 +104,7 @@ export class AddProductComponent implements OnInit {
           Validators.maxLength(100)
         ])
       ],
-      'shortDescription': [
+      'ShortDescription': [
         '',
         Validators.compose([
           Validators.required,
@@ -112,7 +112,7 @@ export class AddProductComponent implements OnInit {
           Validators.maxLength(1000)
         ])
       ],
-      'fullDescription': [
+      'FullDescription': [
         '',
         Validators.compose([
           Validators.minLength(1),
@@ -128,16 +128,16 @@ export class AddProductComponent implements OnInit {
         '',
         Validators.required
       ],
-      'currency': [''],
-      'netPrice': [
+      'CurrencyId': [''],
+      'NetPrice': [
         '',
         Validators.required
       ],
-      'netShipping': [
+      'NetShippingPrice': [
         '',
         Validators.required
       ],
-      'MrpPrice': [
+      'Mrp': [
         '',
         Validators.required
       ],
@@ -149,11 +149,11 @@ export class AddProductComponent implements OnInit {
       //   '',
       //   Validators.required
       // ],
-      'categories': [
+      'CategoryId': [
         [],
         Validators.required
       ],
-      'vendor': [
+      'SellerId': [
         '',
         Validators.required
       ],
@@ -162,11 +162,11 @@ export class AddProductComponent implements OnInit {
       'pictureTitle': [''],
       'pictureDisplayorder': [''],
       'type': [''],
-      'brand': [''],
-      'color': [''],
-      'size': [''],
+      'Brand': [''],
+      'Colour': [''],
+      'Size': [''],
       // 'reOrderLevel': [''],
-      'comments': [''],
+      'Comments': [''],
       'approvalStatus': ['Pending']
     });
   }
@@ -240,37 +240,9 @@ export class AddProductComponent implements OnInit {
   addProduct(addProductForm) {
     this.showLoader = true;
     console.log("addProductForm ", addProductForm);
-    let productInfo = {
-      id: Math.floor(Math.random() * 90000) + 10000,
-      picture: [
-        {
-          url: this.productImageName ? this.productImageName : undefined,
-          alt: addProductForm.pictureAlt ? addProductForm.pictureAlt : undefined,
-          title: addProductForm.pictureTitle ? addProductForm.pictureTitle : undefined,
-          displayOrder: addProductForm.pictureDisplayorder ? addProductForm.pictureDisplayorder : undefined
-        }
-      ],
-      name: addProductForm.name ? addProductForm.name : undefined,
-      shortDescription: addProductForm.shortDescription,
-      fullDescription: addProductForm.fullDescription,
-      // sku: addProductForm.sku,
-      MrpPrice: addProductForm.MrpPrice,
-      oldPrice: addProductForm.oldPrice,
-      vendor: addProductForm.vendor,
-      retailPrice: addProductForm.retailPrice,
-      // stockQuantity: addProductForm.stockQuantity,
-      productType: 'Simple',
-      status: addProductForm.status,
-      categories: addProductForm.categories
-    };
 
     if (addProductForm.id) {
-      productInfo['id'] = addProductForm.id;
-      const index = _.findIndex(this.products, { id: productInfo['id'] });
-      this.products.splice(index, 1, productInfo);
-      this.productsService.editProduct(this.products);
     } else {
-      this.productsService.addProduct(productInfo);
     }
 
     this.toastr.success('Sucessfully Done!', 'Sucess!');
@@ -279,23 +251,17 @@ export class AddProductComponent implements OnInit {
   }
 
   getAllCategories() {
-    this.categories = [];
-    // this.merchandiseService.getCategories();
-    let categoriesArray = [];
-    _.forEach(this.categories, (category) => {
-      if (category.parent_name) {
-        categoriesArray.push({
-          id: `${category.parent_name} >> ${category.name}`,
-          itemName: `${category.parent_name} >> ${category.name}`
+    this.merchandiseService.getCategories().
+        then((categories) => {
+            this.categories = categories.Data;
+            this.categories = this.categories.map((category) => {
+                category.id = category.Id;
+                category.itemName = category.Name;
+                return category;
+            })
+        }).catch((error) => {
+            console.log("error ", error);
         });
-      } else {
-        categoriesArray.push({
-          id: category.name,
-          itemName: category.name
-        });
-      }
-    });
-    this.categories = categoriesArray;
   }
 
   uploadProductImage(addProductForm) {

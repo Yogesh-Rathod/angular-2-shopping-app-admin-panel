@@ -33,7 +33,7 @@
     </div>
 
     <form [formGroup]=" addProductForm " (ngSubmit)="addProduct(addProductForm.value) " class="row">
-      <input type="hidden" formControlName="id">
+      <input type="hidden" formControlName="Id">
 
       <!-- Tab panes -->
       <div class="tab-content col-12">
@@ -54,21 +54,21 @@
                   <label for="name" class="col-3 text-right">Product Code
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="name" placeholder="Code" formControlName="code" [readonly]="productId">
+                  <input type="text" class="form-control col-9" id="name" placeholder="Code" formControlName="Sku" [readonly]="productId">
                 </div>
 
                 <div class="form-group row">
                   <label for="name" class="col-3 text-right">Parent Code
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="name" placeholder="Parent Code" formControlName="productCode">
+                  <input type="text" class="form-control col-9" id="name" placeholder="Parent Code" formControlName="ParentProductCode">
                 </div>
 
                 <div class="form-group row">
                   <label for="name" class="col-3 text-right">Name
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="name" placeholder="Name" formControlName="name">
+                  <input type="text" class="form-control col-9" id="name" placeholder="Name" formControlName="Name">
                 </div>
 
                 <div class="form-group row">
@@ -76,7 +76,7 @@
                     <br> Description
                     <span class="mandatory">*</span>
                   </label>
-                  <textarea class="form-control col-9" id="name" placeholder="Short Description" formControlName="shortDescription"></textarea>
+                  <textarea class="form-control col-9" id="name" placeholder="Short Description" formControlName="ShortDescription"></textarea>
                 </div>
 
                 <div class="form-group row">
@@ -84,7 +84,7 @@
                     <br> Description
                     <span class="mandatory">*</span>
                   </label>
-                  <ckeditor class="form-control col-9" [config]="config" formControlName="fullDescription"></ckeditor>
+                  <ckeditor class="form-control col-9" [config]="config" formControlName="FullDescription"></ckeditor>
                 </div>
 
                 <div class="form-group row">
@@ -141,7 +141,7 @@
                   <label for="currency" class="col-3 text-right">
                     Choose Currency
                   </label>
-                  <select id="currency" class="form-control col-9">
+                  <select id="currency" class="form-control col-9" formControlName="CurrencyId">
                     <option *ngFor="let item of currencyOptions" value="{{ item }}">{{ item }}</option>
                   </select>
                 </div>
@@ -150,19 +150,19 @@
                   <label for="netPrice" class="col-3 text-right">Net Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Net Price" formControlName="netPrice" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Net Price" formControlName="NetPrice" (keydown)='validatenumber($event)'>
                 </div>
                 <div class="form-group row">
                   <label for="netShipping" class="col-3 text-right">Net Shipping <br>Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="netShipping" placeholder="Shipping Price" formControlName="netShipping" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="netShipping" placeholder="Shipping Price" formControlName="NetShippingPrice" (keydown)='validatenumber($event)'>
                 </div>
                 <div class="form-group row">
                   <label for="Price" class="col-3 text-right">MRP Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="Price" placeholder="MRP Price" formControlName="MrpPrice" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="Price" placeholder="MRP Price" formControlName="Mrp" (keydown)='validatenumber($event)'>
                 </div>
                 <div class="form-group row" *ngIf=" productId ">
                   <label for="applicableDate" class="col-3 text-right">
@@ -214,7 +214,7 @@
                   <label for="Categories" class="col-4 text-right">Categories
                     <span class="mandatory">*</span>
                   </label>
-                  <angular2-multiselect id="name" [data]="categories" formControlName="categories" [settings]="categoriesDropdownSettings">
+                  <angular2-multiselect id="name" [data]="categories" formControlName="CategoryId" [settings]="categoriesDropdownSettings">
                   </angular2-multiselect>
                 </div>
                 <div class="form-group row">
@@ -222,7 +222,7 @@
                     Seller
                     <span class="mandatory">*</span>
                   </label>
-                  <select id="vendor" formControlName="vendor" class="form-control col-8">
+                  <select id="vendor" formControlName="SellerId" class="form-control col-8">
                     <option *ngFor="let item of vendors" [ngValue]="item">
                       {{ item.first_name }} {{ item.last_name }}
                     </option>
@@ -243,17 +243,17 @@
                 <div class="form-group row">
                   <label for="Brand" class="col-4 text-right">Brand
                   </label>
-                  <input type="text" class="form-control col-8" id="Brand" placeholder="Brand" formControlName="brand">
+                  <input type="text" class="form-control col-8" id="Brand" placeholder="Brand" formControlName="Brand">
                 </div>
                 <div class="form-group row">
                   <label for="Color" class="col-4 text-right">Color
                   </label>
-                  <input type="text" class="form-control col-8" id="Color" placeholder="Color" formControlName="color">
+                  <input type="text" class="form-control col-8" id="Color" placeholder="Color" formControlName="Colour">
                 </div>
                 <div class="form-group row">
                   <label for="Size" class="col-4 text-right">Size
                   </label>
-                  <input type="text" class="form-control col-8" id="Size" placeholder="Size" formControlName="size">
+                  <input type="text" class="form-control col-8" id="Size" placeholder="Size" formControlName="Size">
                 </div>
                 <!-- <div class="form-group row">
                   <label for="reOrderLevel" class="col-4 text-right">Re Order Level
@@ -265,7 +265,7 @@
                     Comments
                     <span class="mandatory">*</span>
                   </label>
-                  <textarea class="form-control col-8" id="Comments" placeholder="Comments" formControlName="comments"></textarea>
+                  <textarea class="form-control col-8" id="Comments" placeholder="Comments" formControlName="Comments"></textarea>
                 </div>
                 <div class="form-group row">
                   <label for="approvalStatus" class="col-4 text-right">

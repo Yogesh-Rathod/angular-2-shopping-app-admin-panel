@@ -1,221 +1,225 @@
 <div class="animated fadeIn card addCategory">
 
-  <div class="card-header clearfix">
-    <h2 class="card-title">
-      <span *ngIf="!movieId">Add</span><span *ngIf="movieId">Edit</span> Movie
+    <div class="card-header clearfix">
+        <h2 class="card-title">
+            <span *ngIf="!movieId">Add</span>
+            <span *ngIf="movieId">Edit</span> Movie
 
-      <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
-        height="35">
+            <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
+                height="35">
 
-      <span class="goBack float-right" [routerLink]="['/movie-management']">
-        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to movies list</span>
+            <span class="goBack float-right" [routerLink]="['/movie-management']">
+                <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to movies list</span>
 
-    </h2>
-  </div>
-
-  <div class="card-body row pos_relative">
-
-    <div *ngIf="validationError" class="alert alert-danger">
-      <ul class="no_margin">
-        <li *ngFor="let item of validationError">
-           {{ item.Message }}
-        </li>
-      </ul>
+        </h2>
     </div>
 
-    <div class="loader-container pos_absolute" *ngIf="bigLoader">
-      <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+    <div class="card-body row pos_relative">
+
+        <div *ngIf="validationError" class="alert alert-danger">
+            <ul class="no_margin">
+                <li *ngFor="let item of validationError">
+                    {{ item.Message }}
+                </li>
+            </ul>
+        </div>
+
+        <div class="loader-container pos_absolute" *ngIf="bigLoader">
+            <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+        </div>
+
+        <form class="col-12 row" [formGroup]=" addMovieForm " (ngSubmit)=" addMovie(addMovieForm.value) ">
+            <input type="hidden" formControlName="id">
+
+            <div class="col-6 row">
+                <div class="form-group col-6">
+                    <label for="title">
+                        Title:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Title (Should be 1 to 100 characters)"></i>
+                    </label>
+                    <input type="text" class="form-control" id="title" formControlName="Title">
+                </div>
+                <div class="form-group col-6">
+                    <label for="type">
+                        Type:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Type (E.g. 2D, 3D, IMAX, 4DX etc.)"></i>
+                    </label>
+                    <input type="text" class="form-control" id="type" formControlName="Type">
+                </div>
+
+                <div class="form-group col-6">
+                    <label for="Language">
+                        Language:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Language of the movie (Should be 2 to 100 characters)"></i>
+                    </label>
+                    <!-- <tag-input></tag-input> -->
+                    <input type="text" class="form-control" id="Language" formControlName="Language">
+                </div>
+                <div class="form-group col-6">
+                    <label for="CensorRating">
+                        Censor Rating:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movies Censor Rating (E.g. U/A, A etc.)"></i>
+                    </label>
+                    <input type="text" class="form-control" id="CensorRating" formControlName="CensorRating">
+                </div>
+                <div class="form-group col-6">
+                    <label for="StarRating">
+                        Star Rating:
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Star Rating. (1 to 5)"></i>
+                    </label>
+                    <input type="text" class="form-control" id="StarRating" formControlName="StarRating" (keydown)='validatenumber($event)'>
+                </div>
+                <div class="form-group col-6">
+                    <label for="Duration">
+                        Duration (in Min's):
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Duration in Minutes"></i>
+                    </label>
+                    <input type="text" class="form-control" id="Duration" formControlName="Duration" (keydown)='validatenumber($event)'>
+                </div>
+                <div class="form-group col-6">
+                    <label for="genre">
+                        Genre:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie genre."></i>
+                    </label>
+                    <input formControlName="Genre" type="text" class="form-control" id="genre">
+                </div>
+                <div class="form-group col-6">
+                    <label for="Writer">
+                        Writer
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Writer"></i>
+                    </label>
+                    <input formControlName="Writer" type="text" class="form-control" id="Writer">
+                </div>
+
+            </div>
+
+            <div class="col-6 row">
+                <div class="form-group col-6">
+                    <label for="music">
+                        Music:
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie music."></i>
+                    </label>
+                    <input formControlName="Music" type="text" class="form-control" id="music">
+                </div>
+                <div class="form-group col-6">
+                    <label for="starring">
+                        Starring:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Actors/Stars."></i>
+                    </label>
+                    <input formControlName="Starring" type="text" class="form-control" id="starring">
+                </div>
+                <div class="form-group col-6">
+                    <label for="Director">
+                        Director:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Director."></i>
+                    </label>
+                    <input formControlName="Director" type="text" class="form-control" id="Director">
+                </div>
+                <div class="form-group col-6">
+                    <label for="ReleaseDate">
+                        Release Date:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Release Date."></i>
+                    </label>
+                    <my-date-picker id="ReleaseDate" name="ReleaseDate" [options]="myDatePickerOptions" formControlName="ReleaseDate"></my-date-picker>
+                </div>
+                <div class="form-group col-6">
+                    <label for="synopsis">
+                        Synopsis:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Synopsis."></i>
+                    </label>
+                    <textarea class="form-control no-text-transform" formControlName="Synopsis" id="Synopsis" cols="10" rows="10"></textarea>
+                </div>
+                <div class="form-group col-6">
+                    <label for="sequence">
+                        Sequence:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Sequence"></i>
+                    </label>
+                    <input formControlName="Sequence" id="sequence" class="form-control" type="text">
+                </div>
+                <div class="form-group col-12">
+                    <label for="trailerLink">
+                        Trailer Link:
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Trailer Link"></i>
+                    </label>
+                    <input formControlName="TrailerUrl" id="trailerLink" class="form-control" type="text">
+                </div>
+            </div>
+
+            <div class="col-12 row images-container">
+                <label for="images ">
+                    Images:
+                    <span class="mandatory">*</span>
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Images to show"></i>
+                </label>
+                <div class="col-12"></div>
+                <div *ngIf="movieId && movieInfo" class="col-3">
+                    <div class="img-container">
+                        <img *ngIf="movieId && movieInfo.Image" [src]="movieInfo.Image" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
+                        <img *ngIf=" movieId && !movieInfo.Image " class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+                    </div>
+                </div>
+                <div *ngIf="movieId && movieInfo" class="col-3">
+                    <div class="img-container">
+                        <img *ngIf="movieId && movieInfo.Poster" [src]="movieInfo.Poster" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
+                        <img *ngIf="movieId && !movieInfo.Poster" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+                    </div>
+                </div>
+                <div *ngIf="movieId && movieInfo" class="col-3">
+                    <div class="img-container">
+                        <img *ngIf="movieId && movieInfo.Landscape" [src]="movieInfo.Landscape" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
+                        <img *ngIf="movieId && !movieInfo.Landscape" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+                    </div>
+                </div>
+                <div *ngIf="movieId && movieInfo" class="col-3">
+                    <div class="img-container">
+                        <img *ngIf="movieId && movieInfo.RBCNimage" [src]="movieInfo.RBCNimage" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
+                        <img *ngIf="movieId && !movieInfo.RBCNimage" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <label for="Square">( Square Image )</label>
+                    <input type="file" id="Square" class="form-control" (change)="handleFile($event, 'Image')">
+                </div>
+                <div class="col-3">
+                    <label for="Portrait">( Portrait Image )</label>
+                    <input type="file" id="Portrait" class="form-control" (change)="handleFile($event, 'Poster')">
+                </div>
+                <div class="col-3">
+                    <label for="Landscape">( Landscape Image )</label>
+                    <input type="file" id="Landscape" class="form-control" (change)="handleFile($event, 'Landscape')">
+                </div>
+                <div class="col-3">
+                    <label for="RBCN">( RBCN Image )</label>
+                    <input type="file" id="RBCN" class="form-control" (change)="handleFile($event, 'RBCNimage')">
+
+
+
+                </div>
+            </div>
+
+            <div class="form-group row col-12 buttons-container">
+                <label class="col-5 text-right"></label>
+                <input *ngIf=" !movieId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addMovieForm.valid || showLoader ">
+                <!-- [disabled]=" !addMovieForm.valid || showLoader " -->
+                <input *ngIf=" movieId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addMovieForm.valid || showLoader ">
+                <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+                <span class="btn btn-secondary" [routerLink]="['/movie-management']">Cancel</span>
+            </div>
+
+        </form>
+
     </div>
-
-    <form class="col-12 row" [formGroup]=" addMovieForm " (ngSubmit)=" addMovie(addMovieForm.value) ">
-      <input type="hidden" formControlName="id">
-
-      <div class="col-6 row">
-        <div class="form-group col-6">
-          <label for="title">
-            Title:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Title (Should be 1 to 100 characters)"></i>
-          </label>
-          <input type="text" class="form-control" id="title" formControlName="Title">
-        </div>
-        <div class="form-group col-6">
-          <label for="type">
-            Type:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Type (E.g. 2D, 3D, IMAX, 4DX etc.)"></i>
-          </label>
-          <input type="text" class="form-control" id="type" formControlName="Type">
-        </div>
-
-        <div class="form-group col-6">
-          <label for="Language">
-            Language:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Language of the movie (Should be 2 to 100 characters)"></i>
-          </label>
-          <!-- <tag-input></tag-input> -->
-          <input type="text" class="form-control" id="Language" formControlName="Language">
-        </div>
-        <div class="form-group col-6">
-          <label for="CensorRating">
-            Censor Rating:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movies Censor Rating (E.g. U/A, A etc.)"></i>
-          </label>
-          <input type="text" class="form-control" id="CensorRating" formControlName="CensorRating">
-        </div>
-        <div class="form-group col-6">
-          <label for="StarRating">
-            Star Rating:
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Star Rating. (1 to 5)"></i>
-          </label>
-          <input type="text" class="form-control" id="StarRating" formControlName="StarRating" (keydown)='validatenumber($event)'>
-        </div>
-        <div class="form-group col-6">
-          <label for="Duration">
-            Duration (in Min's):
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Duration in Minutes"></i>
-          </label>
-          <input type="text" class="form-control" id="Duration" formControlName="Duration" (keydown)='validatenumber($event)'>
-        </div>
-        <div class="form-group col-6">
-          <label for="genre">
-            Genre:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie genre."></i>
-          </label>
-          <input formControlName="Genre" type="text" class="form-control" id="genre">
-        </div>
-        <div class="form-group col-6">
-          <label for="Writer">
-            Writer
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Writer"></i>
-          </label>
-          <input formControlName="Writer" type="text" class="form-control" id="Writer">
-        </div>
-
-      </div>
-
-      <div class="col-6 row">
-        <div class="form-group col-6">
-          <label for="music">
-            Music:
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie music."></i>
-          </label>
-          <input formControlName="Music" type="text" class="form-control" id="music">
-        </div>
-        <div class="form-group col-6">
-          <label for="starring">
-            Starring:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Actors/Stars."></i>
-          </label>
-          <input formControlName="Starring" type="text" class="form-control" id="starring">
-        </div>
-        <div class="form-group col-6">
-          <label for="Director">
-            Director:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Director."></i>
-          </label>
-          <input formControlName="Director" type="text" class="form-control" id="Director">
-        </div>
-        <div class="form-group col-6">
-          <label for="ReleaseDate">
-            Release Date:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Release Date."></i>
-          </label>
-          <my-date-picker id="ReleaseDate" name="ReleaseDate" [options]="myDatePickerOptions" formControlName="ReleaseDate"></my-date-picker>
-        </div>
-        <div class="form-group col-6">
-          <label for="synopsis">
-            Synopsis:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Synopsis."></i>
-          </label>
-          <textarea class="form-control no-text-transform" formControlName="Synopsis" id="Synopsis" cols="10" rows="10"></textarea>
-        </div>
-        <div class="form-group col-6">
-          <label for="sequence">
-            Sequence:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Sequence"></i>
-          </label>
-          <input formControlName="Sequence" id="sequence" class="form-control" type="text">
-        </div>
-        <div class="form-group col-12">
-          <label for="trailerLink">
-            Trailer Link:
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Trailer Link"></i>
-          </label>
-          <input formControlName="TrailerUrl" id="trailerLink" class="form-control" type="text">
-        </div>
-      </div>
-
-      <div class="col-12 row images-container">
-        <label for="images ">
-          Image Url's:
-          <span class="mandatory">*</span>
-          <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Images to show"></i>
-        </label>
-        <div class="col-12"></div>
-        <div *ngIf="movieId && movieInfo" class="col-3">
-          <div class="img-container">
-            <img *ngIf="movieId && movieInfo.ImageUrl" [src]="movieInfo.ImageUrl" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
-            <img *ngIf=" movieId && !movieInfo.ImageUrl " class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
-          </div>
-        </div>
-        <div *ngIf="movieId && movieInfo" class="col-3">
-          <div class="img-container">
-            <img *ngIf="movieId && movieInfo.PosterUrl" [src]="movieInfo.PosterUrl" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
-            <img *ngIf="movieId && !movieInfo.PosterUrl" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
-          </div>
-        </div>
-        <div *ngIf="movieId && movieInfo" class="col-3">
-          <div class="img-container">
-            <img *ngIf="movieId && movieInfo.LandscapeUrl" [src]="movieInfo.LandscapeUrl" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
-            <img *ngIf="movieId && !movieInfo.LandscapeUrl" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
-          </div>
-        </div>
-        <div *ngIf="movieId && movieInfo" class="col-3">
-          <div class="img-container">
-            <img *ngIf="movieId && movieInfo.RBCNimageUrl" [src]="movieInfo.RBCNimageUrl" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
-            <img *ngIf="movieId && !movieInfo.RBCNimageUrl" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
-          </div>
-        </div>
-        <div class="col-3">
-          <label for="Square">( Square Image )</label>
-          <input type="text" id="Square" class="form-control" formControlName="ImageUrl">
-        </div>
-        <div class="col-3">
-          <label for="Portrait">( Portrait Image )</label>
-          <input type="text" id="Portrait" class="form-control" formControlName="PosterUrl">
-        </div>
-        <div class="col-3">
-          <label for="Landscape">( Landscape Image )</label>
-          <input type="text" id="Landscape" class="form-control" formControlName="LandscapeUrl">
-        </div>
-        <div class="col-3">
-          <label for="RBCN">( RBCN Image )</label>
-          <input type="text" id="RBCN" class="form-control" formControlName="RBCNimageUrl">
-        </div>
-      </div>
-
-      <div class="form-group row col-12 buttons-container">
-        <label class="col-5 text-right"></label>
-        <input *ngIf=" !movieId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addMovieForm.valid || showLoader ">
-         <!-- [disabled]=" !addMovieForm.valid || showLoader " -->
-        <input *ngIf=" movieId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addMovieForm.valid || showLoader ">
-        <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-        <span class="btn btn-secondary" [routerLink]="['/movie-management']">Cancel</span>
-      </div>
-
-    </form>
-
-  </div>
 
 </div>

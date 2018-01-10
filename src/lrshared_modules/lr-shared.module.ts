@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { NgaModule } from 'app/theme/nga.module';
 import { LrSharedComponentsModule } from './components/lr-shared-components.module';
 import { LrSharedServicesModule } from './services/lr-shared-services.module';
-import { AmChartsModule } from "@amcharts/amcharts3-angular";
 
 import { AddEditAuthorityComponent } from
   'lrshared_modules/pages/user-management/addEditAuthority/addEditAuthority.component';
@@ -21,7 +20,6 @@ import { AppTranslationModule } from 'app/app.translation.module';
     LrSharedComponentsModule,
     LrSharedServicesModule,
     AppTranslationModule,
-    AmChartsModule,
     AppTranslationModule
   ],
   declarations: [

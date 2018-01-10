@@ -28,7 +28,6 @@
         "../node_modules/leaflet/dist/leaflet.css",
         "../node_modules/chartist/dist/chartist.css",
         "../node_modules/fullcalendar/dist/fullcalendar.css",
-        "../node_modules/handsontable/dist/handsontable.full.css",
         "../node_modules/ng2-slim-loading-bar/style.css",
         "app/theme/theme.scss",
         "styles.scss",
@@ -42,7 +41,6 @@
         "../node_modules/tether/dist/js/tether.js",
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.js",
-        "../node_modules/handsontable/dist/handsontable.full.js",
         "../node_modules/chroma-js/chroma.js",
         "../node_modules/datatables.net/js/jquery.dataTables.js",
         "../node_modules/datatables.net-bs/js/dataTables.bootstrap.js"

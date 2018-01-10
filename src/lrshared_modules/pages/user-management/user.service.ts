@@ -38,28 +38,8 @@ export class UserService {
         });
         options = new RequestOptions({ headers: this.headers });
 
-        userData(): Promise<any> {
-                const url = `${environment.rbacUrl}/resolvedUsersByProgramAndApplication`;
-
-                const header = new Headers();
-                // this.commSer.createAuthorizationHeader(header);
-                // header.append('XServiceName', `resolvedusersbyprogramandapplication`);
-                // const data = {
-                //         'programIdentifier': this.commSer.getCurrentProgram()['programId'],
-                //         'applicationLiteral': environment.appName
-                // };
-                const options = new RequestOptions({ headers: header });
-
-                return this.http.post(url, JSON.stringify('data'), options)
-                        .timeout(environment.timeOut)
-                        .toPromise()
-                        .then(this.responseHandler.handleResponse)
-                        .catch((err) => this.responseHandler.handleError(err));
-        }
-
         getAllUsers() {
                 let url = `${environment.rbacUrl}Profile/All`;
-       //         this.headers.set('Authorization', this.crateAuthorization());
                 this.headers.set('Authorization', this.commonAppSer.crateAuthorization() );
                 this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
                 return this.http.get(url, this.options)
@@ -80,54 +60,12 @@ export class UserService {
                         .catch((err) => this.responseHandler.handleError(err));
         }
 
-        assignProgramUser(data, userId, programId, appId): Promise<any> {
-                const url = `${environment.rbacUrl}/program/${programId}/application/${appId}/user/${userId}`;
-
-                const header = new Headers();
-                this.commSer.createAuthorizationHeader(header);
-                header.append('XServiceName', `createresolveduser`);
-                const options = new RequestOptions({ headers: header });
-
-                return this.http.post(url, data, options)
-                        .timeout(environment.timeOut)
-                        .toPromise()
-                        .then(this.responseHandler.handleResponse)
-                        .catch((err) => {
-                                if (err.status === 409) {
-                                        const parseError = JSON.parse(err._body);
-                                        parseError['statusCode'] = 409;
-                                        return Promise.reject(parseError);
-                                }
-
-                                try {
-                                        return Promise.reject(JSON.parse(err._body) || err);
-                                } catch (ex) {
-                                        return Promise.reject(err);
-                                }
-                        });
-        }
-
         fetchSingleUser(id?: String): Promise<any> {
                 let url = id ? `${environment.rbacUrl}Profile/${id}` : `${environment.rbacUrl}Profile`;
                 this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
                 this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
 
                 return this.http.get(url, this.options)
-                        .timeout(environment.timeOut)
-                        .toPromise()
-                        .then(this.responseHandler.handleResponse)
-                        .catch((err) => this.responseHandler.handleError(err));
-        }
-
-        getUnrestrictedUser(id): Promise<any> {
-                const url = `${environment.rbacUrl}/unrestricted/user/byId/${id}`;
-
-                const header = new Headers();
-                this.commSer.createAuthorizationHeader(header, environment.appName === 'CRM');
-                header.append('XServiceName', `resolvedUsersByApplication`);
-                const options = new RequestOptions({ headers: header });
-
-                return this.http.get(url, options)
                         .timeout(environment.timeOut)
                         .toPromise()
                         .then(this.responseHandler.handleResponse)
@@ -156,22 +94,6 @@ export class UserService {
                         .catch((err) => this.responseHandler.handleError(err));
         }
 
-        assignRole(roleId, userId, program): Promise<any> {
-                const url = `${environment.rbacUrl}/resolvedUser/${userId}/`;
-
-                const header = new Headers();
-                this.commSer.createAuthorizationHeader(header);
-                header.set('XProgramIds', program.programId);
-                header.append('XServiceName', `assignrolestoresolveduser`);
-                const options = new RequestOptions({ headers: header });
-
-                return this.http.put(url, roleId, options)
-                        .timeout(environment.timeOut)
-                        .toPromise()
-                        .then(this.responseHandler.handleResponse)
-                        .catch((err) => this.responseHandler.handleError(err));
-        }
-
         getAgents(programId): Promise<any> {
                 const url = `${environment.crmUrl}/program/${programId}/agents`;
 
@@ -187,52 +109,11 @@ export class UserService {
                         .catch((err) => this.responseHandler.handleError(err));
         }
 
-        getApplicationInfo() {
-                const url = `${environment.rbacUrl}/applications`;
-
-                const header = new Headers();
-                this.commSer.createAuthorizationHeader(header, true);
-                header.append('XServiceName', `fetchapplications`);
-                const options = new RequestOptions({ headers: header });
-
-                return this.http.get(url, options)
-                        .timeout(environment.timeOut)
-                        .toPromise()
-                        .then(this.responseHandler.handleResponse)
-                        .catch((err) => this.responseHandler.handleError(err));
-        }
-
         fetchRoles() {
                 const url = `${environment.rbacUrl}Role/All`;
                 this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
                 this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
                 return this.http.get(url, this.options)
-                        .toPromise()
-                        .then(this.responseHandler.handleResponse)
-                        .catch((err) => this.responseHandler.handleError(err));
-        }
-
-        userByUserId(userId) {
-                const url = `${environment.rbacUrl}/user/byId/${userId}`;
-                const header = new Headers();
-                this.commSer.createAuthorizationHeader(header);
-                header.append('XServiceName', `overview`);
-                header.set(`XApplicationLiteral`, `RETAIL`);
-                const options = new RequestOptions({ headers: header });
-                return this.http.get(url, options)
-                        .toPromise()
-                        .then(this.responseHandler.handleResponse)
-                        .catch((err) => this.responseHandler.handleError(err));
-        }
-
-        getUPA(upa) {
-                const url = `${environment.rbacUrl}/program/${upa.program.id}/application/${upa.applicationId}/user/${upa.userId}`;
-                const header = new Headers();
-                this.commSer.createAuthorizationHeader(header);
-                header.append('XServiceName', `getUserByIdUnrestricted`);
-                header.set('xProgramIds', upa.program.programId);
-                const options = new RequestOptions({ headers: header });
-                return this.http.get(url, options)
                         .toPromise()
                         .then(this.responseHandler.handleResponse)
                         .catch((err) => this.responseHandler.handleError(err));

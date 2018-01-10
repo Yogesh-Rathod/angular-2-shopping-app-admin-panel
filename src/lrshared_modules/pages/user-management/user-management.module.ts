@@ -6,7 +6,6 @@ import { DataTableModule } from "angular2-datatable";
 
 import { AddEditUserComponent } from 'lrshared_modules/pages/user-management/addEditUser/addEditUser.component';
 import { FormsModule as AngularFormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AddEditAuthorityComponent } from 'lrshared_modules/pages/user-management/addEditAuthority/addEditAuthority.component';
 import { AppTranslationModule } from 'app/app.translation.module';
 import { CommonModule } from '@angular/common';
 import { LoaderModule } from 'lrshared_modules/components/loader/loader.module';

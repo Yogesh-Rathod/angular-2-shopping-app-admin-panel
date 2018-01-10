@@ -3,7 +3,6 @@ import { AppStateManagementService } from 'lrshared_modules/services/app-state-m
 import { UserService } from 'lrshared_modules/pages/user-management/user.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import 'rxjs/add/operator/takeWhile';
-import { getAuthority } from 'lrshared_modules/rbacConfig';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -24,11 +23,6 @@ export class UserManagementComponent implements OnInit {
         userList: true
     };
 
-    getAuthority = getAuthority;
-    isCrm = environment.appName === 'CRM';
-    itemsPerPage: number = environment.crm.itemsPerPage;
-    p: number = 1;
-
     constructor(
         public toastr: ToastsManager,
         private appStateManagementService: AppStateManagementService,
@@ -37,7 +31,6 @@ export class UserManagementComponent implements OnInit {
         private fb: FormBuilder,
     ) {
         this.userList();
-        // this.checkAuthority();
     }
 
     ngOnInit() {
@@ -47,16 +40,6 @@ export class UserManagementComponent implements OnInit {
         this.filter = this.fb.group({
             searchText: ['']
         });
-    }
-
-    checkAuthority() {
-        // Remove this line
-        this.isCrm = true;
-        if (this.isCrm) {
-            if (!this.getAuthority('showUserManagement')) {
-                // this.router.navigate(['/']);
-            }
-        }
     }
 
     userList() {

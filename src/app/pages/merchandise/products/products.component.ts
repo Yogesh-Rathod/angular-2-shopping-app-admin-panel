@@ -88,7 +88,7 @@ export class ProductsComponent implements OnInit {
 
     getAllProducts() {
         this.bigLoader = true;
-        this.productsService.getProducts().
+        this.productsService.getOpsProducts().
         then((products) => {
             console.log("products ", products);
             this.products = products.Data;

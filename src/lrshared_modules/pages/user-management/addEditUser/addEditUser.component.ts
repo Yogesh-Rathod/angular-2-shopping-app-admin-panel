@@ -6,11 +6,9 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { AppStateManagementService } from 'lrshared_modules/services/app-state-management.service';
 import { UserService } from 'lrshared_modules/pages/user-management/user.service';
-import { AddEditAuthorityComponent } from 'lrshared_modules/pages/user-management/addEditAuthority/addEditAuthority.component';
 import { environment } from 'environments/environment';
 import { validators } from 'lrshared_modules/Validations';
 import 'rxjs/add/operator/takeWhile';
-import { getAuthority } from 'lrshared_modules/rbacConfig';
 import * as _ from 'lodash';
 declare let $: any;
 
@@ -27,16 +25,10 @@ import { GlobalState } from 'app/global.state';
 export class AddEditUserComponent implements OnInit, OnDestroy {
 
     routeName: any;
-    globalInfo: any;
-    roleData: any;
     addUserForm: FormGroup;
     changePasswordForm: FormGroup;
     userInfoData: any;
-    pushUserInfo = [];
-    assignedProgram = [];
-    userAccessData = [];
     userId = '';
-    userSubmited = true;
     newUserRecord = true;
     isLoading = {
         userInfo: true,
@@ -50,17 +42,13 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         newAuth: false,
         authority: false
     };
-    alive: boolean = true;
-    getAuthority = getAuthority;
-    addAuthorityOfUser = false;
-    isCrm = environment.appName === 'CRM';
     roleOptionSettings = {
         singleSelection: false,
         selectAllText: 'Select All',
         unSelectAllText: 'Unselect All',
         enableSearchFilter: true,
         classes: 'myclass custom-class',
-        text: this.isCrm ? 'Select Role' : 'Select Roles'
+        text: 'Select Roles'
     };
     userAvailable = true;
     availableUserRoles = [];
@@ -85,8 +73,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
             if (this.routeName !== 'addUser') {
                 if (params) {
                     this.userId = params['id'];
-                    // this.fetchSingleUserData(this.userId);
-                    // this.checkAuthority();
                 }
             }
         });
@@ -105,9 +91,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
             $('[data-toggle="tooltip"]').tooltip();
         });
         this.createForm();
-        // this.getApplicationData();
         this.fetchRoles();
-        // this.fetchSingleUserData();
         if (this.userId) {
             this.fetchSingleUserData(this.userId);
             this.updatePasswordForm();
@@ -156,15 +140,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.alive = false;
-    }
-
-    checkAuthority() {
-        if (environment.appName === 'CRM') {
-            if (!this.getAuthority('addRoles')) {
-                this.router.navigate(['/']);
-            }
-        }
     }
 
     fetchRoles() {
@@ -225,7 +200,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
                 this.isLoading.newUser = true;
             }).catch(rej => {
                 this.isLoading.newUser = true;
-                // this.newUserRecord = true;
 
                 this.toastr.error(rej.message);
             });
@@ -293,46 +267,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         for (var i in this.addUserForm.controls) {
             this.addUserForm.controls[i].markAsTouched();
         }
-    }
-
-    // Edit particular authority
-    editAuth(userData) {
-        const modal = this.modalService.open(AddEditAuthorityComponent, { size: 'lg', backdrop: 'static', keyboard: false });
-        modal.result
-            .then((data) => {
-                if (data) {
-                    setTimeout(() => {
-                        this.fetchSingleUserData(this.userId);
-                    }, 200);
-                }
-            });
-        modal.componentInstance.userId = this.userId;
-        modal.componentInstance.assignedRoles = userData.roles;
-        modal.componentInstance.programName = userData.loyltyProgram;
-        modal.componentInstance.id = userData.id;
-    }
-
-    // Add authority if no authority available
-    addAuthority() {
-        const modal = this.modalService.open(AddEditAuthorityComponent, { size: 'lg', backdrop: 'static', keyboard: false });
-        modal.result
-            .then((data) => {
-                if (data) {
-                    setTimeout(() => {
-                        this.fetchSingleUserData(this.userId);
-                    }, 200);
-                }
-            });
-        modal.componentInstance.userId = this.userId;
-        modal.componentInstance.assignedRoles = '';
-    }
-
-    // Get app data (application id and name)
-    getApplicationData() {
-        this.globalInfo = this.globals.get('applicationData');
-        this._state.subscribe('applicationData', (applicationData) => {
-            this.globalInfo = applicationData;
-        });
     }
 
 }

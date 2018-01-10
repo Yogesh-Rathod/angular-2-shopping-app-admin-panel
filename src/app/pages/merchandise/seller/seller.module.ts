@@ -14,6 +14,9 @@ import { FreshComponent } from './orders/fresh/fresh.component';
 import { ProcessedComponent } from './orders/processed/processed.component';
 import { DeliveredComponent } from './orders/delivered/delivered.component';
 import { SellerProductsComponent } from './seller-products/seller-products.component';
+import { AddSellerProductComponent } from 'app/pages/merchandise/seller/seller-products/add-product/add-seller-product.component';
+import { CKEditorModule } from 'ng2-ckeditor';
+import { DateTimePickerModule } from 'ng-pick-datetime';
 
 @NgModule({
     imports: [
@@ -23,9 +26,11 @@ import { SellerProductsComponent } from './seller-products/seller-products.compo
         routing,
         ReactiveFormsModule,
         DataTableModule,
+        CKEditorModule,
         MyDatePickerModule,
         ProductsModule,
-        AngularMultiSelectModule
+        AngularMultiSelectModule,
+        DateTimePickerModule
     ],
     declarations: [
         ProfileComponent,
@@ -33,6 +38,7 @@ import { SellerProductsComponent } from './seller-products/seller-products.compo
         FreshComponent,
         ProcessedComponent,
         DeliveredComponent,
+        AddSellerProductComponent,
         SellerProductsComponent
     ],
     providers: [

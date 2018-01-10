@@ -13,6 +13,7 @@ import { ProductsService, OrdersService, JsonToExcelService } from 'app/services
 import { FreshComponent } from './orders/fresh/fresh.component';
 import { ProcessedComponent } from './orders/processed/processed.component';
 import { DeliveredComponent } from './orders/delivered/delivered.component';
+import { SellerProductsComponent } from './seller-products/seller-products.component';
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import { DeliveredComponent } from './orders/delivered/delivered.component';
         OrdersComponent,
         FreshComponent,
         ProcessedComponent,
-        DeliveredComponent
+        DeliveredComponent,
+        SellerProductsComponent
     ],
     providers: [
         ProductsService,

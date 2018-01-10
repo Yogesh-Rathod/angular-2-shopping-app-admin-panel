@@ -45,7 +45,7 @@ export class ProductsService {
         const url = `${environment.merchandiseUrl}Seller/Product`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
-        return this.http.put(url, JSON.stringify(product), this.options)
+        return this.http.post(url, JSON.stringify(product), this.options)
             .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)

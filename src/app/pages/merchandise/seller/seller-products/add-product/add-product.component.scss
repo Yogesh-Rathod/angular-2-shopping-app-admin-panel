@@ -1,0 +1,98 @@
+.addProduct {
+
+	.form-group label,
+	input[type="checkbox"] {
+		margin-top: 10px;
+	}
+
+	.btn {
+		margin-left: 20px;
+
+		&.btn-danger {
+			margin-top: -6px;
+		}
+	}
+
+	.btn-primary {
+		background: #4db1a7;
+		border-color: #4db1a7;
+		margin-left: 0;
+	}
+
+	.goBack {
+		display: inline-block;
+		margin-left: 25px;
+		font-size: 14px;
+		text-transform: initial;
+		cursor: pointer;
+	}
+
+	.card-body {
+		.card-header {
+			cursor: pointer;
+
+			&.collapsed {
+				h3 {
+					.fa:before {
+						content: "\f0fe" !important;
+					}
+				}
+			}
+		}
+	}
+
+	.tabs-section {
+		margin-left: -23px;
+	}
+
+	.fade.active {
+		opacity: 1;
+	}
+
+	.product-image {
+		width: 140px;
+    margin: auto;
+	}
+
+	#Pictures {
+		flex-direction: column;
+	}
+}
+
+.deleteLoader {
+	margin-top: -9px;
+}
+
+.card {
+  border: 1px solid rgba(0,0,0,.125);
+  box-shadow: none;
+}
+
+.specifications {
+	i {
+		position: absolute;
+		right: 15px;
+		top: 10px;
+		cursor: pointer;
+	}
+
+	input.col-6 {
+		margin-left: 10px;
+	}
+
+	> div {
+		margin-bottom: 10px !important;
+
+		&:first-child {
+			.fa-minus {
+				display: none;
+			}
+		}
+	}
+}
+
+:host /deep/ .owl-datetime-input.owl-datetime-main-input {
+    height: 34px;
+    font-size: 14px;
+    padding-left: 10px;
+}

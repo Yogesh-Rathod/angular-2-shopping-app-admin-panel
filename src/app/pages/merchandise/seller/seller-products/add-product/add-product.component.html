@@ -1,0 +1,397 @@
+<div class="animated fadeIn card addProduct">
+
+  <div class="card-header clearfix">
+    <h2 class="card-title">
+      <span *ngIf="!productId">Add</span>
+      <span *ngIf="productId">Edit</span> product
+
+      <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
+        height="35">
+
+      <span class="goBack float-right" (click)="goBack()">
+        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to products list</span>
+
+    </h2>
+  </div>
+
+  <div class="card-body">
+
+    <div class="loader-container pos_absolute" *ngIf="bigLoader">
+      <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+    </div>
+
+    <div class="tabs-section">
+      <!-- Tabs Top UI -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" href="#Productinfo" role="tab" data-toggle="tab">Product info</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="#Pictures" role="tab" data-toggle="tab">Pictures</a>
+        </li>
+      </ul>
+    </div>
+
+    <form [formGroup]=" addProductForm " (ngSubmit)="addProduct(addProductForm.value) " class="row">
+      <input type="hidden" formControlName="Id">
+
+      <!-- Tab panes -->
+      <div class="tab-content col-12">
+        <div role="tabpanel" class="tab-pane fade in active" id="Productinfo">
+
+          <div class="col-7 no_left_padding">
+            <div class="card fadeIn animated">
+              <div class="card-header" data-toggle="collapse" href="#collapseExample" aria-expanded="true" aria-controls="collapseExample">
+                <h3 class="card-title">
+                  General information
+                  <span class="float-right">
+                    <i class="fa fa-minus-square" aria-hidden="true"></i>
+                  </span>
+                </h3>
+              </div>
+              <div class="card-body collapse show" id="collapseExample">
+                <div class="form-group row">
+                  <label for="name" class="col-3 text-right">Product Code
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="name" placeholder="Code" formControlName="Sku" [readonly]="productId">
+                </div>
+
+                <div class="form-group row">
+                  <label for="name" class="col-3 text-right">Parent Code
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="name" placeholder="Parent Code" formControlName="ParentProductCode">
+                </div>
+
+                <div class="form-group row">
+                  <label for="name" class="col-3 text-right">Name
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="name" placeholder="Name" formControlName="Name">
+                </div>
+
+                <div class="form-group row">
+                  <label for="ShortDescription" class="col-3 text-right">Short
+                    <br> Description
+                    <span class="mandatory">*</span>
+                  </label>
+                  <textarea class="form-control col-9" id="name" placeholder="Short Description" formControlName="ShortDescription"></textarea>
+                </div>
+
+                <div class="form-group row">
+                  <label for="FullDescription" class="col-3 text-right">Full
+                    <br> Description
+                    <span class="mandatory">*</span>
+                  </label>
+                  <ckeditor class="form-control col-9" [config]="config" formControlName="FullDescription"></ckeditor>
+                </div>
+
+                <div class="form-group row">
+                  <label for="FullDescription" class="col-3 text-right">
+                    Specifications
+                    <span class="mandatory">*</span>
+                  </label>
+                  <div class="col-9 no_padding specifications pos_relative" formArrayName="specifications">
+                    <div class="col-12 row no_margin no_padding" *ngFor="let prop of specificationsFunction.controls; let i = index">
+                      <div [formGroupName]="i" class="row no_margin">
+                        <input class="form-control col-5" formControlName="key" placeholder="Key">
+                        <input class="form-control col-6" formControlName="value" placeholder="Value">
+                      </div>
+                      <i (click)="removeStructure(i)" class="fa fa-minus" aria-hidden="true"></i>
+                    </div>
+                    <i (click)="appendMore()" class="col-1" class="fa fa-plus" aria-hidden="true"></i>
+                    <!-- <button (click)="appendMore()" type="button">Append More</button> -->
+                  </div>
+                </div>
+
+                <!-- <div class="form-group row">
+                  <label for="sku" class="col-3 text-right">
+                    SKU
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="name" placeholder="SKU" formControlName="sku">
+                </div> -->
+
+                <div class="form-group row">
+                  <label for="status" class="col-3 text-right">
+                    status
+                    <span class="mandatory">*</span>
+                  </label>
+                  <select id="status" formControlName="status" class="form-control col-9">
+                    <option *ngFor="let item of statusOptions" value="{{ item }}">{{ item }}</option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="card fadeIn animated">
+              <div class="card-header" data-toggle="collapse" href="#prices" aria-expanded="true">
+                <h3 class="card-title">
+                  Pricing
+                  <span class="float-right">
+                    <i class="fa fa-minus-square" aria-hidden="true"></i>
+                  </span>
+                </h3>
+              </div>
+              <div class="card-body collapse show" id="prices">
+
+                <div class="form-group row">
+                  <label for="currency" class="col-3 text-right">
+                    Choose Currency
+                  </label>
+                  <select id="currency" class="form-control col-9" formControlName="CurrencyId">
+                    <option *ngFor="let item of currencyOptions" value="{{ item }}">{{ item }}</option>
+                  </select>
+                </div>
+                <hr>
+                <div class="form-group row">
+                  <label for="netPrice" class="col-3 text-right">Net Price
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Net Price" formControlName="NetPrice" (keydown)='validatenumber($event)'>
+                </div>
+                <div class="form-group row">
+                  <label for="netShipping" class="col-3 text-right">Net Shipping <br>Price
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="netShipping" placeholder="Shipping Price" formControlName="NetShippingPrice" (keydown)='validatenumber($event)'>
+                </div>
+                <div class="form-group row">
+                  <label for="Price" class="col-3 text-right">MRP Price
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="Price" placeholder="MRP Price" formControlName="Mrp" (keydown)='validatenumber($event)'>
+                </div>
+                <div class="form-group row" *ngIf=" productId ">
+                  <label for="applicableDate" class="col-3 text-right">
+                    Apply From
+                    <span class="mandatory">*</span>
+                  </label>
+                  <my-date-picker id="applicableDate" class="col-5 no_padding" name="applicableDate" [options]="myDatePickerOptions" formControlName="applicableDate">
+                  </my-date-picker>
+                  <owl-date-time class="col-4" [type]="'timer'" [placeHolder]="'hh:mm'" [dateFormat]="'hh:mm'">
+                  </owl-date-time>
+                </div>
+                <div class="form-group row" *ngIf=" productId ">
+                  <label for="oldPrice" class="col-3 text-right">Old MRP Price
+                  </label>
+                  <input type="text" class="form-control col-9" id="oldPrice" placeholder="Old MRP Price" formControlName="oldPrice" (keydown)='validatenumber($event)' [ngClass]="{ 'disabled': productId }" tabindex="-1">
+                </div>
+
+                <hr>
+
+                <div class="form-group row">
+                  <label for="Price" class="col-3 text-right">Net Taxes
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="Price" placeholder="Net Taxes" formControlName="netTaxes">
+                </div>
+                <div class="form-group row">
+                  <label for="retailShipping" class="col-3 text-right">
+                     Net Taxes 2
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="retailShipping" placeholder="Net Taxes 2" formControlName="netTaxes2">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-5 no_left_padding no_right_padding">
+            <div class="card fadeIn animated">
+              <div class="card-header" data-toggle="collapse" href="#mappings" aria-expanded="true" aria-controls="mappings">
+                <h3 class="card-title">
+                  Other
+                  <span class="float-right">
+                    <i class="fa fa-minus-square" aria-hidden="true"></i>
+                  </span>
+                </h3>
+              </div>
+              <div class="card-body collapse show" id="mappings">
+                <div class="form-group row">
+                  <label for="Categories" class="col-4 text-right">Categories
+                    <span class="mandatory">*</span>
+                  </label>
+                  <angular2-multiselect id="name" [data]="categories" formControlName="CategoryId" [settings]="categoriesDropdownSettings">
+                  </angular2-multiselect>
+                </div>
+                <div class="form-group row">
+                  <label for="vendor" class="col-4 text-right">
+                    Seller
+                    <span class="mandatory">*</span>
+                  </label>
+                  <select id="vendor" formControlName="SellerId" class="form-control col-8">
+                    <option *ngFor="let item of vendors" [ngValue]="item">
+                      {{ item.first_name }} {{ item.last_name }}
+                    </option>
+                  </select>
+                </div>
+                <!-- <div class="form-group row">
+                  <label for="stockQuantity" class="col-4 text-right">Stock Quantity
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-8" id="stockQuantity" placeholder="Stock Quantity" formControlName="stockQuantity" (keydown)='validatenumber($event)'>
+                </div> -->
+                <div class="form-group row">
+                  <label for="type" class="col-4 text-right">Type
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-8" id="type" placeholder="Type" formControlName="type">
+                </div>
+                <div class="form-group row">
+                  <label for="Brand" class="col-4 text-right">Brand
+                  </label>
+                  <input type="text" class="form-control col-8" id="Brand" placeholder="Brand" formControlName="Brand">
+                </div>
+                <div class="form-group row">
+                  <label for="Color" class="col-4 text-right">Color
+                  </label>
+                  <input type="text" class="form-control col-8" id="Color" placeholder="Color" formControlName="Colour">
+                </div>
+                <div class="form-group row">
+                  <label for="Size" class="col-4 text-right">Size
+                  </label>
+                  <input type="text" class="form-control col-8" id="Size" placeholder="Size" formControlName="Size">
+                </div>
+                <!-- <div class="form-group row">
+                  <label for="reOrderLevel" class="col-4 text-right">Re Order Level
+                  </label>
+                  <input type="text" class="form-control col-8" id="reOrderLevel" placeholder="Re Order Level" formControlName="reOrderLevel">
+                </div> -->
+                <div class="form-group row">
+                  <label for="Comments" class="col-4 text-right">
+                    Comments
+                    <span class="mandatory">*</span>
+                  </label>
+                  <textarea class="form-control col-8" id="Comments" placeholder="Comments" formControlName="Comments"></textarea>
+                </div>
+                <div class="form-group row">
+                  <label for="approvalStatus" class="col-4 text-right">
+                    Approval Status
+                  </label>
+                  <select id="approvalStatus" formControlName="approvalStatus" class="form-control col-8"  [class.disabled]="!productId">
+                    <option *ngFor="let item of approvalStatus" [ngValue]="item">
+                      {{ item }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="Pictures">
+          <div class="card fadeIn animated">
+            <div class="card-body" *ngIf=" !productId ">
+              <p>You need to save the product before you can upload pictures for this product.</p>
+            </div>
+            <div class="card-body" *ngIf=" productId ">
+              <table class="table table-bordered table-responsive">
+                <thead class="black-muted-bg">
+                  <tr>
+                    <th>Picture</th>
+                    <th>Display order</th>
+                    <th>Alt</th>
+                    <th>Title</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="productInfo.picture.length > 0 ">
+                  <tr *ngFor="let item of productInfo.picture">
+                    <td>
+                      <div class="product-image">
+                        <img class="img-fluid" src="{{ item.url ? item.url : 'assets/images/products/Placeholder.png' }}" alt="Product Image">
+                      </div>
+                    </td>
+                    <td>
+                      {{ item.displayOrder }}
+                    </td>
+                    <td>
+                       {{ item.alt }}
+                    </td>
+                    <td>
+                       {{ item.title }}
+                    </td>
+                    <td>
+                      <button class="btn btn-primary">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                        Edit
+                      </button>
+                      <button class="btn btn-info">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf="productInfo.picture.length < 1">
+                  <tr>
+                    <td colspan="5">
+                      No Pictures Yet
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card fadeIn animated" *ngIf=" productId ">
+            <div class="card-header">
+              <h3 class="card-title">
+                Add a new picture
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="form-group row">
+                <label for="picture" class="col-3 text-right">Picture
+                  <span class="mandatory">*</span>
+                </label>
+                <input type="file" class="form-control col-9" id="picture" formControlName="pictureName" accept=".jpg, .png, .jpeg, .gif" (change)="productImageSelected($event)">
+              </div>
+              <div class="form-group row">
+                <label for="picture" class="col-3 text-right">
+                  Alt
+                </label>
+                <input type="text" class="form-control col-9" id="picture" formControlName="pictureAlt" placeholder="Alt">
+              </div>
+              <div class="form-group row">
+                <label for="picture" class="col-3 text-right">
+                  Title
+                </label>
+                <input type="text" class="form-control col-9" id="title" formControlName="pictureTitle" placeholder="Title">
+              </div>
+              <div class="form-group row">
+                <label for="displayorder" class="col-3 text-right">
+                  Display Order
+                </label>
+                <input type="number" class="form-control col-9" id="displayorder" formControlName="pictureDisplayorder" placeholder="Display Order">
+              </div>
+              <div class="form-group row">
+                <label for="displayorder" class="col-3 text-right"></label>
+                <button type="button" class="btn btn-info no_margin" (click)="uploadProductImage(addProductForm.value)">
+                  Upload
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row col-12">
+        <label class="col-3 text-right"></label>
+        <input *ngIf=" !productId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addProductForm.valid || showLoader ">
+        <input *ngIf=" productId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addProductForm.valid || showLoader ">
+        <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+        <span class="btn btn-warning" *ngIf=" !productId " (click)="resetForm()">Reset</span>
+        <span class="btn btn-secondary" [routerLink]="['/merchandise/products']">Cancel</span>
+      </div>
+
+
+    </form>
+
+
+
+  </div>
+
+</div>

@@ -22,6 +22,7 @@ import { MovieDeletePopupComponent } from './merchandise/movie-management/delete
 
 import { XlsxToJsonService } from 'app/services';
 import { HomeComponent } from './home/home.component';
+import { SellsBulkUploadComponent } from 'app/pages/merchandise/seller/seller-products/bulk-upload/bulk-upload.component';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { HomeComponent } from './home/home.component';
     ProductsDeletePopupComponent,
     BankDeletePopupComponent,
     MovieDeletePopupComponent,
+    SellsBulkUploadComponent,
     HomeComponent
   ],
   providers: [
@@ -61,7 +63,8 @@ import { HomeComponent } from './home/home.component';
     CategoryDeletePopupComponent,
     ProductsDeletePopupComponent,
     BankDeletePopupComponent,
-    MovieDeletePopupComponent
+    MovieDeletePopupComponent,
+    SellsBulkUploadComponent,
   ],
 })
 export class PagesModule {

@@ -1,3 +1,149 @@
-<p>
-  seller-products works!
-</p>
+<div class="row top20 clearfix fadeIn animated">
+	<div class="col-12">
+
+		<div class="catSearch clearfix card-header">
+			<h2 class="card-title ">
+				Manage Products
+				<button class="btn btn-primary float-right" (click)=" bulkUpload() ">
+					<i class="fa fa-download" aria-hidden="true"></i>
+					Bulk Import
+				</button>
+				<button *ngIf="!vendorId" class="btn btn-primary float-right" [routerLink]="['/seller/add-seller-product']">
+					<i class="fa fa-plus-square" aria-hidden="true"></i>
+					Add New Product
+				</button>
+				<button *ngIf="vendorId" class="btn btn-primary float-right" [routerLink]="['/seller/add-seller-product',vendorId]">
+					<i class="fa fa-plus-square" aria-hidden="true"></i>
+					Add New Product
+				</button>
+			</h2>
+		</div>
+
+		<div class="filters card col-12 fadeIn animated">
+			<div class="card-body">
+
+				<p class="error" *ngIf="atLeastOnePresent">
+					<em>
+						Please select atleast 1 criteria.
+					</em>
+				</p>
+
+				<form class="form-inline row" [formGroup]="searchProductForm" (ngSubmit)=" searchProduct(searchProductForm.value) ">
+
+					<div class="form-group col-3">
+						<label for="name">
+							Product Name
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A product name."></i>
+						</label>
+						<input type="text" class="form-control" id="name" placeholder="Product Name" formControlName="name">
+					</div>
+
+					<div class="form-group col-3">
+						<label for="id">
+							Product Code
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A product Code."></i>
+						</label>
+						<input type="text" class="form-control" id="id" placeholder="Product Code" formControlName="code">
+					</div>
+
+					<div class="form-group col-3">
+						<label for="id">
+							Parent Product Code
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A parent product Code."></i>
+						</label>
+						<input type="text" class="form-control" id="id" placeholder="Parent Product Code" formControlName="parentCode">
+					</div>
+
+					<div class="form-group col-3">
+						<label for="Category">
+							Category
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific category."></i>
+						</label>
+						<select id="Category" class="form-control col-12" formControlName="category">
+							<option value="all">All</option>
+							
+						</select>
+					</div>
+
+					<div class="form-group col-3">
+						<label for="Vendor">
+							Seller
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific seller."></i>
+						</label>
+						<select id="Vendor" class="form-control col-12" formControlName="vendor">
+							<option value="all">All</option>
+						</select>
+					</div>
+
+					<div class="form-group col-3">
+						<label for="Status">
+							Status
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Status' property."></i>
+						</label>
+						<select id="Status" class="form-control col-12" formControlName="status">
+							<option value="all">All</option>
+						</select>
+					</div>
+
+					<div class="form-group col-3">
+						<label for="approvalStatus">
+							Approval Status
+							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Product Approval Status' property."></i>
+						</label>
+						<select id="approvalStatus" class="form-control col-12" formControlName="approvalStatus">
+							<option value="all">All</option>
+							
+						</select>
+					</div>
+
+					<div class="form-group col-12">
+						<button type="submit" class="btn btn-primary searchButton">
+							<i class="fa fa-search" aria-hidden="true"></i>
+							Search
+						</button>
+					</div>
+
+				</form>
+
+			</div>
+		</div>
+
+		<div class="spacer col-12"></div>
+
+		<div class="card col-12">
+			<div class="card-body pos_relative no_left_padding no_right_padding clearfix">
+
+				<div class="loader-container pos_absolute" *ngIf="bigLoader">
+					<img src="assets/img/ajax-loader.gif" alt="Loader Image">
+				</div>
+
+				<button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 }" (click)="exportProducts()">
+					<i class="fa fa-download" aria-hidden="true"></i>
+					Export Products
+				</button>
+
+				<div class="pull-right col-4 dropDownAction no_padding">
+					<form class="form-inline">
+						<div class="form-group row no_margin col-12 no_padding">
+							<label for="action">
+								Action
+								<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select action to perform."></i>
+							</label>
+							<select id="action" class="form-control col-6" #dropDownActionSelect>
+								<option></option>
+							
+							</select>
+							<button class="btn btn-success" (click)="dropDownActionFunction(dropDownActionSelect.value)">Submit</button>
+						</div>
+					</form>
+				</div>
+
+				<div class="table-responsive">
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+</div>

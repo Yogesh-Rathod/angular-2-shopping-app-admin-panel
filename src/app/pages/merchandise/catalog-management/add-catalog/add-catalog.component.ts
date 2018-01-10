@@ -71,9 +71,9 @@ export class AddCatalogComponent implements OnInit {
       'Name': ['', Validators.compose([Validators.required,
       Validators.minLength(1), Validators.maxLength(100)])],
       'Description': [''],
-      'vendors': [[]],
-      'programs': [[]],
-      'IsActive': ['TRUE', Validators.required]
+      'Vendors': [[]],
+      'Programs': [[]],
+      'CatalogIsActive': ['TRUE', Validators.required]
     });
   }
 

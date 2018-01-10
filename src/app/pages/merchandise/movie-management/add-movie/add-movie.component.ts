@@ -206,6 +206,8 @@ export class AddMovieComponent implements OnInit {
         const file = files[0];
         this.formImageSelected = Image;
 
+        console.log("files ", files);
+        console.log("file ", file);
         if (files && file) {
             const reader = new FileReader();
 
@@ -315,10 +317,10 @@ export class AddMovieComponent implements OnInit {
         this.addMovieForm.controls['Synopsis'].setValue(movieInfo['Synopsis']);
         this.addMovieForm.controls['TrailerUrl'].setValue(movieInfo['TrailerUrl']);
         this.addMovieForm.controls['Sequence'].setValue(movieInfo['Sequence']);
-        this.addMovieForm.controls['Image'].setValue(movieInfo['Image']);
-        this.addMovieForm.controls['Poster'].setValue(movieInfo['Poster']);
-        this.addMovieForm.controls['Landscape'].setValue(movieInfo['Landscape']);
-        this.addMovieForm.controls['RBCNimage'].setValue(movieInfo['RBCNimage']);
+        this.addMovieForm.controls['Image'].setValue(movieInfo['ImageUrl']);
+        this.addMovieForm.controls['Poster'].setValue(movieInfo['PosterUrl']);
+        this.addMovieForm.controls['Landscape'].setValue(movieInfo['LandscapeUrl']);
+        this.addMovieForm.controls['RBCNimage'].setValue(movieInfo['RBCNimageUrl']);
         this.addMovieForm.controls['CreatedOn'].setValue(movieInfo['CreatedOn']);
         this.addMovieForm.controls['CreatedBy'].setValue(movieInfo['CreatedBy']);
         this.checkFormValidation();

@@ -166,26 +166,34 @@
                 <div class="col-12"></div>
                 <div *ngIf="movieId && movieInfo" class="col-3">
                     <div class="img-container">
-                        <img *ngIf="movieId && movieInfo.Image" [src]="movieInfo.Image" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
-                        <img *ngIf=" movieId && !movieInfo.Image " class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+                        <img *ngIf="movieId && movieInfo.ImageUrl" [src]="movieInfo.ImageUrl" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
+
+
+                        <img *ngIf=" movieId && !movieInfo.ImageUrl " class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+
                     </div>
                 </div>
                 <div *ngIf="movieId && movieInfo" class="col-3">
                     <div class="img-container">
-                        <img *ngIf="movieId && movieInfo.Poster" [src]="movieInfo.Poster" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
-                        <img *ngIf="movieId && !movieInfo.Poster" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+                        <img *ngIf="movieId && movieInfo.PosterUrl" [src]="movieInfo.PosterUrl" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
+
+
+                        <img *ngIf="movieId && !movieInfo.PosterUrl" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+
                     </div>
                 </div>
                 <div *ngIf="movieId && movieInfo" class="col-3">
                     <div class="img-container">
-                        <img *ngIf="movieId && movieInfo.Landscape" [src]="movieInfo.Landscape" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
-                        <img *ngIf="movieId && !movieInfo.Landscape" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+                        <img *ngIf="movieId && movieInfo.LandscapeUrl" [src]="movieInfo.LandscapeUrl" alt="Movie Image" class="img-fluid" width="250"
+                            onError="this.src='assets/images/movies/no-preview.jpg'">
+                        <img *ngIf="movieId && !movieInfo.LandscapeUrl" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
                     </div>
                 </div>
                 <div *ngIf="movieId && movieInfo" class="col-3">
                     <div class="img-container">
-                        <img *ngIf="movieId && movieInfo.RBCNimage" [src]="movieInfo.RBCNimage" alt="Movie Image" class="img-fluid" width="250" onError="this.src='assets/images/movies/no-preview.jpg'">
-                        <img *ngIf="movieId && !movieInfo.RBCNimage" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+                        <img *ngIf="movieId && movieInfo.RBCNimageUrl" [src]="movieInfo.RBCNimageUrl" alt="Movie Image" class="img-fluid" width="250"
+                            onError="this.src='assets/images/movies/no-preview.jpg'">
+                        <img *ngIf="movieId && !movieInfo.RBCNimageUrl" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
                     </div>
                 </div>
                 <div class="col-3">

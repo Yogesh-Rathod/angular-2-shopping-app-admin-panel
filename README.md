@@ -47,8 +47,6 @@ Yes!  Visit [our homepage](http://akveo.com/) or simply leave us a message to [c
 * Sass
 * Angular
 * jQuery
-* Charts (Chartist, Chart.js)
-* Maps (Google, Leaflet, amMap)
 * and many more!
 
 ## License

@@ -21,6 +21,7 @@ export class SellerProductsComponent implements OnInit {
 
   searchProductForm: FormGroup;
   bigLoader = true;
+  productSelected = true;
   deleteLoader: Number;
   products: any;
   categories: any;
@@ -139,13 +140,20 @@ export class SellerProductsComponent implements OnInit {
   bulkUpload() {
     const activeModal = this.modalService.open(SellsBulkUploadComponent, { size: 'sm' });
   }
+  approve() {
+    this.productsService.sendproductForApproval(this.products).then(res => {
 
+    }).catch(err => {
+      // this.toastr.error(err)
+    })
+  }
   getVendorInfo(vendorId) {
     const vendors = this.vendorsService.getVendors();
     _.forEach(vendors, (vendor) => {
       if (parseInt(vendor.id) === parseInt(vendorId)) {
         this.vendorInfo = vendor;
         console.log("this.vendorInfo", this.vendorInfo);
+
         this.searchProductForm.controls['vendor'].setValue(vendor);
       }
     });
@@ -153,12 +161,14 @@ export class SellerProductsComponent implements OnInit {
 
   selectAll(e) {
     if (e.target.checked) {
+      this.productSelected = false;
       this.selectAllCheckbox = true;
       _.forEach(this.products, (item) => {
         item.isChecked = true;
       });
       this.showSelectedDelete = true;
     } else {
+      this.productSelected = true;
       this.selectAllCheckbox = false;
       _.forEach(this.products, (item) => {
         item.isChecked = false;

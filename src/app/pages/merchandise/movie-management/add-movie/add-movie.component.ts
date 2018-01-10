@@ -37,6 +37,8 @@ export class AddMovieComponent implements OnInit {
     };
     validationError: any;
     userInfo: any;
+    base64textString: any;
+    formImageSelected: any;
 
     constructor(
         private modalService: NgbModal,
@@ -164,25 +166,25 @@ export class AddMovieComponent implements OnInit {
                     Validators.pattern(RegEx.onlyNumber)
                 ])
             ],
-            'ImageUrl': [
+            'Image': [
                 '',
                 Validators.compose([
                     Validators.required
                 ])
             ],
-            'PosterUrl': [
+            'Poster': [
                 '',
                 Validators.compose([
                     Validators.required
                 ])
             ],
-            'LandscapeUrl': [
+            'Landscape': [
                 '',
                 Validators.compose([
                     Validators.required
                 ])
             ],
-            'RBCNimageUrl': [
+            'RBCNimage': [
                 '',
                 Validators.compose([
                     Validators.required
@@ -196,6 +198,26 @@ export class AddMovieComponent implements OnInit {
     validatenumber(e) {
         if (!RegEx.Numbers.test(`${e.key}`) && `${e.key}`.length === 1) {
             e.preventDefault();
+        }
+    }
+
+    handleFile(evt, Image) {
+        const files = evt.target.files;
+        const file = files[0];
+        this.formImageSelected = Image;
+
+        console.log("files ", files);
+        console.log("file ", file);
+        if (files && file) {
+            const reader = new FileReader();
+
+            reader.readAsDataURL(file);
+
+            reader.onload = () => {
+                this.addMovieForm.controls[Image].setValue(`${reader.result.split(',')[1]}`);
+            };
+        } else {
+            this.addMovieForm.controls[Image].setValue('');
         }
     }
 
@@ -295,10 +317,10 @@ export class AddMovieComponent implements OnInit {
         this.addMovieForm.controls['Synopsis'].setValue(movieInfo['Synopsis']);
         this.addMovieForm.controls['TrailerUrl'].setValue(movieInfo['TrailerUrl']);
         this.addMovieForm.controls['Sequence'].setValue(movieInfo['Sequence']);
-        this.addMovieForm.controls['ImageUrl'].setValue(movieInfo['ImageUrl']);
-        this.addMovieForm.controls['PosterUrl'].setValue(movieInfo['PosterUrl']);
-        this.addMovieForm.controls['LandscapeUrl'].setValue(movieInfo['LandscapeUrl']);
-        this.addMovieForm.controls['RBCNimageUrl'].setValue(movieInfo['RBCNimageUrl']);
+        this.addMovieForm.controls['Image'].setValue(movieInfo['ImageUrl']);
+        this.addMovieForm.controls['Poster'].setValue(movieInfo['PosterUrl']);
+        this.addMovieForm.controls['Landscape'].setValue(movieInfo['LandscapeUrl']);
+        this.addMovieForm.controls['RBCNimage'].setValue(movieInfo['RBCNimageUrl']);
         this.addMovieForm.controls['CreatedOn'].setValue(movieInfo['CreatedOn']);
         this.addMovieForm.controls['CreatedBy'].setValue(movieInfo['CreatedBy']);
         this.checkFormValidation();

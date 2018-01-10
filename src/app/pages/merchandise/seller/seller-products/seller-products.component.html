@@ -4,10 +4,10 @@
 		<div class="catSearch clearfix card-header">
 			<h2 class="card-title ">
 				Manage Products
-				<button class="btn btn-primary float-right" (click)=" bulkUpload() ">
+				<!-- <button class="btn btn-primary float-right" (click)=" bulkUpload() ">
 					<i class="fa fa-download" aria-hidden="true"></i>
 					Bulk Import
-				</button>
+				</button> -->
 				<button *ngIf="!vendorId" class="btn btn-primary float-right" [routerLink]="['/seller/add-seller-product']">
 					<i class="fa fa-plus-square" aria-hidden="true"></i>
 					Add New Product
@@ -61,7 +61,7 @@
 						</label>
 						<select id="Category" class="form-control col-12" formControlName="category">
 							<option value="all">All</option>
-							
+
 						</select>
 					</div>
 
@@ -92,7 +92,7 @@
 						</label>
 						<select id="approvalStatus" class="form-control col-12" formControlName="approvalStatus">
 							<option value="all">All</option>
-							
+
 						</select>
 					</div>
 
@@ -133,14 +133,14 @@
 							</label>
 							<select id="action" class="form-control col-6" #dropDownActionSelect>
 								<option></option>
-							
+
 							</select>
 							<button class="btn btn-success" (click)="dropDownActionFunction(dropDownActionSelect.value)">Submit</button>
 						</div>
 					</form>
 				</div>
 
-			
+
 				<div class="table-responsive">
 					<table class="table table-bordered"  [mfData]="products" #mf="mfDataTable" [mfRowsOnPage]="10">
 						<thead class="black-muted-bg">

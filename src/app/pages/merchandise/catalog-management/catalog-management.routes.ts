@@ -19,7 +19,7 @@ const routes: Routes = [
     component: AddCatalogComponent
   },
   {
-    path: 'bank-details/:bankId',
+    path: 'catalog-details/:catalogId',
     component: BankDetailsComponent
   }
 ];

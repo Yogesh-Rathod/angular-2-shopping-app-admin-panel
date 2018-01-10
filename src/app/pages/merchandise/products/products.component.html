@@ -173,9 +173,9 @@
 										<strong>Price </strong>
 									</mfDefaultSorter>
 								</th>
-								<th>
+								<!-- <th>
 									<strong>Type</strong>
-								</th>
+								</th> -->
 								<th>
 									<strong>Product Status</strong>
 								</th>
@@ -200,13 +200,13 @@
 									</div>
 								</td>
 								<td>
-									<span>{{ item.name }}</span>
+									<span>{{ item.Name }}</span>
 								</td>
-								<td>{{ item.sku }}</td>
-								<td>{{ item.MrpPrice | currency: 'INR': true }}</td>
-								<td>{{ item.productType }}</td>
+								<td>{{ item.Sku }}</td>
+								<td>{{ item.Mrp | currency: 'INR': true }}</td>
+								<!-- <td>{{ item.productType }}</td> -->
 								<td class="text-center">
-									{{ item.status }}
+									{{ item.Status }}
 								</td>
 								<td class="text-center order-status">
 									<span [ngClass]="{
@@ -214,17 +214,17 @@
 										'pending': item.approvalStatus == 'Pending',
 										'rejected': item.approvalStatus == 'Rejected'
 									}">
-										{{ item.approvalStatus }}
+										{{ item.Status }}
 									</span>
 								</td>
 								<td class="action">
-									<button class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.id]" title="Edit">
+									<button class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.Id]" title="Edit">
 										<i class="fa fa-pencil" aria-hidden="true"></i>
 									</button>
 									<!-- <button class="btn btn-danger" (click)="deleteProduct(item, i)" title="Delete" [disabled]="deleteLoader == i">
 										<i class="fa fa-trash-o" aria-hidden="true"></i>
 									</button> -->
-									<img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+									<!-- <img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35"> -->
 								</td>
 							</tr>
 						</tbody>

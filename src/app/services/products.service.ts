@@ -73,7 +73,16 @@ export class ProductsService {
             .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
-
+    getProductById(Id) {
+        const url = `${environment.merchandiseUrl}Merchandise/Seller/Products/${Id}`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
     sendproductForApproval(product) {
         const url = `${environment.merchandiseUrl}Seller/Product/Confirm`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());

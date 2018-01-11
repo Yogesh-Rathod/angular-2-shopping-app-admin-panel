@@ -217,6 +217,7 @@
                     <span class="mandatory">*</span>
                   </label>
                   <select id="vendor" formControlName="SellerId" class="form-control col-8">
+                    <option value="">Seller</option>
                     <option *ngFor="let item of vendors" [ngValue]="item">
                       {{ item.first_name }} {{ item.last_name }}
                     </option>
@@ -275,7 +276,7 @@
             <div class="card-body" *ngIf=" !productId ">
               <p>You need to save the product before you can upload pictures for this product.</p>
             </div>
-            <div class="card-body" *ngIf=" productId ">
+            <!-- <div class="card-body" *ngIf=" productId ">
               <table class="table table-bordered table-responsive">
                 <thead class="black-muted-bg">
                   <tr>
@@ -286,7 +287,7 @@
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody *ngIf="productInfo.picture.length > 0 ">
+                <tbody *ngIf="productInfo && productInfo.picture.length > 0 ">
                   <tr *ngFor="let item of productInfo.picture">
                     <td>
                       <div class="product-image">
@@ -322,7 +323,7 @@
                   </tr>
                 </tbody>
               </table>
-            </div>
+            </div> -->
           </div>
           <div class="card fadeIn animated" *ngIf=" productId ">
             <div class="card-header">

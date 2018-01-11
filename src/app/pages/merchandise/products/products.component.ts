@@ -3,13 +3,13 @@ import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as json2csv from 'json2csv';
 import { CsvService } from "angular2-json2csv";
+import { CookieService } from 'ngx-cookie';
 
 import * as _ from 'lodash';
 declare let $: any;
 
-import { ProductsService, MerchandiseService, VendorsService } from 'app/services';
+import { ProductsService, MerchandiseService, VendorsService, JsonToExcelService } from 'app/services';
 import { ProductsBulkUploadComponent } from "./bulk-upload/bulk-upload.component";
 import { ProductsDeletePopupComponent } from './delete-popup/delete-popup.component';
 
@@ -32,16 +32,19 @@ export class ProductsComponent implements OnInit {
     manufacturer = ['apple', 'lenovo', 'samsung'];
     status = ['Active', 'Inactive', 'Banned', 'Out of stock'];
     vendors: any;
-    showSelectedDelete = false;
+    showSelectedAction = false;
     selectAllCheckbox = false;
     atLeastOnePresent = false;
     vendorId: any;
     vendorInfo: any;
-    dropDownAction = ['Deactivate Selected', 'Approve Selected', 'Reject Selected'];
+    dropDownAction = ['Approve Selected', 'Reject Selected'];
     approvalStatus = ['Pending', 'Approved', 'Rejected'];
+    noActionSelected = false;
+    userRole: any;
 
     constructor(
-        private csvService: CsvService,
+        private cookieService: CookieService,
+        private jsonToExcelService: JsonToExcelService,
         public toastr: ToastsManager,
         private modalService: NgbModal,
         private fb: FormBuilder,
@@ -52,6 +55,12 @@ export class ProductsComponent implements OnInit {
         this.route.params.subscribe((params) => {
             this.vendorId = params['vendorId'];
         });
+        let userRoles = this.cookieService.get('userRoles');
+        if (userRoles.indexOf('SuperAdmin') > -1) {
+            this.userRole = 'Admin';
+        } else {
+            this.userRole = 'Operations';
+        }
     }
 
     ngOnInit() {
@@ -60,7 +69,6 @@ export class ProductsComponent implements OnInit {
         });
         this.searchForm();
         this.getAllProducts();
-        // this.getAllCategories();
         this.getAllVendors();
         if (this.vendorId) {
             this.getVendorInfo(this.vendorId);
@@ -88,7 +96,7 @@ export class ProductsComponent implements OnInit {
 
     getAllProducts() {
         this.bigLoader = true;
-        this.productsService.getOpsProducts().
+        this.productsService.getOpsProducts(this.userRole).
         then((products) => {
             console.log("products ", products);
             this.products = products.Data;
@@ -123,18 +131,18 @@ export class ProductsComponent implements OnInit {
     }
 
     exportProducts() {
-        console.log("this.products ", this.products);
-
-        var fields = ['approvalStatus', 'name', 'MrpPrice', 'status'];
-        try {
-            this.csvService.download(this.products, 'this.products');
-            var result = json2csv({ data: this.products, fields: fields });
-            console.log(result);
-        } catch (err) {
-            // Errors are thrown for bad options, or if the data is empty and no fields are provided.
-            // Be sure to provide fields if it is possible that your data array will be empty.
-            console.error(err);
+        let products = [];
+        if (this.selectAllCheckbox) {
+            console.log("this.selectAllCheckbox ", this.selectAllCheckbox);
+            products = this.products;
+        } else {
+            _.forEach(this.products, (item) => {
+                if (item.isChecked) {
+                    products.push(item);
+                }
+            });
         }
+        this.jsonToExcelService.exportAsExcelFile(products, 'products');
     }
 
     bulkUpload() {
@@ -158,13 +166,13 @@ export class ProductsComponent implements OnInit {
             _.forEach(this.products, (item) => {
                 item.isChecked = true;
             });
-            this.showSelectedDelete = true;
+            this.showSelectedAction = true;
         } else {
             this.selectAllCheckbox = false;
             _.forEach(this.products, (item) => {
                 item.isChecked = false;
             });
-            this.showSelectedDelete = false;
+            this.showSelectedAction = false;
         }
     }
 
@@ -180,35 +188,37 @@ export class ProductsComponent implements OnInit {
 
         _.forEach(this.products, (item) => {
             if (item.isChecked) {
-                this.showSelectedDelete = true;
+                this.showSelectedAction = true;
                 isCheckedArray.push(item);
             }
         });
 
         if (isCheckedArray.length === 0) {
-            this.showSelectedDelete = false;
+            this.showSelectedAction = false;
         }
 
     }
 
     dropDownActionFunction(dropDownActionValue) {
-        console.log("dropDownActionValue ", dropDownActionValue);
-        switch (dropDownActionValue) {
-            case 'Delete Selected':
-                this.deleteAll();
-                break;
-            case 'Deactivate Selected':
-                this.deactivateAll();
-                break;
-            case 'Approve Selected':
-                this.approveAll();
-                break;
-            case 'Reject Selected':
-                this.rejectAll();
-                break;
-            default:
-                break;
+        if (!dropDownActionValue) {
+            this.noActionSelected = true;
+        } else {
+            this.noActionSelected = true;
+            switch (dropDownActionValue) {
+                case 'Deactivate Selected':
+                    this.deactivateAll();
+                    break;
+                case 'Approve Selected':
+                    this.approveAll();
+                    break;
+                case 'Reject Selected':
+                    this.rejectAll();
+                    break;
+                default:
+                    break;
+            }
         }
+        console.log("dropDownActionValue ", dropDownActionValue);
     }
 
     rejectAll() {
@@ -226,7 +236,7 @@ export class ProductsComponent implements OnInit {
             });
         }
         this.selectAllCheckbox = false;
-        this.showSelectedDelete = false;
+        this.showSelectedAction = false;
     }
 
     approveAll() {
@@ -244,7 +254,7 @@ export class ProductsComponent implements OnInit {
                     item.isChecked = false;
                 }
             });
-            this.productsService.approveProducts(productsToApprove).
+            this.productsService.approveProducts(productsToApprove, this.userRole).
                 then((success) => {
                     console.log("success ", success);
                     if (success.Code === 200) {
@@ -258,7 +268,7 @@ export class ProductsComponent implements OnInit {
             console.log("productsToApprove ", productsToApprove);
         }
         this.selectAllCheckbox = false;
-        this.showSelectedDelete = false;
+        this.showSelectedAction = false;
     }
 
 
@@ -277,50 +287,8 @@ export class ProductsComponent implements OnInit {
             });
         }
         this.selectAllCheckbox = false;
-        this.showSelectedDelete = false;
+        this.showSelectedAction = false;
     }
-
-    deleteAll() {
-        if (this.showSelectedDelete || this.selectAllCheckbox) {
-            const activeModal = this.modalService.open(ProductsDeletePopupComponent, { size: 'sm' });
-            activeModal.componentInstance.modalText = 'products';
-
-            activeModal.result.then((status) => {
-                if (status) {
-                    if (this.selectAllCheckbox) {
-                        this.products = [];
-                    } else {
-                        _.forEach(this.products, (item) => {
-                            if (item) {
-                                if (item.isChecked) {
-                                    _.remove(this.products, item);
-                                }
-                            }
-                        });
-                        this.productsService.editProduct(this.products);
-                    }
-                    this.toastr.success('Successfully Deleted!', 'Success!');
-                    this.selectAllCheckbox = false;
-                    this.showSelectedDelete = false;
-                }
-            });
-        }
-    }
-
-    // deleteProduct(item, index) {
-    //   const activeModal = this.modalService.open(ProductsDeletePopupComponent, { size: 'sm' });
-    //   activeModal.componentInstance.modalText = 'product';
-
-    //   activeModal.result.then((status) => {
-    //     if (status) {
-    //       this.deleteLoader = index;
-    //       _.remove(this.products, item);
-    //       this.productsService.editProduct(this.products);
-    //       this.deleteLoader = NaN;
-    //       this.toastr.success('Successfully Deleted!', 'Success!');
-    //     }
-    //   });
-    // }
 
     resetForm() {
         this.searchForm();

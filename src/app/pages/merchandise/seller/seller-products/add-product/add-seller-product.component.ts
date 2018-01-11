@@ -32,7 +32,7 @@ export class AddSellerProductComponent implements OnInit {
   categories = [];
   vendors: any;
   categoriesDropdownSettings = {
-    singleSelection: false,
+    singleSelection: true,
     text: "Select Categories",
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
@@ -141,8 +141,6 @@ export class AddSellerProductComponent implements OnInit {
         '',
         Validators.required
       ],
-      'netTaxes': [''],
-      'netTaxes2': [''],
       // 'stockQuantity': [
       //   '',
       //   Validators.required
@@ -205,37 +203,52 @@ export class AddSellerProductComponent implements OnInit {
     if (this.productId) {
       this.productsService.getProductById(this.productId).then(res => {
         this.products = res.Data;
-        if (res.code != 500 && this.products != '') {
-          this.addProductForm.controls['Id'].setValue(this.products.id);
-          this.addProductForm.controls['Name'].setValue(this.products.name);
-          this.addProductForm.controls['ShortDescription'].setValue(this.products.shortDescription);
-          this.addProductForm.controls['FullDescription'].setValue(this.products.fullDescription);
-          this.addProductForm.controls['Sku'].setValue(this.products.sku);
-          this.addProductForm.controls['Status'].setValue(this.products.status);
-          this.addProductForm.controls['Currency'].setValue(this.products.currency);
-          this.addProductForm.controls['NetPrice'].setValue(this.products.netPrice);
-          this.addProductForm.controls['NetShipping'].setValue(this.products.netShipping);
-          this.addProductForm.controls['MrpPrice'].setValue(this.products.MrpPrice);
-          this.addProductForm.controls['Brand'].setValue(this.products.brand);
+        if (res.code != 500) {
+
+          this.addProductForm.controls['Id'].setValue(this.products[0].Id);
+          this.addProductForm.controls['ParentProductCode'].setValue(this.products[0].ParentProductCode);
+          this.addProductForm.controls['ModelNumber'].setValue(this.products[0].ModelNumber);
+          this.addProductForm.controls['ManufacturerPartNumber'].setValue(this.products[0].ManufacturerPartNumber);
+          this.addProductForm.controls['Gtin'].setValue(this.products[0].Gtin);
+          this.addProductForm.controls['Name'].setValue(this.products[0].Name);
+          this.addProductForm.controls['Comments'].setValue(this.products[0].Comments);
+          this.addProductForm.controls['ShortDescription'].setValue(this.products[0].ShortDescription);
+          this.addProductForm.controls['Colour'].setValue(this.products[0].Colour);
+          this.addProductForm.controls['NetPrice'].setValue(this.products[0].NetPrice);
+          this.addProductForm.controls['NetShippingPrice'].setValue(this.products[0].NetShippingPrice);
+          this.addProductForm.controls['Mrp'].setValue(this.products[0].Mrp);
+          this.addProductForm.controls['Brand'].setValue(this.products[0].Brand);
+          this.addProductForm.controls['Size'].setValue(this.products[0].Size);
+          this.addProductForm.controls['FullDescription'].setValue(this.products[0].FullDescription);
+          this.addProductForm.controls['Sku'].setValue(this.products[0].Sku);
+          this.addProductForm.controls['CurrencyId'].setValue(this.products[0].CurrencyId);
+          // this.addProductForm.controls['CategoryId'].setValue(this.products[0].CategoryId);
+          this.addProductForm.controls['Status'].setValue(this.products[0].Status);
+          console.log("brand", this.products[0].Brand);
+
+
         }
       }).catch(err => { });
       console.log("this.productInfo ", this.productInfo);
     }
   }
 
-  addProduct(addProductForm) {
+  addProduct(addProductForm, approval = false) {
     this.showLoader = true;
-    let value = []
+    let value = ''
     addProductForm.specifications = addProductForm.specifications.map((data, index) => {
-      value.push(data.key + ':' + data.value)
+      if (index == 0) {
+        value = data.key + ':' + data.value
+      }
+      else {
+        let value2 = "|" + data.key + ':' + data.value
+        value = value.concat(value2);
+      }
       return data;
     });
-    let val2 = JSON.stringify(value);
-    let val3 = val2.replace('[', '')
-    let val4 = val3.replace(']', '')
-    let specification = val4.replace(',', '|');
+    let specification = value;
     // let Productspecification = specification.replace('"', '');
-    // console.log(Productspecification);
+    console.log(addProductForm.CategoryId[0].Id);
     var res = [
       {
         "Id": addProductForm.Id,
@@ -246,8 +259,8 @@ export class AddSellerProductComponent implements OnInit {
         "ModelNumber": addProductForm.ModelNumber,
         "ShortDescription": addProductForm.ShortDescription,
         "FullDescription": addProductForm.FullDescription,
-        "ProductSpecification": `${specification}`,
-        "CategoryId": "1",
+        "ProductSpecification": specification,
+        "CategoryId": addProductForm.CategoryId[0].Id,
         "Brand": addProductForm.Brand,
         "Colour": addProductForm.Colour,
         "Size": addProductForm.Size,
@@ -262,12 +275,31 @@ export class AddSellerProductComponent implements OnInit {
         "Status": addProductForm.Status
       }
     ]
-    console.log(res);
-    this.productsService.addProduct(res).then(res => {
-      this.toastr.success('Sucessfully Done!', 'Sucess!');
-      this.showLoader = false;
-      this.goBack();
-    }).catch(err => { this.showLoader = false; })
+    
+    if (!approval) {
+      console.log(this.productId);
+      if (this.productId != '') {
+        console.log(this.productId);
+        this.productsService.updateProduct(res).then(res => {
+          this.toastr.success('Sucessfully Done!', 'Sucess!');
+          this.showLoader = false;
+          this.goBack();
+        }).catch(err => { this.showLoader = false; })
+      } else {
+        this.productsService.addProduct(res).then(res => {
+          this.toastr.success('Sucessfully Done!', 'Sucess!');
+          this.showLoader = false;
+          this.goBack();
+        }).catch(err => { this.showLoader = false; })
+      }
+    } else {
+      this.productsService.sendproductForApproval(res).then(res => {
+        this.toastr.success('Sucessfully Done!', 'Sucess!');
+        this.showLoader = false;
+        this.goBack();
+      }).catch(err => { this.showLoader = false; })
+    }
+
   }
 
   getAllCategories() {

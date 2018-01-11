@@ -298,7 +298,7 @@
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody *ngIf="productInfo.picture.length > 0 ">
+                <tbody *ngIf="productInfo && productInfo.picture.length > 0 ">
                   <tr *ngFor="let item of productInfo.picture">
                     <td>
                       <div class="product-image">
@@ -326,7 +326,7 @@
                     </td>
                   </tr>
                 </tbody>
-                <tbody *ngIf="productInfo.picture.length < 1">
+                <tbody *ngIf="!productInfo || productInfo.picture.length < 1">
                   <tr>
                     <td colspan="5">
                       No Pictures Yet
@@ -336,7 +336,7 @@
               </table>
             </div>
           </div>
-          <div class="card fadeIn animated" *ngIf=" productId ">
+          <!-- <div class="card fadeIn animated" *ngIf=" productId ">
             <div class="card-header">
               <h3 class="card-title">
                 Add a new picture
@@ -374,7 +374,7 @@
                 </button>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
 

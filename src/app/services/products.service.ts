@@ -85,6 +85,17 @@ export class ProductsService {
             .catch((err) => this.responseHandler.handleError(err));
     }
 
+    getOpsProductById(productId, role) {
+        const url = `${environment.merchandiseUrl}Merchandise/${role}/Products/${productId}`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
     editProduct(products) {
         // this.products = products;
         // return this.products;

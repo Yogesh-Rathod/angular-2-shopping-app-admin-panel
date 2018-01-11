@@ -11,6 +11,7 @@ import { ApprovalsComponent } from './approvals.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { ProductsComponent } from './products/products.component';
 import { CatalogComponent } from './catalog/catalog.component';
+import { CatalogManagementService } from "app/services";
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import { CatalogComponent } from './catalog/catalog.component';
         CatalogComponent
     ],
     providers: [
+        CatalogManagementService
     ],
     entryComponents: [
     ]

@@ -82,8 +82,8 @@ export class AddSellerProductComponent implements OnInit {
   createForm() {
     this.addProductForm = this.fb.group({
       'Id': [''],
-      'ModelNumber':[''],
-      'Gtin':[''],
+      'ModelNumber': [''],
+      'Gtin': [''],
       'Sku': [
         '',
         Validators.compose([
@@ -164,7 +164,7 @@ export class AddSellerProductComponent implements OnInit {
       'Size': [''],
       // 'reOrderLevel': [''],
       'Comments': [''],
-      'ManufacturerPartNumber':[''],
+      'ManufacturerPartNumber': [''],
       'approvalStatus': ['Pending']
     });
   }
@@ -236,18 +236,28 @@ export class AddSellerProductComponent implements OnInit {
 
   addProduct(addProductForm) {
     this.showLoader = true;
-    console.log("addProductForm ", addProductForm);
+    let value = []
+    addProductForm.specifications = addProductForm.specifications.map((data, index) => {
+      value.push(data.key + ':' + data.value)
+      return data;
+    });
+    let val2 = JSON.stringify(value);
+    let val3 = val2.replace('[', '')
+    let val4 = val3.replace(']', '')
+    let specification = val4.replace(',', '|');
+    // let Productspecification = specification.replace('"', '');
+    // console.log(Productspecification);
     var res = [
       {
         "Id": addProductForm.Id,
         "SellerId": addProductForm.SellerId.id,
-        "ParentProductCode":  addProductForm.ParentProductCode,
+        "ParentProductCode": addProductForm.ParentProductCode,
         "Sku": addProductForm.Sku,
         "Name": addProductForm.Name,
         "ModelNumber": addProductForm.ModelNumber,
         "ShortDescription": addProductForm.ShortDescription,
         "FullDescription": addProductForm.FullDescription,
-        "ProductSpecification": addProductForm.specifications,
+        "ProductSpecification": `${specification}`,
         "CategoryId": "1",
         "Brand": addProductForm.Brand,
         "Colour": addProductForm.Colour,
@@ -263,28 +273,26 @@ export class AddSellerProductComponent implements OnInit {
         "Status": addProductForm.Status
       }
     ]
-    
+    console.log(res);
     this.productsService.addProduct(res).then(res=>{
-
-    }).catch(err=>{})
-
-    this.toastr.success('Sucessfully Done!', 'Sucess!');
-    this.showLoader = false;
-    this.goBack();
+      this.toastr.success('Sucessfully Done!', 'Sucess!');
+      this.showLoader = false;
+      this.goBack();
+    }).catch(err=>{this.showLoader = false;})
   }
 
   getAllCategories() {
-      this.merchandiseService.getCategoriesByLevel(3).
-        then((categories) => {
-            this.categories = categories.Data;
-            this.categories = this.categories.map((category) => {
-                category.id = category.Id;
-                category.itemName = category.Name;
-                return category;
-            })
-        }).catch((error) => {
-            console.log("error ", error);
-        });
+    this.merchandiseService.getCategoriesByLevel(3).
+      then((categories) => {
+        this.categories = categories.Data;
+        this.categories = this.categories.map((category) => {
+          category.id = category.Id;
+          category.itemName = category.Name;
+          return category;
+        })
+      }).catch((error) => {
+        console.log("error ", error);
+      });
   }
 
   uploadProductImage(addProductForm) {

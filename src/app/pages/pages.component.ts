@@ -38,6 +38,13 @@ export class Pages {
             then((res) => {
                 let userMenus = res.Data.UserMenuItems;
                 let standardMenu = PAGES_MENU[0].children;
+                let userRoles = res.Data.Roles;
+                if (userRoles) {
+                    userRoles = userRoles.map((role) => {
+                        return role.RoleName;
+                    });
+                }
+                this._cookieService.put('userRoles', userRoles);
                 var MenuListArray = userMenus.map(function(item) {
                     return item['MenuCode'];
                 });

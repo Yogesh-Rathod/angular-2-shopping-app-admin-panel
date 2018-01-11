@@ -8,10 +8,9 @@ import { CKEditorModule } from 'ng2-ckeditor';
 import { MyDatePickerModule } from 'mydatepicker';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { DateTimePickerModule } from 'ng-pick-datetime';
-import { CsvService } from "angular2-json2csv";
 
 import { ProductsComponent} from './products.component';
-import { ProductsService, VendorsService } from 'app/services';
+import { ProductsService, VendorsService, JsonToExcelService } from 'app/services';
 import { AddProductComponent } from "./add-product/add-product.component";
 
 @NgModule({
@@ -34,7 +33,7 @@ import { AddProductComponent } from "./add-product/add-product.component";
   providers: [
     ProductsService,
     VendorsService,
-    CsvService
+    JsonToExcelService
   ]
 })
 export class ProductsModule {}

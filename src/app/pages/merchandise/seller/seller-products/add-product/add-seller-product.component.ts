@@ -82,6 +82,8 @@ export class AddSellerProductComponent implements OnInit {
   createForm() {
     this.addProductForm = this.fb.group({
       'Id': [''],
+      'ModelNumber':[''],
+      'Gtin':[''],
       'Sku': [
         '',
         Validators.compose([
@@ -139,10 +141,8 @@ export class AddSellerProductComponent implements OnInit {
         '',
         Validators.required
       ],
-      'oldPrice': [''],
       'netTaxes': [''],
       'netTaxes2': [''],
-      'applicableDate': [''],
       // 'stockQuantity': [
       //   '',
       //   Validators.required
@@ -159,12 +159,12 @@ export class AddSellerProductComponent implements OnInit {
       'pictureAlt': [''],
       'pictureTitle': [''],
       'pictureDisplayorder': [''],
-      'type': [''],
       'Brand': [''],
       'Colour': [''],
       'Size': [''],
       // 'reOrderLevel': [''],
       'Comments': [''],
+      'ManufacturerPartNumber':[''],
       'approvalStatus': ['Pending']
     });
   }
@@ -217,7 +217,7 @@ export class AddSellerProductComponent implements OnInit {
           this.addProductForm.controls['netPrice'].setValue(product.netPrice);
           this.addProductForm.controls['netShipping'].setValue(product.netShipping);
           this.addProductForm.controls['MrpPrice'].setValue(product.MrpPrice);
-          this.addProductForm.controls['oldPrice'].setValue(product.MrpPrice);
+          // this.addProductForm.controls['oldPrice'].setValue(product.MrpPrice);
           // this.addProductForm.controls['retailPrice'].setValue(product.retailPrice);
           // this.addProductForm.controls['retailShipping'].setValue(product.retailShipping);
           // this.addProductForm.controls['rpi'].setValue(product.rpi);
@@ -228,7 +228,6 @@ export class AddSellerProductComponent implements OnInit {
           this.addProductForm.controls['pictureTitle'].setValue(product.picture[0].title);
           this.addProductForm.controls['pictureDisplayorder'].setValue(product.picture[0].displayOrder);
           // this.addProductForm.controls['categories'].setValue([product.categories]);
-          this.addProductForm.controls['type'].setValue(product.type);
           this.addProductForm.controls['brand'].setValue(product.brand);
         }
       });
@@ -238,10 +237,36 @@ export class AddSellerProductComponent implements OnInit {
   addProduct(addProductForm) {
     this.showLoader = true;
     console.log("addProductForm ", addProductForm);
+    var res = [
+      {
+        "Id": addProductForm.Id,
+        "SellerId": addProductForm.SellerId.id,
+        "ParentProductCode":  addProductForm.ParentProductCode,
+        "Sku": addProductForm.Sku,
+        "Name": addProductForm.Name,
+        "ModelNumber": addProductForm.ModelNumber,
+        "ShortDescription": addProductForm.ShortDescription,
+        "FullDescription": addProductForm.FullDescription,
+        "ProductSpecification": addProductForm.specifications,
+        "CategoryId": "1",
+        "Brand": addProductForm.Brand,
+        "Colour": addProductForm.Colour,
+        "Size": addProductForm.Size,
+        "ImageNumber": 0,
+        "CurrencyId": addProductForm.CurrencyId,
+        "NetPrice": addProductForm.NetPrice,
+        "NetShippingPrice": addProductForm.NetShippingPrice,
+        "Mrp": addProductForm.Mrp,
+        "Comments": addProductForm.Comments,
+        "ManufacturerPartNumber": addProductForm.ManufacturerPartNumber,
+        "Gtin": addProductForm.Gtin,
+        "Status": addProductForm.Status
+      }
+    ]
+    
+    this.productsService.addProduct(res).then(res=>{
 
-    if (addProductForm.id) {
-    } else {
-    }
+    }).catch(err=>{})
 
     this.toastr.success('Sucessfully Done!', 'Sucess!');
     this.showLoader = false;

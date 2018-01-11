@@ -19,6 +19,10 @@ const routes: Routes = [
     component: AddCatalogComponent
   },
   {
+    path: 'edit-catalog/:catalogId/:for',
+    component: AddCatalogComponent
+  },
+  {
     path: 'catalog-details/:catalogId',
     component: BankDetailsComponent
   }

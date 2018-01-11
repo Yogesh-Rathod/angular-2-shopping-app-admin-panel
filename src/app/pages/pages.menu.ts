@@ -112,7 +112,16 @@ const menus = [
                         pathMatch: 'partial'
                     }
                 }
-            }
+            },
+            {
+                path: 'approvals',
+                data: {
+                    menu: {
+                        title: 'My Tasks',
+                        pathMatch: 'partial'
+                    }
+                }
+            },
         ]
     },
     {

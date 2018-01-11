@@ -41,7 +41,7 @@ export class MerchandiseService {
             .catch((err) => this.responseHandler.handleError(err));
     }
 
-    getCategoriesByLevel(level?) {
+    getCategoriesByLevel(level) {
         let url = `${environment.merchandiseUrl}Merchandise/CategoriesByLevel/${level}`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));

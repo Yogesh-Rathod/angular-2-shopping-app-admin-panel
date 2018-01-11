@@ -65,6 +65,27 @@
                 </div>
 
                 <div class="form-group row">
+                  <label for="name" class="col-3 text-right">Modal Number
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="ModelNumber" placeholder="Modal Number" formControlName="ModelNumber">
+                </div>
+
+                <div class="form-group row">
+                  <label for="name" class="col-3 text-right">Manufacture Part Number
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="ManufacturerPartNumber" placeholder="Manufacture Part Number" formControlName="ManufacturerPartNumber">
+                </div>
+
+                <div class="form-group row">
+                  <label for="name" class="col-3 text-right">Gtin
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="Gtin" placeholder="Gtin" formControlName="Gtin">
+                </div>
+
+                <div class="form-group row">
                   <label for="name" class="col-3 text-right">Name
                     <span class="mandatory">*</span>
                   </label>
@@ -104,6 +125,7 @@
                     <!-- <button (click)="appendMore()" type="button">Append More</button> -->
                   </div>
                 </div>
+
 
                 <!-- <div class="form-group row">
                   <label for="sku" class="col-3 text-right">
@@ -153,47 +175,18 @@
                   <input type="text" class="form-control col-9" id="netPrice" placeholder="Net Price" formControlName="NetPrice" (keydown)='validatenumber($event)'>
                 </div>
                 <div class="form-group row">
-                  <label for="netShipping" class="col-3 text-right">Net Shipping <br>Price
+                  <label for="netShipping" class="col-3 text-right">Net Shipping
+                    <br>Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="netShipping" placeholder="Shipping Price" formControlName="NetShippingPrice" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="netShipping" placeholder="Shipping Price" formControlName="NetShippingPrice"
+                    (keydown)='validatenumber($event)'>
                 </div>
                 <div class="form-group row">
                   <label for="Price" class="col-3 text-right">MRP Price
                     <span class="mandatory">*</span>
                   </label>
                   <input type="text" class="form-control col-9" id="Price" placeholder="MRP Price" formControlName="Mrp" (keydown)='validatenumber($event)'>
-                </div>
-                <div class="form-group row" *ngIf=" productId ">
-                  <label for="applicableDate" class="col-3 text-right">
-                    Apply From
-                    <span class="mandatory">*</span>
-                  </label>
-                  <my-date-picker id="applicableDate" class="col-5 no_padding" name="applicableDate" [options]="myDatePickerOptions" formControlName="applicableDate">
-                  </my-date-picker>
-                  <owl-date-time class="col-4" [type]="'timer'" [placeHolder]="'hh:mm'" [dateFormat]="'hh:mm'">
-                  </owl-date-time>
-                </div>
-                <div class="form-group row" *ngIf=" productId ">
-                  <label for="oldPrice" class="col-3 text-right">Old MRP Price
-                  </label>
-                  <input type="text" class="form-control col-9" id="oldPrice" placeholder="Old MRP Price" formControlName="oldPrice" (keydown)='validatenumber($event)' [ngClass]="{ 'disabled': productId }" tabindex="-1">
-                </div>
-
-                <hr>
-
-                <div class="form-group row">
-                  <label for="Price" class="col-3 text-right">Net Taxes
-                    <span class="mandatory">*</span>
-                  </label>
-                  <input type="text" class="form-control col-9" id="Price" placeholder="Net Taxes" formControlName="netTaxes">
-                </div>
-                <div class="form-group row">
-                  <label for="retailShipping" class="col-3 text-right">
-                     Net Taxes 2
-                    <span class="mandatory">*</span>
-                  </label>
-                  <input type="text" class="form-control col-9" id="retailShipping" placeholder="Net Taxes 2" formControlName="netTaxes2">
                 </div>
               </div>
             </div>
@@ -235,12 +228,6 @@
                   <input type="text" class="form-control col-8" id="stockQuantity" placeholder="Stock Quantity" formControlName="stockQuantity" (keydown)='validatenumber($event)'>
                 </div> -->
                 <div class="form-group row">
-                  <label for="type" class="col-4 text-right">Type
-                    <span class="mandatory">*</span>
-                  </label>
-                  <input type="text" class="form-control col-8" id="type" placeholder="Type" formControlName="type">
-                </div>
-                <div class="form-group row">
                   <label for="Brand" class="col-4 text-right">Brand
                   </label>
                   <input type="text" class="form-control col-8" id="Brand" placeholder="Brand" formControlName="Brand">
@@ -271,7 +258,7 @@
                   <label for="approvalStatus" class="col-4 text-right">
                     Approval Status
                   </label>
-                  <select id="approvalStatus" formControlName="approvalStatus" class="form-control col-8"  [class.disabled]="!productId">
+                  <select id="approvalStatus" formControlName="approvalStatus" class="form-control col-8" [class.disabled]="!productId">
                     <option *ngFor="let item of approvalStatus" [ngValue]="item">
                       {{ item }}
                     </option>
@@ -309,10 +296,10 @@
                       {{ item.displayOrder }}
                     </td>
                     <td>
-                       {{ item.alt }}
+                      {{ item.alt }}
                     </td>
                     <td>
-                       {{ item.title }}
+                      {{ item.title }}
                     </td>
                     <td>
                       <button class="btn btn-primary">
@@ -347,7 +334,8 @@
                 <label for="picture" class="col-3 text-right">Picture
                   <span class="mandatory">*</span>
                 </label>
-                <input type="file" class="form-control col-9" id="picture" formControlName="pictureName" accept=".jpg, .png, .jpeg, .gif" (change)="productImageSelected($event)">
+                <input type="file" class="form-control col-9" id="picture" formControlName="pictureName" accept=".jpg, .png, .jpeg, .gif"
+                  (change)="productImageSelected($event)">
               </div>
               <div class="form-group row">
                 <label for="picture" class="col-3 text-right">
@@ -380,7 +368,7 @@
 
       <div class="form-group row col-12">
         <label class="col-3 text-right"></label>
-        <input *ngIf=" !productId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addProductForm.valid || showLoader ">
+        <input type="submit" class="btn btn-primary" value="Save">
         <input *ngIf=" productId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addProductForm.valid || showLoader ">
         <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
         <span class="btn btn-warning" *ngIf=" !productId " (click)="resetForm()">Reset</span>

@@ -31,7 +31,7 @@ export class ProductsService {
     }
 
     getProducts() {
-        let url = `${environment.merchandiseUrl}Seller/Products`;
+        let url = `${environment.merchandiseUrl}/Merchandise/Seller/Products`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
@@ -64,9 +64,9 @@ export class ProductsService {
     }
 
     addProduct(product) {
-        const url = `${environment.merchandiseUrl}Seller/Product`;
+        const url = `${environment.merchandiseUrl}Merchandise/Seller/Products`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
-        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, product));
         return this.http.post(url, JSON.stringify(product), this.options)
             .timeout(environment.timeOut)
             .toPromise()

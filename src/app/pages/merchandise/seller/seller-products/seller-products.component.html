@@ -1,238 +1,234 @@
 <div class="row top20 clearfix fadeIn animated">
-	<div class="col-12">
+    <div class="col-12">
 
-		<div class="catSearch clearfix card-header">
-			<h2 class="card-title ">
-				Manage Products
-				<!-- <button class="btn btn-primary float-right" (click)=" bulkUpload() ">
+        <div class="catSearch clearfix card-header">
+            <h2 class="card-title ">
+                Manage Products
+                <button class="btn btn-primary float-right" (click)=" bulkUpload() ">
 					<i class="fa fa-download" aria-hidden="true"></i>
 					Bulk Import
-				</button> -->
-				<button *ngIf="!vendorId" class="btn btn-primary float-right" [routerLink]="['/seller/add-seller-product']">
-					<i class="fa fa-plus-square" aria-hidden="true"></i>
-					Add New Product
 				</button>
-				<button *ngIf="vendorId" class="btn btn-primary float-right" [routerLink]="['/seller/add-seller-product',vendorId]">
-					<i class="fa fa-plus-square" aria-hidden="true"></i>
-					Add New Product
-				</button>
-			</h2>
-		</div>
+                <button *ngIf="!vendorId" class="btn btn-primary float-right" [routerLink]="['/seller/add-seller-product']">
+                    <i class="fa fa-plus-square" aria-hidden="true"></i>
+                    Add New Product
+                </button>
+                <button *ngIf="vendorId" class="btn btn-primary float-right" [routerLink]="['/seller/add-seller-product',vendorId]">
+                    <i class="fa fa-plus-square" aria-hidden="true"></i>
+                    Add New Product
+                </button>
+            </h2>
+        </div>
 
-		<div class="filters card col-12 fadeIn animated">
-			<div class="card-body">
+        <div class="filters card col-12 fadeIn animated">
+            <div class="card-body">
 
-				<p class="error" *ngIf="atLeastOnePresent">
-					<em>
-						Please select atleast 1 criteria.
-					</em>
-				</p>
+                <p class="error" *ngIf="atLeastOnePresent">
+                    <em>
+                        Please select atleast 1 criteria.
+                    </em>
+                </p>
 
-				<form class="form-inline row" [formGroup]="searchProductForm" (ngSubmit)=" searchProduct(searchProductForm.value) ">
+                <form class="form-inline row" [formGroup]="searchProductForm" (ngSubmit)=" searchProduct(searchProductForm.value) ">
 
-					<div class="form-group col-3">
-						<label for="name">
-							Product Name
-							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A product name."></i>
-						</label>
-						<input type="text" class="form-control" id="name" placeholder="Product Name" formControlName="name">
-					</div>
+                    <div class="form-group col-3">
+                        <label for="name">
+                            Product Name
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A product name."></i>
+                        </label>
+                        <input type="text" class="form-control" id="name" placeholder="Product Name" formControlName="name">
+                    </div>
 
-					<div class="form-group col-3">
-						<label for="id">
-							Product Code
-							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A product Code."></i>
-						</label>
-						<input type="text" class="form-control" id="id" placeholder="Product Code" formControlName="code">
-					</div>
+                    <div class="form-group col-3">
+                        <label for="id">
+                            Product Code
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A product Code."></i>
+                        </label>
+                        <input type="text" class="form-control" id="id" placeholder="Product Code" formControlName="code">
+                    </div>
 
-					<div class="form-group col-3">
-						<label for="id">
-							Parent Product Code
-							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A parent product Code."></i>
-						</label>
-						<input type="text" class="form-control" id="id" placeholder="Parent Product Code" formControlName="parentCode">
-					</div>
+                    <div class="form-group col-3">
+                        <label for="id">
+                            Parent Product Code
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A parent product Code."></i>
+                        </label>
+                        <input type="text" class="form-control" id="id" placeholder="Parent Product Code" formControlName="parentCode">
+                    </div>
 
-					<div class="form-group col-3">
-						<label for="Category">
-							Category
-							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific category."></i>
-						</label>
-						<select id="Category" class="form-control col-12" formControlName="category">
-							<option value="all">All</option>
+                    <div class="form-group col-3">
+                        <label for="Category">
+                            Category
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific category."></i>
+                        </label>
+                        <select id="Category" class="form-control col-12" formControlName="category">
+                            <option value="all">All</option>
 
-						</select>
-					</div>
+                        </select>
+                    </div>
 
-					<div class="form-group col-3">
-						<label for="Vendor">
-							Seller
-							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific seller."></i>
-						</label>
-						<select id="Vendor" class="form-control col-12" formControlName="vendor">
-							<option value="all">All</option>
-						</select>
-					</div>
+                    <div class="form-group col-3">
+                        <label for="Vendor">
+                            Seller
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific seller."></i>
+                        </label>
+                        <select id="Vendor" class="form-control col-12" formControlName="vendor">
+                            <option value="all">All</option>
+                            <option *ngFor="let item of vendors" [ngValue]="item">
+                                {{ item.first_name }} {{ item.last_name }}
+                            </option>
+                        </select>
+                    </div>
 
-					<div class="form-group col-3">
-						<label for="Status">
-							Status
-							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Status' property."></i>
-						</label>
-						<select id="Status" class="form-control col-12" formControlName="status">
-							<option value="all">All</option>
-						</select>
-					</div>
+                    <div class="form-group col-3">
+                        <label for="Status">
+                            Status
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Status' property."></i>
+                        </label>
+                        <select id="Status" class="form-control col-12" formControlName="status">
+                            <option value="all">All</option>
+                            <option *ngFor="let item of status" value="{{ item }}">
+                                {{ item }}
+                            </option>
+                        </select>
+                    </div>
 
-					<div class="form-group col-3">
-						<label for="approvalStatus">
-							Approval Status
-							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Product Approval Status' property."></i>
-						</label>
-						<select id="approvalStatus" class="form-control col-12" formControlName="approvalStatus">
-							<option value="all">All</option>
+                    <div class="form-group col-3">
+                        <label for="approvalStatus">
+                            Approval Status
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Product Approval Status' property."></i>
+                        </label>
+                        <select id="approvalStatus" class="form-control col-12" formControlName="approvalStatus">
+                            <option value="all">All</option>
+                            <option *ngFor="let item of approvalStatus" value="{{ item }}">
+                                {{ item }}
+                            </option>
+                        </select>
+                    </div>
 
-						</select>
-					</div>
+                    <div class="form-group col-12">
+                        <button type="submit" class="btn btn-primary searchButton">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            Search
+                        </button>
+                    </div>
 
-					<div class="form-group col-12">
-						<button type="submit" class="btn btn-primary searchButton">
-							<i class="fa fa-search" aria-hidden="true"></i>
-							Search
-						</button>
-					</div>
+                </form>
 
-				</form>
+            </div>
+        </div>
 
-			</div>
-		</div>
+        <div class="spacer col-12"></div>
 
-		<div class="spacer col-12"></div>
+        <div class="card col-12">
+            <div class="card-body pos_relative no_left_padding no_right_padding clearfix">
 
-		<div class="card col-12">
-			<div class="card-body pos_relative no_left_padding no_right_padding clearfix">
+                <div class="loader-container pos_absolute" *ngIf="bigLoader">
+                    <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+                </div>
 
-				<div class="loader-container pos_absolute" *ngIf="bigLoader">
-					<img src="assets/img/ajax-loader.gif" alt="Loader Image">
-				</div>
-
-				<button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 || !showSelectedAction }" (click)="exportProducts()">
-					<i class="fa fa-download" aria-hidden="true"></i>
-					Export Products
-				</button>
-
-				<div class="pull-right col-4 dropDownAction no_padding" [class.disabled]="!showSelectedAction">
-					<form class="form-inline">
-						<div class="form-group row no_margin col-12 no_padding">
-							<label for="action">
-								Action
-								<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select action to perform."></i>
-							</label>
-							<select id="action" class="form-control col-6" #dropDownActionSelect>
-								<option></option>
-
-							</select>
-							<button class="btn btn-success" (click)="dropDownActionFunction(dropDownActionSelect.value)">Submit</button>
-						</div>
-					</form>
-				</div>
+                <button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 || productSelected }"
+                    (click)="exportProducts()">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    Export Products
+                </button>
+                <button class="btn btn-primary" title="Select products and approve them." [disabled]="productSelected" (click)="approve()">
+                    Approve Products
+                </button>
 
 
-				<div class="table-responsive">
-					<table class="table table-bordered"  [mfData]="products" #mf="mfDataTable" [mfRowsOnPage]="10">
-						<thead class="black-muted-bg">
-							<tr>
-								<th class="text-center">
-									<input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
-								</th>
-								<th class="text-left">
-									<strong>Product Image</strong>
-								</th>
-								<th>
-									<strong>Product name</strong>
-								</th>
-								<th>
-									<strong>SKU</strong>
-								</th>
-								<th>
-									<mfDefaultSorter by="price">
-										<strong>Price </strong>
-									</mfDefaultSorter>
-								</th>
-								<th>
-									<strong>Product Status</strong>
-								</th>
-								<th>
-									<strong>Approval Status</strong>
-								</th>
-								<th class="action">
-									<strong>Action</strong>
-								</th>
-							</tr>
-						</thead>
-						<tbody *ngIf=" products && products.length > 0 ">
-							<tr *ngFor=" let item of mf.data; let i = index; " >
+                <div class="table-responsive">
+                    <table class="table table-bordered" [mfData]="products" #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <thead class="black-muted-bg">
+                            <tr>
+                                <th class="text-center">
+                                    <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+                                </th>
+                                <th class="text-left">
+                                    <strong>Product Image</strong>
+                                </th>
+                                <th>
+                                    <strong>Product name</strong>
+                                </th>
+                                <th>
+                                    <strong>SKU</strong>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="price">
+                                        <strong>Price </strong>
+                                    </mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <strong>Product Status</strong>
+                                </th>
+                                <th>
+                                    <strong>Approval Status</strong>
+                                </th>
+                                <th class="action">
+                                    <strong>Action</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf=" products && products.length > 0 ">
+                            <tr *ngFor=" let item of mf.data; let i = index; ">
 
-								<td class="text-center">
-									<input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
-								</td>
+                                <td class="text-center">
+                                    <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                                </td>
 
-								<td class="text-left">
-									<div class="product-image" *ngIf="item.picture">
-										<img class="img-fluid" src="{{ item.picture[0].url ? item.picture[0].url : 'assets/images/products/Placeholder.png' }}" alt="{{ item.picture[0].alt ? item.picture[0].alt : 'Product Image' }}" >
-									</div>
-								</td>
-								<td>
-									<span>{{ item.Name }}</span>
-								</td>
-								<td>{{ item.Sku }}</td>
-								<td>{{ item.NetPrice | currency: 'INR': true }}</td>
-								<td class="text-center">
-									{{ item.Status }}
-								</td>
-								<td class="text-center order-status">
-									<span [ngClass]="{
+                                <td class="text-left">
+                                    <div class="product-image" *ngIf="item.picture">
+                                        <img class="img-fluid" src="{{ item.picture[0].url ? item.picture[0].url : 'assets/images/products/Placeholder.png' }}" alt="{{ item.picture[0].alt ? item.picture[0].alt : 'Product Image' }}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <span>{{ item.Name }}</span>
+                                </td>
+                                <td>{{ item.Sku }}</td>
+                                <td>{{ item.NetPrice | currency: 'INR': true }}</td>
+                                <td class="text-center">
+                                    {{ item.Status }}
+                                </td>
+                                <td class="text-center order-status">
+                                    <span [ngClass]="{
 										'approved': item.approvalStatus == 'Approved',
 										'pending': item.approvalStatus == 'Pending',
 										'rejected': item.approvalStatus == 'Rejected'
 									}">
-										{{ item.approvalStatus }}
-									</span>
-								</td>
-								<td class="action">
-									<button class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.id]" title="Edit">
-										<i class="fa fa-pencil" aria-hidden="true"></i>
-									</button>
-									<!-- <button class="btn btn-danger" (click)="deleteProduct(item, i)" title="Delete" [disabled]="deleteLoader == i">
+                                        {{ item.approvalStatus }}
+                                    </span>
+                                </td>
+                                <td class="action">
+                                    <button class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.id]" title="Edit">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </button>
+                                    <!-- <button class="btn btn-danger" (click)="deleteProduct(item, i)" title="Delete" [disabled]="deleteLoader == i">
 										<i class="fa fa-trash-o" aria-hidden="true"></i>
 									</button> -->
-									<img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-								</td>
-							</tr>
-						</tbody>
+                                    <img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+                                </td>
+                            </tr>
+                        </tbody>
 
-						<tbody *ngIf=" products && products.length === 0 ">
-							<tr>
-								<td colspan="9">
-									<strong>There are no products!</strong>
-								</td>
-							</tr>
-						</tbody>
+                        <tbody *ngIf=" products && products.length === 0 ">
+                            <tr>
+                                <td colspan="9">
+                                    <strong>There are no products!</strong>
+                                </td>
+                            </tr>
+                        </tbody>
 
-						<tfoot *ngIf=" products && products.length > 10 ">
-							<tr>
-								<td colspan="9">
-									<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-								</td>
-							</tr>
-						</tfoot>
-					</table>
-				</div>
+                        <tfoot *ngIf=" products && products.length > 10 ">
+                            <tr>
+                                <td colspan="9">
+                                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
 
-			</div>
+            </div>
 
-		</div>
+        </div>
 
-	</div>
+    </div>
 </div>

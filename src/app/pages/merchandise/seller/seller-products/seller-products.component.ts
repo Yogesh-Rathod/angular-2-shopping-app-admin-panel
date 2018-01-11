@@ -19,6 +19,7 @@ export class SellerProductsComponent implements OnInit {
 
     searchProductForm: FormGroup;
     bigLoader = true;
+    productSelected = true;
     deleteLoader: Number;
     products: any;
     categories: any;
@@ -34,13 +35,11 @@ export class SellerProductsComponent implements OnInit {
     atLeastOnePresent = false;
     vendorId: any;
     vendorInfo: any;
-    dropDownAction = ['Deactivate Selected', 'Approve Selected', 'Reject Selected'];
     approvalStatus = ['Pending', 'Approved', 'Rejected'];
-    showSelectedAction: false;
 
     constructor(
-        public toastr: ToastsManager,
         private jsonToExcelService: JsonToExcelService,
+        public toastr: ToastsManager,
         private modalService: NgbModal,
         private fb: FormBuilder,
         private productsService: ProductsService,
@@ -150,14 +149,25 @@ export class SellerProductsComponent implements OnInit {
         });
     }
 
+
+    approve() {
+        this.productsService.sendproductForApproval(this.products).then(res => {
+
+        }).catch(err => {
+            // this.toastr.error(err)
+        })
+    }
+
     selectAll(e) {
         if (e.target.checked) {
+            this.productSelected = false;
             this.selectAllCheckbox = true;
             _.forEach(this.products, (item) => {
                 item.isChecked = true;
             });
             this.showSelectedDelete = true;
         } else {
+            this.productSelected = true;
             this.selectAllCheckbox = false;
             _.forEach(this.products, (item) => {
                 item.isChecked = false;
@@ -192,12 +202,6 @@ export class SellerProductsComponent implements OnInit {
     dropDownActionFunction(dropDownActionValue) {
         console.log("dropDownActionValue ", dropDownActionValue);
         switch (dropDownActionValue) {
-            case 'Delete Selected':
-                this.deleteAll();
-                break;
-            case 'Deactivate Selected':
-                this.deactivateAll();
-                break;
             case 'Approve Selected':
                 this.approveAll();
                 break;
@@ -243,29 +247,6 @@ export class SellerProductsComponent implements OnInit {
         }
         this.selectAllCheckbox = false;
         this.showSelectedDelete = false;
-    }
-
-
-    deactivateAll() {
-        if (this.selectAllCheckbox) {
-            _.forEach(this.products, (item) => {
-                item.status = 'Inactive';
-                item.isChecked = false;
-            });
-        } else {
-            _.forEach(this.products, (item) => {
-                if (item.isChecked) {
-                    item.status = 'Inactive';
-                    item.isChecked = false;
-                }
-            });
-        }
-        this.selectAllCheckbox = false;
-        this.showSelectedDelete = false;
-    }
-
-    deleteAll() {
-
     }
 
     resetForm() {

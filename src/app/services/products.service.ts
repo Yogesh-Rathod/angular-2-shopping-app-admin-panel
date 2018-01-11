@@ -56,7 +56,18 @@ export class ProductsService {
         const url = `${environment.merchandiseUrl}Merchandise/${role}/Products/Approve`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
-        return this.http.put(url, JSON.stringify(products), this.options)
+        return this.http.post(url, JSON.stringify(products), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    rejectProducts(products, role) {
+        const url = `${environment.merchandiseUrl}Merchandise/${role}/Products/Reject`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        return this.http.post(url, JSON.stringify(products), this.options)
             .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
@@ -98,6 +109,17 @@ export class ProductsService {
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
         return this.http.put(url, JSON.stringify(product), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    getOpsProductById(productId, role) {
+        const url = `${environment.merchandiseUrl}Merchandise/${role}/Products/${productId}`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        return this.http.get(url, this.options)
             .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)

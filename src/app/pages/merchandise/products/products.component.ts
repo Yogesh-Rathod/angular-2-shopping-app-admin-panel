@@ -168,6 +168,7 @@ export class ProductsComponent implements OnInit {
             });
             this.showSelectedAction = true;
         } else {
+            this.noActionSelected = false;
             this.selectAllCheckbox = false;
             _.forEach(this.products, (item) => {
                 item.isChecked = false;
@@ -181,6 +182,7 @@ export class ProductsComponent implements OnInit {
         if (e.target.checked) {
             item.isChecked = true;
         } else {
+            this.noActionSelected = false;
             item.isChecked = false;
         }
 
@@ -203,7 +205,7 @@ export class ProductsComponent implements OnInit {
         if (!dropDownActionValue) {
             this.noActionSelected = true;
         } else {
-            this.noActionSelected = true;
+            this.noActionSelected = false;
             switch (dropDownActionValue) {
                 case 'Deactivate Selected':
                     this.deactivateAll();

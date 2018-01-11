@@ -205,9 +205,6 @@ export class AddMovieComponent implements OnInit {
         const files = evt.target.files;
         const file = files[0];
         this.formImageSelected = Image;
-
-        console.log("files ", files);
-        console.log("file ", file);
         if (files && file) {
             const reader = new FileReader();
 
@@ -215,6 +212,7 @@ export class AddMovieComponent implements OnInit {
 
             reader.onload = () => {
                 this.addMovieForm.controls[Image].setValue(`${reader.result.split(',')[1]}`);
+                console.log("reader.result.split(',')[1] ", reader.result.split(',')[1]);
             };
         } else {
             this.addMovieForm.controls[Image].setValue('');
@@ -229,7 +227,6 @@ export class AddMovieComponent implements OnInit {
         ${addMovieForm['ReleaseDate'].date.day}/
         ${addMovieForm['ReleaseDate'].date.year}
         `);
-
         if (addMovieForm.id) {
             addMovieForm.ModifiedOn = new Date().toISOString();
             addMovieForm.ModifiedBy = this.userInfo.username;

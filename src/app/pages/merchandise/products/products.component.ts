@@ -236,12 +236,26 @@ export class ProductsComponent implements OnInit {
                 item.isChecked = false;
             });
         } else {
+            let productsToApprove = [];
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
-                    item.approvalStatus = 'Approved';
+                    productsToApprove.push(item.Id);
+                    // item.approvalStatus = 'Approved';
                     item.isChecked = false;
                 }
             });
+            this.productsService.approveProducts(productsToApprove).
+                then((success) => {
+                    console.log("success ", success);
+                    if (success.Code === 200) {
+                        this.getAllProducts();
+                    }
+
+                }).catch((error) => {
+                    console.log("error ", error);
+
+                })
+            console.log("productsToApprove ", productsToApprove);
         }
         this.selectAllCheckbox = false;
         this.showSelectedDelete = false;

@@ -131,11 +131,7 @@ export class AddProductComponent implements OnInit {
                 ])
             ],
             'specifications': this.fb.array([this.createControl()]),
-            // 'sku': [
-            //   '',
-            //   Validators.required
-            // ],
-            'status': [
+            'Status': [
                 '',
                 Validators.required
             ],
@@ -154,10 +150,6 @@ export class AddProductComponent implements OnInit {
             ],
             'netTaxes': [''],
             'netTaxes2': [''],
-            // 'stockQuantity': [
-            //   '',
-            //   Validators.required
-            // ],
             'CategoryId': [
                 [],
                 Validators.required
@@ -173,7 +165,6 @@ export class AddProductComponent implements OnInit {
             'Brand': [''],
             'Colour': [''],
             'Size': [''],
-            // 'reOrderLevel': [''],
             'Comments': [''],
             'ManufacturerPartNumber': [''],
             'approvalStatus': ['Pending']
@@ -216,36 +207,36 @@ export class AddProductComponent implements OnInit {
             this.productsService.getOpsProductById(productId, this.userRole)
                 .then((res) => {
                     console.log("res ", res);
-                    this.products = res.Data;
-                    _.forEach(this.products, (product) => {
-                        if (product.id === parseInt(this.productId)) {
-                            this.productInfo = product;
-                            console.log("this.productInfo ", this.productInfo);
-                            this.addProductForm.controls['Id'].setValue(product.id);
-                            this.addProductForm.controls['Name'].setValue(product.name);
-                            this.addProductForm.controls['ShortDescription'].setValue(product.shortDescription);
-                            this.addProductForm.controls['FullDescription'].setValue(product.fullDescription);
-                            // this.addProductForm.controls['sku'].setValue(product.sku);
-                            this.addProductForm.controls['status'].setValue(product.status);
-                            this.addProductForm.controls['currency'].setValue(product.currency);
-                            this.addProductForm.controls['netPrice'].setValue(product.netPrice);
-                            this.addProductForm.controls['netShipping'].setValue(product.netShipping);
-                            this.addProductForm.controls['MrpPrice'].setValue(product.MrpPrice);
-                            this.addProductForm.controls['oldPrice'].setValue(product.MrpPrice);
-                            // this.addProductForm.controls['retailPrice'].setValue(product.retailPrice);
-                            // this.addProductForm.controls['retailShipping'].setValue(product.retailShipping);
-                            // this.addProductForm.controls['rpi'].setValue(product.rpi);
-                            // this.addProductForm.controls['stockQuantity'].setValue(product.stockQuantity);
-                            this.addProductForm.controls['vendor'].setValue(product.vendor);
-                            // this.addProductForm.controls['pictureName'].setValue(product.picture[0].url);
-                            this.addProductForm.controls['pictureAlt'].setValue(product.picture[0].alt);
-                            this.addProductForm.controls['pictureTitle'].setValue(product.picture[0].title);
-                            this.addProductForm.controls['pictureDisplayorder'].setValue(product.picture[0].displayOrder);
-                            // this.addProductForm.controls['categories'].setValue([product.categories]);
-                            this.addProductForm.controls['type'].setValue(product.type);
-                            this.addProductForm.controls['brand'].setValue(product.brand);
-                        }
-                    });
+                    this.products = res.Data[0];
+                    this.productInfo = this.products;
+                    console.log("this.productInfo ", this.productInfo);
+                    this.addProductForm.controls['Id'].setValue(this.productInfo.Id);
+                    this.addProductForm.controls['Name'].setValue(this.productInfo.Name);
+                    this.addProductForm.controls['ShortDescription'].setValue(this.productInfo.ShortDescription);
+                    this.addProductForm.controls['FullDescription'].setValue(this.productInfo.FullDescription);
+                    this.addProductForm.controls['Sku'].setValue(this.productInfo.Sku);
+                    this.addProductForm.controls['Status'].setValue(this.productInfo.Status);
+                    this.addProductForm.controls['CurrencyId'].setValue(this.productInfo.CurrencyId);
+                    this.addProductForm.controls['NetPrice'].setValue(this.productInfo.NetPrice);
+                    this.addProductForm.controls['NetShippingPrice'].setValue(this.productInfo.NetShippingPrice);
+                    this.addProductForm.controls['Mrp'].setValue(this.productInfo.Mrp);
+                    this.addProductForm.controls['SellerId'].setValue(this.productInfo.SellerId);
+                    this.addProductForm.controls['ParentProductCode'].setValue(this.productInfo.ParentProductCode);
+                    this.addProductForm.controls['ModelNumber'].setValue(this.productInfo.ModelNumber);
+                    this.addProductForm.controls['Brand'].setValue(this.productInfo.Brand);
+                    this.addProductForm.controls['Colour'].setValue(this.productInfo.Colour);
+                    this.addProductForm.controls['Size'].setValue(this.productInfo.Size);
+                    this.addProductForm.controls['ImageNumber'].setValue(this.productInfo.ImageNumber);
+                    this.addProductForm.controls['Gtin'].setValue(this.productInfo.Gtin);
+                    this.addProductForm.controls['Comments'].setValue(this.productInfo.Comments);
+                    this.addProductForm.controls['ManufacturerPartNumber'].setValue(this.productInfo.ManufacturerPartNumber);
+                    // let selectedcat = this.categories.map((category) => {
+                    //     if (category.Name == this.productInfo.CategoryId) {
+                    //         return category;
+                    //     }
+                    // })
+                    // this.addProductForm.controls['CategoryId'].setValue([selectedcat]);
+
                 }).catch((error) => {
                     console.log("error ", error);
                 })

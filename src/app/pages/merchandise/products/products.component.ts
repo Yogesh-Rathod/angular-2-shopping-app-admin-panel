@@ -207,9 +207,6 @@ export class ProductsComponent implements OnInit {
         } else {
             this.noActionSelected = false;
             switch (dropDownActionValue) {
-                case 'Deactivate Selected':
-                    this.deactivateAll();
-                    break;
                 case 'Approve Selected':
                     this.approveAll();
                     break;
@@ -226,16 +223,30 @@ export class ProductsComponent implements OnInit {
     rejectAll() {
         if (this.selectAllCheckbox) {
             _.forEach(this.products, (item) => {
-                item.approvalStatus = 'Rejected';
+                item.approvalStatus = 'Approved';
                 item.isChecked = false;
             });
         } else {
+            let productsToReject = [];
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
-                    item.approvalStatus = 'Rejected';
+                    productsToReject.push(item.Id);
+                    // item.approvalStatus = 'Approved';
                     item.isChecked = false;
                 }
             });
+            this.productsService.rejectProducts(productsToReject, this.userRole).
+                then((success) => {
+                    console.log("success ", success);
+                    if (success.Code === 200) {
+                        this.getAllProducts();
+                    }
+
+                }).catch((error) => {
+                    console.log("error ", error);
+
+                })
+            console.log("productsToReject ", productsToReject);
         }
         this.selectAllCheckbox = false;
         this.showSelectedAction = false;
@@ -268,25 +279,6 @@ export class ProductsComponent implements OnInit {
 
                 })
             console.log("productsToApprove ", productsToApprove);
-        }
-        this.selectAllCheckbox = false;
-        this.showSelectedAction = false;
-    }
-
-
-    deactivateAll() {
-        if (this.selectAllCheckbox) {
-            _.forEach(this.products, (item) => {
-                item.status = 'Inactive';
-                item.isChecked = false;
-            });
-        } else {
-            _.forEach(this.products, (item) => {
-                if (item.isChecked) {
-                    item.status = 'Inactive';
-                    item.isChecked = false;
-                }
-            });
         }
         this.selectAllCheckbox = false;
         this.showSelectedAction = false;

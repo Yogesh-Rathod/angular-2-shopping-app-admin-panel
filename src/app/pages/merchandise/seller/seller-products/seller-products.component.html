@@ -117,12 +117,12 @@
 					<img src="assets/img/ajax-loader.gif" alt="Loader Image">
 				</div>
 
-				<button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 }" (click)="exportProducts()">
+				<button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 || !showSelectedAction }" (click)="exportProducts()">
 					<i class="fa fa-download" aria-hidden="true"></i>
 					Export Products
 				</button>
 
-				<div class="pull-right col-4 dropDownAction no_padding">
+				<div class="pull-right col-4 dropDownAction no_padding" [class.disabled]="!showSelectedAction">
 					<form class="form-inline">
 						<div class="form-group row no_margin col-12 no_padding">
 							<label for="action">

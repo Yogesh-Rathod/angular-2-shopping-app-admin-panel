@@ -13,6 +13,7 @@ export class CategoriesComponent implements OnInit {
 
     unApprovedCategories: any[];
     approvalForm: FormGroup;
+    showLoader = false;
 
     constructor(
         public toastr: ToastsManager,
@@ -34,12 +35,12 @@ export class CategoriesComponent implements OnInit {
     }
 
     getUnApprovedCategories() {
-        // this.showLoader = true;
+        this.showLoader = true;
         this.merchandiseService.getUnApprovedCategories().
             then((categories) => {
                 console.log("this.unApprovedCategories ", categories);
                 this.unApprovedCategories = categories.Data;
-                // this.showLoader = false;
+                this.showLoader = false;
             }).catch((error) => {
                 console.log("error ", error);
             });

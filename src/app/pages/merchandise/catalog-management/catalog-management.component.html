@@ -37,93 +37,189 @@
 
         <div class="spacer col-12"></div>
 
-        <div class="filters card col-12">
-            <div class="card-body">
+        <div class="card col-12 no_padding">
+            <div class="card-body pos_relative">
+                <div class="loader-container pos_absolute" *ngIf="false">
+                    <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+                </div>
 
-                <button class="btn btn-info float-right deleteSelectedButton" [ngClass]="{'disabled': !showSelectedDelete }">
-                    <i class="fa fa-refresh" aria-hidden="true"></i>
-                    Sync Products
-                </button>
+                <div class="tabs-section">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#ApprovedCatalog" role="tab" data-toggle="tab">Approved</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#PendingCatalog" role="tab" data-toggle="tab">Pending Approval</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content no_left_padding no_right_padding">
+                    <div role="tabpanel" class="tab-pane fade in active" id="ApprovedCatalog">
+                        <button class="btn btn-info float-right deleteSelectedButton" [ngClass]="{'disabled': !showSelectedDelete }">
+                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                            Sync Products
+                        </button>
 
-                <table class="table table-bordered table-responsive" [mfData]="filteredCatalogs" #mf="mfDataTable" [mfRowsOnPage]="10">
-                    <thead class="black-muted-bg">
-                        <tr>
-                            <th class="text-center">
-                                <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
-                            </th>
-                            <th class="text-left">
-                                <mfDefaultSorter by="Name">
-                                    <strong>Catalog Name</strong>
-                                </mfDefaultSorter>
-                            </th>
-                            <th class="text-left">
-                                <strong>Catalog Description</strong>
-                            </th>
-                            <th>
-                                <strong>Status</strong>
-                            </th>
-                            <th>
-                                <mfDefaultSorter by="CreatedOn">
-                                    <strong>Created Date</strong>
-                                </mfDefaultSorter>
-                            </th>
-                            <!-- <th class="text-center">
+                        <table class="table table-bordered table-responsive" [mfData]="filteredCatalogs" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead class="black-muted-bg">
+                                <tr>
+                                    <th class="text-center">
+                                        <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+                                    </th>
+                                    <th class="text-left">
+                                        <mfDefaultSorter by="Name">
+                                            <strong>Catalog Name</strong>
+                                        </mfDefaultSorter>
+                                    </th>
+                                    <th class="text-left">
+                                        <strong>Catalog Description</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Status</strong>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="CreatedOn">
+                                            <strong>Created Date</strong>
+                                        </mfDefaultSorter>
+                                    </th>
+                                    <!-- <th class="text-center">
                                     <mfDefaultSorter by="CreatedBy">
                                         <strong>CreatedBy</strong>
                                     </mfDefaultSorter>
                                 </th> -->
-                            <th class="text-center">
-                                <strong>Action</strong>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody *ngIf=" filteredCatalogs && filteredCatalogs.length > 0 ">
-                        <tr *ngFor=" let item of mf.data; let i = index ">
-                            <td class="text-center">
-                                <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
-                            </td>
-                            <td class="text-left">
-                                {{ item.Name }}
-                            </td>
-                            <td class="text-left">
-                                {{item.Description}}
-                            </td>
-                            <!-- <td class="text-center">
+                                    <th class="text-center">
+                                        <strong>Action</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf=" filteredCatalogs && filteredCatalogs.length > 0 ">
+                                <tr *ngFor=" let item of mf.data; let i = index ">
+                                    <td class="text-center">
+                                        <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                                    </td>
+                                    <td class="text-left">
+                                        {{ item.Name }}
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.Description}}
+                                    </td>
+                                    <!-- <td class="text-center">
                                 <i *ngIf=" item.status " class="fa fa-check" aria-hidden="true"></i>
                                 <i *ngIf=" !item.status " class="fa fa-times" aria-hidden="true"></i>
                             </td> -->
-                            <td>
-                                <span *ngIf="item.IsActive">Active</span>
-                                <span *ngIf="!item.IsActive">Not Active</span>
-                            </td>                            
-                            <td>{{ item.CreatedOn | date }}</td>                                                        
-                            <td class="text-center">
-                                <button class="btn btn-secondary" [routerLink]="['./edit-catalog/', item.Id]" title="Edit">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                                </button>
-                                <button class="btn btn-secondary" [routerLink]="['./catalog-details/', item.Id]" title="View Details">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
+                                    <td>
+                                        <span *ngIf="item.IsActive">Active</span>
+                                        <span *ngIf="!item.IsActive">Not Active</span>
+                                    </td>
+                                    <td>{{ item.CreatedOn | date }}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-secondary" [routerLink]="['./edit-catalog/', item.Id]" title="Edit">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-secondary" [routerLink]="['./catalog-details/', item.Id]" title="View Details">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
 
-                    <tbody *ngIf=" filteredCatalogs && filteredCatalogs.length === 0 ">
-                        <tr>
-                            <td colspan="5">
-                                <strong>There are no filteredCatalogs!</strong>
-                            </td>
-                        </tr>
-                    </tbody>
+                            <tbody *ngIf=" filteredCatalogs && filteredCatalogs.length === 0 ">
+                                <tr>
+                                    <td colspan="5">
+                                        <strong>There are no filteredCatalogs!</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
 
-                    <tfoot *ngIf=" filteredCatalogs && filteredCatalogs.length > 10 ">
-                        <tr>
-                            <td colspan="5">
-                                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                            <tfoot *ngIf=" filteredCatalogs && filteredCatalogs.length > 10 ">
+                                <tr>
+                                    <td colspan="5">
+                                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="PendingCatalog">
+                        <table class="table table-bordered table-responsive" [mfData]="filteredApproveCatalogs" #mff="mfDataTable" [mfRowsOnPage]="10">
+                            <thead class="black-muted-bg">
+                                <tr>
+                                    <th class="text-center">
+                                        <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+                                    </th>
+                                    <th class="text-left">
+                                        <mfDefaultSorter by="Name">
+                                            <strong>Catalog Name</strong>
+                                        </mfDefaultSorter>
+                                    </th>
+                                    <th class="text-left">
+                                        <strong>Catalog Description</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Status</strong>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="CreatedOn">
+                                            <strong>Created Date</strong>
+                                        </mfDefaultSorter>
+                                    </th>
+                                    <th class="text-center">
+                                        <strong>Action</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf=" filteredApproveCatalogs && filteredApproveCatalogs.length > 0 ">
+                                <tr *ngFor=" let item of mff.data; let i = index ">
+                                    <td class="text-center">
+                                        <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                                    </td>
+                                    <td class="text-left">
+                                        {{ item.Name }}
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.Description}}
+                                    </td>
+                                    <!-- <td class="text-center">
+                                        <i *ngIf=" item.status " class="fa fa-check" aria-hidden="true"></i>
+                                        <i *ngIf=" !item.status " class="fa fa-times" aria-hidden="true"></i>
+                                    </td> -->
+                                    <td>
+                                        <span *ngIf="item.IsActive">Active</span>
+                                        <span *ngIf="!item.IsActive">Not Active</span>
+                                    </td>
+                                    <td>{{ item.CreatedOn | date }}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-secondary" [routerLink]="['./edit-catalog/', item.Id, 'approve']" title="Edit">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-secondary" [routerLink]="['./catalog-details/', item.Id, 'approve']" title="View Details">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-primary" title="Approve" (click)="approveCatalog(item)" >
+                                                <i class="fa fa-check" aria-hidden="true"></i><span>Approve</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tbody *ngIf=" filteredApproveCatalogs && filteredApproveCatalogs.length === 0 ">
+                                <tr>
+                                    <td colspan="5">
+                                        <strong>There are no filteredCatalogs!</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tfoot *ngIf=" filteredApproveCatalogs && filteredApproveCatalogs.length > 10 ">
+                                <tr>
+                                    <td colspan="5">
+                                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
             </div>
 
         </div>

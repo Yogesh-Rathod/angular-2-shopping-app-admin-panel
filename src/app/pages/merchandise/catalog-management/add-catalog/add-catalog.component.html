@@ -18,6 +18,13 @@
         <form class="col-12" [formGroup]=" addCatalogForm " (ngSubmit)=" addCatalog(addCatalogForm.value) ">
             <input type="hidden" formControlName="Id">
 
+            <!-- <div class="form-group row">
+                <label for="CatalogId" class="col-3 text-right">
+                    Catalog Id
+                    <span class="mandatory">*</span>
+                </label>
+                <input type="text" class="form-control col-9" id="CatalogId" readonly placeholder="Catalog Id" formControlName="CatalogId">
+            </div> -->
             <div class="form-group row">
                 <label for="name" class="col-3 text-right">
                     Name
@@ -32,24 +39,36 @@
                 <textarea class="form-control col-9" id="description" placeholder="Description" formControlName="Description"></textarea>
             </div>
 
-            <div class="form-group row">
+            <!-- <div class="form-group row">
                 <label for="vendors" class="col-3 text-right">Vendors </label>
-                <angular2-multiselect id="vendors" [data]="vendors" formControlName="vendors" [settings]="multiDropdownSettings">
+                <angular2-multiselect id="vendors" [data]="vendors" formControlName="Vendors" [settings]="multiDropdownSettings">
                 </angular2-multiselect>
             </div>
 
             <div class="form-group row">
                 <label for="programs" class="col-3 text-right">Programs
                 </label>
-                <angular2-multiselect id="programs" [data]="programs" formControlName="programs" [settings]="multiDropdownSettings">
+                <angular2-multiselect id="programs" [data]="programs" formControlName="Programs" [settings]="multiDropdownSettings">
                 </angular2-multiselect>
-            </div>
+            </div> -->
 
             <div class="form-group row">
                 <label for="status" class="status col-3 text-right">
-                    IsActive
+                    Is Active
                 </label>
                 <input type="checkbox" id="CatalogIsActive" formControlName="CatalogIsActive">
+            </div>
+            <div class="form-group row">
+                <label for="status" class="status col-3 text-right">
+                    Enable All Products
+                </label>
+                <input type="checkbox" id="CatalogIsActive" formControlName="EnableAllProducts">
+            </div>
+            <div class="form-group row">
+                <label for="status" class="status col-3 text-right">
+                    Enable Auto Product Sync
+                </label>
+                <input type="checkbox" id="CatalogIsActive" formControlName="EnableAutoProductSync">
             </div>
 
             <div class="form-group row">

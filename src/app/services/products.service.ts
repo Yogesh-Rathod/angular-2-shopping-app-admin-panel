@@ -31,7 +31,7 @@ export class ProductsService {
     }
 
     getProducts() {
-        let url = `${environment.merchandiseUrl}/Merchandise/Seller/Products`;
+        let url = `${environment.merchandiseUrl}Merchandise/Seller/Products`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)

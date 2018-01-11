@@ -164,6 +164,7 @@
                     Choose Currency
                   </label>
                   <select id="currency" class="form-control col-9" formControlName="CurrencyId">
+                    <option value="">Choose Currency</option>
                     <option *ngFor="let item of currencyOptions" value="{{ item }}">{{ item }}</option>
                   </select>
                 </div>

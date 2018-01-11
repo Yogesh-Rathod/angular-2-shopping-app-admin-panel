@@ -49,6 +49,20 @@ const routes: Routes = [
           MenuCode: 'SLR'
         }
       },
+      {
+        path: 'edit-seller-product/:productId',
+        component: AddSellerProductComponent,
+        data: {
+          MenuCode: 'SLR'
+        }
+      },
+      {
+        path: 'edit-seller-product/:productId/:bankId',
+        component: AddSellerProductComponent,
+        data: {
+          MenuCode: 'SLR'
+        }
+      }
 ];
 
 export const routing = RouterModule.forChild(routes);

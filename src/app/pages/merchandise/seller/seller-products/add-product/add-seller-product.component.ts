@@ -26,7 +26,7 @@ export class AddSellerProductComponent implements OnInit {
   };
   productId: any;
   products: any;
-  productInfo: any;
+  productInfo = [];
   showLoader = false;
   deleteLoader = false;
   categories = [];
@@ -201,36 +201,25 @@ export class AddSellerProductComponent implements OnInit {
   }
 
   getProductInfoForEdit() {
+    console.log(this.productId)
     if (this.productId) {
-      this.products = this.productsService.getProducts();
-      _.forEach(this.products, (product) => {
-        if (product.id === parseInt(this.productId)) {
-          this.productInfo = product;
-          console.log("this.productInfo ", this.productInfo);
-          this.addProductForm.controls['id'].setValue(product.id);
-          this.addProductForm.controls['name'].setValue(product.name);
-          this.addProductForm.controls['shortDescription'].setValue(product.shortDescription);
-          this.addProductForm.controls['fullDescription'].setValue(product.fullDescription);
-          // this.addProductForm.controls['sku'].setValue(product.sku);
-          this.addProductForm.controls['status'].setValue(product.status);
-          this.addProductForm.controls['currency'].setValue(product.currency);
-          this.addProductForm.controls['netPrice'].setValue(product.netPrice);
-          this.addProductForm.controls['netShipping'].setValue(product.netShipping);
-          this.addProductForm.controls['MrpPrice'].setValue(product.MrpPrice);
-          // this.addProductForm.controls['oldPrice'].setValue(product.MrpPrice);
-          // this.addProductForm.controls['retailPrice'].setValue(product.retailPrice);
-          // this.addProductForm.controls['retailShipping'].setValue(product.retailShipping);
-          // this.addProductForm.controls['rpi'].setValue(product.rpi);
-          // this.addProductForm.controls['stockQuantity'].setValue(product.stockQuantity);
-          this.addProductForm.controls['vendor'].setValue(product.vendor);
-          // this.addProductForm.controls['pictureName'].setValue(product.picture[0].url);
-          this.addProductForm.controls['pictureAlt'].setValue(product.picture[0].alt);
-          this.addProductForm.controls['pictureTitle'].setValue(product.picture[0].title);
-          this.addProductForm.controls['pictureDisplayorder'].setValue(product.picture[0].displayOrder);
-          // this.addProductForm.controls['categories'].setValue([product.categories]);
-          this.addProductForm.controls['brand'].setValue(product.brand);
+      this.productsService.getProductById(this.productId).then(res => {
+        this.products = res.Data;
+        if (res.code != 500 && this.products != '') {
+          this.addProductForm.controls['Id'].setValue(this.products.id);
+          this.addProductForm.controls['Name'].setValue(this.products.name);
+          this.addProductForm.controls['ShortDescription'].setValue(this.products.shortDescription);
+          this.addProductForm.controls['FullDescription'].setValue(this.products.fullDescription);
+          this.addProductForm.controls['Sku'].setValue(this.products.sku);
+          this.addProductForm.controls['Status'].setValue(this.products.status);
+          this.addProductForm.controls['Currency'].setValue(this.products.currency);
+          this.addProductForm.controls['NetPrice'].setValue(this.products.netPrice);
+          this.addProductForm.controls['NetShipping'].setValue(this.products.netShipping);
+          this.addProductForm.controls['MrpPrice'].setValue(this.products.MrpPrice);
+          this.addProductForm.controls['Brand'].setValue(this.products.brand);
         }
-      });
+      }).catch(err => { });
+      console.log("this.productInfo ", this.productInfo);
     }
   }
 
@@ -274,11 +263,11 @@ export class AddSellerProductComponent implements OnInit {
       }
     ]
     console.log(res);
-    this.productsService.addProduct(res).then(res=>{
+    this.productsService.addProduct(res).then(res => {
       this.toastr.success('Sucessfully Done!', 'Sucess!');
       this.showLoader = false;
       this.goBack();
-    }).catch(err=>{this.showLoader = false;})
+    }).catch(err => { this.showLoader = false; })
   }
 
   getAllCategories() {

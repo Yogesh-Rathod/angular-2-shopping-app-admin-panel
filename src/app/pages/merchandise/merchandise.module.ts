@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MerchandiseComponent } from './merchandise.component';
 import { routing } from './merchandise.routing';
 import { MerchandiseService } from 'app/services';
+import { ApprovalsComponent } from './approvals/approvals.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { MerchandiseService } from 'app/services';
   ],
   declarations: [
     MerchandiseComponent,
+    ApprovalsComponent,
   ],
   providers: [
     MerchandiseService

@@ -1,66 +1,66 @@
 <div class="animated fadeIn card orderDetails">
-  <div class="card-header clearfix">
-    <h2 class="card-title">
-      <span *ngIf="!catalogId">Add</span>
-      <span *ngIf="catalogId">Edit</span>
-      Catalog
+    <div class="card-header clearfix">
+        <h2 class="card-title">
+            <span *ngIf="!catalogId">Add</span>
+            <span *ngIf="catalogId">Edit</span>
+            Catalog
 
-      <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
-        height="35">
+            <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
+                height="35">
 
-      <span class="goBack float-right" [routerLink]="['/catalog-management']">
-        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to catalog's list</span>
+            <span class="goBack float-right" [routerLink]="['/merchandise/catalog-management']">
+                <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to catalog's list</span>
 
-    </h2>
-  </div>
-  <div class="card-body">
+        </h2>
+    </div>
+    <div class="card-body">
 
-    <form class="col-12" [formGroup]=" addCatalogForm " (ngSubmit)=" addCatalog(addCatalogForm.value) ">
-      <input type="hidden" formControlName="Id">
+        <form class="col-12" [formGroup]=" addCatalogForm " (ngSubmit)=" addCatalog(addCatalogForm.value) ">
+            <input type="hidden" formControlName="Id">
 
-      <div class="form-group row">
-        <label for="name" class="col-3 text-right">
-          Name
-          <span class="mandatory">*</span>
-        </label>
-        <input type="text" class="form-control col-9" id="name" placeholder="Name" formControlName="Name">
-      </div>
-      <div class="form-group row">
-            <label for="name" class="col-3 text-right">
+            <div class="form-group row">
+                <label for="name" class="col-3 text-right">
+                    Name
+                    <span class="mandatory">*</span>
+                </label>
+                <input type="text" class="form-control col-9" id="name" placeholder="Name" formControlName="Name">
+            </div>
+            <div class="form-group row">
+                <label for="name" class="col-3 text-right">
                     Description
-            </label>
-            <textarea class="form-control col-9" id="description" placeholder="Description" formControlName="Description"></textarea>
-          </div>
+                </label>
+                <textarea class="form-control col-9" id="description" placeholder="Description" formControlName="Description"></textarea>
+            </div>
 
-      <div class="form-group row">
-        <label for="vendors" class="col-3 text-right">Vendors </label>
-        <angular2-multiselect id="vendors" [data]="vendors" formControlName="vendors" [settings]="multiDropdownSettings">
-        </angular2-multiselect>
-      </div>
+            <div class="form-group row">
+                <label for="vendors" class="col-3 text-right">Vendors </label>
+                <angular2-multiselect id="vendors" [data]="vendors" formControlName="vendors" [settings]="multiDropdownSettings">
+                </angular2-multiselect>
+            </div>
 
-      <div class="form-group row">
-        <label for="programs" class="col-3 text-right">Programs
-        </label>
-        <angular2-multiselect id="programs" [data]="programs" formControlName="programs" [settings]="multiDropdownSettings">
-        </angular2-multiselect>
-      </div>
+            <div class="form-group row">
+                <label for="programs" class="col-3 text-right">Programs
+                </label>
+                <angular2-multiselect id="programs" [data]="programs" formControlName="programs" [settings]="multiDropdownSettings">
+                </angular2-multiselect>
+            </div>
 
-      <div class="form-group row">
-        <label for="status" class="status col-3 text-right">
-                IsActive
-        </label>
-        <input type="checkbox" id="IsActive" formControlName="IsActive">
-      </div>
+            <div class="form-group row">
+                <label for="status" class="status col-3 text-right">
+                    IsActive
+                </label>
+                <input type="checkbox" id="CatalogIsActive" formControlName="CatalogIsActive">
+            </div>
 
-      <div class="form-group row">
-        <label class="col-3 text-right"></label>
-        <input *ngIf=" !catalogId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addCatalogForm.valid || showLoader ">
-        <input *ngIf=" catalogId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addCatalogForm.valid || showLoader ">
-        <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-        <span class="btn btn-secondary" [routerLink]="['/merchandise/catalog-management']">Cancel</span>
-      </div>
+            <div class="form-group row">
+                <label class="col-3 text-right"></label>
+                <input *ngIf=" !catalogId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addCatalogForm.valid || showLoader ">
+                <input *ngIf=" catalogId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addCatalogForm.valid || showLoader ">
+                <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+                <span class="btn btn-secondary" [routerLink]="['/merchandise/catalog-management']">Cancel</span>
+            </div>
 
-    </form>
+        </form>
 
-  </div>
+    </div>
 </div>

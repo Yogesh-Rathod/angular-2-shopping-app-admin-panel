@@ -50,7 +50,7 @@ export class CatalogManagementComponent implements OnInit {
     searchCatalog(searchText) {
         this.filteredCatalogs = this.catalog.filter((item) => {
             const caseInsensitiveSearch = new RegExp(`${searchText.trim()}`, "i");
-            return caseInsensitiveSearch.test(item.name) || caseInsensitiveSearch.test(item.status);
+            return caseInsensitiveSearch.test(item.Name) || caseInsensitiveSearch.test(item.Description);
         });
     }
 

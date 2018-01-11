@@ -59,17 +59,19 @@
                             <th class="text-left">
                                 <strong>Catalog Description</strong>
                             </th>
-                            
+                            <th>
+                                <strong>Status</strong>
+                            </th>
                             <th>
                                 <mfDefaultSorter by="CreatedOn">
                                     <strong>Created Date</strong>
                                 </mfDefaultSorter>
                             </th>
-                            <th class="text-center">
+                            <!-- <th class="text-center">
                                     <mfDefaultSorter by="CreatedBy">
                                         <strong>CreatedBy</strong>
                                     </mfDefaultSorter>
-                                </th>
+                                </th> -->
                             <th class="text-center">
                                 <strong>Action</strong>
                             </th>
@@ -90,13 +92,16 @@
                                 <i *ngIf=" item.status " class="fa fa-check" aria-hidden="true"></i>
                                 <i *ngIf=" !item.status " class="fa fa-times" aria-hidden="true"></i>
                             </td> -->
+                            <td>
+                                <span *ngIf="item.IsActive">Active</span>
+                                <span *ngIf="!item.IsActive">Not Active</span>
+                            </td>                            
                             <td>{{ item.CreatedOn | date }}</td>                                                        
-                            <td>{{ item.CreatedBy }}</td>
                             <td class="text-center">
                                 <button class="btn btn-secondary" [routerLink]="['./edit-catalog/', item.Id]" title="Edit">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </button>
-                                <button class="btn btn-secondary" [routerLink]="['./bank-details/', item.Id]" title="View Details">
+                                <button class="btn btn-secondary" [routerLink]="['./catalog-details/', item.Id]" title="View Details">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </button>
                             </td>

@@ -1,4 +1,37 @@
 <div class="row top20 clearfix fadeIn animated">
     <div class="col-12">
+        <div class="catSearch clearfix card-header">
+            <h2 class="card-title ">
+                Manage Approvals
+            </h2>
+        </div>
+
+        <div class="card">
+            <div class="card-body pos_relative">
+
+                <div class="loader-container pos_absolute" *ngIf="showLoader">
+                    <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+                </div>
+
+                <div class="tabs-section">
+                    <!-- Tabs Top UI -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#Categories" role="tab" data-toggle="tab">Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#Products" role="tab" data-toggle="tab">Products</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content no_left_padding no_right_padding">
+                    <div role="tabpanel" class="tab-pane fade active" id="Categories">
+                        <app-categories class="col-12"></app-categories>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>

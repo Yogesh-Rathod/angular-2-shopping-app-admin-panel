@@ -2,8 +2,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { MerchandiseComponent } from './merchandise.component';
 
-import { ApprovalsComponent } from './approvals/approvals.component';
-
 const routes: Routes = [
     {
         path: '',
@@ -44,7 +42,7 @@ const routes: Routes = [
             },
             {
                 path: 'approvals',
-                component: ApprovalsComponent,
+                loadChildren: './approvals/approvals.module#ApprovalsModule',
                 data: {
                     MenuCode: 'PRD'
                 }

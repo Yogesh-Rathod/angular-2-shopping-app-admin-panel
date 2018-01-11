@@ -85,36 +85,10 @@ export class SellerProductsComponent implements OnInit {
 
     getAllProducts() {
         this.bigLoader = true;
-        this.products =  [
-            {
-              "Id": "string",
-              "SellerId": "string",
-              "ParentProductCode": "string",
-              "Sku": "string",
-              "Name": "string",
-              "ModelNumber": "string",
-              "ShortDescription": "string",
-              "FullDescription": "string",
-              "ProductSpecification": "string",
-              "CategoryId": "string",
-              "Brand": "string",
-              "Colour": "string",
-              "Size": "string",
-              "ImageNumber": 0,
-              "CurrencyId": "string",
-              "NetPrice": 0,
-              "NetShippingPrice": 0,
-              "Mrp": 0,
-              "Comments": "string",
-              "ManufacturerPartNumber": "string",
-              "Gtin": "string",
-              "Status": "string"
-            },
-          ]
-        this.productsService.getProducts().
+      this.productsService.getProducts().
             then((products) => {
                 console.log("products ", products);
-                //this.products = products.Data;
+                this.products = products.Data;
                 this.bigLoader = false;
             }).catch((error) => {
                 console.log("error ", error);

@@ -31,7 +31,7 @@ export class ProductsService {
     }
 
     getProducts() {
-        let url = `${environment.merchandiseUrl}Seller/Products`;
+        let url = `${environment.merchandiseUrl}Merchandise/Seller/Products`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
@@ -41,8 +41,8 @@ export class ProductsService {
             .catch((err) => this.responseHandler.handleError(err));
     }
 
-    getOpsProducts() {
-        let url = `${environment.merchandiseUrl}Seller/Product`;
+    getOpsProducts(role) {
+        let url = `${environment.merchandiseUrl}Merchandise/${role}/Products`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
@@ -52,11 +52,22 @@ export class ProductsService {
             .catch((err) => this.responseHandler.handleError(err));
     }
 
-    approveProducts(products) {
-        const url = `${environment.merchandiseUrl}Seller/Product/Approve`;
+    approveProducts(products, role) {
+        const url = `${environment.merchandiseUrl}Merchandise/${role}/Products/Approve`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
-        return this.http.put(url, JSON.stringify(products), this.options)
+        return this.http.post(url, JSON.stringify(products), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    rejectProducts(products, role) {
+        const url = `${environment.merchandiseUrl}Merchandise/${role}/Products/Reject`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        return this.http.post(url, JSON.stringify(products), this.options)
             .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
@@ -64,21 +75,41 @@ export class ProductsService {
     }
 
     addProduct(product) {
-        const url = `${environment.merchandiseUrl}Seller/Product`;
+        const url = `${environment.merchandiseUrl}Merchandise/Seller/Products`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
-        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, product));
         return this.http.post(url, JSON.stringify(product), this.options)
             .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
-
+    getProductById(Id) {
+        const url = `${environment.merchandiseUrl}Merchandise/Seller/Products/${Id}`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
     sendproductForApproval(product) {
         const url = `${environment.merchandiseUrl}Seller/Product/Confirm`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
         return this.http.put(url, JSON.stringify(product), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    getOpsProductById(productId, role) {
+        const url = `${environment.merchandiseUrl}Merchandise/${role}/Products/${productId}`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        return this.http.get(url, this.options)
             .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)

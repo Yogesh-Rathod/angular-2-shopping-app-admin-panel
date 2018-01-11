@@ -133,8 +133,7 @@ i.fa {
         margin: 10px auto;
         display: block; // transform: rotateX(180deg);
     }
-
-    & + .card-body {
+    &+.card-body {
         min-height: 100px;
     }
 }
@@ -197,10 +196,11 @@ i.fa {
     z-index: 999 !important;
 }
 
-
+.goBack {
+    cursor: pointer;
+}
 
 // Media Queries
-
 @media (min-width: 576px) {
     .modal-sm {
         max-width: 370px;

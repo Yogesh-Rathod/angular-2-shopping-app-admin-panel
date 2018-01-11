@@ -8,14 +8,14 @@
 					<i class="fa fa-download" aria-hidden="true"></i>
 					Bulk Import
 				</button> -->
-				<button *ngIf="!vendorId" class="btn btn-primary float-right" [routerLink]="['/merchandise/products/add-product']">
+				<!-- <button *ngIf="!vendorId" class="btn btn-primary float-right" [routerLink]="['/merchandise/products/add-product']">
 					<i class="fa fa-plus-square" aria-hidden="true"></i>
 					Add New Product
 				</button>
 				<button *ngIf="vendorId" class="btn btn-primary float-right" [routerLink]="['/merchandise/products/vendorproducts/add-product',vendorId]">
 					<i class="fa fa-plus-square" aria-hidden="true"></i>
 					Add New Product
-				</button>
+				</button> -->
 			</h2>
 		</div>
 
@@ -129,12 +129,12 @@
 					<img src="assets/img/ajax-loader.gif" alt="Loader Image">
 				</div>
 
-				<button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 }" (click)="exportProducts()">
+				<button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 || !showSelectedAction }" (click)="exportProducts()" >
 					<i class="fa fa-download" aria-hidden="true"></i>
 					Export Products
 				</button>
 
-				<div class="pull-right col-4 dropDownAction no_padding">
+				<div class="pull-right col-4 dropDownAction no_padding" [class.disabled]="!showSelectedAction">
 					<form class="form-inline">
 						<div class="form-group row no_margin col-12 no_padding">
 							<label for="action">
@@ -148,8 +148,9 @@
 								</option>
 							</select>
 							<button class="btn btn-success" (click)="dropDownActionFunction(dropDownActionSelect.value)">Submit</button>
+                            <p *ngIf="noActionSelected" class="no-action error no-text-transform">Please select a action.</p>
 						</div>
-					</form>
+                    </form>
 				</div>
 
 				<div class="table-responsive">
@@ -229,7 +230,7 @@
 							</tr>
 						</tbody>
 
-						<tbody *ngIf=" products && products.length === 0 ">
+						<tbody *ngIf=" !products || products.length === 0 ">
 							<tr>
 								<td colspan="9">
 									<strong>There are no products!</strong>

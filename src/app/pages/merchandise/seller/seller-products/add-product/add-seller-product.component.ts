@@ -26,7 +26,7 @@ export class AddSellerProductComponent implements OnInit {
   };
   productId: any;
   products: any;
-  productInfo: any;
+  productInfo = [];
   showLoader = false;
   deleteLoader = false;
   categories = [];
@@ -82,6 +82,8 @@ export class AddSellerProductComponent implements OnInit {
   createForm() {
     this.addProductForm = this.fb.group({
       'Id': [''],
+      'ModelNumber': [''],
+      'Gtin': [''],
       'Sku': [
         '',
         Validators.compose([
@@ -139,10 +141,8 @@ export class AddSellerProductComponent implements OnInit {
         '',
         Validators.required
       ],
-      'oldPrice': [''],
       'netTaxes': [''],
       'netTaxes2': [''],
-      'applicableDate': [''],
       // 'stockQuantity': [
       //   '',
       //   Validators.required
@@ -159,12 +159,12 @@ export class AddSellerProductComponent implements OnInit {
       'pictureAlt': [''],
       'pictureTitle': [''],
       'pictureDisplayorder': [''],
-      'type': [''],
       'Brand': [''],
       'Colour': [''],
       'Size': [''],
       // 'reOrderLevel': [''],
       'Comments': [''],
+      'ManufacturerPartNumber': [''],
       'approvalStatus': ['Pending']
     });
   }
@@ -201,65 +201,87 @@ export class AddSellerProductComponent implements OnInit {
   }
 
   getProductInfoForEdit() {
+    console.log(this.productId)
     if (this.productId) {
-      this.products = this.productsService.getProducts();
-      _.forEach(this.products, (product) => {
-        if (product.id === parseInt(this.productId)) {
-          this.productInfo = product;
-          console.log("this.productInfo ", this.productInfo);
-          this.addProductForm.controls['id'].setValue(product.id);
-          this.addProductForm.controls['name'].setValue(product.name);
-          this.addProductForm.controls['shortDescription'].setValue(product.shortDescription);
-          this.addProductForm.controls['fullDescription'].setValue(product.fullDescription);
-          // this.addProductForm.controls['sku'].setValue(product.sku);
-          this.addProductForm.controls['status'].setValue(product.status);
-          this.addProductForm.controls['currency'].setValue(product.currency);
-          this.addProductForm.controls['netPrice'].setValue(product.netPrice);
-          this.addProductForm.controls['netShipping'].setValue(product.netShipping);
-          this.addProductForm.controls['MrpPrice'].setValue(product.MrpPrice);
-          this.addProductForm.controls['oldPrice'].setValue(product.MrpPrice);
-          // this.addProductForm.controls['retailPrice'].setValue(product.retailPrice);
-          // this.addProductForm.controls['retailShipping'].setValue(product.retailShipping);
-          // this.addProductForm.controls['rpi'].setValue(product.rpi);
-          // this.addProductForm.controls['stockQuantity'].setValue(product.stockQuantity);
-          this.addProductForm.controls['vendor'].setValue(product.vendor);
-          // this.addProductForm.controls['pictureName'].setValue(product.picture[0].url);
-          this.addProductForm.controls['pictureAlt'].setValue(product.picture[0].alt);
-          this.addProductForm.controls['pictureTitle'].setValue(product.picture[0].title);
-          this.addProductForm.controls['pictureDisplayorder'].setValue(product.picture[0].displayOrder);
-          // this.addProductForm.controls['categories'].setValue([product.categories]);
-          this.addProductForm.controls['type'].setValue(product.type);
-          this.addProductForm.controls['brand'].setValue(product.brand);
+      this.productsService.getProductById(this.productId).then(res => {
+        this.products = res.Data;
+        if (res.code != 500 && this.products != '') {
+          this.addProductForm.controls['Id'].setValue(this.products.id);
+          this.addProductForm.controls['Name'].setValue(this.products.name);
+          this.addProductForm.controls['ShortDescription'].setValue(this.products.shortDescription);
+          this.addProductForm.controls['FullDescription'].setValue(this.products.fullDescription);
+          this.addProductForm.controls['Sku'].setValue(this.products.sku);
+          this.addProductForm.controls['Status'].setValue(this.products.status);
+          this.addProductForm.controls['Currency'].setValue(this.products.currency);
+          this.addProductForm.controls['NetPrice'].setValue(this.products.netPrice);
+          this.addProductForm.controls['NetShipping'].setValue(this.products.netShipping);
+          this.addProductForm.controls['MrpPrice'].setValue(this.products.MrpPrice);
+          this.addProductForm.controls['Brand'].setValue(this.products.brand);
         }
-      });
+      }).catch(err => { });
+      console.log("this.productInfo ", this.productInfo);
     }
   }
 
   addProduct(addProductForm) {
     this.showLoader = true;
-    console.log("addProductForm ", addProductForm);
-
-    if (addProductForm.id) {
-    } else {
-    }
-
-    this.toastr.success('Sucessfully Done!', 'Sucess!');
-    this.showLoader = false;
-    this.goBack();
+    let value = []
+    addProductForm.specifications = addProductForm.specifications.map((data, index) => {
+      value.push(data.key + ':' + data.value)
+      return data;
+    });
+    let val2 = JSON.stringify(value);
+    let val3 = val2.replace('[', '')
+    let val4 = val3.replace(']', '')
+    let specification = val4.replace(',', '|');
+    // let Productspecification = specification.replace('"', '');
+    // console.log(Productspecification);
+    var res = [
+      {
+        "Id": addProductForm.Id,
+        "SellerId": addProductForm.SellerId.id,
+        "ParentProductCode": addProductForm.ParentProductCode,
+        "Sku": addProductForm.Sku,
+        "Name": addProductForm.Name,
+        "ModelNumber": addProductForm.ModelNumber,
+        "ShortDescription": addProductForm.ShortDescription,
+        "FullDescription": addProductForm.FullDescription,
+        "ProductSpecification": `${specification}`,
+        "CategoryId": "1",
+        "Brand": addProductForm.Brand,
+        "Colour": addProductForm.Colour,
+        "Size": addProductForm.Size,
+        "ImageNumber": 0,
+        "CurrencyId": addProductForm.CurrencyId,
+        "NetPrice": addProductForm.NetPrice,
+        "NetShippingPrice": addProductForm.NetShippingPrice,
+        "Mrp": addProductForm.Mrp,
+        "Comments": addProductForm.Comments,
+        "ManufacturerPartNumber": addProductForm.ManufacturerPartNumber,
+        "Gtin": addProductForm.Gtin,
+        "Status": addProductForm.Status
+      }
+    ]
+    console.log(res);
+    this.productsService.addProduct(res).then(res => {
+      this.toastr.success('Sucessfully Done!', 'Sucess!');
+      this.showLoader = false;
+      this.goBack();
+    }).catch(err => { this.showLoader = false; })
   }
 
   getAllCategories() {
-      this.merchandiseService.getCategoriesByLevel(3).
-        then((categories) => {
-            this.categories = categories.Data;
-            this.categories = this.categories.map((category) => {
-                category.id = category.Id;
-                category.itemName = category.Name;
-                return category;
-            })
-        }).catch((error) => {
-            console.log("error ", error);
-        });
+    this.merchandiseService.getCategoriesByLevel(3).
+      then((categories) => {
+        this.categories = categories.Data;
+        this.categories = this.categories.map((category) => {
+          category.id = category.Id;
+          category.itemName = category.Name;
+          return category;
+        })
+      }).catch((error) => {
+        console.log("error ", error);
+      });
   }
 
   uploadProductImage(addProductForm) {

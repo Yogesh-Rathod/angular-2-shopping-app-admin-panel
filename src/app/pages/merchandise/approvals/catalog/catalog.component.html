@@ -1,0 +1,75 @@
+<!-- <div role="tabpanel" class="tab-pane fade" id="PendingCatalog"> -->
+    <table class="table table-bordered table-responsive" [mfData]="filteredApproveCatalogs" #mff="mfDataTable" [mfRowsOnPage]="10">
+        <thead class="black-muted-bg">
+            <tr>
+
+                <th class="text-left">
+                    <mfDefaultSorter by="Name">
+                        <strong>Catalog Name</strong>
+                    </mfDefaultSorter>
+                </th>
+                <th class="text-left">
+                    <strong>Catalog Description</strong>
+                </th>
+                <th>
+                    <strong>Status</strong>
+                </th>
+                <th>
+                    <mfDefaultSorter by="CreatedOn">
+                        <strong>Created Date</strong>
+                    </mfDefaultSorter>
+                </th>
+                <th class="text-center">
+                    <strong>Action</strong>
+                </th>
+            </tr>
+        </thead>
+        <tbody *ngIf=" filteredApproveCatalogs && filteredApproveCatalogs.length > 0 ">
+            <tr *ngFor=" let item of mff.data; let i = index ">
+                <td class="text-left">
+                    {{ item.Name }}
+                </td>
+                <td class="text-left">
+                    {{item.Description}}
+                </td>
+                <!-- <td class="text-center">
+                                        <i *ngIf=" item.status " class="fa fa-check" aria-hidden="true"></i>
+                                        <i *ngIf=" !item.status " class="fa fa-times" aria-hidden="true"></i>
+                                    </td> -->
+                <td>
+                    <span *ngIf="item.IsActive">Active</span>
+                    <span *ngIf="!item.IsActive">Not Active</span>
+                </td>
+                <td>{{ item.CreatedOn | date }}</td>
+                <td class="text-center">
+                    <button class="btn btn-secondary" [routerLink]="['/merchandise/catalog-management/edit-catalog/', item.Id, 'approve']" title="Edit">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-secondary" [routerLink]="['/merchandise/catalog-management/catalog-details/', item.Id, 'approve']" title="View Details">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary" title="Approve" (click)="approveCatalog(item)">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        <span>Approve</span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+
+        <tbody *ngIf=" filteredApproveCatalogs && filteredApproveCatalogs.length === 0 ">
+            <tr>
+                <td colspan="5">
+                    <strong>There are no filteredCatalogs!</strong>
+                </td>
+            </tr>
+        </tbody>
+
+        <tfoot *ngIf=" filteredApproveCatalogs && filteredApproveCatalogs.length > 10 ">
+            <tr>
+                <td colspan="5">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+<!-- </div> -->

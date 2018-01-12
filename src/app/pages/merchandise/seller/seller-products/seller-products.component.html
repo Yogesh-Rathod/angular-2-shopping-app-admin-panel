@@ -61,7 +61,9 @@
                         </label>
                         <select id="Category" class="form-control col-12" formControlName="category">
                             <option value="">All</option>
-
+                            <option *ngFor="let item of categories" [ngValue]="item">
+                                {{ item.Name }}
+                            </option>
                         </select>
                     </div>
 

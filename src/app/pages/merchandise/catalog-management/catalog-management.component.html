@@ -113,6 +113,9 @@
                                     </td>
                                     <td>{{ item.CreatedOn | date }}</td>
                                     <td class="text-center">
+                                        <button class="btn btn-secondary" [routerLink]="['./catalog-map/', item.Id, 'map']" title="Mapping">
+                                            <i class="fa fa-cogs"></i>
+                                        </button>
                                         <button class="btn btn-secondary" [routerLink]="['./edit-catalog/', item.Id]" title="Edit">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </button>
@@ -192,9 +195,9 @@
                                         <button class="btn btn-secondary" [routerLink]="['./edit-catalog/', item.Id, 'approve']" title="Edit">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </button>
-                                        <button class="btn btn-secondary" [routerLink]="['./catalog-details/', item.Id, 'approve']" title="View Details">
+                                        <!-- <button class="btn btn-secondary" [routerLink]="['./catalog-details/', item.Id, 'approve']" title="View Details">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
-                                        </button>
+                                        </button> -->
                                         <button type="button" class="btn btn-primary" title="Approve" (click)="approveCatalog(item)" >
                                                 <i class="fa fa-check" aria-hidden="true"></i><span>Approve</span>
                                         </button>

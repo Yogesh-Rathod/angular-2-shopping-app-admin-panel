@@ -1,18 +1,5 @@
-.tabs-section {
-		margin-left: -23px;
-}
-
 .goBack {
 	cursor: pointer;
-}
-
-.fade.active {
-	opacity: 1;
-}
-
-.btn {
-	margin-left: 20px;
-	margin-top: -7px;
 }
 
 .deleteLoader {
@@ -25,4 +12,21 @@
 
 .basic-info {
 	margin-bottom: 25px;
+}
+.catalog-description{
+    padding: 15px;
+}
+.catalog-flag-wrap{
+    margin-bottom: 25px;
+}
+.catalog-flag-active{
+    color: green;
+}
+.catalog-flag-deactive{
+    color:#ff1305
+}
+
+.fade.active {
+    opacity: 1;
+    display: block;
 }

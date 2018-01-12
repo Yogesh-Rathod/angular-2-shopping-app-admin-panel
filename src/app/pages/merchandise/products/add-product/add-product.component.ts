@@ -295,7 +295,17 @@ export class AddProductComponent implements OnInit {
                     category.id = category.Id;
                     category.itemName = category.Name;
                     return category;
-                })
+                });
+                if (this.productId) {
+                    const selectedCategory = this.categories.filter((category) => {
+                        if (category.Id === this.products[0].CategoryId) {
+                            return category;
+                        }
+                    });
+                    if (selectedCategory && selectedCategory.length > 0) {
+                        this.addProductForm.controls['CategoryId'].setValue(selectedCategory);
+                    }
+                }
             }).catch((error) => {
                 console.log("error ", error);
             });

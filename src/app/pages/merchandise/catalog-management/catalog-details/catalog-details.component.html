@@ -1,90 +1,160 @@
-<div class="animated fadeIn card orderDetails">
+<div class="animated fadeIn card orderDetails" *ngIf="catalogInfo">
 
-  <div class="card-header clearfix">
-    <h2 class="card-title">
-      Manage Bank
-      <span *ngIf="bankInfo"> - {{ bankInfo.id }}</span>
-      <span class="goBack float-right" [routerLink]="['/catalog-management']">
-        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to banks list</span>
-    </h2>
-  </div>
-
-  <div class="card-body" *ngIf="bankInfo">
-
-    <div class="loader-container pos_absolute" *ngIf="bigLoader">
-      <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+    <div class="card-header clearfix">
+        <h2 class="card-title">
+            Name: {{catalogInfo.Name}}
+            <span class="goBack float-right" (click)="goBackFunc()">
+                <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to Catalog list</span>
+        </h2>
     </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12 catalog-description">
+                <h5>Description</h5>
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ catalogInfo.Description }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 catalog-flag-wrap">
+                <div class="row">
+                    <div class="col-md-3">
+                        <i *ngIf="catalogInfo.IsActive" class="fa fa-check catalog-status catalog-flag-active"></i>
+                        <i *ngIf="!catalogInfo.IsActive" class="fa fa-times catalog-status catalog-flag-deactive"></i>
+                        <span>Is Active </span>
+                    </div>
+                    <div class="col-md-3">
+                        <i *ngIf="catalogInfo.EnableAllProducts" class="fa fa-check catalog-enable-all-products catalog-flag-active"></i>
+                        <i *ngIf="!catalogInfo.EnableAllProducts" class="fa fa-times catalog-enable-all-products catalog-flag-deactive"></i>
+                        <span>Enable All Products </span>
+                    </div>
+                    <div class="col-md-3">
+                        <i *ngIf="catalogInfo.EnableAutoProductSync" class="fa fa-check catalog-status catalog-flag-active"></i>
+                        <i *ngIf="!catalogInfo.EnableAutoProductSync" class="fa fa-times catalog-status catalog-flag-deactive"></i>
+                        <span>Enable Auto Product Sync </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 no_padding">
+                <div class="card-body pos_relative">
+                    <div class="loader-container pos_absolute" *ngIf="false">
+                        <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+                    </div>
+                    <div class="tabs-section">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#mappedProduct" role="tab" data-toggle="tab">Product</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="#mappedBank" role="tab" data-toggle="tab">Bank</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="mappedProduct">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Filters will be here</h4>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <button class="btn btn-primary" type="button"> << MAP</button>
+                                            <button class="btn btn-primary" type="button">UN-MAP >></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                    <div class="col-sm-5">
+                                            <table class="table table-bordered table-responsive" [mfData]="allProducts" #mfMapList="mfDataTable" [mfRowsOnPage]="10">
+                                                <thead class="black-muted-bg">
+                                                    <tr>
+                                                        <th class="text-center" style="width:50px;">
+                                                            <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+                                                        </th>
+                                                        <th class="text-left" style="width:200px;">
+                                                            <mfDefaultSorter by="Name">
+                                                                <strong>Product Name</strong>
+                                                            </mfDefaultSorter>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody *ngIf=" allProducts && allProducts.length > 0 ">
+                                                    <tr *ngFor=" let item of mfMapList.data; let i = index ">
+                                                        <td class="text-center">
+                                                            <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                                                        </td>
+                                                        <td class="text-left">
+                                                            {{ item.Name }}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot *ngIf=" allProducts && allProducts.length > 10 ">
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                <div class="col-sm-7">
+                                    <table class="table table-bordered table-responsive" [mfData]="allProducts" #mfList="mfDataTable" [mfRowsOnPage]="10">
+                                        <thead class="black-muted-bg">
+                                            <tr>
+                                                <th class="text-center" style="width:50px;">
+                                                    <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+                                                </th>
+                                                <th class="text-left" style="width:200px;">
+                                                    <mfDefaultSorter by="Name">
+                                                        <strong>Product Name</strong>
+                                                    </mfDefaultSorter>
+                                                </th>
+                                                <th class="text-left">
+                                                    <mfDefaultSorter>
+                                                        <strong>Description</strong>
+                                                    </mfDefaultSorter>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngIf=" allProducts && allProducts.length > 0 ">
+                                            <tr *ngFor=" let item of mfList.data; let i = index ">
+                                                <td class="text-center">
+                                                    <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                                                </td>
+                                                <td class="text-left">
+                                                    {{ item.Name }}
+                                                </td>
+                                                <td class="text-left">
+                                                    {{ item.ShortDescription }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot *ngIf=" allProducts && allProducts.length > 10 ">
+                                            <tr>
+                                                <td colspan="3">
+                                                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade in" id="mappedBank">
+                            <h2>Program (Bank) List</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div class="basic-info row">
-      <div class="col-3">
-        <span class="bold">
-           Name
-          <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Bank Name"></i>
-        </span>
-        <span>
-          : {{ bankInfo.name }}
-        </span>
-      </div>
-      <div class="col-3">
-        <span class="bold">
-          No. of vendors
-         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="No. of vendors"></i>
-        </span>
-        <span>
-            : {{ bankInfo.vendorCount }}
-        </span>
-      </div>
-      <div class="col-3">
-        <span class="bold">
-           No. of products
-          <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="No. of products"></i>
-        </span>
-        <span>
-          : {{ bankInfo.productsCount }}
-        </span>
-      </div>
-      <div class="col-3">
-        <span class="bold">
-           Total purchases
-          <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Total purchases"></i>
-        </span>
-        <span>
-          : {{ bankInfo.purchasesCount }}
-        </span>
-      </div>
+        <div class="row">
+            <div class="col-md-12">
+                <span class="btn btn-secondary" (click)="goBackFunc()">Cancel</span>
+            </div>
+        </div>
     </div>
-    <hr>
-
-    <div class="tabs-section">
-      <!-- Tabs Top UI -->
-      <ul class="nav nav-tabs" role="tablist">
-        <!-- <li class="nav-item">
-          <a class="nav-link active" href="#info" role="tab" data-toggle="tab">Basic Info</a>
-        </li> -->
-        <li class="nav-item">
-          <a class="nav-link active" href="#vendors" role="tab" data-toggle="tab">Vendors Info</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="#products" role="tab" data-toggle="tab">Products Info</a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="tab-content col-12 no_left_padding no_right_padding">
-      <!-- <div role="tabpanel" class="tab-pane fade in active" id="info">
-        <app-basic-info class="col-12" [bankInfo]="bankInfo"></app-basic-info>
-      </div> -->
-      <div role="tabpanel" class="tab-pane fade in active" id="vendors">
-        <app-vendors-info class="col-12" [bankInfo]="bankInfo"></app-vendors-info>
-      </div>
-      <div role="tabpanel" class="tab-pane fade in" id="products">
-        <app-products-info class="col-12" [bankInfo]="bankInfo"></app-products-info>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="card-body" *ngIf="!bankInfo">
-    Bank Info is not available!!!
-  </div>
 </div>

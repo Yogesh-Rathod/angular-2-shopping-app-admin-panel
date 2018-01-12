@@ -80,4 +80,15 @@ export class CatalogManagementService {
             .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
+
+
+    getMapProductList(_catalogId) {
+        let url = `${environment.merchandiseUrl}Merchandise/CatalogProductMap/${_catalogId}`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
 }

@@ -25,6 +25,10 @@ const routes: Routes = [
   {
     path: 'catalog-details/:catalogId',
     component: BankDetailsComponent
+  },
+  {
+    path: 'catalog-map/:catalogId/:for',
+    component: BankDetailsComponent
   }
 ];
 

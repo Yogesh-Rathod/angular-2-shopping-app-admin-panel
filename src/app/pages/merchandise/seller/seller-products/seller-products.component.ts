@@ -20,7 +20,7 @@ export class SellerProductsComponent implements OnInit {
     searchProductForm: FormGroup;
     bigLoader = true;
     productSelected = true;
-    deleteLoader: Number;
+    approveLoader = false;
     products: any;
     categories: any;
     productTypes = [
@@ -85,7 +85,7 @@ export class SellerProductsComponent implements OnInit {
 
     getAllProducts() {
         this.bigLoader = true;
-      this.productsService.getProducts().
+        this.productsService.getProducts().
             then((products) => {
                 console.log("products ", products);
                 this.products = products.Data;
@@ -151,11 +151,20 @@ export class SellerProductsComponent implements OnInit {
 
 
     approve() {
-        this.productsService.sendproductForApproval(this.products).then(res => {
-
-        }).catch(err => {
-            // this.toastr.error(err)
-        })
+        this.approveLoader = true;
+        this.productsService.sendproductForApproval(this.products)
+            .then(res => {
+                if (res.Code === 200) {
+                    this.getAllProducts();
+                    this.toastr.success('Successfully sent for approval.', 'Success');
+                } else if (res.Code === 500) {
+                    this.toastr.error('Could not send for approval.', 'Error');
+                }
+                this.approveLoader = false;
+            }).catch(err => {
+                this.approveLoader = false;
+                this.toastr.error('Could not send for approval.', 'Error');
+            })
     }
 
     selectAll(e) {
@@ -179,6 +188,7 @@ export class SellerProductsComponent implements OnInit {
     checkBoxSelected(e, item) {
         this.selectAllCheckbox = false;
         if (e.target.checked) {
+            this.productSelected = false;
             item.isChecked = true;
         } else {
             item.isChecked = false;
@@ -194,6 +204,7 @@ export class SellerProductsComponent implements OnInit {
         });
 
         if (isCheckedArray.length === 0) {
+            this.productSelected = true;
             this.showSelectedDelete = false;
         }
 

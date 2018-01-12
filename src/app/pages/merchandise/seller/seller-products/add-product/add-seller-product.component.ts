@@ -224,16 +224,7 @@ export class AddSellerProductComponent implements OnInit {
                     this.addProductForm.controls['FullDescription'].setValue(this.products[0].FullDescription);
                     this.addProductForm.controls['Sku'].setValue(this.products[0].Sku);
                     this.addProductForm.controls['CurrencyId'].setValue(this.products[0].CurrencyId);
-                    console.log("this.products[0].CategoryId ", this.products[0].CategoryId);
-                    _.forEach(this.categories, (cat) => {
-                        console.log("cate ", cat);
-                    })
-                    //   this.categories = this.categories
-                    // this.addProductForm.controls['CategoryId'].setValue(this.products[0].CategoryId);
                     this.addProductForm.controls['Status'].setValue(this.products[0].Status);
-                    console.log("brand", this.products[0].Brand);
-
-
                 }
             }).catch(err => { });
         }
@@ -323,7 +314,7 @@ export class AddSellerProductComponent implements OnInit {
                             return category;
                         }
                     });
-                    if (selectedCategory && selectedCategory.length > 1) {
+                    if (selectedCategory && selectedCategory.length > 0) {
                         this.addProductForm.controls['CategoryId'].setValue(selectedCategory);
                     }
                 }

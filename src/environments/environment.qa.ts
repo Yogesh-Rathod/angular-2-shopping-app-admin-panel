@@ -16,7 +16,7 @@ export const environment = {
     masterApiUrl: '',
     storeApiUrl: '',
     appName: 'MERCHANDISE',
-    hmacCliendId: 'lvbportal',
+    hmacCliendId: 'lvbportalqainternal',
     hmacClientSecret: 'secret',
     moduleId: '825362de-db45-11e7-960e-00155dc90735',
     domainName: 'localhost',

@@ -145,10 +145,12 @@
                   <input type="text" class="form-control col-9" id="netPrice" placeholder="Net Price" formControlName="NetPrice" (keydown)='validatenumber($event)'>
                 </div>
                 <div class="form-group row">
-                  <label for="netShipping" class="col-3 text-right">Net Shipping <br>Price
+                  <label for="netShipping" class="col-3 text-right">Net Shipping
+                    <br>Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="netShipping" placeholder="Shipping Price" formControlName="NetShippingPrice" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="netShipping" placeholder="Shipping Price" formControlName="NetShippingPrice"
+                    (keydown)='validatenumber($event)'>
                 </div>
                 <div class="form-group row">
                   <label for="Price" class="col-3 text-right">MRP Price
@@ -174,19 +176,19 @@
 
                 <hr>
 
-                <div class="form-group row">
+                <!-- <div class="form-group row">
                   <label for="Price" class="col-3 text-right">Net Taxes
                     <span class="mandatory">*</span>
                   </label>
                   <input type="text" class="form-control col-9" id="Price" placeholder="Net Taxes" formControlName="netTaxes">
-                </div>
-                <div class="form-group row">
+                </div> -->
+                <!-- <div class="form-group row">
                   <label for="retailShipping" class="col-3 text-right">
                      Net Taxes 2
                     <span class="mandatory">*</span>
                   </label>
                   <input type="text" class="form-control col-9" id="retailShipping" placeholder="Net Taxes 2" formControlName="netTaxes2">
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -215,6 +217,7 @@
                     <span class="mandatory">*</span>
                   </label>
                   <select id="vendor" formControlName="SellerId" class="form-control col-8">
+                   <option value="">Select seller</option>
                     <option *ngFor="let item of vendors" [ngValue]="item">
                       {{ item.first_name }} {{ item.last_name }}
                     </option>
@@ -263,7 +266,7 @@
                   <label for="approvalStatus" class="col-4 text-right">
                     Approval Status
                   </label>
-                  <select id="approvalStatus" formControlName="approvalStatus" class="form-control col-8"  [class.disabled]="!productId">
+                  <select id="approvalStatus" formControlName="approvalStatus" class="form-control col-8" [class.disabled]="!productId">
                     <option *ngFor="let item of approvalStatus" [ngValue]="item">
                       {{ item }}
                     </option>

@@ -141,7 +141,8 @@
                     <span class="mandatory">*</span>
                   </label>
                   <select id="status" formControlName="status" class="form-control col-9">
-                    <option *ngFor="let item of statusOptions" value="{{ item }}">{{ item }}</option>
+                    <option  value="">Status</option>
+                    <option *ngFor="let item of statusOptions" value="{{item}}">{{ item }}</option>
                   </select>
                 </div>
 
@@ -170,24 +171,24 @@
                 </div>
                 <hr>
                 <div class="form-group row">
-                  <label for="netPrice" class="col-3 text-right">Net Price
+                  <label for="NetPrice" class="col-3 text-right">Net Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Net Price" formControlName="NetPrice" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" name="NetPrice" placeholder="Net Price" formControlName="NetPrice" (keydown)='validatenumber($event)'>
                 </div>
                 <div class="form-group row">
                   <label for="netShipping" class="col-3 text-right">Net Shipping
                     <br>Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="netShipping" placeholder="Shipping Price" formControlName="NetShippingPrice"
+                  <input type="text" class="form-control col-9" id="netShipping" name="NetShippingPrice" placeholder="Shipping Price" formControlName="NetShippingPrice"
                     (keydown)='validatenumber($event)'>
                 </div>
                 <div class="form-group row">
                   <label for="Price" class="col-3 text-right">MRP Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="Price" placeholder="MRP Price" formControlName="Mrp" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="Price" name="Mrp" placeholder="MRP Price" formControlName="Mrp" (keydown)='validatenumber($event)'>
                 </div>
               </div>
             </div>
@@ -208,7 +209,7 @@
                   <label for="Categories" class="col-4 text-right">Categories
                     <span class="mandatory">*</span>
                   </label>
-                  <angular2-multiselect id="name" [data]="categories" formControlName="CategoryId" [settings]="categoriesDropdownSettings">
+                  <angular2-multiselect id="name" [data]="categories"  formControlName="CategoryId" [settings]="categoriesDropdownSettings">
                   </angular2-multiselect>
                 </div>
                 <div class="form-group row">
@@ -232,7 +233,7 @@
                 <div class="form-group row">
                   <label for="Brand" class="col-4 text-right">Brand
                   </label>
-                  <input type="text" class="form-control col-8" id="Brand" placeholder="Brand" formControlName="Brand">
+                  <input type="text" class="form-control col-8" id="Brand" placeholder="Brand" name="Brand" formControlName="Brand">
                 </div>
                 <div class="form-group row">
                   <label for="Color" class="col-4 text-right">Color
@@ -370,11 +371,11 @@
 
       <div class="form-group row col-12">
         <label class="col-3 text-right"></label>
-        <input type="submit" class="btn btn-primary" value="Save">
-        <input *ngIf=" productId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addProductForm.valid || showLoader ">
+        <input type="submit" class="btn btn-primary" value="Save" [disabled]=" !addProductForm.valid || showLoader" >
         <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+        <input  type="button" class="btn btn-success" value="Approve" (click)="addProduct(addProductForm.value, true)" [disabled]=" !addProductForm.valid || showLoader ">
         <span class="btn btn-warning" *ngIf=" !productId " (click)="resetForm()">Reset</span>
-        <span class="btn btn-secondary" [routerLink]="['/merchandise/products']">Cancel</span>
+        <!-- <span class="btn btn-secondary" [routerLink]="['/merchandise/products']">Cancel</span> -->
       </div>
 
 

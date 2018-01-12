@@ -60,7 +60,7 @@
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific category."></i>
 						</label>
 						<select id="Category" class="form-control col-12" formControlName="category">
-							<option value="all">All</option>
+							<option value="">All</option>
 							<option *ngFor="let item of categories" [ngValue]="item">
 								<span *ngIf=" item.parent_name ">
 									{{ item.parent_name }} >>
@@ -75,7 +75,7 @@
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific seller."></i>
 						</label>
 						<select id="Vendor" class="form-control col-12" formControlName="vendor">
-							<option value="all">All</option>
+							<option value="">All</option>
 							<option *ngFor="let item of vendors" [ngValue]="item">
 								{{ item.first_name }} {{ item.last_name }}
 							</option>
@@ -88,7 +88,7 @@
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Status' property."></i>
 						</label>
 						<select id="Status" class="form-control col-12" formControlName="status">
-							<option value="all">All</option>
+							<option value="">All</option>
 							<option *ngFor="let item of status" value="{{ item }}">
 								{{ item }}
 							</option>
@@ -101,7 +101,7 @@
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Product Approval Status' property."></i>
 						</label>
 						<select id="approvalStatus" class="form-control col-12" formControlName="approvalStatus">
-							<option value="all">All</option>
+							<option value="">All</option>
 							<option *ngFor="let item of approvalStatus" value="{{ item }}">
 								{{ item }}
 							</option>
@@ -132,7 +132,8 @@
 				<button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 || !showSelectedAction }" (click)="exportProducts()" >
 					<i class="fa fa-download" aria-hidden="true"></i>
 					Export Products
-				</button>
+                </button>
+                <img *ngIf="approveLoader" class="pull-right" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
 
 				<div class="pull-right col-4 dropDownAction no_padding" [class.disabled]="!showSelectedAction">
 					<form class="form-inline">
@@ -142,8 +143,8 @@
 								<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select action to perform."></i>
 							</label>
 							<select id="action" class="form-control col-6" #dropDownActionSelect>
-								<option></option>
-								<option *ngFor="let item of dropDownAction" value="{{ item }}">
+								<option value="">Select Action</option>
+								<option *ngFor="let item of dropDownAction;" value="{{ item }}">
 									{{ item }}
 								</option>
 							</select>
@@ -151,14 +152,15 @@
                             <p *ngIf="noActionSelected" class="no-action error no-text-transform">Please select a action.</p>
 						</div>
                     </form>
-				</div>
+                </div>
+
 
 				<div class="table-responsive">
 					<table class="table table-bordered"  [mfData]="products" #mf="mfDataTable" [mfRowsOnPage]="10">
 						<thead class="black-muted-bg">
 							<tr>
 								<th class="text-center">
-									<input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+									<input [class.disabled]="products && products.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
 								</th>
 								<th class="text-left">
 									<strong>Product Image</strong>
@@ -180,10 +182,10 @@
 								<th>
 									<strong>Product Status</strong>
 								</th>
-								<th>
+								<!-- <th>
 									<strong>Approval Status</strong>
-								</th>
-								<th class="action">
+								</th> -->
+								<th class="action" *ngIf="userRole!='Admin'">
 									<strong>Action</strong>
 								</th>
 							</tr>
@@ -206,19 +208,24 @@
 								<td>{{ item.Sku }}</td>
 								<td>{{ item.Mrp | currency: 'INR': true }}</td>
 								<!-- <td>{{ item.productType }}</td> -->
-								<td class="text-center">
+								<td class="text-center" [ngClass]="{
+									'Draft': item.Status == 'Draft',
+									'approved': item.Status == 'Approved',
+									'pending': item.Status == 'Pending',
+									'rejected': item.Status == 'Rejected'
+								}">
 									{{ item.Status }}
 								</td>
-								<td class="text-center order-status">
+								<!-- <td class="text-center order-status">
 									<span [ngClass]="{
-										'approved': item.approvalStatus == 'Approved',
-										'pending': item.approvalStatus == 'Pending',
-										'rejected': item.approvalStatus == 'Rejected'
+										'approved': item.Status == 'Draft',
+										'pending': item.Status == 'Pending',
+										'rejected': item.Status == 'Rejected'
 									}">
 										{{ item.Status }}
 									</span>
-								</td>
-								<td class="action">
+								</td> -->
+								<td class="action" *ngIf="userRole!='Admin'">
 									<button class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.Id]" title="Edit">
 										<i class="fa fa-pencil" aria-hidden="true"></i>
 									</button>

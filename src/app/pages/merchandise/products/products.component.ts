@@ -22,7 +22,7 @@ export class ProductsComponent implements OnInit {
 
     searchProductForm: FormGroup;
     bigLoader = true;
-    deleteLoader: Number;
+    approveLoader = false;
     products: any;
     categories: any;
     productTypes = [
@@ -37,7 +37,7 @@ export class ProductsComponent implements OnInit {
     atLeastOnePresent = false;
     vendorId: any;
     vendorInfo: any;
-    dropDownAction = ['Approve Selected', 'Reject Selected'];
+    dropDownAction = ['Approve', 'Reject'];
     approvalStatus = ['Pending', 'Approved', 'Rejected'];
     noActionSelected = false;
     userRole: any;
@@ -221,6 +221,7 @@ export class ProductsComponent implements OnInit {
     }
 
     rejectAll() {
+        this.approveLoader = true;
         if (this.selectAllCheckbox) {
             _.forEach(this.products, (item) => {
                 item.approvalStatus = 'Approved';
@@ -241,10 +242,10 @@ export class ProductsComponent implements OnInit {
                     if (success.Code === 200) {
                         this.getAllProducts();
                     }
-
+                    this.approveLoader = false;
                 }).catch((error) => {
                     console.log("error ", error);
-
+                    this.approveLoader = false;
                 })
             console.log("productsToReject ", productsToReject);
         }
@@ -253,6 +254,7 @@ export class ProductsComponent implements OnInit {
     }
 
     approveAll() {
+        this.approveLoader = true;
         if (this.selectAllCheckbox) {
             _.forEach(this.products, (item) => {
                 item.approvalStatus = 'Approved';
@@ -273,10 +275,10 @@ export class ProductsComponent implements OnInit {
                     if (success.Code === 200) {
                         this.getAllProducts();
                     }
-
+                    this.approveLoader = false;
                 }).catch((error) => {
                     console.log("error ", error);
-
+                    this.approveLoader = false;
                 })
             console.log("productsToApprove ", productsToApprove);
         }

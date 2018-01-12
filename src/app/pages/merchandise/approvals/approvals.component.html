@@ -1,0 +1,42 @@
+<div class="row top20 clearfix fadeIn animated">
+    <div class="col-12">
+        <div class="catSearch clearfix card-header">
+            <h2 class="card-title ">
+                Manage Approvals
+            </h2>
+        </div>
+
+        <div class="card">
+            <div class="card-body pos_relative">
+
+                <div class="tabs-section">
+                    <!-- Tabs Top UI -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#Categories" role="tab" data-toggle="tab">Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#Products" role="tab" data-toggle="tab">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#Catalogs" role="tab" data-toggle="tab">Catalogs</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content no_left_padding no_right_padding">
+                    <div role="tabpanel" class="tab-pane fade active" id="Categories">
+                        <app-categories class="col-12 pos_relative"></app-categories>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="Products">
+                        <app-products class="col-12"></app-products>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="Catalogs">
+                        <app-catalog class="col-12"></app-catalog>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

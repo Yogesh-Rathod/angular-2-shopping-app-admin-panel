@@ -84,6 +84,16 @@ export class ProductsService {
             .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
+    updateProduct(product){
+        const url = `${environment.merchandiseUrl}Merchandise/Seller/Products`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        return this.http.put(url, JSON.stringify(product), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
     getProductById(Id) {
         const url = `${environment.merchandiseUrl}Merchandise/Seller/Products/${Id}`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
@@ -95,7 +105,7 @@ export class ProductsService {
             .catch((err) => this.responseHandler.handleError(err));
     }
     sendproductForApproval(product) {
-        const url = `${environment.merchandiseUrl}Seller/Product/Confirm`;
+        const url = `${environment.merchandiseUrl}Merchandise/Seller/Product/Confirm`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
         return this.http.put(url, JSON.stringify(product), this.options)
@@ -115,7 +125,16 @@ export class ProductsService {
             .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
-
+    editOperationProduct(data, role){
+        const url = `${environment.merchandiseUrl}Merchandise/${role}/Products`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        return this.http.put(url, data, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
     editProduct(products) {
         // this.products = products;
         // return this.products;

@@ -142,8 +142,8 @@
 								<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select action to perform."></i>
 							</label>
 							<select id="action" class="form-control col-6" #dropDownActionSelect>
-								<option></option>
-								<option *ngFor="let item of dropDownAction" value="{{ item }}">
+								<option value="">Select Action</option>
+								<option *ngFor="let item of dropDownAction;" value="{{ item }}">
 									{{ item }}
 								</option>
 							</select>
@@ -180,9 +180,9 @@
 								<th>
 									<strong>Product Status</strong>
 								</th>
-								<th>
+								<!-- <th>
 									<strong>Approval Status</strong>
-								</th>
+								</th> -->
 								<th class="action" *ngIf="userRole!='Admin'">
 									<strong>Action</strong>
 								</th>
@@ -206,18 +206,23 @@
 								<td>{{ item.Sku }}</td>
 								<td>{{ item.Mrp | currency: 'INR': true }}</td>
 								<!-- <td>{{ item.productType }}</td> -->
-								<td class="text-center">
+								<td class="text-center" [ngClass]="{
+									'Draft': item.Status == 'Draft',
+									'approved': item.Status == 'Approved',
+									'pending': item.Status == 'Pending',
+									'rejected': item.Status == 'Rejected'
+								}">
 									{{ item.Status }}
 								</td>
-								<td class="text-center order-status">
+								<!-- <td class="text-center order-status">
 									<span [ngClass]="{
-										'approved': item.approvalStatus == 'Approved',
-										'pending': item.approvalStatus == 'Pending',
-										'rejected': item.approvalStatus == 'Rejected'
+										'approved': item.Status == 'Draft',
+										'pending': item.Status == 'Pending',
+										'rejected': item.Status == 'Rejected'
 									}">
 										{{ item.Status }}
 									</span>
-								</td>
+								</td> -->
 								<td class="action" *ngIf="userRole!='Admin'">
 									<button class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.Id]" title="Edit">
 										<i class="fa fa-pencil" aria-hidden="true"></i>

@@ -37,7 +37,7 @@ export class ProductsComponent implements OnInit {
     atLeastOnePresent = false;
     vendorId: any;
     vendorInfo: any;
-    dropDownAction = ['Approve Selected', 'Reject Selected'];
+    dropDownAction = ['Approve', 'Reject'];
     approvalStatus = ['Pending', 'Approved', 'Rejected'];
     noActionSelected = false;
     userRole: any;

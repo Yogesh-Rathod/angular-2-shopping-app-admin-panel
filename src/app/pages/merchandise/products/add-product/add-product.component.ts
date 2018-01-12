@@ -239,44 +239,43 @@ export class AddProductComponent implements OnInit {
         let value = '';
         addProductForm.specifications = addProductForm.specifications.map((data, index) => {
             if (index == 0) {
-              value = data.key + ':' + data.value
+                value = data.key + ':' + data.value
             }
             else {
-              let value2 = "|" + data.key + ':' + data.value
-              value = value.concat(value2);
+                let value2 = "|" + data.key + ':' + data.value
+                value = value.concat(value2);
             }
             return data;
-          });
-          let specification = value;      
-          let res = [
+        });
+        let specification = value;
+        let res = [
             {
-              "Id": addProductForm.Id,
-              "SellerId": addProductForm.SellerId.id,
-              "ParentProductCode": addProductForm.ParentProductCode,
-              "Sku": addProductForm.Sku,
-              "Name": addProductForm.Name,
-              "ModelNumber": addProductForm.ModelNumber,
-              "ShortDescription": addProductForm.ShortDescription,
-              "FullDescription": addProductForm.FullDescription,
-              "ProductSpecification": specification,
-              "CategoryId": addProductForm.CategoryId[0].Id,
-              "Brand": addProductForm.Brand,
-              "Colour": addProductForm.Colour,
-              "Size": addProductForm.Size,
-              "ImageNumber": 0,
-              "CurrencyId": addProductForm.CurrencyId,
-              "NetPrice": addProductForm.NetPrice,
-              "NetShippingPrice": addProductForm.NetShippingPrice,
-              "Mrp": addProductForm.Mrp,
-              "Comments": addProductForm.Comments,
-              "ManufacturerPartNumber": addProductForm.ManufacturerPartNumber,
-              "Gtin": addProductForm.Gtin,
-              "Status": addProductForm.Status
+                "Id": addProductForm.Id,
+                "SellerId": addProductForm.SellerId.id,
+                "ParentProductCode": addProductForm.ParentProductCode,
+                "Sku": addProductForm.Sku,
+                "Name": addProductForm.Name,
+                "ModelNumber": addProductForm.ModelNumber,
+                "ShortDescription": addProductForm.ShortDescription,
+                "FullDescription": addProductForm.FullDescription,
+                "ProductSpecification": specification,
+                "CategoryId": addProductForm.CategoryId[0].Id,
+                "Brand": addProductForm.Brand,
+                "Colour": addProductForm.Colour,
+                "Size": addProductForm.Size,
+                "ImageNumber": 0,
+                "CurrencyId": addProductForm.CurrencyId,
+                "NetPrice": addProductForm.NetPrice,
+                "NetShippingPrice": addProductForm.NetShippingPrice,
+                "Mrp": addProductForm.Mrp,
+                "Comments": addProductForm.Comments,
+                "ManufacturerPartNumber": addProductForm.ManufacturerPartNumber,
+                "Gtin": addProductForm.Gtin,
+                "Status": addProductForm.Status
             }
-          ]
-      
+        ]
+
         this.showLoader = true;
-        console.log(this.productId);
         if (this.productId) {
             this.productsService.editOperationProduct(res, this.userRole).then(res => {
                 this.toastr.success('Sucessfully Done!', 'Sucess!');
@@ -284,11 +283,8 @@ export class AddProductComponent implements OnInit {
                 this.goBack();
             }).catch(err => { })
         }
-
         if (addProductForm.id) {
         }
-
-
     }
 
     getAllCategories() {

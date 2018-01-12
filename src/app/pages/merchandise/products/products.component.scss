@@ -66,26 +66,22 @@ button[type="submit"].searchButton {
 	}
 }
 
-.order-status {
-	span {
-		padding: .2em .6em .3em;
-		border-radius: .25em;
-
-		&.approved {
-			background-color: #00a65a;
-			color: #fff;
-		}
-		&.pending {
-			background-color: #f39c12;
-			color: #fff;
-		}
-		&.rejected {
-			background-color: #f00;
-			color: #fff;
-		}
-	}
+.approved {
+	background-color: #00a65a;
+	color: #fff;
 }
-
+.pending {
+	background-color: #f39c12;
+	color: #fff;
+}
+.Draft{
+	background-color: #867fe8;
+	color: #fff;
+}
+.rejected {
+	background-color: #f00;
+	color: #fff;
+}
 .dropDownAction {
 	margin-bottom: 8px;
 

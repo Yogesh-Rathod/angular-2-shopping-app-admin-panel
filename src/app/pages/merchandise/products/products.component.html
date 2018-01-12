@@ -60,7 +60,7 @@
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific category."></i>
 						</label>
 						<select id="Category" class="form-control col-12" formControlName="category">
-							<option value="all">All</option>
+							<option value="">All</option>
 							<option *ngFor="let item of categories" [ngValue]="item">
 								<span *ngIf=" item.parent_name ">
 									{{ item.parent_name }} >>
@@ -75,7 +75,7 @@
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific seller."></i>
 						</label>
 						<select id="Vendor" class="form-control col-12" formControlName="vendor">
-							<option value="all">All</option>
+							<option value="">All</option>
 							<option *ngFor="let item of vendors" [ngValue]="item">
 								{{ item.first_name }} {{ item.last_name }}
 							</option>
@@ -88,7 +88,7 @@
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Status' property."></i>
 						</label>
 						<select id="Status" class="form-control col-12" formControlName="status">
-							<option value="all">All</option>
+							<option value="">All</option>
 							<option *ngFor="let item of status" value="{{ item }}">
 								{{ item }}
 							</option>
@@ -101,7 +101,7 @@
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Product Approval Status' property."></i>
 						</label>
 						<select id="approvalStatus" class="form-control col-12" formControlName="approvalStatus">
-							<option value="all">All</option>
+							<option value="">All</option>
 							<option *ngFor="let item of approvalStatus" value="{{ item }}">
 								{{ item }}
 							</option>
@@ -183,7 +183,7 @@
 								<th>
 									<strong>Approval Status</strong>
 								</th>
-								<th class="action">
+								<th class="action" *ngIf="userRole!='Admin'">
 									<strong>Action</strong>
 								</th>
 							</tr>
@@ -218,7 +218,7 @@
 										{{ item.Status }}
 									</span>
 								</td>
-								<td class="action">
+								<td class="action" *ngIf="userRole!='Admin'">
 									<button class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.Id]" title="Edit">
 										<i class="fa fa-pencil" aria-hidden="true"></i>
 									</button>

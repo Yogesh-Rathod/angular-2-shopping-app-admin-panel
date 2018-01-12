@@ -206,37 +206,29 @@ export class AddProductComponent implements OnInit {
         if (this.productId) {
             this.productsService.getOpsProductById(productId, this.userRole)
                 .then((res) => {
-                    console.log("res ", res);
-                    this.products = res.Data[0];
-                    this.productInfo = this.products;
-                    console.log("this.productInfo ", this.productInfo);
-                    this.addProductForm.controls['Id'].setValue(this.productInfo.Id);
-                    this.addProductForm.controls['Name'].setValue(this.productInfo.Name);
-                    this.addProductForm.controls['ShortDescription'].setValue(this.productInfo.ShortDescription);
-                    this.addProductForm.controls['FullDescription'].setValue(this.productInfo.FullDescription);
-                    this.addProductForm.controls['Sku'].setValue(this.productInfo.Sku);
-                    this.addProductForm.controls['Status'].setValue(this.productInfo.Status);
-                    this.addProductForm.controls['CurrencyId'].setValue(this.productInfo.CurrencyId);
-                    this.addProductForm.controls['NetPrice'].setValue(this.productInfo.NetPrice);
-                    this.addProductForm.controls['NetShippingPrice'].setValue(this.productInfo.NetShippingPrice);
-                    this.addProductForm.controls['Mrp'].setValue(this.productInfo.Mrp);
-                    this.addProductForm.controls['SellerId'].setValue(this.productInfo.SellerId);
-                    this.addProductForm.controls['ParentProductCode'].setValue(this.productInfo.ParentProductCode);
-                    this.addProductForm.controls['ModelNumber'].setValue(this.productInfo.ModelNumber);
-                    this.addProductForm.controls['Brand'].setValue(this.productInfo.Brand);
-                    this.addProductForm.controls['Colour'].setValue(this.productInfo.Colour);
-                    this.addProductForm.controls['Size'].setValue(this.productInfo.Size);
-                    this.addProductForm.controls['ImageNumber'].setValue(this.productInfo.ImageNumber);
-                    this.addProductForm.controls['Gtin'].setValue(this.productInfo.Gtin);
-                    this.addProductForm.controls['Comments'].setValue(this.productInfo.Comments);
-                    this.addProductForm.controls['ManufacturerPartNumber'].setValue(this.productInfo.ManufacturerPartNumber);
-                    // let selectedcat = this.categories.map((category) => {
-                    //     if (category.Name == this.productInfo.CategoryId) {
-                    //         return category;
-                    //     }
-                    // })
-                    // this.addProductForm.controls['CategoryId'].setValue([selectedcat]);
+                    this.products = res.Data;
+                    if (res.code != 500) {
 
+                        this.addProductForm.controls['Id'].setValue(this.products[0].Id);
+                        this.addProductForm.controls['ParentProductCode'].setValue(this.products[0].ParentProductCode);
+                        this.addProductForm.controls['ModelNumber'].setValue(this.products[0].ModelNumber);
+                        this.addProductForm.controls['ManufacturerPartNumber'].setValue(this.products[0].ManufacturerPartNumber);
+                        this.addProductForm.controls['Gtin'].setValue(this.products[0].Gtin);
+                        this.addProductForm.controls['Name'].setValue(this.products[0].Name);
+                        this.addProductForm.controls['Comments'].setValue(this.products[0].Comments);
+                        this.addProductForm.controls['ShortDescription'].setValue(this.products[0].ShortDescription);
+                        this.addProductForm.controls['Colour'].setValue(this.products[0].Colour);
+                        this.addProductForm.controls['NetPrice'].setValue(this.products[0].NetPrice);
+                        this.addProductForm.controls['NetShippingPrice'].setValue(this.products[0].NetShippingPrice);
+                        this.addProductForm.controls['Mrp'].setValue(this.products[0].Mrp);
+                        this.addProductForm.controls['Brand'].setValue(this.products[0].Brand);
+                        this.addProductForm.controls['Size'].setValue(this.products[0].Size);
+                        this.addProductForm.controls['FullDescription'].setValue(this.products[0].FullDescription);
+                        this.addProductForm.controls['Sku'].setValue(this.products[0].Sku);
+                        this.addProductForm.controls['CurrencyId'].setValue(this.products[0].CurrencyId);
+                        // this.addProductForm.controls['CategoryId'].setValue(this.products[0].CategoryId);
+                        this.addProductForm.controls['Status'].setValue(this.products[0].Status);
+                    }
                 }).catch((error) => {
                     console.log("error ", error);
                 })
@@ -244,15 +236,59 @@ export class AddProductComponent implements OnInit {
     }
 
     addProduct(addProductForm) {
+        let value = '';
+        addProductForm.specifications = addProductForm.specifications.map((data, index) => {
+            if (index == 0) {
+              value = data.key + ':' + data.value
+            }
+            else {
+              let value2 = "|" + data.key + ':' + data.value
+              value = value.concat(value2);
+            }
+            return data;
+          });
+          let specification = value;      
+          let res = [
+            {
+              "Id": addProductForm.Id,
+              "SellerId": addProductForm.SellerId.id,
+              "ParentProductCode": addProductForm.ParentProductCode,
+              "Sku": addProductForm.Sku,
+              "Name": addProductForm.Name,
+              "ModelNumber": addProductForm.ModelNumber,
+              "ShortDescription": addProductForm.ShortDescription,
+              "FullDescription": addProductForm.FullDescription,
+              "ProductSpecification": specification,
+              "CategoryId": addProductForm.CategoryId[0].Id,
+              "Brand": addProductForm.Brand,
+              "Colour": addProductForm.Colour,
+              "Size": addProductForm.Size,
+              "ImageNumber": 0,
+              "CurrencyId": addProductForm.CurrencyId,
+              "NetPrice": addProductForm.NetPrice,
+              "NetShippingPrice": addProductForm.NetShippingPrice,
+              "Mrp": addProductForm.Mrp,
+              "Comments": addProductForm.Comments,
+              "ManufacturerPartNumber": addProductForm.ManufacturerPartNumber,
+              "Gtin": addProductForm.Gtin,
+              "Status": addProductForm.Status
+            }
+          ]
+      
         this.showLoader = true;
-        console.log("addProductForm ", addProductForm);
+        console.log(this.productId);
+        if (this.productId) {
+            this.productsService.editOperationProduct(res, this.userRole).then(res => {
+                this.toastr.success('Sucessfully Done!', 'Sucess!');
+                this.showLoader = false;
+                this.goBack();
+            }).catch(err => { })
+        }
 
         if (addProductForm.id) {
         }
 
-        this.toastr.success('Sucessfully Done!', 'Sucess!');
-        this.showLoader = false;
-        this.goBack();
+
     }
 
     getAllCategories() {

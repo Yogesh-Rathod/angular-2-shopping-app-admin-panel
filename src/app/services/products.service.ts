@@ -125,7 +125,16 @@ export class ProductsService {
             .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
-
+    editOperationProduct(data, role){
+        const url = `${environment.merchandiseUrl}Merchandise/${role}/Products`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        return this.http.put(url, data, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
     editProduct(products) {
         // this.products = products;
         // return this.products;

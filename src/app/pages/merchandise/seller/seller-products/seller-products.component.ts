@@ -57,7 +57,7 @@ export class SellerProductsComponent implements OnInit {
         });
         this.searchForm();
         this.getAllProducts();
-        // this.getAllCategories();
+        this.getAllCategories();
         this.getAllVendors();
         if (this.vendorId) {
             this.getVendorInfo(this.vendorId);
@@ -80,7 +80,12 @@ export class SellerProductsComponent implements OnInit {
     }
 
     getAllCategories() {
-        this.categories = this.merchandiseService.getCategories();
+        this.merchandiseService.getCategories().
+            then((categories) => {
+                this.categories = categories.Data;
+            }).catch((error) => {
+                console.log("error ", error);
+            });
     }
 
     getAllProducts() {

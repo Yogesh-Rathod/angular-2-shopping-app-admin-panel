@@ -68,6 +68,7 @@ export class ProductsComponent implements OnInit {
             $('[data-toggle="tooltip"]').tooltip();
         });
         this.searchForm();
+        this.getAllCategories();
         this.getAllProducts();
         this.getAllVendors();
         if (this.vendorId) {
@@ -91,7 +92,12 @@ export class ProductsComponent implements OnInit {
     }
 
     getAllCategories() {
-        this.categories = this.merchandiseService.getCategories();
+        this.merchandiseService.getCategories().
+            then((categories) => {
+                this.categories = categories.Data;
+            }).catch((error) => {
+                console.log("error ", error);
+            });
     }
 
     getAllProducts() {

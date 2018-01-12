@@ -132,7 +132,8 @@
 				<button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 || !showSelectedAction }" (click)="exportProducts()" >
 					<i class="fa fa-download" aria-hidden="true"></i>
 					Export Products
-				</button>
+                </button>
+                <img *ngIf="approveLoader" class="pull-right" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
 
 				<div class="pull-right col-4 dropDownAction no_padding" [class.disabled]="!showSelectedAction">
 					<form class="form-inline">
@@ -151,14 +152,15 @@
                             <p *ngIf="noActionSelected" class="no-action error no-text-transform">Please select a action.</p>
 						</div>
                     </form>
-				</div>
+                </div>
+
 
 				<div class="table-responsive">
 					<table class="table table-bordered"  [mfData]="products" #mf="mfDataTable" [mfRowsOnPage]="10">
 						<thead class="black-muted-bg">
 							<tr>
 								<th class="text-center">
-									<input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+									<input [class.disabled]="products && products.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
 								</th>
 								<th class="text-left">
 									<strong>Product Image</strong>

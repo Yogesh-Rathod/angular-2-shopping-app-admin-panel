@@ -271,10 +271,10 @@ export class MovieDetailsComponent implements OnInit {
         this.movieManagementService.mapMovies(movieInfo).
             then((successFullyMapped) => {
                 // console.log("successFullyMapped ", successFullyMapped);
-                this.toastr.success('Movie Successfully Mapped!', 'Success!', { toastLife: 3000 });
+                this.toastr.success('Movie Successfully Unmapped!', 'Success!', { toastLife: 3000 });
                 this.getUnMappedMovies();
                 this.getAlreadyMappedMovies();
-                this.showMappingbuttons.map = false;
+                this.showMappingbuttons.unmap = false;
                 this.selectAllCheckboxUnMap = false;
                 this.selectAllCheckboxMapped = false;
                 this.mapMovieLoader = false;

@@ -67,39 +67,39 @@
                                 </div>
                             </div>
                             <div class="row">
-                                    <div class="col-sm-5">
-                                            <table class="table table-bordered table-responsive" [mfData]="allProducts" #mfMapList="mfDataTable" [mfRowsOnPage]="10">
-                                                <thead class="black-muted-bg">
-                                                    <tr>
-                                                        <th class="text-center" style="width:50px;">
-                                                            <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
-                                                        </th>
-                                                        <th class="text-left" style="width:200px;">
-                                                            <mfDefaultSorter by="Name">
-                                                                <strong>Product Name</strong>
-                                                            </mfDefaultSorter>
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody *ngIf=" allProducts && allProducts.length > 0 ">
-                                                    <tr *ngFor=" let item of mfMapList.data; let i = index ">
-                                                        <td class="text-center">
-                                                            <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
-                                                        </td>
-                                                        <td class="text-left">
-                                                            {{ item.Name }}
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                                <tfoot *ngIf=" allProducts && allProducts.length > 10 ">
-                                                    <tr>
-                                                        <td colspan="2">
-                                                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-                                                        </td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
+                                <div class="col-sm-5">
+                                    <table class="table table-bordered table-responsive" [mfData]="allProducts" #mfMapList="mfDataTable" [mfRowsOnPage]="10">
+                                        <thead class="black-muted-bg">
+                                            <tr>
+                                                <th class="text-center" style="width:50px;">
+                                                    <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+                                                </th>
+                                                <th class="text-left" style="width:200px;">
+                                                    <mfDefaultSorter by="Name">
+                                                        <strong>Product Name</strong>
+                                                    </mfDefaultSorter>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngIf=" allProducts && allProducts.length > 0 ">
+                                            <tr *ngFor=" let item of mfMapList.data; let i = index ">
+                                                <td class="text-center">
+                                                    <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                                                </td>
+                                                <td class="text-left">
+                                                    {{ item.Name }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot *ngIf=" allProducts && allProducts.length > 10 ">
+                                            <tr>
+                                                <td colspan="2">
+                                                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                                 <div class="col-sm-7">
                                     <table class="table table-bordered table-responsive" [mfData]="allProducts" #mfList="mfDataTable" [mfRowsOnPage]="10">
                                         <thead class="black-muted-bg">

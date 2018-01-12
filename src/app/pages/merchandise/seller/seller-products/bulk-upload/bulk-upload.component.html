@@ -27,9 +27,10 @@
                 <input type="file" class="form-control" id="ExcelFile" (change)="handleFile($event)" accept=".xlsx, .xls">
                 <a target="_blank" href="assets/samples/SampleProducts.xlsx" class="text-decoration btn-link float-right">Download Template</a>
             </div>
-            <div class="form-group">
-                <button class="btn btn-primary" [disabled]=" submitDisabled " (click)="uploadFile($event)">Upload</button>
-                <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+            <div class="row col-md-12 uploadButton form-group">
+                <button class="btn btn-primary col-md-3" *ngIf="!showLoader" [disabled]=" submitDisabled " (click)="uploadFile($event)">Upload</button>
+                <img class="col-md-3" *ngIf="showLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+                <button type="button" *ngIf="!showLoader" class="sendApproval btn btn-primary col-md-6" [disabled]=" submitDisabled " (click)="sendApproval($event)">Request approval</button>
             </div>
         </form>
     </div>

@@ -150,6 +150,8 @@ export class AddCatalogComponent implements OnInit {
                 }
             });
     }
-
+    goBackFunc(){
+        this.location.back();
+    }
     deleteCatalog() {}
 }

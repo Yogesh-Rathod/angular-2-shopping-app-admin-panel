@@ -206,6 +206,20 @@ export class AddSellerProductComponent implements OnInit {
             this.productsService.getProductById(this.productId).then(res => {
                 this.products = res.Data;
                 if (res.code != 500) {
+                    let specification = this.products[0].ProductSpecification.split('|');
+                    let specificationData = [];
+                    _.forEach(specification, (data, index) => {
+                        let value = data.split(":");
+
+                        specificationData[index] = ({
+                            key: value[0],
+                            value: value[1]
+                        });
+                        this.addProductForm.controls['specifications'].setValue(specificationData);
+                        this.appendMore();
+                    });
+                    this.removeStructure(specificationData.length);
+
                     this.productInfo = res.Data;
                     this.addProductForm.controls['Id'].setValue(this.products[0].Id);
                     this.addProductForm.controls['ParentProductCode'].setValue(this.products[0].ParentProductCode);
@@ -225,6 +239,7 @@ export class AddSellerProductComponent implements OnInit {
                     this.addProductForm.controls['Sku'].setValue(this.products[0].Sku);
                     this.addProductForm.controls['CurrencyId'].setValue(this.products[0].CurrencyId);
                     this.addProductForm.controls['Status'].setValue(this.products[0].Status);
+
                 }
             }).catch(err => { });
         }
@@ -310,7 +325,7 @@ export class AddSellerProductComponent implements OnInit {
                 });
                 if (this.productId) {
                     const selectedCategory = this.categories.filter((category) => {
-                        if (category.Id === this.products[0].CategoryId ) {
+                        if (category.Id === this.products[0].CategoryId) {
                             return category;
                         }
                     });

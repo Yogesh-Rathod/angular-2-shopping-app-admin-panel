@@ -65,7 +65,22 @@ button[type="submit"].searchButton {
 		}
 	}
 }
-
+.approved {
+	background-color: #00a65a;
+	color: #fff;
+}
+.pending {
+	background-color: #f39c12;
+	color: #fff;
+}
+.draft{
+	background-color: #867fe8;
+	color: #fff;
+}
+.rejected {
+	background-color: #f00;
+	color: #fff;
+}
 .order-status {
 	span {
 		padding: .2em .6em .3em;

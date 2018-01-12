@@ -92,7 +92,6 @@ export class SellerProductsComponent implements OnInit {
         this.bigLoader = true;
         this.productsService.getProducts().
             then((products) => {
-                console.log("products ", products);
                 this.products = products.Data;
                 this.bigLoader = false;
             }).catch((error) => {
@@ -103,7 +102,6 @@ export class SellerProductsComponent implements OnInit {
     getAllVendors() {
         this.vendors = this.vendorsService.getVendors();
     }
-
     atLeastOneFieldRequires(someObject) {
         if (someObject) {
             for (var key in someObject) {
@@ -141,6 +139,11 @@ export class SellerProductsComponent implements OnInit {
 
     bulkUpload() {
         const activeModal = this.modalService.open(SellsBulkUploadComponent, { size: 'sm' });
+        activeModal.result.then(status => {
+            if (status) {
+                this.getAllProducts();
+            }
+        }).catch(status => { })
     }
 
     getVendorInfo(vendorId) {

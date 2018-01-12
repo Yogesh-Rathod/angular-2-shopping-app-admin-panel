@@ -28,7 +28,7 @@ export class SellsBulkUploadComponent implements OnInit {
         private xlsxToJsonService: XlsxToJsonService,
     ) { }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
     handleFile(event) {
         // this.validationError = null;
@@ -86,7 +86,32 @@ export class SellsBulkUploadComponent implements OnInit {
     //         this.productsInfo.push(productsInformation);
     //     });
     // }
+    sendApproval(event) {
+        this.showLoader = true;
+        if (this.productsInfo && this.productsInfo.length > 0) {
+            this.productsService.sendproductForApproval(this.productsInfo).
+                then((success) => {
+                    if (success.Code === 200) {
+                        this.toastr.success('Product sucessfully sent for approval!', 'Success!');
+                        this.showLoader = false;
+                        this.closeModal(true);
 
+                    } else if (success.Code === 500) {
+                        this.showLoader = false;
+                        this.toastr.error('Oops! Could not upload products.', 'Error!');
+                    }
+                }).catch((error) => {
+                    console.log("error ", error);
+                    if (error.Code === 500) {
+                        this.toastr.error('Oops! Could not add movie.', 'Error!');
+                    } else if (error.Code === 400) {
+                        this.validationError = error.FailureReasons;
+                        this.closeModal(true);
+                    }
+                    this.showLoader = false;
+                });
+        }
+    }
     uploadFile(event) {
         event.preventDefault();
         this.showLoader = true;
@@ -94,12 +119,12 @@ export class SellsBulkUploadComponent implements OnInit {
             console.log("if ");
             this.productsService.addProduct(this.productsInfo).
                 then((success) => {
-                    console.log("success ", success);
                     if (success.Code === 200) {
                         this.toastr.success('Product sucessfully sent for approval!', 'Success!');
                         this.showLoader = false;
                         this.closeModal(true);
                     } else if (success.Code === 500) {
+                        this.closeModal(true);
                         this.showLoader = false;
                         this.toastr.error('Oops! Could not upload products.', 'Error!');
                     }

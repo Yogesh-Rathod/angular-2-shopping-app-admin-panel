@@ -12,10 +12,10 @@
                     <i class="fa fa-plus-square" aria-hidden="true"></i>
                     Add New Product
                 </button>
-                <button *ngIf="vendorId" class="btn btn-primary float-right" [routerLink]="['/seller/add-seller-product',vendorId]">
+                <!-- <button *ngIf="vendorId" class="btn btn-primary float-right" [routerLink]="['/seller/add-seller-product',vendorId]">
                     <i class="fa fa-plus-square" aria-hidden="true"></i>
                     Add New Product
-                </button>
+                </button> -->
             </h2>
         </div>
 
@@ -117,8 +117,9 @@
                     <i class="fa fa-download" aria-hidden="true"></i>
                     Export Products
                 </button>
+                <img *ngIf="approveLoader" class="pull-right" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
                 <button class="btn btn-primary pull-right" title="Select products and approve them." [disabled]="productSelected" (click)="approve()">
-                    Approve Products
+                    Confirm Products
                 </button>
 
 
@@ -133,7 +134,9 @@
                                     <strong>Product Image</strong>
                                 </th>
                                 <th>
-                                    <strong>Product name</strong>
+                                    <mfDefaultSorter by="Name">
+                                        <strong>Product name</strong>
+                                    </mfDefaultSorter>
                                 </th>
                                 <th>
                                     <strong>SKU</strong>
@@ -143,12 +146,14 @@
                                         <strong>Price </strong>
                                     </mfDefaultSorter>
                                 </th>
-                                <th>
-                                    <strong>Product Status</strong>
+                                <th class="text-center">
+                                    <mfDefaultSorter by="Status">
+                                        <strong>Product Status</strong>
+                                    </mfDefaultSorter>
                                 </th>
-                                <th>
+                                <!-- <th>
                                     <strong>Approval Status</strong>
-                                </th>
+                                </th> -->
                                 <th class="action">
                                     <strong>Action</strong>
                                 </th>
@@ -174,7 +179,7 @@
                                 <td class="text-center">
                                     {{ item.Status }}
                                 </td>
-                                <td class="text-center order-status">
+                                <!-- <td class="text-center order-status">
                                     <span [ngClass]="{
 										'approved': item.approvalStatus == 'Approved',
 										'pending': item.approvalStatus == 'Pending',
@@ -182,7 +187,7 @@
 									}">
                                         {{ item.approvalStatus }}
                                     </span>
-                                </td>
+                                </td> -->
                                 <td class="action">
                                     <button class="btn btn-secondary" [routerLink]="['/seller/edit-seller-product', item.Id]" title="Edit">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -190,7 +195,7 @@
                                     <!-- <button class="btn btn-danger" (click)="deleteProduct(item, i)" title="Delete" [disabled]="deleteLoader == i">
 										<i class="fa fa-trash-o" aria-hidden="true"></i>
 									</button> -->
-                                    <img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+                                    <!-- <img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35"> -->
                                 </td>
                             </tr>
                         </tbody>

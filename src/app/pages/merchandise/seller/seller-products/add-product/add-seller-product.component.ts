@@ -17,7 +17,8 @@ import { MerchandiseService, ProductsService, VendorsService } from 'app/service
     styleUrls: ['./add-product.component.scss']
 })
 export class AddSellerProductComponent implements OnInit {
-
+    subCategories = [];
+    subSubCategory = [];
     addProductForm: FormGroup;
     config = {
         uiColor: '#F0F3F4',
@@ -151,6 +152,9 @@ export class AddSellerProductComponent implements OnInit {
                 [],
                 Validators.required
             ],
+            'Type': [[]],
+            'SubCategories': [[], Validators.required],
+            'SubSubCategories': [[], Validators.required],
             'SellerId': [
                 '',
                 Validators.required
@@ -259,7 +263,6 @@ export class AddSellerProductComponent implements OnInit {
         });
         let specification = value;
         // let Productspecification = specification.replace('"', '');
-        console.log(addProductForm.CategoryId[0].Id);
         var res = [
             {
                 "Id": addProductForm.Id,
@@ -271,7 +274,10 @@ export class AddSellerProductComponent implements OnInit {
                 "ShortDescription": addProductForm.ShortDescription,
                 "FullDescription": addProductForm.FullDescription,
                 "ProductSpecification": specification,
-                "CategoryId": addProductForm.CategoryId[0].Id,
+                "Category": addProductForm.CategoryId[0].Id,
+                "SubCategory": addProductForm.SubCategories[0].Id,
+                "SubSubCategory": addProductForm.SubSubCategories[0].Id,
+                "Type": addProductForm.Type,
                 "Brand": addProductForm.Brand,
                 "Colour": addProductForm.Colour,
                 "Size": addProductForm.Size,
@@ -283,24 +289,32 @@ export class AddSellerProductComponent implements OnInit {
                 "Comments": addProductForm.Comments,
                 "ManufacturerPartNumber": addProductForm.ManufacturerPartNumber,
                 "Gtin": addProductForm.Gtin,
-                "Status": addProductForm.Status
+                "Status": addProductForm.status
             }
         ]
 
         if (!approval) {
             console.log(this.productId);
-            if (this.productId != '') {
-                console.log(this.productId);
+            if (this.productId) {
                 this.productsService.updateProduct(res).then(res => {
-                    this.toastr.success('Sucessfully Done!', 'Sucess!');
-                    this.showLoader = false;
-                    this.goBack();
+                    if (res.code != 500) {
+                        this.toastr.success('Sucessfully Done!', 'Sucess!');
+                        this.showLoader = false;
+                        this.goBack();
+                    } else {
+                        this.toastr.error(res.message);
+                    }
+
                 }).catch(err => { this.showLoader = false; })
             } else {
                 this.productsService.addProduct(res).then(res => {
-                    this.toastr.success('Sucessfully Done!', 'Sucess!');
-                    this.showLoader = false;
-                    this.goBack();
+                    if (res.code != 500) {
+                        this.toastr.success('Sucessfully Done!', 'Sucess!');
+                        this.showLoader = false;
+                        this.goBack();
+                    } else {
+                        this.toastr.error(res.message);
+                    }
                 }).catch(err => { this.showLoader = false; })
             }
         } else {
@@ -310,11 +324,12 @@ export class AddSellerProductComponent implements OnInit {
                 this.goBack();
             }).catch(err => { this.showLoader = false; })
         }
-
     }
 
     getAllCategories() {
-        this.merchandiseService.getCategoriesByLevel(3).
+        this.subSubCategory = [];
+        this.subCategories = [];
+        this.merchandiseService.getCategoriesByLevel(1).
             then((categories) => {
                 this.categories = categories.Data;
                 this.categories = this.categories.map((category) => {
@@ -335,6 +350,45 @@ export class AddSellerProductComponent implements OnInit {
             }).catch((error) => {
                 console.log("error ", error);
             });
+
+
+    }
+
+    getSubCategory(value) {
+        this.merchandiseService.getCategoriesByLevel(2).
+            then((categories) => {
+                this.subCategories = categories.Data;
+                this.subCategories = this.subCategories.filter((category) => {
+                    if (category.ParentCategoryId == value.Id) {
+                        category.id = category.Id;
+                        category.itemName = category.Name;
+                        return category
+                    }
+                });
+            }).catch((error) => {
+                console.log("error ", error);
+            });
+    }
+
+    getSubSubCategory(value) {
+        this.merchandiseService.getCategoriesByLevel(3).
+            then((categories) => {
+                this.subSubCategory = categories.Data;
+                this.subSubCategory = this.subSubCategory.filter((category) => {
+                    if (category.ParentCategoryId == value.Id) {
+                        category.id = category.Id;
+                        category.itemName = category.Name;
+                        return category
+                    }
+                });
+            }).catch((error) => {
+                console.log("error ", error);
+            });
+    }
+
+    clearSubCategory() {
+        this.subSubCategory = [];
+        this.subCategories = [];
     }
 
     uploadProductImage(addProductForm) {

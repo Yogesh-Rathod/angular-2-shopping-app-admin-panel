@@ -158,6 +158,24 @@
                   </label>
                   <input type="text" class="form-control col-9" id="Price" placeholder="MRP Price" formControlName="Mrp" (keydown)='validatenumber($event)'>
                 </div>
+                <div class="form-group row">
+                  <label for="netPrice" class="col-3 text-right">Retail Price
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Retail Price" formControlName="RetailPrice" (keydown)='validatenumber($event)'>
+                </div>
+                <div class="form-group row">
+                  <label for="netPrice" class="col-3 text-right">Retail Shipping Price
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Retail Shipping Price" formControlName="RetailShippingPrice" (keydown)='validatenumber($event)'>
+                </div>
+                <div class="form-group row">
+                  <label for="netPrice" class="col-3 text-right">Retail Price Inclusiv
+                    <span class="mandatory">*</span>
+                  </label>
+                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Retail Price Inclusiv" formControlName="RetailPriceInclusiv" (keydown)='validatenumber($event)'>
+                </div>
                 <!-- <div class="form-group row" *ngIf=" productId ">
                   <label for="applicableDate" class="col-3 text-right">
                     Apply From

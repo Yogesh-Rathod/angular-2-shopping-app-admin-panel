@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 import { Location } from '@angular/common';
 
+import { RegEx } from './../../../regular-expressions';
 import { Config } from 'app/pages/app-config';
 import { MerchandiseService } from 'app/services';
 import { CategoryDeletePopupComponent } from '../delete-popup/delete-popup.component';
@@ -83,10 +84,14 @@ export class AddCategoryComponent implements OnInit {
             'sub-sub-category': ['new'],
             'Name': ['', Validators.compose([Validators.required,
             Validators.minLength(1), Validators.maxLength(100)])],
-            // 'Description': ['', Validators.compose([
-            // Validators.minLength(1), Validators.maxLength(1000)])],
             'ParentCategoryId': [''],
-            'DisplayOrder': ['', Validators.compose([Validators.required])],
+            'DisplayOrder': [
+                '',
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.onlyNumber)
+                ])
+            ],
             'IsActive': ['TRUE']
         });
     }

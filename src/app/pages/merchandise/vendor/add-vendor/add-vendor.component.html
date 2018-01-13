@@ -73,17 +73,24 @@
                     </label>
                     <input type="text" class="form-control" id="Phone" formControlName="ContactNumber" (keydown)='validatenumber($event)'>
                 </div>
-
-
+                <div class="form-group col-6">
+                    <label for="Phone">
+                        Alternate Phone Number:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Alternate Phone Number (Should be 10 digit long and must start with 7/8/9)"></i>
+                    </label>
+                    <input type="text" class="form-control" id="Phone" formControlName="AltContactNumber" (keydown)='validatenumber($event)'>
+                </div>
             </div>
 
-            <div class="col-6 row">
+            <div class="col-6 row top-margins">
                 <div class="form-group col-12">
                     <label for="Address">Address:
                         <span class="mandatory">*</span>
                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Address."></i>
                     </label>
-                    <textarea formControlName="Address" id="Address" cols="10" rows="10" class="form-control"></textarea>
+                    <input type="text" formControlName="Address" id="Address" class="form-control">
+                    <!-- <textarea formControlName="Address" id="Address" cols="10" rows="10" class="form-control"></textarea> -->
                 </div>
                 <div class="form-group col-6">
                     <label for="city">City:
@@ -91,8 +98,7 @@
                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor City."></i>
                     </label>
                     <select formControlName="CityId" id="city" class="form-control">
-                        <option value="Mumbai">Mumbai</option>
-                        <option value="Thane">Thane</option>
+                        <option *ngFor="let item of citiesList" value="item">{{ item }}</option>
                     </select>
                 </div>
 
@@ -139,15 +145,16 @@
                     </label>
                     <input formControlName="ZipCode" id="Zip" class="form-control" type="text" (keydown)='validatenumber($event)'>
                 </div>
+                <div class="form-group col-6" [class.disabled]="!vendorId">
+                    <label for="Status">Status:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Status. (If deactivated products from this vendor will be disabled.)"></i>
+                        <input formControlName="IsActive" id="Status" type="checkbox">
+                    </label>
+                </div>
                 <div class="block"></div>
             </div>
-            <div class="form-group col-6" [class.disabled]="!vendorId">
-                <label for="Status">Status:
-                    <span class="mandatory">*</span>
-                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Status. (If deactivated products from this vendor will be disabled.)"></i>
-                    <input formControlName="IsActive" id="Status" type="checkbox">
-                </label>
-            </div>
+
 
             <div class="form-group row col-12">
                 <label class="col-5 text-right"></label>

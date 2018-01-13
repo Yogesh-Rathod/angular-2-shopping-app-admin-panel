@@ -1,129 +1,131 @@
 <div class="row top20 clearfix fadeIn animated">
-	<div class="col-12">
+    <div class="col-12">
 
-		<div class="catSearch clearfix card-header">
-			<h2 class="card-title ">
-				Manage Sellers
-				<button class="btn btn-primary float-right" (click)=" bulkUpload() ">
-					<i class="fa fa-download" aria-hidden="true"></i>
-					Import
-				</button>
-				<button class="btn btn-primary float-right" [routerLink]="['./add-vendor']">
-					<i class="fa fa-plus-square" aria-hidden="true"></i>
-					Add New
-				</button>
-			</h2>
-		</div>
+        <div class="catSearch clearfix card-header">
+            <h2 class="card-title ">
+                Manage Sellers
+                <!-- <button class="btn btn-primary float-right" (click)=" bulkUpload() ">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    Import
+                </button> -->
+                <button class="btn btn-primary float-right" [routerLink]="['./add-vendor']">
+                    <i class="fa fa-plus-square" aria-hidden="true"></i>
+                    Add New
+                </button>
+            </h2>
+        </div>
 
-		<div class="filters card col-12 fadeIn animated">
-			<div class="card-body">
-				<form>
+        <div class="filters card col-12 fadeIn animated">
+            <div class="card-body">
+                <form>
 
-					<div class="form-group row">
-						<label for="name" class="col-3 col-xl-2 text-right">Seller Search
-							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by Seller Name, Email or Code"></i>
-						</label>
-						<input type="text" #searchText class="form-control col-4" id="name" placeholder="Seller Search">
-						<button type="submit" class="btn btn-primary searchbutton" (click)=" searchVendor(searchText.value) ">
-							<i class="fa fa-search" aria-hidden="true"></i>
-							Search
-						</button>
-					</div>
+                    <div class="form-group row">
+                        <label for="name" class="col-3 col-xl-2 text-right">Seller Search
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by Seller Name, Email or Code"></i>
+                        </label>
+                        <input type="text" #searchText class="form-control col-4" id="name" placeholder="Seller Search">
+                        <button type="submit" class="btn btn-primary searchbutton" (click)=" searchVendor(searchText.value) ">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            Search
+                        </button>
+                    </div>
 
-				</form>
-			</div>
-		</div>
+                </form>
+            </div>
+        </div>
 
-		<div class="spacer col-12"></div>
+        <div class="filters card col-12 ">
+            <div class="card-body clearfix pos_relative no_top_padding">
 
-		<div class="filters card col-12">
-			<div class="card-body clearfix">
+                <div class="loader-container pos_absolute" *ngIf="bigLoader">
+                    <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+                </div>
 
-				<div class="loader-container pos_absolute" *ngIf="bigLoader">
-					<img src="assets/img/ajax-loader.gif" alt="Loader Image">
-				</div>
-
-				<button
-				class="btn btn-info float-right deleteSelectedButton" [ngClass]="{'disabled': !showSelectedDelete }"
-				(click)="deactivateAll()">
-					Deactivate Selected
-				</button>
+                <!-- <button class="btn btn-info float-right deleteSelectedButton" [ngClass]="{'disabled': !showSelectedDelete }" (click)="deactivateAll()">
+                    Deactivate Selected
+                </button> -->
 
 
-				<table class="table table-bordered table-responsive" [mfData]="filteredVendorsList" #mf="mfDataTable" [mfRowsOnPage]="10">
-					<thead class="black-muted-bg">
-						<tr>
-							<th class="text-center">
-								<input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
-							</th>
-							<th class="text-left">
-								<mfDefaultSorter by="first_name">
-									<strong>Name</strong>
-								</mfDefaultSorter>
-							</th>
-							<th class="text-left">
-								<mfDefaultSorter by="suffix">
-									<strong>Code</strong>
-								</mfDefaultSorter>
-							</th>
-							<th>
-								<strong>Email</strong>
-							</th>
-							<th class="text-center">
-								<strong>Status</strong>
-							</th>
-							<th class="text-center">
-								<strong>Action</strong>
-							</th>
-						</tr>
-					</thead>
-					<tbody *ngIf=" filteredVendorsList && filteredVendorsList.length > 0 ">
-						<tr *ngFor=" let item of mf.data; let i = index;">
-							<td class="text-center">
-								<input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
-							</td>
-							<td class="text-left">
-								{{ item.first_name }} {{ item.last_name }}
-							</td>
-							<td class="text-left no-text-transform">
-								{{ item.suffix }}
-							</td>
-							<td class="no-text-transform">{{ item.email }}</td>
-							<td class="text-center" >
-								<i *ngIf=" item.status " class="fa fa-check" aria-hidden="true"></i>
-								<i *ngIf=" !item.status " class="fa fa-times" aria-hidden="true"></i>
-							</td>
-							<td class="text-center">
-								<button class="btn btn-secondary" [routerLink]="['./edit-vendor/', item.id]" title="Edit">
-									<i class="fa fa-pencil" aria-hidden="true"></i>
-								</button>
-								<button class="btn btn-secondary" [routerLink]="['/merchandise/products/vendorproducts', item.id]" title="View Products">
-									<i class="fa fa-eye" aria-hidden="true"></i>
-								</button>
-								<img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-							</td>
-						</tr>
-					</tbody>
+                <table class="table table-bordered table-responsive" [mfData]="filteredVendorsList" #mf="mfDataTable" [mfRowsOnPage]="10">
+                    <thead class="black-muted-bg">
+                        <tr>
+                            <!-- <th class="text-center">
+                                <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+                            </th> -->
+                            <th class="text-left">
+                                <mfDefaultSorter by="first_name">
+                                    <strong>Name</strong>
+                                </mfDefaultSorter>
+                            </th>
+                            <th class="text-left">
+                                <mfDefaultSorter by="suffix">
+                                    <strong>Code</strong>
+                                </mfDefaultSorter>
+                            </th>
+                            <th>
+                                <strong>Contact Number</strong>
+                            </th>
 
-					<tbody *ngIf=" filteredVendorsList && filteredVendorsList.length === 0 ">
-						<tr>
-							<td colspan="6">
-								<strong>There are no vendors!</strong>
-							</td>
-						</tr>
-					</tbody>
+                            <th>
+                                <strong>Email</strong>
+                            </th>
+                            <th class="text-center">
+                                <strong>Status</strong>
+                            </th>
+                            <th class="text-center">
+                                <strong>Action</strong>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf=" filteredVendorsList && filteredVendorsList.length > 0 ">
+                        <tr *ngFor=" let item of mf.data; let i = index;">
+                            <!-- <td class="text-center">
+                                <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                            </td> -->
+                            <td class="text-left">
+                                {{ item.FirstName }} {{ item.LastName }}
+                            </td>
+                            <td class="text-left no-text-transform">
+                                {{ item.SellerCode }}
+                            </td>
+                            <td class="text-left no-text-transform">
+                                {{ item.ContactNumber }}
+                            </td>
+                            <td class="no-text-transform">{{ item.EmailAddress }}</td>
+                            <td class="text-center">
+                                <i *ngIf=" item.IsActive " class="fa fa-check" aria-hidden="true"></i>
+                                <i *ngIf=" !item.IsActive " class="fa fa-times" aria-hidden="true"></i>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-secondary" [routerLink]="['./edit-vendor/', item.SellerId]" title="Edit">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn btn-secondary" [routerLink]="['/merchandise/products/vendorproducts', item.id]" title="View Products">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
 
-					<tfoot *ngIf=" filteredVendorsList && filteredVendorsList.length > 10 ">
-						<tr>
-							<td colspan="6">
-								<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
+                    <tbody *ngIf=" filteredVendorsList && filteredVendorsList.length === 0 ">
+                        <tr>
+                            <td colspan="7">
+                                <strong>There are no vendors!</strong>
+                            </td>
+                        </tr>
+                    </tbody>
 
-		</div>
+                    <tfoot *ngIf=" filteredVendorsList && filteredVendorsList.length > 10 ">
+                        <tr>
+                            <td colspan="7">
+                                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
 
-	</div>
+        </div>
+
+    </div>
 </div>

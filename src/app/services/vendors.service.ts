@@ -1,218 +1,69 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Http, RequestOptions, Headers } from '@angular/http';
+import 'rxjs/add/operator/toPromise';
+import { CookieService } from 'ngx-cookie';
+import { CommonAppService } from 'app/services/common.services';
+
+import { environment } from './../../environments';
+import { AppState } from 'app/app.service';
+import { ResponseHandingService } from 'lrshared_modules/services/response-handling.service';
 
 @Injectable()
 export class VendorsService {
 
-    constructor() { }
+    headers = new Headers({
+        'headers': '',
+        'ModuleId': environment.moduleId,
+        'Content-Type': 'application/json',
+        'Accept': 'q=0.8;application/json;q=0.9'
+    });
+    options = new RequestOptions({ headers: this.headers });
 
-    // All Operations Related To Vendors
-    private vendors: any[] = [
-        {
-            'id': 1,
-            'first_name': 'Verla',
-            'last_name': 'Spong',
-            'email': 'test@test.com',
-            'status': true,
-            'suffix': 'VS',
-            'company': 'HDFC',
-            'phoneNumber': '1234567890',
-            'website': 'https://www.india.com',
-            'address': '101, Ruby Tower, dadar.',
-            'city': 'Mumbai',
-            'state': 'Maharashtra',
-            'country': 'India',
-            'zip': '400606'
-        },
-        {
-            'id': 2,
-            'first_name': 'Jade',
-            'last_name': 'O Sharkey',
-            'email': 'Jade.Sharkey@gmail.com',
-            'status': false,
-            'suffix': 'JO',
-            'company': 'JIO',
-            'phoneNumber': '9387654321',
-            'website': 'https://www.JIO.com',
-            'address': '101, Ruby Tower, dadar.',
-            'city': 'Mumbai',
-            'state': 'Maharashtra',
-            'country': 'India',
-            'zip': '400606'
-        },
-        {
-            'id': 3,
-            'first_name': 'Vernice',
-            'last_name': 'Cicconettii',
-            'email': 'Vernice.Cicconettii@gmail.com',
-            'status': true,
-            'suffix': 'VC',
-            'company': 'Reliance',
-            'phoneNumber': '9387654321',
-            'website': 'https://www.Reliance.com',
-            'address': '101, Ruby Tower, dadar.',
-            'city': 'Mumbai',
-            'state': 'Maharashtra',
-            'country': 'India',
-            'zip': '400606'
-        },
-        {
-            'id': 4,
-            'first_name': 'Benjy',
-            'last_name': 'Bugby',
-            'email': 'Benjy.Bugby@gmail.com',
-            'status': false,
-            'suffix': 'VC',
-            'company': 'Reliance',
-            'phoneNumber': '9387654321',
-            'website': 'https://www.Reliance.com',
-            'address': '101, Ruby Tower, dadar.',
-            'city': 'Mumbai',
-            'state': 'Maharashtra',
-            'country': 'India',
-            'zip': '400606'
-        },
-        {
-            'id': 5,
-            'first_name': 'Wallis',
-            'last_name': 'Stemp',
-            'email': 'Wallis.Stemp@gmail.com',
-            'status': false,
-            'suffix': 'VC',
-            'company': 'Reliance',
-            'phoneNumber': '9387654321',
-            'website': 'https://www.Reliance.com',
-            'address': '101, Ruby Tower, dadar.',
-            'city': 'Mumbai',
-            'state': 'Maharashtra',
-            'country': 'India',
-            'zip': '400606'
-        },
-        {
-            'id': 6,
-            'first_name': 'Guss',
-            'last_name': 'Deboo',
-            'email': 'Guss.Deboo@gmail.com',
-            'status': true,
-            'suffix': 'VC',
-            'company': 'Reliance',
-            'phoneNumber': '9387654321',
-            'website': 'https://www.Reliance.com',
-            'address': '101, Ruby Tower, dadar.',
-            'city': 'Mumbai',
-            'state': 'Maharashtra',
-            'country': 'India',
-            'zip': '400606'
-        },
-        {
-            'id': 7,
-            'first_name': 'Hubey',
-            'last_name': 'Manie',
-            'email': 'Hubey.Manie@gmail.com',
-            'status': true,
-            'suffix': 'VC',
-            'company': 'Reliance',
-            'phoneNumber': '9387654321',
-            'website': 'https://www.Reliance.com',
-            'address': '101, Ruby Tower, dadar.',
-            'city': 'Mumbai',
-            'state': 'Maharashtra',
-            'country': 'India',
-            'zip': '400606'
-        },
-        {
-            'id': 8,
-            'first_name': 'Jacki',
-            'last_name': 'Kryszkiecicz',
-            'email': 'Hubey.Manie@gmail.com',
-            'status': true,
-            'suffix': 'VC',
-            'company': 'Reliance',
-            'phoneNumber': '9387654321',
-            'website': 'https://www.Reliance.com',
-            'address': '101, Ruby Tower, dadar.',
-            'city': 'Mumbai',
-            'state': 'Maharashtra',
-            'country': 'India',
-            'zip': '400606'
-        },
-        {
-            'id': 9,
-            'first_name': 'Pasquale',
-            'last_name': 'Warner',
-            'email': 'Hubey.Manie@gmail.com',
-            'status': true,
-            'suffix': 'VC',
-            'company': 'Reliance',
-            'phoneNumber': '9387654321',
-            'website': 'https://www.Reliance.com',
-            'address': '101, Ruby Tower, dadar.',
-            'city': 'Mumbai',
-            'state': 'Maharashtra',
-            'country': 'India',
-            'zip': '400606'
-        },
-        {
-            'id': 10,
-            'first_name': 'Pamelina',
-            'last_name': 'Whitehall',
-            'email': 'Hubey.Manie@gmail.com',
-            'status': true,
-            'suffix': 'VC',
-            'company': 'Reliance',
-            'phoneNumber': '9387654321',
-            'website': 'https://www.Reliance.com',
-            'address': '101, Ruby Tower, dadar.',
-            'city': 'Mumbai',
-            'state': 'Maharashtra',
-            'country': 'India',
-            'zip': '400606'
-        },
-        {
-            'id': 11,
-            'first_name': 'Harv',
-            'last_name': 'Rapsey',
-            'email': 'Hubey.Manie@gmail.com',
-            'status': true,
-            'suffix': 'VC',
-            'company': 'Reliance',
-            'phoneNumber': '9387654321',
-            'website': 'https://www.Reliance.com',
-            'address': '101, Ruby Tower, dadar.',
-            'city': 'Mumbai',
-            'state': 'Maharashtra',
-            'country': 'India',
-            'zip': '400606'
-        },
-        {
-            'id': 12,
-            'first_name': 'Millicent',
-            'last_name': 'Woodall',
-            'email': 'Hubey.Manie@gmail.com',
-            'status': true,
-            'suffix': 'VC',
-            'company': 'Reliance',
-            'phoneNumber': '9387654321',
-            'website': 'https://www.Reliance.com',
-            'address': '101, Ruby Tower, dadar.',
-            'city': 'Mumbai',
-            'state': 'Maharashtra',
-            'country': 'India',
-            'zip': '400606'
-        },
-    ];
+    constructor(
+        private cookieService: CookieService,
+        private http: Http,
+        private global: AppState,
+        private responseHandler: ResponseHandingService,
+        private commonAppSer: CommonAppService) {
+    }
 
-    getVendors() {
-        return this.vendors;
+    getVendors(sellerId?) {
+        let url = sellerId ? `${environment.sellerApiUrl}Seller/${sellerId}` : `${environment.sellerApiUrl}Seller`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
     }
 
     addVendor(vendor) {
-        this.vendors.push(vendor);
-        return this.vendors;
+        let url = `${environment.sellerApiUrl}Seller`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.post(url, JSON.stringify(vendor), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    updateVendor(vendor) {
+        let url = `${environment.sellerApiUrl}Seller`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.put(url, JSON.stringify(vendor), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
     }
 
     editVendor(vendors) {
-        this.vendors = vendors;
-        return this.vendors;
+        // this.vendors = vendors;
+        // return this.vendors;
     }
 
 }

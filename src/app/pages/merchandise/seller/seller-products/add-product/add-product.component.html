@@ -107,7 +107,6 @@
                   </label>
                   <ckeditor class="form-control col-9" [config]="config" formControlName="FullDescription"></ckeditor>
                 </div>
-
                 <div class="form-group row">
                   <label for="FullDescription" class="col-3 text-right">
                     Specifications
@@ -141,7 +140,7 @@
                     <span class="mandatory">*</span>
                   </label>
                   <select id="status" formControlName="status" class="form-control col-9">
-                    <option  value="">Status</option>
+                    <option value="">Status</option>
                     <option *ngFor="let item of statusOptions" value="{{item}}">{{ item }}</option>
                   </select>
                 </div>
@@ -206,10 +205,33 @@
               </div>
               <div class="card-body collapse show" id="mappings">
                 <div class="form-group row">
-                  <label for="Categories" class="col-4 text-right">Categories
+                  <label for="Categories" class="col-md-4 text-right">Type
                     <span class="mandatory">*</span>
                   </label>
-                  <angular2-multiselect id="name" [data]="categories"  formControlName="CategoryId" [settings]="categoriesDropdownSettings">
+                  <select class="form-control selectpicker col-md-8" [disabled]="true">
+                    <option>Merchandise</option>
+                    <option>Gift Card</option>
+                  </select>
+                </div>
+                <div class="form-group row">
+                  <label for="Categories" class="col-4 text-right">Category
+                    <span class="mandatory">*</span>
+                  </label>
+                  <angular2-multiselect id="name" [data]="categories" formControlName="CategoryId" [settings]="categoriesDropdownSettings">
+                  </angular2-multiselect>
+                </div>
+                <div class="form-group row">
+                  <label for="Categories" class="col-4 text-right">Sub Category
+                    <span class="mandatory">*</span>
+                  </label>
+                  <angular2-multiselect id="name" [data]="" formControlName="CategoryId" [settings]="categoriesDropdownSettings">
+                  </angular2-multiselect>
+                </div>
+                <div class="form-group row">
+                  <label for="Categories" class="col-4 text-right">Sub Sub Category
+                    <span class="mandatory">*</span>
+                  </label>
+                  <angular2-multiselect id="name" [data]="" formControlName="CategoryId" [settings]="categoriesDropdownSettings">
                   </angular2-multiselect>
                 </div>
                 <div class="form-group row">
@@ -371,9 +393,9 @@
 
       <div class="form-group row col-12">
         <label class="col-3 text-right"></label>
-        <input type="submit" class="btn btn-primary" value="Save" [disabled]=" !addProductForm.valid || showLoader" >
+        <input type="submit" class="btn btn-primary" value="Save" [disabled]=" !addProductForm.valid || showLoader">
         <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-        <input  type="button" class="btn btn-success" value="Approve" (click)="addProduct(addProductForm.value, true)" [disabled]=" !addProductForm.valid || showLoader ">
+        <input type="button" class="btn btn-success" value="Approve" (click)="addProduct(addProductForm.value, true)" [disabled]=" !addProductForm.valid || showLoader ">
         <span class="btn btn-warning" *ngIf=" !productId " (click)="resetForm()">Reset</span>
         <!-- <span class="btn btn-secondary" [routerLink]="['/merchandise/products']">Cancel</span> -->
       </div>

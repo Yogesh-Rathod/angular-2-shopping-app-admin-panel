@@ -200,6 +200,12 @@ i.fa {
     cursor: pointer;
 }
 
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] {
+    color: #666666 !important;
+}
+
 // Media Queries
 @media (min-width: 576px) {
     .modal-sm {

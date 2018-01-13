@@ -201,7 +201,6 @@ export class AddSellerProductComponent implements OnInit {
     }
 
     getProductInfoForEdit() {
-        console.log(this.productId)
         if (this.productId) {
             this.productsService.getProductById(this.productId).then(res => {
                 this.products = res.Data;

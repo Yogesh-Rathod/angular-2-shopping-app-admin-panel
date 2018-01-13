@@ -13,14 +13,15 @@ import 'rxjs/add/operator/timeout';
 
 import { environment } from 'environments/environment';
 import { CommonService } from 'lrshared_modules/services/common-services.service';
+import { CommonAppService } from 'app/services/common.services';
 import { ResponseHandingService } from 'lrshared_modules/services/response-handling.service';
-import * as CryptoJS from "crypto-js";
-import * as utf8 from 'utf8';
 
 @Injectable()
 export class LoginService {
 
     headers = new Headers({
+        'headers': '',
+        'ModuleId': environment.moduleId,
         'Content-Type': 'application/json',
         'Accept': 'q=0.8;application/json;q=0.9'
     });
@@ -28,34 +29,16 @@ export class LoginService {
 
     constructor(
         private http: Http,
+        private commonAppSer: CommonAppService,
         private commSer: CommonService,
         private responseHandler: ResponseHandingService
     ) {
 
     }
 
-    createHMACSignature(requestMethod, requestURL, body = '') {
-        let requestUrl = encodeURIComponent(requestURL).toLowerCase(),
-        timestamp = + new Date(),
-        nounce = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.random(8)),
-        signatureRaw = `${environment.hmacCliendId}${requestMethod}${requestUrl}${timestamp}${nounce}`;
-
-        if (body) {
-            const contentString = JSON.stringify(body),
-            updatedContent = CryptoJS.enc.Base64.stringify(CryptoJS.MD5(utf8.encode(contentString)));
-            signatureRaw = signatureRaw + updatedContent;
-        }
-        // Secret Will Be Updated Later On
-        const clientSecret = utf8.encode(environment.hmacClientSecret);
-        const finalSignature = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(utf8.encode(signatureRaw), clientSecret));
-
-        console.log("finalSignature ", `lvbportal:${finalSignature}:${nounce}:${timestamp}`);
-        return `${environment.hmacCliendId}:${finalSignature}:${nounce}:${timestamp}`;
-    }
-
     userLogin(data): Promise<any> {
         const url = `${environment.rbacUrl}Auth/Login`;
-        this.headers.set('LRSignAuth', this.createHMACSignature('POST', url, data));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, data));
         return this.http.post(url, JSON.stringify(data), this.options)
             .timeout(environment.timeOut)
             .toPromise()

@@ -4,7 +4,7 @@ import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as _ from 'lodash';
 
-import { ProductsService, XlsxToJsonService } from 'app/services';
+import { ProductsService, XlsxToJsonService, JsonToExcelService } from 'app/services';
 
 @Component({
     selector: 'app-bulk-upload',
@@ -12,7 +12,7 @@ import { ProductsService, XlsxToJsonService } from 'app/services';
     styleUrls: ['./bulk-upload.component.scss']
 })
 export class ProductsBulkUploadComponent implements OnInit {
-
+    errorData = [];
     submitDisabled = true;
     showUploadError = false;
     showLoader = false;
@@ -26,6 +26,7 @@ export class ProductsBulkUploadComponent implements OnInit {
         private productsService: ProductsService,
         private activeModal: NgbActiveModal,
         private xlsxToJsonService: XlsxToJsonService,
+        private jsonToExcelService:JsonToExcelService,
     ) { }
 
     ngOnInit() {}
@@ -72,6 +73,7 @@ export class ProductsBulkUploadComponent implements OnInit {
                             this.closeModal(true);
                         } else if (success.Code === 500) {
                             this.showLoader = false;
+                            this.errorData = success.Data;
                             this.toastr.error('Oops! Could not upload products.', 'Error!');
                         }
                     }).catch((error) => {
@@ -93,6 +95,7 @@ export class ProductsBulkUploadComponent implements OnInit {
                             this.closeModal(true);
                         } else if (success.Code === 500) {
                             this.showLoader = false;
+                            this.errorData = success.Data;
                             this.toastr.error('Oops! Could not upload products.', 'Error!');
                         }
                     }).catch((error) => {
@@ -105,9 +108,11 @@ export class ProductsBulkUploadComponent implements OnInit {
                         this.showLoader = false;
                     });
             }
-
-
         }
+    }
+
+    downloadFile(){
+        this.jsonToExcelService.exportAsExcelFile(this.errorData,'products')
     }
 
     closeModal(status) {

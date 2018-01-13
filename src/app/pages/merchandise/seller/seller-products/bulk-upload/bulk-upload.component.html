@@ -27,10 +27,13 @@
                 <input type="file" class="form-control" id="ExcelFile" (change)="handleFile($event)" accept=".xlsx, .xls">
                 <a target="_blank" href="assets/samples/SampleProducts.xlsx" class="text-decoration btn-link float-right">Download Template</a>
             </div>
+            <div class="row col-md-12" *ngIf="downloadIssue.length>0">
+                <a target="_blank" href="javascript:void(0)" (click)="download()" class="text-decoration btn-link float-right">Download Error Report</a> 
+            </div>
             <div class="row col-md-12 uploadButton form-group">
-                <button class="btn btn-primary col-md-3" *ngIf="!showLoader" [disabled]=" submitDisabled " (click)="uploadFile($event)">Upload</button>
-                <img class="col-md-3" *ngIf="showLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-                <button type="button" *ngIf="!showLoader" class="sendApproval btn btn-primary col-md-6" [disabled]=" submitDisabled " (click)="sendApproval($event)">Request approval</button>
+                <button class="btn btn-primary col-md-3"  [disabled]=" submitDisabled " (click)="uploadFile($event)">Upload</button>
+                <img class="" *ngIf="showLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+                <button type="button" class="sendApproval btn btn-primary col-md-6" [disabled]=" submitDisabled " (click)="sendApproval($event)">Request approval</button>
             </div>
         </form>
     </div>

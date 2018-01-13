@@ -3,8 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as _ from 'lodash';
-
-import { ProductsService, XlsxToJsonService } from 'app/services';
+import { ProductsService, XlsxToJsonService, JsonToExcelService } from 'app/services';
 
 @Component({
     selector: 'app-bulk-upload',
@@ -12,7 +11,7 @@ import { ProductsService, XlsxToJsonService } from 'app/services';
     styleUrls: ['./bulk-upload.component.scss']
 })
 export class SellsBulkUploadComponent implements OnInit {
-
+    downloadIssue = []
     submitDisabled = true;
     showUploadError = false;
     showLoader = false;
@@ -26,6 +25,7 @@ export class SellsBulkUploadComponent implements OnInit {
         private productsService: ProductsService,
         private activeModal: NgbActiveModal,
         private xlsxToJsonService: XlsxToJsonService,
+        private jsonToExcelService:JsonToExcelService
     ) { }
 
     ngOnInit() { }
@@ -86,6 +86,9 @@ export class SellsBulkUploadComponent implements OnInit {
     //         this.productsInfo.push(productsInformation);
     //     });
     // }
+    download(){
+        this.jsonToExcelService.exportAsExcelFile(this.downloadIssue, 'products');
+    }
     sendApproval(event) {
         this.showLoader = true;
         if (this.productsInfo && this.productsInfo.length > 0) {
@@ -116,7 +119,6 @@ export class SellsBulkUploadComponent implements OnInit {
         event.preventDefault();
         this.showLoader = true;
         if (this.productsInfo && this.productsInfo.length > 0) {
-            console.log("if ");
             this.productsService.addProduct(this.productsInfo).
                 then((success) => {
                     if (success.Code === 200) {
@@ -124,15 +126,17 @@ export class SellsBulkUploadComponent implements OnInit {
                         this.showLoader = false;
                         this.closeModal(true);
                     } else if (success.Code === 500) {
-                        this.closeModal(true);
-                        this.showLoader = false;
+                        // this.showLoader = false;
+                        this.downloadIssue = success.Data;
                         this.toastr.error('Oops! Could not upload products.', 'Error!');
                     }
                 }).catch((error) => {
                     console.log("error ", error);
                     if (error.Code === 500) {
+                        this.downloadIssue = error.Data;
                         this.toastr.error('Oops! Could not add movie.', 'Error!');
                     } else if (error.Code === 400) {
+                        this.downloadIssue = error.Data;
                         this.validationError = error.FailureReasons;
                     }
                     this.showLoader = false;

@@ -179,11 +179,11 @@
                                 <td>{{ item.Sku }}</td>
                                 <td>{{ item.NetPrice | currency: 'INR': true }}</td>
                                 <td class="text-center" [ngClass]="{
-                                    'draft': item.approvalStatus == 'Draft',
-                                    'approved': item.approvalStatus == 'Approved',
-                                    'pending': item.approvalStatus == 'Pending',
-                                    'rejected': item.approvalStatus == 'Rejected'
-                                }">
+									'Draft': item.Status == 'Draft',
+									'approved': item.Status == 'Approved',
+									'pending': item.Status == 'Pending',
+									'rejected': item.Status == 'Rejected'
+								}">
                                     {{ item.Status }}
                                 </td>
                                 <!-- <td class="text-center order-status">

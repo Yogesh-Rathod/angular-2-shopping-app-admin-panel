@@ -155,10 +155,10 @@ export class AddSellerProductComponent implements OnInit {
             'Type': [[]],
             'SubCategories': [[], Validators.required],
             'SubSubCategories': [[], Validators.required],
-            'SellerId': [
-                '',
-                Validators.required
-            ],
+            // 'SellerId': [
+            //     '',
+            //     Validators.required
+            // ],
             'pictureName': [''],
             'pictureAlt': [''],
             'pictureTitle': [''],
@@ -208,7 +208,7 @@ export class AddSellerProductComponent implements OnInit {
         if (this.productId) {
             this.productsService.getProductById(this.productId).then(res => {
                 this.products = res.Data;
-                if (res.code != 500) {
+                if (res.Code != 500) {
                     let specification = this.products[0].ProductSpecification.split('|');
                     let specificationData = [];
                     _.forEach(specification, (data, index) => {
@@ -224,6 +224,8 @@ export class AddSellerProductComponent implements OnInit {
                     this.removeStructure(specificationData.length);
 
                     this.productInfo = res.Data;
+                    console.log(this.products[0].Id)
+                    console.log(this.products[0].ModelNumber)
                     this.addProductForm.controls['Id'].setValue(this.products[0].Id);
                     this.addProductForm.controls['ParentProductCode'].setValue(this.products[0].ParentProductCode);
                     this.addProductForm.controls['ModelNumber'].setValue(this.products[0].ModelNumber);
@@ -266,7 +268,7 @@ export class AddSellerProductComponent implements OnInit {
         var res = [
             {
                 "Id": addProductForm.Id,
-                "SellerId": addProductForm.SellerId.id,
+                // "SellerId": addProductForm.SellerId.id,
                 "ParentProductCode": addProductForm.ParentProductCode,
                 "Sku": addProductForm.Sku,
                 "Name": addProductForm.Name,
@@ -297,7 +299,7 @@ export class AddSellerProductComponent implements OnInit {
             console.log(this.productId);
             if (this.productId) {
                 this.productsService.updateProduct(res).then(res => {
-                    if (res.code != 500) {
+                    if (res.Code != 500) {
                         this.toastr.success('Sucessfully Done!', 'Sucess!');
                         this.showLoader = false;
                         this.goBack();
@@ -308,7 +310,7 @@ export class AddSellerProductComponent implements OnInit {
                 }).catch(err => { this.showLoader = false; })
             } else {
                 this.productsService.addProduct(res).then(res => {
-                    if (res.code != 500) {
+                    if (res.Code != 500) {
                         this.toastr.success('Sucessfully Done!', 'Sucess!');
                         this.showLoader = false;
                         this.goBack();

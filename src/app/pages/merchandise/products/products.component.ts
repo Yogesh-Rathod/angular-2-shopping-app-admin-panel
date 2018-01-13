@@ -113,7 +113,15 @@ export class ProductsComponent implements OnInit {
     }
 
     getAllVendors() {
-        this.vendors = this.vendorsService.getVendors();
+        this.vendorsService.getVendors().
+        then((vendors) => {
+            console.log("vendors ", vendors);
+            this.vendors = vendors.Data;
+            // this.filteredVendorsList = this.vendorsList;
+            // this.bigLoader = false;
+        }).catch((error) => {
+            console.log("error ", error);
+        })
     }
 
     atLeastOneFieldRequires(someObject) {
@@ -213,10 +221,10 @@ export class ProductsComponent implements OnInit {
         } else {
             this.noActionSelected = false;
             switch (dropDownActionValue) {
-                case 'Approve Selected':
+                case 'Approve':
                     this.approveAll();
                     break;
-                case 'Reject Selected':
+                case 'Reject':
                     this.rejectAll();
                     break;
                 default:

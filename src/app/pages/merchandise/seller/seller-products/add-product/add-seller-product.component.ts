@@ -224,8 +224,6 @@ export class AddSellerProductComponent implements OnInit {
                     this.removeStructure(specificationData.length);
 
                     this.productInfo = res.Data;
-                    console.log(this.products[0].Id)
-                    console.log(this.products[0].ModelNumber)
                     this.addProductForm.controls['Id'].setValue(this.products[0].Id);
                     this.addProductForm.controls['ParentProductCode'].setValue(this.products[0].ParentProductCode);
                     this.addProductForm.controls['ModelNumber'].setValue(this.products[0].ModelNumber);
@@ -276,10 +274,10 @@ export class AddSellerProductComponent implements OnInit {
                 "ShortDescription": addProductForm.ShortDescription,
                 "FullDescription": addProductForm.FullDescription,
                 "ProductSpecification": specification,
-                "Category": addProductForm.CategoryId[0].Id,
-                "SubCategory": addProductForm.SubCategories[0].Id,
-                "SubSubCategory": addProductForm.SubSubCategories[0].Id,
-                "Type": addProductForm.Type,
+                "Category": addProductForm.CategoryId[0].itemName,
+                "SubCategory": addProductForm.SubCategories[0].itemName,
+                "SubSubCategory": addProductForm.SubSubCategories[0].itemName,
+                "Type": "Merchandise",
                 "Brand": addProductForm.Brand,
                 "Colour": addProductForm.Colour,
                 "Size": addProductForm.Size,

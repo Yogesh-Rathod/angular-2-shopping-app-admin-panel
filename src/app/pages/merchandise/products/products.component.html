@@ -4,15 +4,15 @@
         <div class="catSearch clearfix card-header">
             <h2 class="card-title ">
                 Manage Products
-                <!-- <button class="btn btn-primary float-right" (click)=" bulkUpload() ">
+                <button class="btn btn-primary float-right" (click)=" bulkUpload() ">
 					<i class="fa fa-download" aria-hidden="true"></i>
 					Bulk Import
-				</button> -->
+				</button>
                 <!-- <button *ngIf="!vendorId" class="btn btn-primary float-right" [routerLink]="['/merchandise/products/add-product']">
 					<i class="fa fa-plus-square" aria-hidden="true"></i>
 					Add New Product
-				</button>
-				<button *ngIf="vendorId" class="btn btn-primary float-right" [routerLink]="['/merchandise/products/vendorproducts/add-product',vendorId]">
+				</button> -->
+				 <!--<button *ngIf="vendorId" class="btn btn-primary float-right" [routerLink]="['/merchandise/products/vendorproducts/add-product',vendorId]">
 					<i class="fa fa-plus-square" aria-hidden="true"></i>
 					Add New Product
 				</button> -->
@@ -147,7 +147,7 @@
                                     {{ item }}
                                 </option>
                             </select>
-                            <button class="btn btn-success" (click)="dropDownActionFunction(dropDownActionSelect.value)">Submit</button>
+                            <button class="btn btn-success" type="button" (click)="dropDownActionFunction(dropDownActionSelect.value)">Submit</button>
                             <p *ngIf="noActionSelected" class="no-action error no-text-transform">Please select a action.</p>
                         </div>
                     </form>

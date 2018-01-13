@@ -168,13 +168,15 @@
                   <label for="netPrice" class="col-3 text-right">Retail Shipping Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Retail Shipping Price" formControlName="RetailShippingPrice" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Retail Shipping Price" formControlName="RetailShippingPrice"
+                    (keydown)='validatenumber($event)'>
                 </div>
                 <div class="form-group row">
-                  <label for="netPrice" class="col-3 text-right">Retail Price Inclusiv
+                  <label for="netPrice" class="col-3 text-right">Retail Price Inclusive
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Retail Price Inclusiv" formControlName="RetailPriceInclusiv" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Retail Price Inclusive" formControlName="RetailPriceInclusive"
+                    (keydown)='validatenumber($event)'>
                 </div>
                 <!-- <div class="form-group row" *ngIf=" productId ">
                   <label for="applicableDate" class="col-3 text-right">
@@ -223,23 +225,36 @@
               </div>
               <div class="card-body collapse show" id="mappings">
                 <div class="form-group row">
-                  <label for="Categories" class="col-4 text-right">Categories
+                  <label for="Categories" class="col-md-4 text-right">Type
                     <span class="mandatory">*</span>
                   </label>
-                  <angular2-multiselect id="name" [data]="categories" formControlName="CategoryId" [settings]="categoriesDropdownSettings">
+                  <select class="form-control selectpicker col-md-8" [disabled]="true">
+                    <option value="Merchandise">Merchandise</option>
+                    <option value="Gift Card">Gift Card</option>
+                  </select>
+                </div>
+                <div class="form-group row">
+                  <label for="Categories" class="col-4 text-right">Category
+                    <span class="mandatory">*</span>
+                  </label>
+                  <angular2-multiselect id="name" [data]="categories" formControlName="CategoryId" [settings]="categoriesDropdownSettings"
+                    (onSelect)="getSubCategory($event)" (onDeSelect)="clearSubCategory()">
                   </angular2-multiselect>
                 </div>
                 <div class="form-group row">
-                  <label for="vendor" class="col-4 text-right">
-                    Seller
+                  <label for="Categories" class="col-4 text-right">Sub Category
                     <span class="mandatory">*</span>
                   </label>
-                  <select id="vendor" formControlName="SellerId" class="form-control col-8">
-                   <option value="">Select seller</option>
-                    <option *ngFor="let item of vendors" [ngValue]="item">
-                      {{ item.first_name }} {{ item.last_name }}
-                    </option>
-                  </select>
+                  <angular2-multiselect id="name" [data]="subCategories" formControlName="SubCategories" [settings]="categoriesDropdownSettings"
+                    (onSelect)="getSubSubCategory($event)">
+                  </angular2-multiselect>
+                </div>
+                <div class="form-group row">
+                  <label for="Categories" class="col-4 text-right">Sub Sub Category
+                    <span class="mandatory">*</span>
+                  </label>
+                  <angular2-multiselect id="name" [data]="subSubCategory" formControlName="SubSubCategories" [settings]="categoriesDropdownSettings">
+                  </angular2-multiselect>
                 </div>
                 <!-- <div class="form-group row">
                   <label for="stockQuantity" class="col-4 text-right">Stock Quantity

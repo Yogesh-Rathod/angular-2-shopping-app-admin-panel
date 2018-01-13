@@ -20,6 +20,8 @@ import { ProductsDeletePopupComponent } from '../delete-popup/delete-popup.compo
     styleUrls: ['./add-product.component.scss']
 })
 export class AddProductComponent implements OnInit {
+    subCategories = [];
+    subSubCategory = [];
 
     addProductForm: FormGroup;
     config = {
@@ -35,7 +37,7 @@ export class AddProductComponent implements OnInit {
     categories = [];
     vendors: any;
     categoriesDropdownSettings = {
-        singleSelection: false,
+        singleSelection: true,
         text: "Select Categories",
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',
@@ -115,6 +117,8 @@ export class AddProductComponent implements OnInit {
                     Validators.maxLength(100)
                 ])
             ],
+            'SubCategories': [[], Validators.required],
+            'SubSubCategories': [[], Validators.required],
             'ShortDescription': [
                 '',
                 Validators.compose([
@@ -154,16 +158,17 @@ export class AddProductComponent implements OnInit {
                 [],
                 Validators.required
             ],
-            'SellerId': [
-                '',
-                Validators.required
-            ],
-            'RetailPrice':['', Validators.required],
-            'RetailShippingPrice':['', Validators.required],
-            'RetailPriceInclusive':['', Validators.required],
+            // 'SellerId': [
+            //     '',
+            //     Validators.required
+            // ],
+            'RetailPrice': ['', Validators.required],
+            'RetailShippingPrice': ['', Validators.required],
+            'RetailPriceInclusive': ['', Validators.required],
             'pictureName': [''],
             'pictureAlt': [''],
             'pictureTitle': [''],
+            'Type': [],
             'pictureDisplayorder': [''],
             'Brand': [''],
             'Colour': [''],
@@ -210,8 +215,20 @@ export class AddProductComponent implements OnInit {
             this.productsService.getOpsProductById(productId, this.userRole)
                 .then((res) => {
                     this.products = res.Data;
-                    if (res.code != 500) {
+                    if (res.Code != 500) {
+                        let specification = this.products[0].ProductSpecification.split('|');
+                        let specificationData = [];
+                        _.forEach(specification, (data, index) => {
+                            let value = data.split(":");
 
+                            specificationData[index] = ({
+                                key: value[0],
+                                value: value[1]
+                            });
+                            this.addProductForm.controls['specifications'].setValue(specificationData);
+                            this.appendMore();
+                        });
+                        this.removeStructure(specificationData.length);
                         this.addProductForm.controls['Id'].setValue(this.products[0].Id);
                         this.addProductForm.controls['ParentProductCode'].setValue(this.products[0].ParentProductCode);
                         this.addProductForm.controls['ModelNumber'].setValue(this.products[0].ModelNumber);
@@ -229,8 +246,10 @@ export class AddProductComponent implements OnInit {
                         this.addProductForm.controls['FullDescription'].setValue(this.products[0].FullDescription);
                         this.addProductForm.controls['Sku'].setValue(this.products[0].Sku);
                         this.addProductForm.controls['CurrencyId'].setValue(this.products[0].CurrencyId);
-                        // this.addProductForm.controls['CategoryId'].setValue(this.products[0].CategoryId);
-                        this.addProductForm.controls['Status'].setValue(this.products[0].Status);
+                        // this.addProductForm.controls['Status'].setValue(this.products[0].Status);
+                        this.addProductForm.controls['RetailPrice'].setValue(this.products[0].RetailPrice);
+                        this.addProductForm.controls['RetailShippingPrice'].setValue(this.products[0].RetailShippingPrice);
+                        this.addProductForm.controls['RetailPriceInclusive'].setValue(this.products[0].RetailPriceInclusive);
                     }
                 }).catch((error) => {
                     console.log("error ", error);
@@ -254,7 +273,6 @@ export class AddProductComponent implements OnInit {
         let res = [
             {
                 "Id": addProductForm.Id,
-                "SellerId": addProductForm.SellerId.id,
                 "ParentProductCode": addProductForm.ParentProductCode,
                 "Sku": addProductForm.Sku,
                 "Name": addProductForm.Name,
@@ -262,16 +280,19 @@ export class AddProductComponent implements OnInit {
                 "ShortDescription": addProductForm.ShortDescription,
                 "FullDescription": addProductForm.FullDescription,
                 "ProductSpecification": specification,
-                "CategoryId": addProductForm.CategoryId[0].Id,
+                "Category": addProductForm.CategoryId[0].itemName,
+                "SubCategory": addProductForm.SubCategories[0].itemName,
+                "SubSubCategory": addProductForm.SubSubCategories[0].itemName,
                 "Brand": addProductForm.Brand,
                 "Colour": addProductForm.Colour,
                 "Size": addProductForm.Size,
+                "Type": 'Merchandise',
                 "ImageNumber": 0,
                 "CurrencyId": addProductForm.CurrencyId,
                 "NetPrice": addProductForm.NetPrice,
                 "NetShippingPrice": addProductForm.NetShippingPrice,
                 "Mrp": addProductForm.Mrp,
-                "RetailPrice":  addProductForm.RetailPrice,
+                "RetailPrice": addProductForm.RetailPrice,
                 "RetailShippingPrice": addProductForm.RetailShippingPrice,
                 "RetailPriceInclusive": addProductForm.RetailPriceInclusive,
                 "Comments": addProductForm.Comments,
@@ -294,7 +315,9 @@ export class AddProductComponent implements OnInit {
     }
 
     getAllCategories() {
-        this.merchandiseService.getCategoriesByLevel(3).
+        this.subSubCategory = [];
+        this.subCategories = [];
+        this.merchandiseService.getCategoriesByLevel(1).
             then((categories) => {
                 this.categories = categories.Data;
                 this.categories = this.categories.map((category) => {
@@ -316,6 +339,44 @@ export class AddProductComponent implements OnInit {
                 console.log("error ", error);
             });
     }
+
+    getSubCategory(value) {
+        this.merchandiseService.getCategoriesByLevel(2).
+            then((categories) => {
+                this.subCategories = categories.Data;
+                this.subCategories = this.subCategories.filter((category) => {
+                    if (category.ParentCategoryId == value.Id) {
+                        category.id = category.Id;
+                        category.itemName = category.Name;
+                        return category
+                    }
+                });
+            }).catch((error) => {
+                console.log("error ", error);
+            });
+    }
+
+    getSubSubCategory(value) {
+        this.merchandiseService.getCategoriesByLevel(3).
+            then((categories) => {
+                this.subSubCategory = categories.Data;
+                this.subSubCategory = this.subSubCategory.filter((category) => {
+                    if (category.ParentCategoryId == value.Id) {
+                        category.id = category.Id;
+                        category.itemName = category.Name;
+                        return category
+                    }
+                });
+            }).catch((error) => {
+                console.log("error ", error);
+            });
+    }
+
+    clearSubCategory() {
+        this.subSubCategory = [];
+        this.subCategories = [];
+    }
+
 
     uploadProductImage(addProductForm) {
         console.log("addProductForm ", addProductForm);

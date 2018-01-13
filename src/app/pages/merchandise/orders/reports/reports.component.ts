@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms'
 declare let $: any;
 import { IMyDpOptions } from 'mydatepicker';
 
-import { ProductsService, OrdersService, VendorsService } from 'app/services';
+import { ProductsService, OrdersService, VendorsService, JsonToExcelService } from 'app/services';
 
 @Component({
     selector: 'app-reports',
@@ -33,6 +33,7 @@ export class ReportsComponent implements OnInit {
     searchLoader = false;
 
     constructor(
+        private jsonToExcelService: JsonToExcelService,
         private vendorsService: VendorsService,
         private fb: FormBuilder,
         private productsService: ProductsService,
@@ -111,6 +112,10 @@ export class ReportsComponent implements OnInit {
                 this.searchLoader = false;
                 console.log("error ", error);
             });
+    }
+
+    downloadReport() {
+        this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }
 
     resetForm() {

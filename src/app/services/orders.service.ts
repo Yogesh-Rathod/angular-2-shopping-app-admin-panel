@@ -148,8 +148,8 @@ export class OrdersService {
     ];
 
 
-    getOrdersByPONumber() {
-        let url = `${environment.ordersApiUrl}PurchaseOrders`;
+    getOrdersByPONumber(poNumber?) {
+        let url = poNumber ? `${environment.ordersApiUrl}Order/${poNumber}` : `${environment.ordersApiUrl}PurchaseOrders`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.get(url, this.options)
             .timeout(environment.timeOut)
@@ -162,6 +162,18 @@ export class OrdersService {
 
     getOrders() {
         return this.ordersInfo;
+    }
+
+    cancelOrder(data) {
+        let url = `${environment.ordersApiUrl}Order/Cancel`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        return this.http.post(url, JSON.stringify(data), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(
+            this.responseHandler.handleResponse
+            )
+            .catch((err) => this.responseHandler.handleError(err));
     }
 
     editOrder(orders) {

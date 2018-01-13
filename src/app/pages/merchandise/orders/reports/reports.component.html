@@ -94,6 +94,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <button (click)="downloadReport()" class="button btn btn-primary" *ngIf="orders && orders.length > 0">
+                    Download Excel
+                </button>
             </div>
         </div>
     </div>

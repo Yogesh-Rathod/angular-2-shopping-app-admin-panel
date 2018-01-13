@@ -10,7 +10,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 import { OrdersComponent } from "./orders.component";
-import { ProductsService, OrdersService, VendorsService } from 'app/services';
+import { ProductsService, OrdersService, VendorsService, JsonToExcelService } from 'app/services';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { BasicInfoComponent } from './order-details/basic-info/basic-info.component';
 import { BillingInfoComponent } from './order-details/billing-info/billing-info.component';
@@ -43,7 +43,8 @@ import { ReportsComponent } from './reports/reports.component';
         MerchandiseService,
         ProductsService,
         OrdersService,
-        VendorsService
+        VendorsService,
+        JsonToExcelService
     ],
     entryComponents: [
     ]

@@ -172,7 +172,6 @@ export class AddVendorComponent implements OnInit {
     }
 
     addVendor(addVendorForm) {
-        console.log("addVendorForm ", addVendorForm);
         this.showLoader = true;
         if (addVendorForm.SellerId) {
             this.vendorsService.updateVendor(addVendorForm)

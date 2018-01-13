@@ -28,8 +28,8 @@ export class VendorsService {
         private commonAppSer: CommonAppService) {
     }
 
-    getVendors() {
-        let url = `${environment.sellerApiUrl}Seller`;
+    getVendors(sellerId?) {
+        let url = sellerId ? `${environment.sellerApiUrl}Seller/${sellerId}` : `${environment.sellerApiUrl}Seller`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
@@ -40,8 +40,25 @@ export class VendorsService {
     }
 
     addVendor(vendor) {
-        // this.vendors.push(vendor);
-        // return this.vendors;
+        let url = `${environment.sellerApiUrl}Seller`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.post(url, JSON.stringify(vendor), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    updateVendor(vendor) {
+        let url = `${environment.sellerApiUrl}Seller`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.put(url, JSON.stringify(vendor), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
     }
 
     editVendor(vendors) {

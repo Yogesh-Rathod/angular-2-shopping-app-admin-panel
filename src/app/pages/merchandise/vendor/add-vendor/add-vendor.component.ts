@@ -14,205 +14,226 @@ import { RegEx } from './../../../regular-expressions';
 import { VendorDeletePopupComponent } from '../delete-popup/delete-popup.component';
 
 @Component({
-  selector: 'app-add-vendor',
-  templateUrl: './add-vendor.component.html',
-  styleUrls: ['./add-vendor.component.scss']
+    selector: 'app-add-vendor',
+    templateUrl: './add-vendor.component.html',
+    styleUrls: ['./add-vendor.component.scss']
 })
 export class AddVendorComponent implements OnInit {
 
-  vendorId: any;
-  addVendorForm: FormGroup;
-  public config = {
-    uiColor: '#F0F3F4',
-    height: '200'
-  };
-  deleteLoader = false;
-  showLoader = false;
-  vendors: any;
-  vendorInfo: any;
+    vendorId: any;
+    addVendorForm: FormGroup;
+    public config = {
+        uiColor: '#F0F3F4',
+        height: '200'
+    };
+    showLoader = false;
+    bigLoader = false;
+    vendors: any;
+    vendorInfo: any;
 
-  constructor(
-    private modalService: NgbModal,
-    private fb: FormBuilder,
-    private _location: Location,
-    private vendorsService: VendorsService,
-    private toastr: ToastsManager,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
-    this.route.params.subscribe(params =>
-      this.vendorId = params['vendorId']
-    )
-  }
-
-  ngOnInit() {
-    $(document).ready(() => {
-      $('[data-toggle="tooltip"]').tooltip();
-    });
-    this.createForm();
-    this.getAllVendors();
-    this.getVendorInfoForEdit();
-  }
-
-  createForm() {
-    this.addVendorForm = this.fb.group({
-      'id': [''],
-      'first_name': [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(100)
-        ])
-      ],
-      'last_name': [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(100)
-        ])
-      ],
-      "suffix": [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(100)
-        ])
-      ],
-      "company": [''],
-      'email': [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(RegEx.Email)
-        ])
-      ],
-      "phone": [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(RegEx.phoneNumber)
-        ])
-      ],
-      "website": [
-        '',
-        Validators.compose([
-          Validators.pattern(RegEx.websiteUrl)
-        ])
-      ],
-      "listingFee": [
-        '',
-        Validators.compose([
-          Validators.required
-        ])
-      ],
-      "address": [
-        '',
-        Validators.compose([
-          Validators.required
-        ])
-      ],
-      "city": [
-        '',
-        Validators.compose([
-          Validators.required
-        ])
-      ],
-      "state": [
-        '',
-        Validators.compose([
-          Validators.required
-        ])
-      ],
-      "country": [
-        '',
-        Validators.compose([
-          Validators.required
-        ])
-      ],
-      "zip": [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(RegEx.zipCode)
-        ])
-      ],
-      'status': [
-        'TRUE',
-        Validators.compose([
-          Validators.required
-        ])
-      ]
-    });
-  }
-
-  getAllVendors() {
-    this.vendors = this.vendorsService.getVendors();
-  }
-
-  validatenumber(e) {
-    if (!RegEx.Numbers.test(`${e.key}`) && `${e.key}`.length === 1) {
-      e.preventDefault();
+    constructor(
+        private modalService: NgbModal,
+        private fb: FormBuilder,
+        private _location: Location,
+        private vendorsService: VendorsService,
+        private toastr: ToastsManager,
+        private route: ActivatedRoute,
+        private router: Router
+    ) {
+        this.route.params.subscribe(params =>
+            this.vendorId = params['vendorId']
+        )
     }
-  }
 
-  addVendor(addVendorForm) {
-    this.showLoader = true;
-    if (addVendorForm.id) {
-      const index = _.findIndex(this.vendors, { id: addVendorForm['id'] });
-      this.vendors.splice(index, 1, addVendorForm);
-      this.vendorsService.editVendor(this.vendors);
-    } else {
-      addVendorForm['id'] = Math.floor(Math.random() * 90000) + 10000;
-      this.vendorsService.addVendor(addVendorForm);
-    }
-    this.toastr.success('Sucessfully Done!', 'Sucess!');
-    this.showLoader = false;
-    this._location.back();
-  }
-
-  getVendorInfoForEdit() {
-    if (this.vendorId) {
-      const vendors = this.vendorsService.getVendors();
-      _.forEach(vendors, (vendor) => {
-        if (vendor.id === parseInt(this.vendorId)) {
-          this.vendorInfo = vendor;
-          this.addVendorForm.controls['id'].setValue(vendor.id);
-          this.addVendorForm.controls['first_name'].setValue(vendor.first_name);
-          this.addVendorForm.controls['last_name'].setValue(vendor.last_name);
-          this.addVendorForm.controls['suffix'].setValue(vendor.suffix);
-          this.addVendorForm.controls['company'].setValue(vendor.company);
-          this.addVendorForm.controls['email'].setValue(vendor.email);
-          this.addVendorForm.controls['phone'].setValue(vendor.phoneNumber);
-          this.addVendorForm.controls['website'].setValue(vendor.website);
-          this.addVendorForm.controls['listingFee'].setValue(vendor.listingFee);
-          this.addVendorForm.controls['address'].setValue(vendor.address);
-          this.addVendorForm.controls['city'].setValue(vendor.city);
-          this.addVendorForm.controls['state'].setValue(vendor.state);
-          this.addVendorForm.controls['country'].setValue(vendor.country);
-          this.addVendorForm.controls['zip'].setValue(vendor.zip);
-          this.addVendorForm.controls['status'].setValue(vendor.status);
+    ngOnInit() {
+        $(document).ready(() => {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        this.createForm();
+        // this.getAllVendors();
+        if (this.vendorId) {
+            this.getVendorInfoForEdit();
         }
-      });
     }
-  }
 
-  deleteVendor() {
-    const activeModal = this.modalService.open(VendorDeletePopupComponent, { size: 'sm' });
-    activeModal.componentInstance.modalText = 'vendor';
+    createForm() {
+        this.addVendorForm = this.fb.group({
+            'SellerId': [''],
+            'UserId': ['12345'],
+            'FirstName': [
+                '',
+                Validators.compose([
+                    Validators.required,
+                    Validators.minLength(1),
+                    Validators.maxLength(20)
+                ])
+            ],
+            'LastName': [
+                '',
+                Validators.compose([
+                    Validators.required,
+                    Validators.minLength(1),
+                    Validators.maxLength(20)
+                ])
+            ],
+            "SellerCode": [
+                '',
+                Validators.compose([
+                    Validators.required,
+                    Validators.minLength(2),
+                    Validators.maxLength(20)
+                ])
+            ],
+            "Company": [''],
+            'EmailAddress': [
+                '',
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.Email)
+                ])
+            ],
+            "ContactNumber": [
+                '',
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.phoneNumber)
+                ])
+            ],
+            "Website": [
+                '',
+                Validators.compose([
+                    Validators.pattern(RegEx.websiteUrl)
+                ])
+            ],
+            "ListingFee": [
+                '',
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.onlyNumber)
+                ])
+            ],
+            "Address": [
+                '',
+                Validators.compose([
+                    Validators.required
+                ])
+            ],
+            "CityId": [
+                '',
+                Validators.compose([
+                    Validators.required
+                ])
+            ],
+            //   "state": [
+            //     '',
+            //     Validators.compose([
+            //       Validators.required
+            //     ])
+            //   ],
+            //   "country": [
+            //     '',
+            //     Validators.compose([
+            //       Validators.required
+            //     ])
+            //   ],
+            "ZipCode": [
+                '',
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.zipCode)
+                ])
+            ],
+            'IsActive': [
+                'TRUE',
+                Validators.compose([
+                    Validators.required
+                ])
+            ],
+            'CreatedBy': ['Yogesh']
+        });
+    }
 
-    activeModal.result.then((status) => {
-      if (status) {
-        this.deleteLoader = true;
-        _.remove(this.vendors, this.vendorInfo);
-        this.vendorsService.editVendor(this.vendors);
-        this.toastr.success('Sucessfully Deleted!', 'Sucess!');
-        this.deleteLoader = false;
-        this._location.back();
-      }
-    });
-  }
+    getAllVendors() {
+        // this.vendors = this.vendorsService.getVendors();
+    }
+
+    validatenumber(e) {
+        if (!RegEx.Numbers.test(`${e.key}`) && `${e.key}`.length === 1) {
+            e.preventDefault();
+        }
+    }
+
+    addVendor(addVendorForm) {
+        console.log("addVendorForm ", addVendorForm);
+        this.showLoader = true;
+        if (addVendorForm.SellerId) {
+            this.vendorsService.updateVendor(addVendorForm)
+                .then((success) => {
+                    console.log("success ", success);
+                    if (success.Code === 200) {
+                        this.toastr.success('Sucessfully Updated Seller Info!', 'Sucess!');
+                        this.showLoader = false;
+                        this._location.back();
+                    } else if (success.Code === 500) {
+                        this.toastr.error('Could not update seller!', 'Error!');
+                        this.showLoader = false;
+                    }
+                }).catch((error) => {
+                    console.log("error ", error);
+                })
+        } else {
+            delete addVendorForm.SellerId;
+            this.vendorsService.addVendor(addVendorForm)
+                .then((success) => {
+                    console.log("success ", success);
+                    if (success.Code === 200) {
+                        this.toastr.success('Sucessfully Added Seller Info!', 'Sucess!');
+                        this.showLoader = false;
+                        this._location.back();
+                    } else if (success.Code === 500) {
+                        this.toastr.error('Could not add seller!', 'Error!');
+                        this.showLoader = false;
+                    }
+                }).catch((error) => {
+                    console.log("error ", error);
+                });
+        }
+    }
+
+    getVendorInfoForEdit() {
+        this.bigLoader = true;
+        if (this.vendorId) {
+            this.vendorsService.getVendors(this.vendorId).
+                then((vendor) => {
+                    this.vendorInfo = vendor.Data;
+                    console.log("this.vendorInfo ", this.vendorInfo);
+                    this.addVendorForm.controls['SellerId'].setValue(this.vendorInfo.SellerId);
+                    this.addVendorForm.controls['FirstName'].setValue(this.vendorInfo.FirstName);
+                    this.addVendorForm.controls['LastName'].setValue(this.vendorInfo.LastName);
+                    this.addVendorForm.controls['SellerCode'].setValue(this.vendorInfo.SellerCode);
+                    this.addVendorForm.controls['Company'].setValue(this.vendorInfo.Company);
+                    this.addVendorForm.controls['EmailAddress'].setValue(this.vendorInfo.EmailAddress);
+                    this.addVendorForm.controls['ContactNumber'].setValue(this.vendorInfo.ContactNumber);
+                    this.addVendorForm.controls['Website'].setValue(this.vendorInfo.Website);
+                    this.addVendorForm.controls['ListingFee'].setValue(this.vendorInfo.ListingFee);
+                    this.addVendorForm.controls['Address'].setValue(this.vendorInfo.Address);
+                    this.addVendorForm.controls['CityId'].setValue(this.vendorInfo.CityId);
+                    // this.addVendorForm.controls['state'].setValue(this.vendorInfo.state);
+                    // this.addVendorForm.controls['country'].setValue(this.vendorInfo.country);
+                    this.addVendorForm.controls['ZipCode'].setValue(this.vendorInfo.ZipCode);
+                    this.addVendorForm.controls['IsActive'].setValue(this.vendorInfo.IsActive);
+                    this.checkFormValidation();
+                    this.bigLoader = false;
+                }).catch((error) => {
+                    console.log("error ", error);
+                });
+        }
+    }
+
+    checkFormValidation() {
+        for (var i in this.addVendorForm.controls) {
+            this.addVendorForm.controls[i].markAsTouched();
+        }
+    }
 
 }

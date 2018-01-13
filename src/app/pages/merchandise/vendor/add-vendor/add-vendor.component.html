@@ -1,114 +1,118 @@
 <div class="animated fadeIn card addCategory">
 
-  <div class="card-header clearfix">
-    <h2 class="card-title">
-      <span *ngIf="!vendorId">Add</span>
-      <span *ngIf="vendorId">Edit</span> Seller
+    <div class="card-header clearfix">
+        <h2 class="card-title">
+            <span *ngIf="!vendorId">Add</span>
+            <span *ngIf="vendorId">Edit</span> Seller
 
-      <button *ngIf=" vendorId " class="btn btn-success" [routerLink]="['/merchandise/products/vendorproducts', vendorId]">
-        Show Products
-      </button>
+            <button *ngIf=" vendorId " class="btn btn-success" [routerLink]="['/merchandise/products/vendorproducts', vendorId]">
+                Show Products
+            </button>
 
-      <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
-        height="35">
+            <span class="goBack float-right" [routerLink]="['/merchandise/vendors']">
+                <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to sellers list</span>
 
-      <span class="goBack float-right" [routerLink]="['/merchandise/vendors']">
-        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to sellers list</span>
+        </h2>
+    </div>
 
-    </h2>
-  </div>
+    <div class="card-body row pos_relative">
 
-  <div class="card-body row">
-
-    <form class="col-12 row" [formGroup]=" addVendorForm " (ngSubmit)=" addVendor(addVendorForm.value) ">
-      <input type="hidden" formControlName="id">
-
-      <div class="col-6 row">
-        <div class="form-group col-6">
-          <label for="firstName">
-            First Name:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendors First Name (Should be 1 to 100 characters)"></i>
-          </label>
-          <input type="text" class="form-control" id="firstName" formControlName="first_name">
-        </div>
-        <div class="form-group col-6">
-          <label for="lastName">
-            Last Name:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendors Last Name (Should be 1 to 100 characters)"></i>
-          </label>
-          <input type="text" class="form-control" id="lastName" formControlName="last_name">
+        <div class="loader-container pos_absolute" *ngIf="bigLoader">
+            <img src="assets/img/ajax-loader.gif" alt="Loader Image">
         </div>
 
-        <div class="form-group col-6">
-          <label for="Suffix">
-            Vendor Code/Prefix:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Code/Prefix for the vendor (Should be 2 to 100 characters)"></i>
-          </label>
-          <input type="text" class="form-control" id="Suffix" formControlName="suffix" [readonly]="vendorId">
-        </div>
-        <div class="form-group col-6">
-          <label for="Company">
-            Company:
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendors company name."></i>
-          </label>
-          <input type="text" class="form-control" id="Company" formControlName="company">
-        </div>
-        <div class="form-group col-6">
-          <label for="Email">
-            Email:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor email address."></i>
-          </label>
-          <input type="text" class="form-control" id="Email" formControlName="email">
-        </div>
-        <div class="form-group col-6">
-          <label for="Phone">
-            Phone Number:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Phone Number (Should be 10 digit long and must start with 7/8/9)"></i>
-          </label>
-          <input type="text" class="form-control" id="Phone" formControlName="phone" (keydown)='validatenumber($event)'>
-        </div>
-        <div class="form-group col-6">
-          <label for="Website">
-            Website:
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Website (should start with 'http://' or 'https://')"></i>
-          </label>
-          <input formControlName="website" type="text" class="form-control" id="Website">
-        </div>
-        <div class="form-group col-6">
-          <label for="listingFee">
-            Listing Fee
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Listing Fee"></i>
-          </label>
-          <input formControlName="listingFee" type="text" class="form-control" id="listingFee" (keydown)='validatenumber($event)'>
-        </div>
+        <form class="col-12 row" [formGroup]=" addVendorForm " (ngSubmit)=" addVendor(addVendorForm.value) ">
+            <input type="hidden" formControlName="SellerId">
 
-      </div>
+            <div class="col-6 row">
+                <div class="form-group col-6">
+                    <label for="firstName">
+                        First Name:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendors First Name (Should be 1 to 100 characters)"></i>
+                    </label>
+                    <input type="text" class="form-control" id="firstName" formControlName="FirstName">
+                </div>
+                <div class="form-group col-6">
+                    <label for="lastName">
+                        Last Name:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendors Last Name (Should be 1 to 100 characters)"></i>
+                    </label>
+                    <input type="text" class="form-control" id="lastName" formControlName="LastName">
+                </div>
 
-      <div class="col-6 row">
-        <div class="form-group col-12">
-          <label for="Address">Address:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Address."></i>
-          </label>
-          <textarea formControlName="address" id="Address" cols="10" rows="10" class="form-control"></textarea>
-        </div>
-        <div class="form-group col-6">
-          <label for="city">City:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor City."></i>
-          </label>
-          <select formControlName="city" id="city" class="form-control">
-            <option value="Mumbai">Mumbai</option>
-            <option value="Thane">Thane</option>
-          </select>
-        </div>
-        <div class="form-group col-6">
+                <div class="form-group col-6">
+                    <label for="Suffix">
+                        Vendor Code/Prefix:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Code/Prefix for the vendor (Should be 2 to 100 characters)"></i>
+                    </label>
+                    <input type="text" class="form-control" id="Suffix" formControlName="SellerCode" [readonly]="vendorId">
+                </div>
+                <div class="form-group col-6">
+                    <label for="Company">
+                        Company:
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendors company name."></i>
+                    </label>
+                    <input type="text" class="form-control" id="Company" formControlName="Company">
+                </div>
+                <div class="form-group col-6">
+                    <label for="Email">
+                        Email:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor email address."></i>
+                    </label>
+                    <input type="text" class="form-control" id="Email" formControlName="EmailAddress">
+                </div>
+                <div class="form-group col-6">
+                    <label for="Phone">
+                        Phone Number:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Phone Number (Should be 10 digit long and must start with 7/8/9)"></i>
+                    </label>
+                    <input type="text" class="form-control" id="Phone" formControlName="ContactNumber" (keydown)='validatenumber($event)'>
+                </div>
+
+
+            </div>
+
+            <div class="col-6 row">
+                <div class="form-group col-12">
+                    <label for="Address">Address:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Address."></i>
+                    </label>
+                    <textarea formControlName="Address" id="Address" cols="10" rows="10" class="form-control"></textarea>
+                </div>
+                <div class="form-group col-6">
+                    <label for="city">City:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor City."></i>
+                    </label>
+                    <select formControlName="CityId" id="city" class="form-control">
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Thane">Thane</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-6">
+                    <label for="Website">
+                        Website:
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Website (should start with 'http://' or 'https://')"></i>
+                    </label>
+                    <input formControlName="Website" type="text" class="form-control" id="Website">
+                </div>
+                <div class="form-group col-6">
+                    <label for="listingFee">
+                        Listing Fee
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Listing Fee"></i>
+                    </label>
+                    <input formControlName="ListingFee" type="text" class="form-control" id="listingFee" (keydown)='validatenumber($event)'>
+                </div>
+
+                <!-- <div class="form-group col-6">
           <label for="State">State:
             <span class="mandatory">*</span>
             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor State."></i>
@@ -127,35 +131,34 @@
             <option value="India">India</option>
             <option value="Pakistan">Pakistan</option>
           </select>
-        </div>
-        <div class="form-group col-6">
-          <label for="Zip">Zip Code:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Zip / Postal Code should be number with length 6."></i>
-          </label>
-          <input formControlName="zip" id="Zip" class="form-control" type="text" (keydown)='validatenumber($event)' >
-        </div>
-        <div class="form-group col-6">
-          <label for="Status">Status:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Status. (If deactivated products from this vendor will be disabled.)"></i>
-            <input formControlName="status" id="Status" type="checkbox">
-          </label>
-          <input type="text" class="hidden form-control">
-        </div>
-        <div class="block"></div>
-      </div>
+        </div> -->
+                <div class="form-group col-6">
+                    <label for="Zip">Zip Code:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Zip / Postal Code should be number with length 6."></i>
+                    </label>
+                    <input formControlName="ZipCode" id="Zip" class="form-control" type="text" (keydown)='validatenumber($event)'>
+                </div>
+                <div class="block"></div>
+            </div>
+            <div class="form-group col-6" [class.disabled]="!vendorId">
+                <label for="Status">Status:
+                    <span class="mandatory">*</span>
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Status. (If deactivated products from this vendor will be disabled.)"></i>
+                    <input formControlName="IsActive" id="Status" type="checkbox">
+                </label>
+            </div>
 
-      <div class="form-group row col-12">
-        <label class="col-5 text-right"></label>
-        <input *ngIf=" !vendorId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addVendorForm.valid || showLoader ">
-        <input *ngIf=" vendorId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addVendorForm.valid || showLoader ">
-        <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-        <span class="btn btn-secondary" [routerLink]="['/merchandise/vendors']">Cancel</span>
-      </div>
+            <div class="form-group row col-12">
+                <label class="col-5 text-right"></label>
+                <input *ngIf=" !vendorId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addVendorForm.valid || showLoader ">
+                <input *ngIf=" vendorId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addVendorForm.valid || showLoader ">
+                <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+                <span class="btn btn-secondary" [routerLink]="['/merchandise/vendors']">Cancel</span>
+            </div>
 
-    </form>
+        </form>
 
-  </div>
+    </div>
 
 </div>

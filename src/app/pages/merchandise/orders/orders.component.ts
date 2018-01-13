@@ -88,8 +88,13 @@ export class OrdersComponent implements OnInit {
   }
 
   getAllOrders() {
+      this.ordersService.getOrdersByPONumber().
+        then((orders) => {
+            console.log("orders ", orders);
+        }).catch((error) => {
+            console.log("error ", error);
+        })
     this.orders = this.ordersService.getOrders();
-    this.ordersNew = this.ordersService.getOrdersByPONumber();
   }
 
   searchProduct(searchProductForm) {

@@ -30,6 +30,7 @@ export class BankDetailsComponent implements OnInit {
     bigLoader: false;
     allProducts:any;
     allProductsFiltered:any;
+    allMapProducts: any = [];
     selectAllCheckbox = false;
 
     constructor(
@@ -133,5 +134,41 @@ export class BankDetailsComponent implements OnInit {
         if (isCheckedArray.length === 0) {
             this.showSelectedDelete = false;
         }
+    }
+
+    mapProductToCatalog(_product){
+        _.forEach(_product, item =>{
+            if (item.isChecked) {
+                for(var i=0;i<this.allMapProducts.length;i++){
+                    if(this.allMapProducts[i].ProductId == item.Id){
+                        return;
+                    }
+                }
+                let tempObj = {
+                    CatalogId: this.catalogId,
+                    ProductId: item.Id,
+                    RetailPrice: item.Mrp,
+                    RetailShippingPrice: 0,
+                    RetailPriceInclusive: 0,
+                    DiscountType: "string",
+                    Discount: 0
+                    // ,
+                    // IsFeaturedProduct: true,
+                    // FeaturedProductDisplayOrder: 0,
+                    // IsHomePageProduct: true,
+                    // HomePageProductDisplayOrder: 0,
+                    // CatalogProductMappingIsActive: true,
+                    // OperationType: "string",
+                    // Status: 0
+                }
+                this.allMapProducts.push(tempObj);
+            }
+        })
+    }
+
+    mapProductWithCatalog(){
+        this.catalogManagementService.mapProductToCatalog(this.catalogId ,this.allMapProducts).then(res => {
+            console.log("mapProductWithCatalog ==========>>", res);
+        });
     }
 }

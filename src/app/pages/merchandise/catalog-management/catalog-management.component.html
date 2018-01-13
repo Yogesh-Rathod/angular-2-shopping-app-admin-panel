@@ -46,7 +46,7 @@
                 <div class="tabs-section">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#ApprovedCatalog" role="tab" data-toggle="tab">Approved</a>
+                            <a class="nav-link active" href="#ApprovedCatalog" role="tab" data-toggle="tab">Catalogs</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link " href="#PendingCatalog" role="tab" data-toggle="tab">Pending Approval</a>
@@ -129,7 +129,7 @@
                             <tbody *ngIf=" filteredCatalogs && filteredCatalogs.length === 0 ">
                                 <tr>
                                     <td colspan="5">
-                                        <strong>There are no filteredCatalogs!</strong>
+                                        <strong>There are no Catalogs!</strong>
                                     </td>
                                 </tr>
                             </tbody>
@@ -147,9 +147,6 @@
                         <table class="table table-bordered table-responsive" [mfData]="filteredApproveCatalogs" #mff="mfDataTable" [mfRowsOnPage]="10">
                             <thead class="black-muted-bg">
                                 <tr>
-                                    <th class="text-center">
-                                        <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
-                                    </th>
                                     <th class="text-left">
                                         <mfDefaultSorter by="Name">
                                             <strong>Catalog Name</strong>
@@ -173,9 +170,6 @@
                             </thead>
                             <tbody *ngIf=" filteredApproveCatalogs && filteredApproveCatalogs.length > 0 ">
                                 <tr *ngFor=" let item of mff.data; let i = index ">
-                                    <td class="text-center">
-                                        <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
-                                    </td>
                                     <td class="text-left">
                                         {{ item.Name }}
                                     </td>
@@ -195,11 +189,12 @@
                                         <button class="btn btn-secondary" [routerLink]="['./edit-catalog/', item.Id, 'approve']" title="Edit">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </button>
-                                        <!-- <button class="btn btn-secondary" [routerLink]="['./catalog-details/', item.Id, 'approve']" title="View Details">
-                                            <i class="fa fa-eye" aria-hidden="true"></i>
-                                        </button> -->
-                                        <button type="button" class="btn btn-primary" title="Approve" (click)="approveCatalog(item)" >
-                                                <i class="fa fa-check" aria-hidden="true"></i><span>Approve</span>
+                                    </td>
+                                    <td class="text-right">
+                                        <input class="form-control" placeholder="Reason" type="text" [(ngModel)]="item.Reason">
+                                        <button type="button" class="btn btn-primary" title="Approve" (click)="approveCatalog(item, i)">
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            <span>Approve</span>
                                         </button>
                                     </td>
                                 </tr>
@@ -208,7 +203,7 @@
                             <tbody *ngIf=" filteredApproveCatalogs && filteredApproveCatalogs.length === 0 ">
                                 <tr>
                                     <td colspan="5">
-                                        <strong>There are no filteredCatalogs!</strong>
+                                        <strong>There are no Catalogs!</strong>
                                     </td>
                                 </tr>
                             </tbody>

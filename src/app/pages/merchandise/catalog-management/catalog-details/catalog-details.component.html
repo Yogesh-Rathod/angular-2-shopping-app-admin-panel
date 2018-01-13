@@ -60,15 +60,15 @@
                                     <h4>Filters will be here</h4>
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                            <button class="btn btn-primary" type="button"> << MAP</button>
+                                            <button class="btn btn-primary" (click)="mapProductToCatalog(allProducts)" type="button"> << MAP</button>
                                             <button class="btn btn-primary" type="button">UN-MAP >></button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-5">
-                                    <table class="table table-bordered table-responsive" [mfData]="allProducts" #mfMapList="mfDataTable" [mfRowsOnPage]="10">
+                                <div class="col-sm-7">
+                                    <table class="table table-bordered table-responsive" [mfData]="allMapProducts" #mfMapList="mfDataTable" [mfRowsOnPage]="10">
                                         <thead class="black-muted-bg">
                                             <tr>
                                                 <th class="text-center" style="width:50px;">
@@ -81,17 +81,17 @@
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody *ngIf=" allProducts && allProducts.length > 0 ">
+                                        <tbody *ngIf=" allMapProducts && allMapProducts.length > 0 ">
                                             <tr *ngFor=" let item of mfMapList.data; let i = index ">
                                                 <td class="text-center">
                                                     <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
                                                 </td>
                                                 <td class="text-left">
-                                                    {{ item.Name }}
+                                                    {{ item.ProductId }}
                                                 </td>
                                             </tr>
                                         </tbody>
-                                        <tfoot *ngIf=" allProducts && allProducts.length > 10 ">
+                                        <tfoot *ngIf=" allMapProducts && allMapProducts.length > 10 ">
                                             <tr>
                                                 <td colspan="2">
                                                     <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
@@ -100,7 +100,7 @@
                                         </tfoot>
                                     </table>
                                 </div>
-                                <div class="col-sm-7">
+                                <div class="col-sm-5">
                                     <table class="table table-bordered table-responsive" [mfData]="allProducts" #mfList="mfDataTable" [mfRowsOnPage]="10">
                                         <thead class="black-muted-bg">
                                             <tr>
@@ -114,7 +114,12 @@
                                                 </th>
                                                 <th class="text-left">
                                                     <mfDefaultSorter>
-                                                        <strong>Description</strong>
+                                                        <strong>Brand</strong>
+                                                    </mfDefaultSorter>
+                                                </th>
+                                                <th class="text-left">
+                                                    <mfDefaultSorter>
+                                                        <strong>MRP</strong>
                                                     </mfDefaultSorter>
                                                 </th>
                                             </tr>
@@ -128,18 +133,26 @@
                                                     {{ item.Name }}
                                                 </td>
                                                 <td class="text-left">
-                                                    {{ item.ShortDescription }}
+                                                    {{ item.Brand }}
+                                                </td>
+                                                <td class="text-left">
+                                                    {{ item.Mrp }}
                                                 </td>
                                             </tr>
                                         </tbody>
                                         <tfoot *ngIf=" allProducts && allProducts.length > 10 ">
                                             <tr>
-                                                <td colspan="3">
+                                                <td colspan="4">
                                                     <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
                                                 </td>
                                             </tr>
                                         </tfoot>
                                     </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button (click)="mapProductWithCatalog()" class="btn btn-primary" type="button"> Save Changes </button>
                                 </div>
                             </div>
                         </div>

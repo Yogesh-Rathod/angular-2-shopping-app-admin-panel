@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ToastsManager } from "ng2-toastr/ng2-toastr";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import * as _ from "lodash";
-import { Location } from '@angular/common';
+import { Location } from "@angular/common";
 
 import { MerchandiseService } from "app/services";
 import { CatalogManagementService } from "app/services";
@@ -74,32 +74,35 @@ export class AddCatalogComponent implements OnInit {
         }
     }
 
-    getCatalogDetails(_catalogId,_for) {
-        this.catalogManagementService.getCatalogsById(_catalogId,_for).then(res => {
-            this.catalogInfo = res.Data;
-            console.log("categoryInfo ", this.catalogInfo);
-            this.addCatalogForm.controls["CatalogId"].setValue(
-                this.catalogInfo.Id
-            );
-            this.addCatalogForm.controls["Id"].setValue(
-                this.catalogInfo.Approval_CatalogId
-            );
-            this.addCatalogForm.controls["Name"].setValue(
-                this.catalogInfo.Name
-            );
-            this.addCatalogForm.controls["Description"].setValue(
-                this.catalogInfo.Description
-            );
-            this.addCatalogForm.controls["CatalogIsActive"].setValue(
-                _for=='approve'?this.catalogInfo.CatalogIsActive:this.catalogInfo.IsActive
-            );
-            this.addCatalogForm.controls["EnableAllProducts"].setValue(
-                this.catalogInfo.EnableAllProducts
-            );
-            this.addCatalogForm.controls["EnableAutoProductSync"].setValue(
-                this.catalogInfo.EnableAutoProductSync
-            );
-        });
+    getCatalogDetails(_catalogId, _for) {
+        this.catalogManagementService
+            .getCatalogsById(_catalogId, _for)
+            .then(res => {
+                this.catalogInfo = res.Data;
+
+                this.addCatalogForm.controls["Id"].setValue(
+                    _for == "approve"
+                    ? this.catalogInfo.Id
+                    : this.catalogInfo.Approval_CatalogId
+                );
+                this.addCatalogForm.controls["Name"].setValue(
+                    this.catalogInfo.Name
+                );
+                this.addCatalogForm.controls["Description"].setValue(
+                    this.catalogInfo.Description
+                );
+                this.addCatalogForm.controls["CatalogIsActive"].setValue(
+                    _for == "approve"
+                        ? this.catalogInfo.CatalogIsActive
+                        : this.catalogInfo.IsActive
+                );
+                this.addCatalogForm.controls["EnableAllProducts"].setValue(
+                    this.catalogInfo.EnableAllProducts
+                );
+                this.addCatalogForm.controls["EnableAutoProductSync"].setValue(
+                    this.catalogInfo.EnableAutoProductSync
+                );
+            });
     }
 
     genarateRandomID(_length = 32) {
@@ -115,8 +118,7 @@ export class AddCatalogComponent implements OnInit {
 
     createForm() {
         this.addCatalogForm = this.fb.group({
-            Id: [""],
-            CatalogId: [this.genarateRandomID()],
+            Id: [null],
             Name: [
                 "",
                 Validators.compose([
@@ -135,22 +137,29 @@ export class AddCatalogComponent implements OnInit {
     }
 
     addCatalog(addCatalogForm) {
-        console.log(
-            "addCatalogForm in side component ====>>>:",
-            addCatalogForm
-        );
+        var isEdit = addCatalogForm.Id ? true : false;
         this.catalogManagementService
             .addNewCatalogs(addCatalogForm)
             .then(res => {
-                if(res.Code = 200){
-                    this.toastr.success('Added Catalog sent for approval process.', 'Sucess!');
+                console.log("Add res", res);
+                if ((res.Code = 200)) {
+                    if (isEdit) {
+                        this.toastr.success(
+                            "Catalog updated. sent for approval process.",
+                            "Sucess!"
+                        );
+                    } else {
+                        this.toastr.success("Added Catalog sent for approval process.",
+                            "Sucess!"
+                        );
+                    }
                     this.location.back();
-                }else{
-                    this.toastr.success('Added Catalog sent for approval process.', 'Sucess!');
+                } else {
+                    this.toastr.error("Something went wrong.", "Error!");
                 }
             });
     }
-    goBackFunc(){
+    goBackFunc() {
         this.location.back();
     }
     deleteCatalog() {}

@@ -39,6 +39,17 @@ export class VendorsService {
             .catch((err) => this.responseHandler.handleError(err));
     }
 
+    getCities() {
+        let url = `${environment.citiesAPIUrl}`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
     addVendor(vendor) {
         let url = `${environment.sellerApiUrl}Seller`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());

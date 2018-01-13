@@ -10,7 +10,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 import { OrdersComponent } from "./orders.component";
-import { ProductsService, OrdersService } from 'app/services';
+import { ProductsService, OrdersService, VendorsService, JsonToExcelService } from 'app/services';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { BasicInfoComponent } from './order-details/basic-info/basic-info.component';
 import { BillingInfoComponent } from './order-details/billing-info/billing-info.component';
@@ -19,32 +19,34 @@ import { ProductsComponent } from './order-details/products/products.component';
 import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    AppTranslationModule,
-    routing,
-    ReactiveFormsModule,
-    CKEditorModule,
-    DataTableModule,
-    MyDatePickerModule,
-    AngularMultiSelectModule
-  ],
-  declarations: [
-    OrdersComponent,
-    OrderDetailsComponent,
-    BasicInfoComponent,
-    BillingInfoComponent,
-    ShippingInfoComponent,
-    ProductsComponent,
-    ReportsComponent
-  ],
-  providers: [
-    MerchandiseService,
-    ProductsService,
-    OrdersService
-  ],
-  entryComponents: [
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        AppTranslationModule,
+        routing,
+        ReactiveFormsModule,
+        CKEditorModule,
+        DataTableModule,
+        MyDatePickerModule,
+        AngularMultiSelectModule
+    ],
+    declarations: [
+        OrdersComponent,
+        OrderDetailsComponent,
+        BasicInfoComponent,
+        BillingInfoComponent,
+        ShippingInfoComponent,
+        ProductsComponent,
+        ReportsComponent
+    ],
+    providers: [
+        MerchandiseService,
+        ProductsService,
+        OrdersService,
+        VendorsService,
+        JsonToExcelService
+    ],
+    entryComponents: [
+    ]
 })
-export class OrdersModule {}
+export class OrdersModule { }

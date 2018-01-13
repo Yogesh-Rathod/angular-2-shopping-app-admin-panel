@@ -69,7 +69,7 @@ export class CatalogManagementService {
     approvePostCatalog(_catalog){
         var bodyObj = {
             Id: _catalog.Id,
-            Reason: "Will make Dynamic later",
+            Reason: _catalog.Reason?_catalog.Reason:'',
             IsApproved: true
           }
         let url = `${environment.merchandiseUrl}Merchandise/Catalog/Approval/${_catalog.Id}/Approve`;
@@ -86,6 +86,16 @@ export class CatalogManagementService {
         let url = `${environment.merchandiseUrl}Merchandise/CatalogProductMap/${_catalogId}`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    mapProductToCatalog(_catalogId, _products){
+        let url = `${environment.merchandiseUrl}Merchandise/CatalogProductMap/Approval`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        return this.http.post(url, _products, this.options)
             .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)

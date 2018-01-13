@@ -83,16 +83,20 @@ export class ReportsComponent implements OnInit {
     searchOrders(searchOrdersForm) {
         this.searchLoader = true;
         this.bigLoader = true;
-        searchOrdersForm['OrderFromDate'] = new Date(`
-        ${searchOrdersForm['OrderFromDate'].date.month}/
-        ${searchOrdersForm['OrderFromDate'].date.day}/
-        ${searchOrdersForm['OrderFromDate'].date.year}
-        `).toISOString();
-        searchOrdersForm['OrderTillDate'] = new Date(`
-        ${searchOrdersForm['OrderTillDate'].date.month}/
-        ${searchOrdersForm['OrderTillDate'].date.day}/
-        ${searchOrdersForm['OrderTillDate'].date.year}
-        `).toISOString();
+        if (searchOrdersForm['OrderFromDate']) {
+            searchOrdersForm['OrderFromDate'] = new Date(`
+            ${searchOrdersForm['OrderFromDate'].date.month}/
+            ${searchOrdersForm['OrderFromDate'].date.day}/
+            ${searchOrdersForm['OrderFromDate'].date.year}
+            `).toISOString();
+        }
+        if (searchOrdersForm['OrderTillDate']) {
+            searchOrdersForm['OrderTillDate'] = new Date(`
+            ${searchOrdersForm['OrderTillDate'].date.month}/
+            ${searchOrdersForm['OrderTillDate'].date.day}/
+            ${searchOrdersForm['OrderTillDate'].date.year}
+            `).toISOString();
+        }
 
         searchOrdersForm['SellerId'] = searchOrdersForm['SellerId'].map((item) => {
             return item.SellerId;

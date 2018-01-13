@@ -36,9 +36,9 @@ export class OrderDetailsComponent implements OnInit {
     }
 
     getOrderDetails() {
-        this.orderId = 'LVB-TL-8-1000082';
+        this.orderId = 'LVB-TL-8-1000093';
         if (this.orderId) {
-            this.ordersService.getOrdersByPONumber(this.orderId).
+            this.ordersService.getOrdersByPONumber(this.orderId, null).
                 then((order) => {
                     console.log("orders ", order.Data);
                     this.orderInfo = order.Data;

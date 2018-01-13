@@ -16,7 +16,7 @@
 							Program Name
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A program name."></i>
 						</label>
-						<select id="programName" class="form-control" formControlName="programName">
+						<select id="programName" class="form-control" formControlName="e.programName">
 							<option value="all">All</option>
 							<option *ngFor="let item of programName" value="{{ item }}">
 								{{ item }}
@@ -24,17 +24,13 @@
 						</select>
 					</div>
 
-					<div class="form-group col-3">
+					<div class="form-group col-3" *ngIf="vendorsList">
 						<label for="supplierName" class="text-right">
 							Vendor Name
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific Vendor Name."></i>
 						</label>
-						<select id="supplierName" class="form-control" formControlName="supplierName">
-							<option value="all">All</option>
-							<option *ngFor="let item of stores" value="{{ item }}">
-								{{ item }}
-							</option>
-						</select>
+						<angular2-multiselect id="supplierName" [data]="vendorsList" formControlName="e.sellerId" [settings]="orderStatusDropdownSettings">
+						</angular2-multiselect>
 					</div>
 
 					<div class="form-group col-3">
@@ -42,7 +38,7 @@
 							Start Date
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select Start Date for search."></i>
 						</label>
-						<my-date-picker id="startDate" class="no_padding" name="startDate" [options]="myDatePickerOptions" formControlName="startDate">
+						<my-date-picker id="startDate" class="no_padding" name="startDate" [options]="myDatePickerOptions" formControlName="e.orderFromDate">
 						</my-date-picker>
 					</div>
 
@@ -51,7 +47,7 @@
 							End Date
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select End Date for search."></i>
 						</label>
-						<my-date-picker id="endDate" class="no_padding" name="endDate" [options]="myDatePickerOptions" formControlName="endDate">
+						<my-date-picker id="endDate" class="no_padding" name="endDate" [options]="myDatePickerOptions" formControlName="e.orderTillDate">
 						</my-date-picker>
 					</div>
 
@@ -60,7 +56,7 @@
 							Order status
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by Order status."></i>
 						</label>
-						<angular2-multiselect id="orderStatus" [data]="orderStatus" formControlName="orderStatus" [settings]="orderStatusDropdownSettings">
+						<angular2-multiselect id="orderStatus" [data]="orderStatus" formControlName="e.status" [settings]="orderStatusDropdownSettings">
 						</angular2-multiselect>
 					</div>
 
@@ -69,10 +65,10 @@
 							 PO Number
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by PO Number."></i>
 						</label>
-						<input type="text" id="poNumber" class="form-control" formControlName="poNumber">
+						<input type="text" id="poNumber" class="form-control" formControlName="e.purchaseOrderNumber">
 					</div>
 
-					<div class="form-group col-3">
+					<!-- <div class="form-group col-3">
 						<div class="rtoCheck">
 							<input type="checkbox" id="rtoCheck" formControlName="rtoCheck">
 							<label for="rtoCheck" class="text-right">
@@ -80,13 +76,14 @@
 								<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Include RTO Orders in search."></i>
 							</label>
 						</div>
-					</div>
+					</div> -->
 
 					<div class="form-group col-12 searchButton">
 						<button type="submit" class="btn btn-primary">
 							<i class="fa fa-search" aria-hidden="true"></i>
 							Search
 						</button>
+						<img width="35" height="35" *ngIf="searchLoader" src="assets/img/ajax-loader.gif" alt="Loader Image">
 						<span class="btn btn-primary" (click)="resetForm()">
 							<i class="fa fa-refresh" aria-hidden="true"></i>
 							Reset
@@ -106,7 +103,7 @@
 					<img src="assets/img/ajax-loader.gif" alt="Loader Image">
 				</div>
 				 <!-- [ngClass]="{ 'disabled': products && products.length === 0 }" -->
-				<button class="btn btn-info deleteSelectedButton">
+				<button class="btn btn-info deleteSelectedButton" (click)="exportOrders()">
 					<i class="fa fa-download" aria-hidden="true"></i>
 					Export
 				</button>
@@ -169,7 +166,7 @@
 						</tr>
 					</tbody>
 
-					<tbody *ngIf=" orders && orders.length === 0 ">
+					<tbody *ngIf=" !orders || orders.length === 0 ">
 						<tr>
 							<td colspan="8">
 								<strong>There are no orders!</strong>

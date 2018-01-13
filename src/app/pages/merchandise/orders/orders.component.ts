@@ -2,9 +2,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 declare let $: any;
+import  * as _ from 'lodash';
+
 import { IMyDpOptions } from 'mydatepicker';
 
-import { ProductsService, OrdersService } from 'app/services';
+import { ProductsService, OrdersService, JsonToExcelService, VendorsService } from 'app/services';
 
 @Component({
   selector: 'app-orders',
@@ -48,16 +50,19 @@ export class OrdersComponent implements OnInit {
     enableSearchFilter: true,
     classes: 'col-8 no_padding'
   };
+  searchLoader = false;
   programName = ['RBI', 'SBI', 'TOI'];
-  stores = ['store 1', 'store 2', 'store 3'];
   paymentMethod = ['All', 'Check / Money Order', 'Credit Card', 'PayPal Standard', 'Purchase Order'];
   public myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'dd/mm/yyyy',
     editableDateField: false,
     openSelectorOnInputClick: true
   };
+  vendorsList: any;
 
   constructor(
+      private vendorsService: VendorsService,
+      private jsonToExcelService: JsonToExcelService,
     private fb: FormBuilder,
     private productsService: ProductsService,
     private ordersService: OrdersService,
@@ -70,39 +75,94 @@ export class OrdersComponent implements OnInit {
       $('[data-toggle="tooltip"]').tooltip();
     });
     this.searchForm();
+    this.getAllVendors();
     this.getAllOrders();
     this.bigLoader = false;
+  }
+
+  getAllVendors() {
+      this.vendorsService.getVendors().
+          then((vendors) => {
+              this.vendorsList = vendors.Data;
+              this.vendorsList = this.vendorsList.map((item) => {
+                  item.id = item.SellerId;
+                  item.itemName = `${item.FirstName} ${item.LastName}`;
+                  return item;
+              });
+          }).catch((error) => {
+              console.log("error", error);
+          })
   }
 
   // For Creating Add Category Form
   searchForm() {
     this.searchProductForm = this.fb.group({
-      programName: [''],
-      supplierName: [''],
-      startDate: [''],
-      endDate: [''],
-      orderStatus: [[]],
-      poNumber: [''],
-      rtoCheck: ['']
+      'e.programName': [''],
+      'e.sellerId': [[]],
+      'e.orderFromDate': [''],
+      'e.orderTillDate': [''],
+      'e.status': [[]],
+      'e.purchaseOrderNumber': [''],
+      // rtoCheck: ['']
     });
   }
 
   getAllOrders() {
+      this.bigLoader = true;
       this.ordersService.getOrdersByPONumber().
         then((orders) => {
+            // this.orders = orders.Data;
             console.log("orders ", orders);
+            this.bigLoader = false;
         }).catch((error) => {
             console.log("error ", error);
         })
     this.orders = this.ordersService.getOrders();
   }
 
-  searchProduct(searchProductForm) {
-    console.log('searchProductForm', searchProductForm);
+  exportOrders() {
+      this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
   }
 
-  searchByOrderHash(orderHash) {
-    this.router.navigate( ['order-details', orderHash], { relativeTo: this.route });
+  searchProduct(searchOrdersForm) {
+      this.searchLoader = true;
+    if (searchOrdersForm['e.orderFromDate']) {
+        searchOrdersForm['e.orderFromDate'] = new Date(`
+            ${searchOrdersForm['e.orderFromDate'].date.month}/
+            ${searchOrdersForm['e.orderFromDate'].date.day}/
+            ${searchOrdersForm['e.orderFromDate'].date.year}
+            `).toISOString();
+    }
+
+    if (searchOrdersForm['e.orderTillDate']) {
+        searchOrdersForm['e.orderTillDate'] = new Date(`
+        ${searchOrdersForm['e.orderTillDate'].date.month}/
+        ${searchOrdersForm['e.orderTillDate'].date.day}/
+        ${searchOrdersForm['e.orderTillDate'].date.year}
+        `).toISOString();
+    }
+    let status = [];
+    if (searchOrdersForm['e.status'].length > 0) {
+        _.forEach(searchOrdersForm['e.status'], (item) => {
+            status.push(item.itemName);
+        });
+        searchOrdersForm['e.status'] = status;
+    }
+
+    searchOrdersForm = JSON.stringify(searchOrdersForm);
+    searchOrdersForm = searchOrdersForm.replace(/{|}|"/g,'', '');
+    searchOrdersForm = searchOrdersForm.replace(':', '=');
+
+    console.log('searchOrdersForm', searchOrdersForm);
+    this.ordersService.getOrdersByPONumber(null, searchOrdersForm).
+        then((orders) => {
+            // this.orders = orders.Data;
+            console.log("orders ", orders);
+            this.bigLoader = false;
+            this.searchLoader = false;
+        }).catch((error) => {
+            console.log("error ", error);
+        })
   }
 
   resetForm() {

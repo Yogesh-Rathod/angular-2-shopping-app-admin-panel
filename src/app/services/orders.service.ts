@@ -148,15 +148,16 @@ export class OrdersService {
     ];
 
 
-    getOrdersByPONumber(poNumber?) {
-        let url = poNumber ? `${environment.ordersApiUrl}Order/${poNumber}` : `${environment.ordersApiUrl}PurchaseOrders`;
+    getOrdersByPONumber(poNumber?, queryParams?) {
+        let url = poNumber ? `${environment.ordersApiUrl}Order/${poNumber}` : `${environment.ordersApiUrl}Orders`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        if (queryParams) {
+            url = `${url}?${queryParams}`
+        }
         return this.http.get(url, this.options)
             .timeout(environment.timeOut)
             .toPromise()
-            .then(
-            this.responseHandler.handleResponse
-            )
+            .then( this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
 

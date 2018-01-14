@@ -106,7 +106,7 @@ export class ReportsComponent implements OnInit {
         this.ordersService.getReports(searchOrdersForm).
             then((orders) => {
                 if (orders.Code === 200) {
-                    this.orders = orders.Data;
+                    this.orders = orders.Data.PurchaseOrder;
                     this.searchLoader = false;
                     console.log("this.orders ", this.orders);
                 } else if (orders.Code === 500) {

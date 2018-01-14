@@ -20,24 +20,24 @@ export class OrdersComponent implements OnInit {
   orders: any;
   orderStatus = [
     {
-      id: 'Fresh',
-      itemName: 'Fresh'
+      id: 'FRESH',
+      itemName: 'FRESH'
     },
     {
-      id: 'Processed',
-      itemName: 'Processed'
+      id: 'PROCESSED',
+      itemName: 'PROCESSED'
     },
     {
-      id: 'Shipped',
-      itemName: 'Shipped'
+      id: 'SHIPPED',
+      itemName: 'SHIPPED'
     },
     {
-      id: 'Delivered',
-      itemName: 'Delivered'
+      id: 'DELIVERED',
+      itemName: 'DELIVERED'
     },
     {
-      id: 'Cancelled',
-      itemName: 'Cancelled'
+      id: 'CANCELLED',
+      itemName: 'CANCELLED'
     },
   ];
   orderStatusDropdownSettings = {
@@ -49,7 +49,7 @@ export class OrdersComponent implements OnInit {
     classes: 'col-8 no_padding'
   };
   searchLoader = false;
-  programName = ['RBI', 'SBI', 'TOI'];
+  programName = ['LVB'];
   public myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'dd/mm/yyyy',
     editableDateField: false,
@@ -94,7 +94,7 @@ export class OrdersComponent implements OnInit {
   // For Creating Add Category Form
   searchForm() {
     this.searchProductForm = this.fb.group({
-      'e.programName': [''],
+      'e.programName': [[]],
       'e.sellerId': [[]],
       'e.orderFromDate': [''],
       'e.orderTillDate': [''],
@@ -108,13 +108,13 @@ export class OrdersComponent implements OnInit {
       this.bigLoader = true;
       this.ordersService.getOrdersByPONumber().
         then((orders) => {
-            // this.orders = orders.Data;
+            this.orders = orders.Data.PurchaseOrder;
             console.log("orders ", orders);
             this.bigLoader = false;
         }).catch((error) => {
             console.log("error ", error);
         })
-    this.orders = this.ordersService.getOrders();
+    // this.orders = this.ordersService.getOrders();
   }
 
   exportOrders() {
@@ -122,7 +122,19 @@ export class OrdersComponent implements OnInit {
   }
 
   searchProduct(searchOrdersForm) {
-      this.searchLoader = true;
+          this.searchLoader = true;
+          this.bigLoader = true;
+
+      for (let key in searchOrdersForm) {
+        // check also if property is not inherited from prototype
+        if (searchOrdersForm.hasOwnProperty(key)) {
+          let value = searchOrdersForm[key];
+          if (!value || value.length === 0) {
+            delete searchOrdersForm[key];
+          }
+        }
+      }
+
     if (searchOrdersForm['e.orderFromDate']) {
         searchOrdersForm['e.orderFromDate'] = new Date(`
             ${searchOrdersForm['e.orderFromDate'].date.month}/
@@ -139,21 +151,27 @@ export class OrdersComponent implements OnInit {
         `).toISOString();
     }
     let status = [];
-    if (searchOrdersForm['e.status'].length > 0) {
+    if (searchOrdersForm['e.status'] && searchOrdersForm['e.status'].length > 0) {
         _.forEach(searchOrdersForm['e.status'], (item) => {
             status.push(item.itemName);
         });
         searchOrdersForm['e.status'] = status;
     }
 
+    if (searchOrdersForm['e.sellerId'] && searchOrdersForm['e.sellerId'].length > 0) {
+      searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].map(item => {
+         return item.SellerId;
+      });
+    }
+
     searchOrdersForm = JSON.stringify(searchOrdersForm);
-    searchOrdersForm = searchOrdersForm.replace(/{|}|"/g,'', '');
-    searchOrdersForm = searchOrdersForm.replace(':', '=');
+    searchOrdersForm = searchOrdersForm.replace(/{|}|"/g,'');
+    searchOrdersForm = searchOrdersForm.replace(/:/g, '=');
 
     console.log('searchOrdersForm', searchOrdersForm);
     this.ordersService.getOrdersByPONumber(null, searchOrdersForm).
         then((orders) => {
-            // this.orders = orders.Data;
+            this.orders = orders.Data.PurchaseOrder;
             console.log("orders ", orders);
             this.bigLoader = false;
             this.searchLoader = false;
@@ -164,6 +182,7 @@ export class OrdersComponent implements OnInit {
 
   resetForm() {
     this.searchForm();
+    this.getAllOrders();
   }
 
 }

@@ -21,8 +21,13 @@ export class DeliveredComponent implements OnInit {
   }
 
   getAllOrders() {
-    this.orders = this.ordersService.getOrders();
-    console.log("this.orders ", this.orders);
+     this.ordersService.getOrdersByPONumber().
+      then((orders) => {
+          this.orders = orders.Data.PurchaseOrder;
+          this.orders = this.orders.filter(item => {
+            return item.Status === 'DELIVERED'
+          })
+      })
   }
 
 }

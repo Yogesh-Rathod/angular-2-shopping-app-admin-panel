@@ -29,11 +29,12 @@ export class ShippedComponent implements OnInit {
   getAllOrders() {
     this.ordersService.getOrdersByPONumber().
       then((orders) => {
-          this.orders = orders.Data;
+          this.orders = orders.Data.PurchaseOrder;
+          this.orders = this.orders.filter(item => {
+            return item.Status === 'SHIPPED'
+          })
           console.log("orders", orders);
       })
-    // this.orders = this.ordersService.getOrders();
-    console.log("this.orders ", this.orders);
   }
 
     importOrders() {

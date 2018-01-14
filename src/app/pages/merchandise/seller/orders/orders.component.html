@@ -17,7 +17,7 @@
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A program name."></i>
                         </label>
                         <select id="programName" class="form-control" formControlName="e.programName">
-                            <option value="all">All</option>
+                            <!-- <option value="all">All</option> -->
                             <option *ngFor="let item of programName" value="{{ item }}">
                                 {{ item }}
                             </option>
@@ -42,14 +42,14 @@
                         </my-date-picker>
                     </div>
 
-                    <div class="form-group col-3">
+                    <!-- <div class="form-group col-3">
                         <label for="orderStatus" class="text-right">
                             Order status
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by Order status."></i>
                         </label>
                         <angular2-multiselect id="orderStatus" [data]="orderStatus" formControlName="e.status" [settings]="orderStatusDropdownSettings">
                         </angular2-multiselect>
-                    </div>
+                    </div> -->
 
                     <div class="form-group col-3">
                         <label for="poNumber" class="text-right">
@@ -59,7 +59,7 @@
                         <input type="text" id="poNumber" class="form-control" formControlName="e.purchaseOrderNumber">
                     </div>
 
-                    <div class="form-group col-3">
+                    <!-- <div class="form-group col-3">
                         <div class="rtoCheck">
                             <input type="checkbox" id="rtoCheck" formControlName="rtoCheck">
                             <label for="rtoCheck" class="text-right">
@@ -67,7 +67,7 @@
                                 <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Include RTO Orders in search."></i>
                             </label>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group col-12 searchButton">
                         <button type="submit" class="btn btn-primary">

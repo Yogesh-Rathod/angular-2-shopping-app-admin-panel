@@ -49,7 +49,7 @@ export class OrdersComponent implements OnInit {
     enableSearchFilter: true,
     classes: 'col-8 no_padding'
   };
-  programName = ['RBI', 'SBI', 'TOI'];
+  programName = ['LVB'];
   public myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'dd/mm/yyyy',
     editableDateField: false,
@@ -76,7 +76,7 @@ export class OrdersComponent implements OnInit {
   // For Creating Add Category Form
   searchForm() {
     this.searchProductForm = this.fb.group({
-      'e.programName': [''],
+      'e.programName': ['LVB'],
       'e.orderFromDate': [''],
       'e.orderTillDate': [''],
       'e.status': [[]],
@@ -89,13 +89,25 @@ export class OrdersComponent implements OnInit {
     this.ordersService.getOrdersByPONumber().
       then((orders) => {
           console.log("orders", orders);
-          this.orders = orders.Data;
+          this.orders = orders.Data.PurchaseOrder;
       })
     // this.orders = this.ordersService.getOrders();
   }
 
   searchProduct(searchOrdersForm) {
-      this.searchLoader = true;
+          this.searchLoader = true;
+          this.bigLoader = true;
+
+      for (let key in searchOrdersForm) {
+        // check also if property is not inherited from prototype
+        if (searchOrdersForm.hasOwnProperty(key)) {
+          let value = searchOrdersForm[key];
+          if (!value || value.length === 0) {
+            delete searchOrdersForm[key];
+          }
+        }
+      }
+
     if (searchOrdersForm['e.orderFromDate']) {
         searchOrdersForm['e.orderFromDate'] = new Date(`
             ${searchOrdersForm['e.orderFromDate'].date.month}/
@@ -112,21 +124,27 @@ export class OrdersComponent implements OnInit {
         `).toISOString();
     }
     let status = [];
-    if (searchOrdersForm['e.status'].length > 0) {
+    if (searchOrdersForm['e.status'] && searchOrdersForm['e.status'].length > 0) {
         _.forEach(searchOrdersForm['e.status'], (item) => {
             status.push(item.itemName);
         });
         searchOrdersForm['e.status'] = status;
     }
 
+    if (searchOrdersForm['e.sellerId'] && searchOrdersForm['e.sellerId'].length > 0) {
+      searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].map(item => {
+         return item.SellerId;
+      });
+    }
+
     searchOrdersForm = JSON.stringify(searchOrdersForm);
-    searchOrdersForm = searchOrdersForm.replace(/{|}|"/g,'', '');
-    searchOrdersForm = searchOrdersForm.replace(':', '=');
+    searchOrdersForm = searchOrdersForm.replace(/{|}|"/g,'');
+    searchOrdersForm = searchOrdersForm.replace(/:/g, '=');
 
     console.log('searchOrdersForm', searchOrdersForm);
     this.ordersService.getOrdersByPONumber(null, searchOrdersForm).
         then((orders) => {
-            // this.orders = orders.Data;
+            this.orders = orders.Data.PurchaseOrder;
             console.log("orders ", orders);
             this.bigLoader = false;
             this.searchLoader = false;
@@ -141,6 +159,7 @@ export class OrdersComponent implements OnInit {
 
   resetForm() {
     this.searchForm();
+    this.getAllOrders();
   }
 
 }

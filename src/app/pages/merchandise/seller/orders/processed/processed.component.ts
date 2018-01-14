@@ -29,11 +29,11 @@ export class ProcessedComponent implements OnInit {
   getAllOrders() {
     this.ordersService.getOrdersByPONumber().
       then((orders) => {
-          this.orders = orders.Data;
-          console.log("orders", orders);
+          this.orders = orders.Data.PurchaseOrder;
+          this.orders = this.orders.filter(item => {
+            return item.Status === 'PROCESSED'
+          })
       })
-    // this.orders = this.ordersService.getOrders();
-    console.log("this.orders ", this.orders);
   }
 
     importOrders() {
@@ -41,6 +41,7 @@ export class ProcessedComponent implements OnInit {
       activeModal.componentInstance.fileUrl = 'ProcessedToDispached.xlsx';
       activeModal.componentInstance.request = 'processed';
         activeModal.result.then(status => {
+            console.log("status", status);
             if (status) {
                 this.getAllOrders();
             }

@@ -31,7 +31,7 @@ export class ShippedComponent implements OnInit {
       then((orders) => {
           this.orders = orders.Data.PurchaseOrder;
           this.orders = this.orders.filter(item => {
-            return item.Status === 'SHIPPED'
+            return item.Status === 'DISPATCHED'
           })
           console.log("orders", orders);
       })

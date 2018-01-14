@@ -24,22 +24,6 @@ export class CommonAppService {
 
     }
 
-    getCorporates(): Promise<any> {
-        const url = `${environment.apiUrl}/tms/api/corporate`;
-        return this.http.get(url)
-            .toPromise()
-            .then(this.handleResponse)
-            .catch(this.handleError);
-    }
-
-    getPrograms(corporateID): Promise<any> {
-        const url = `${environment.apiUrl}/tms/api/corporate/corporateId/${corporateID}/program`;
-        return this.http.get(url)
-            .toPromise()
-            .then(this.handleResponse)
-            .catch(this.handleError);
-    }
-
     handleError(error: any): Promise<any> {
         return Promise.reject(JSON.parse(error._body) || error);
     }

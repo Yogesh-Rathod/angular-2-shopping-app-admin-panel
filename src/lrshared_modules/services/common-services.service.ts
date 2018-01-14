@@ -56,73 +56,6 @@ export class CommonService {
       .catch(reason => this.responseHandlingService.handleError(reason));
   }
 
-  getCountries(programId) {
-    const url = `${environment.masterApiUrl}/api/country`;
-    this.headers.set('XApplicationLiteral', environment.appName);
-    this.headers.set('XProgramIds', programId);
-    this.headers.set('Authorization', `Bearer ${this.token.tokenString}`);
-    const options = new RequestOptions({ headers: this.headers });
-
-    return this.http.get(url, options)
-      .toPromise()
-      .then(response => this.responseHandlingService.handleResponse(response))
-      .catch(reason => this.responseHandlingService.handleError(reason));
-  }
-
-  getStates(programId, country) {
-    const url = `${environment.masterApiUrl}/api/country/${country}/state`;
-    this.headers.set('XApplicationLiteral', environment.appName);
-    this.headers.set('XProgramIds', programId);
-    this.headers.set('Authorization', `Bearer ${this.token.tokenString}`);
-    const options = new RequestOptions({ headers: this.headers });
-
-    return this.http.get(url, options)
-      .toPromise()
-      .then(response => this.responseHandlingService.handleResponse(response))
-      .catch(reason => this.responseHandlingService.handleError(reason));
-  }
-
-  getCities(programId, country, state) {
-    const url = `${environment.masterApiUrl}/api/country/${country}/state/${state}/city`;
-    this.headers.set('XApplicationLiteral', environment.appName);
-    this.headers.set('XProgramIds', programId);
-    this.headers.set('Authorization', `Bearer ${this.token.tokenString}`);
-    const options = new RequestOptions({ headers: this.headers });
-
-    return this.http.get(url, options)
-      .toPromise()
-      .then(response => this.responseHandlingService.handleResponse(response))
-      .catch(reason => this.responseHandlingService.handleError(reason));
-  }
-
-  getDataRange(programId) {
-    const url = `${environment.customersAPIUrl}/insight/api/utility/version/1/dateRange`;
-    this.headers.set('XApplicationLiteral', environment.appName);
-    this.headers.set('XProgramIds', programId);
-    this.headers.set('Authorization', `Bearer ${this.token.tokenString}`);
-    this.headers.set('XServiceName', 'daterange');
-    const options = new RequestOptions({ headers: this.headers });
-
-    return this.http.get(url, options)
-      .toPromise()
-      .then(response => this.responseHandlingService.handleResponse(response))
-      .catch(reason => this.responseHandlingService.handleError(reason));
-  }
-
-  getStoreRegion(programId, data) {
-    const url = `${environment.customersAPIUrl}/insight/api/report/version/1/aggregated/view/store`;
-    this.headers.set('XApplicationLiteral', environment.appName);
-    this.headers.set('XProgramIds', programId);
-    this.headers.set('Authorization', `Bearer ${this.token.tokenString}`);
-    this.headers.set('XServiceName', 'getData');
-    const options = new RequestOptions({ headers: this.headers });
-
-    return this.http.post(url, data, options)
-      .toPromise()
-      .then(response => this.responseHandlingService.handleResponse(response))
-      .catch(reason => this.responseHandlingService.handleError(reason));
-  }
-
   getCookie(key: string) {
     return this._cookieService.get(`${environment.appName}.${key}`);
   }
@@ -166,7 +99,7 @@ export class CommonService {
         }
       } else if (!this.selectedProgram && environment.appName === 'CRM') {
         let programIds = '';
-        
+
         try {
           return this.globals.get('programWithLowestRoles')[0].program;
         } catch (ex) {

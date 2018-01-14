@@ -29,7 +29,7 @@ export class VendorsService {
     }
 
     getVendors(sellerId?) {
-        let url = sellerId ? `${environment.sellerApiUrl}Seller/${sellerId}` : `${environment.sellerApiUrl}Seller`;
+        let url = sellerId ? `${environment.merchandiseUrl}Seller/${sellerId}` : `${environment.merchandiseUrl}Seller`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
@@ -51,7 +51,7 @@ export class VendorsService {
     }
 
     addVendor(vendor) {
-        let url = `${environment.sellerApiUrl}Seller`;
+        let url = `${environment.merchandiseUrl}Seller`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.post(url, JSON.stringify(vendor), this.options)
@@ -62,7 +62,7 @@ export class VendorsService {
     }
 
     updateVendor(vendor) {
-        let url = `${environment.sellerApiUrl}Seller`;
+        let url = `${environment.merchandiseUrl}Seller`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.put(url, JSON.stringify(vendor), this.options)

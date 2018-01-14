@@ -149,7 +149,7 @@ export class OrdersService {
 
 
     getOrdersByPONumber(poNumber?, queryParams?) {
-        let url = poNumber ? `${environment.ordersApiUrl}Order/${poNumber}` : `${environment.ordersApiUrl}Orders`;
+        let url = poNumber ? `${environment.merchandiseUrl}Order/${poNumber}` : `${environment.merchandiseUrl}Orders`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         if (queryParams) {
             url = `${url}?${queryParams}`
@@ -166,7 +166,7 @@ export class OrdersService {
     }
 
     cancelOrder(data) {
-        let url = `${environment.ordersApiUrl}Order/Cancel`;
+        let url = `${environment.merchandiseUrl}Order/Cancel`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.post(url, JSON.stringify(data), this.options)
             .timeout(environment.timeOut)
@@ -183,7 +183,7 @@ export class OrdersService {
     }
 
     getReports(data) {
-        let url = `${environment.ordersApiUrl}Order/SLA`;
+        let url = `${environment.merchandiseUrl}Order/SLA`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.post(url, JSON.stringify(data), this.options)
             .timeout(environment.timeOut)

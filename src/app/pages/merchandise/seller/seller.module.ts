@@ -13,6 +13,7 @@ import { ProductsService, OrdersService, JsonToExcelService } from 'app/services
 import { FreshComponent } from './orders/fresh/fresh.component';
 import { ProcessedComponent } from './orders/processed/processed.component';
 import { DeliveredComponent } from './orders/delivered/delivered.component';
+import { ShippedComponent } from './orders/shipped/shipped.component';
 import { SellerProductsComponent } from './seller-products/seller-products.component';
 import { AddSellerProductComponent } from 'app/pages/merchandise/seller/seller-products/add-product/add-seller-product.component';
 import { CKEditorModule } from 'ng2-ckeditor';
@@ -39,7 +40,8 @@ import { DateTimePickerModule } from 'ng-pick-datetime';
         ProcessedComponent,
         DeliveredComponent,
         AddSellerProductComponent,
-        SellerProductsComponent
+        SellerProductsComponent,
+        ShippedComponent
     ],
     providers: [
         ProductsService,

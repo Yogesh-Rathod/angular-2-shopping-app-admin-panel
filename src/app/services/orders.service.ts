@@ -193,4 +193,42 @@ export class OrdersService {
             )
             .catch((err) => this.responseHandler.handleError(err));
     }
+
+    sendToProcessed(orders) {
+        let url = `${environment.merchandiseUrl}Orders/Processed`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        return this.http.put(url, JSON.stringify(orders), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(
+            this.responseHandler.handleResponse
+            )
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    sendToDispatched(orders) {
+        let url = `${environment.merchandiseUrl}Orders/Dispatch`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        return this.http.put(url, JSON.stringify(orders), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(
+            this.responseHandler.handleResponse
+            )
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    sendToDelivered(orders) {
+        let url = `${environment.merchandiseUrl}Orders/Delivery`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        return this.http.put(url, JSON.stringify(orders), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(
+            this.responseHandler.handleResponse
+            )
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+
 }

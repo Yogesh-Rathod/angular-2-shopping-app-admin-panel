@@ -1,0 +1,32 @@
+<div class="animated fadeIn card addCategory">
+  <div class="card-header clearfix">
+    <h2 class="card-title">Import from excel</h2>
+    <button type="button" class="close" (click)=" closeModal(false) " aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="card-body">
+    <p *ngIf="showUploadError" class="error">
+      <em>
+        There was error while uploading!!
+      </em>
+    </p>
+    <p *ngIf="blankFileError" class="error">
+            <em>
+                File is Blank !
+            </em>
+        </p>
+    <form>
+      <div class="form-group">
+        <label for="ExcelFile" class="text-right">Excel File</label>
+        <input type="file" class="form-control" id="ExcelFile" (change)="handleFile($event)" accept=".xlsx, .xls">
+        <a target="_blank" href="assets/samples/{{fileUrl}}" class="text-decoration btn-link float-right">Download Template</a>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" [disabled]=" submitDisabled " (click)="uploadFile($event)">Update to processed</button>
+        <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+      </div>
+    </form>
+  </div>
+</div>

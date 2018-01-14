@@ -16,7 +16,7 @@
                             Program Name
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A program name."></i>
                         </label>
-                        <select id="programName" class="form-control" formControlName="programName">
+                        <select id="programName" class="form-control" formControlName="e.programName">
                             <option value="all">All</option>
                             <option *ngFor="let item of programName" value="{{ item }}">
                                 {{ item }}
@@ -29,7 +29,7 @@
                             Start Date
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select Start Date for search."></i>
                         </label>
-                        <my-date-picker id="startDate" class="no_padding" name="startDate" [options]="myDatePickerOptions" formControlName="startDate">
+                        <my-date-picker id="startDate" class="no_padding" name="startDate" [options]="myDatePickerOptions" formControlName="e.orderFromDate">
                         </my-date-picker>
                     </div>
 
@@ -38,7 +38,7 @@
                             End Date
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select End Date for search."></i>
                         </label>
-                        <my-date-picker id="endDate" class="no_padding" name="endDate" [options]="myDatePickerOptions" formControlName="endDate">
+                        <my-date-picker id="endDate" class="no_padding" name="endDate" [options]="myDatePickerOptions" formControlName="e.orderTillDate">
                         </my-date-picker>
                     </div>
 
@@ -47,7 +47,7 @@
                             Order status
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by Order status."></i>
                         </label>
-                        <angular2-multiselect id="orderStatus" [data]="orderStatus" formControlName="orderStatus" [settings]="orderStatusDropdownSettings">
+                        <angular2-multiselect id="orderStatus" [data]="orderStatus" formControlName="e.status" [settings]="orderStatusDropdownSettings">
                         </angular2-multiselect>
                     </div>
 
@@ -56,7 +56,7 @@
                             PO Number
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by PO Number."></i>
                         </label>
-                        <input type="text" id="poNumber" class="form-control" formControlName="poNumber">
+                        <input type="text" id="poNumber" class="form-control" formControlName="e.purchaseOrderNumber">
                     </div>
 
                     <div class="form-group col-3">
@@ -74,6 +74,7 @@
                             <i class="fa fa-search" aria-hidden="true"></i>
                             Search
                         </button>
+                        <img width="35" height="35" *ngIf="searchLoader" src="assets/img/ajax-loader.gif" alt="Loader Image">
                         <span class="btn btn-primary" (click)="resetForm()">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                             Reset
@@ -118,8 +119,8 @@
                   <div role="tabpanel" class="tab-pane fade in" id="Processed">
                     <app-processed class="col-12"></app-processed>
                   </div>
-                  <div role="tabpanel" class="tab-pane fade in " id="shippingInfo">
-                    <!-- <app-shipping-info class="col-12" [orderInfo]="orderInfo"></app-shipping-info> -->
+                  <div role="tabpanel" class="tab-pane fade in " id="Shipped">
+                    <app-shipped class="col-12"></app-shipped>
                   </div>
                   <div role="tabpanel" class="tab-pane fade in" id="Delivered">
                     <app-delivered class="col-12"></app-delivered>

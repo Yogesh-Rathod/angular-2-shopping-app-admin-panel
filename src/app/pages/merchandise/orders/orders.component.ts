@@ -1,8 +1,8 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import * as _ from 'lodash';
 declare let $: any;
-import  * as _ from 'lodash';
 
 import { IMyDpOptions } from 'mydatepicker';
 
@@ -14,11 +14,9 @@ import { ProductsService, OrdersService, JsonToExcelService, VendorsService } fr
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
-    ordersNew: any;
 
   searchProductForm: FormGroup;
   bigLoader = true;
-  deleteLoader: Number;
   orders: any;
   orderStatus = [
     {
@@ -52,7 +50,6 @@ export class OrdersComponent implements OnInit {
   };
   searchLoader = false;
   programName = ['RBI', 'SBI', 'TOI'];
-  paymentMethod = ['All', 'Check / Money Order', 'Credit Card', 'PayPal Standard', 'Purchase Order'];
   public myDatePickerOptions: IMyDpOptions = {
     dateFormat: 'dd/mm/yyyy',
     editableDateField: false,

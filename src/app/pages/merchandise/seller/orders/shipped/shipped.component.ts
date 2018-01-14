@@ -6,11 +6,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SellerOrdersBulkUploadComponent } from '../bulk-upload/bulk-upload.component';
 
 @Component({
-  selector: 'app-processed',
-  templateUrl: './processed.component.html',
-  styleUrls: ['./processed.component.scss']
+  selector: 'app-shipped',
+  templateUrl: './shipped.component.html',
+  styleUrls: ['./shipped.component.scss']
 })
-export class ProcessedComponent implements OnInit {
+export class ShippedComponent implements OnInit {
 
   orders: any;
   showSelectedAction = false;
@@ -38,8 +38,8 @@ export class ProcessedComponent implements OnInit {
 
     importOrders() {
       const activeModal = this.modalService.open(SellerOrdersBulkUploadComponent, { size: 'sm' });
-      activeModal.componentInstance.fileUrl = 'ProcessedToDispached.xlsx';
-      activeModal.componentInstance.request = 'processed';
+      activeModal.componentInstance.fileUrl = 'ShippedToDelivered.xlsx';
+      activeModal.componentInstance.request = 'shipped';
         activeModal.result.then(status => {
             if (status) {
                 this.getAllOrders();

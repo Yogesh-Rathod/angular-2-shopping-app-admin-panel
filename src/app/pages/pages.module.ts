@@ -20,7 +20,10 @@ import { ProductsDeletePopupComponent } from './merchandise/products/delete-popu
 import { BankDeletePopupComponent } from './merchandise/catalog-management/delete-popup/delete-popup.component';
 import { MovieDeletePopupComponent } from './merchandise/movie-management/delete-popup/delete-popup.component';
 
-import { XlsxToJsonService } from 'app/services';
+import { SellerOrdersBulkUploadComponent } from './merchandise/seller/orders/bulk-upload/bulk-upload.component';
+
+
+import { XlsxToJsonService, OrdersService } from 'app/services';
 import { HomeComponent } from './home/home.component';
 import { SellsBulkUploadComponent } from 'app/pages/merchandise/seller/seller-products/bulk-upload/bulk-upload.component';
 
@@ -45,14 +48,16 @@ import { SellsBulkUploadComponent } from 'app/pages/merchandise/seller/seller-pr
     BankDeletePopupComponent,
     MovieDeletePopupComponent,
     SellsBulkUploadComponent,
-    HomeComponent
+    HomeComponent,
+    SellerOrdersBulkUploadComponent
   ],
   providers: [
     MerchandiseService,
     MovieManagementService,
     XlsxToJsonService,
     ProductsService,
-    JsonToExcelService
+    JsonToExcelService,
+    OrdersService
   ],
   entryComponents: [
     BulkUploadComponent,
@@ -66,6 +71,7 @@ import { SellsBulkUploadComponent } from 'app/pages/merchandise/seller/seller-pr
     BankDeletePopupComponent,
     MovieDeletePopupComponent,
     SellsBulkUploadComponent,
+    SellerOrdersBulkUploadComponent
   ],
 })
 export class PagesModule {

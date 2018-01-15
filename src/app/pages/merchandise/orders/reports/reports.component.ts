@@ -16,7 +16,7 @@ export class ReportsComponent implements OnInit {
     searchOrdersForm: FormGroup;
     bigLoader = true;
     deleteLoader: Number;
-    orders: any;
+    orders = [];
     public myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy',
         editableDateField: false,
@@ -101,14 +101,12 @@ export class ReportsComponent implements OnInit {
         searchOrdersForm['SellerId'] = searchOrdersForm['SellerId'].map((item) => {
             return item.SellerId;
         });
-
-        console.log('searchOrdersForm', searchOrdersForm);
         this.ordersService.getReports(searchOrdersForm).
             then((orders) => {
-                if (orders.Code === 200) {
-                    this.orders = orders.Data.PurchaseOrder;
+                console.log(orders)
+                if (orders.Code == 200) {
+                    this.orders = orders.Data;
                     this.searchLoader = false;
-                    console.log("this.orders ", this.orders);
                 } else if (orders.Code === 500) {
                 }
                 this.searchLoader = false;
@@ -117,7 +115,9 @@ export class ReportsComponent implements OnInit {
                 console.log("error ", error);
             });
     }
-
+    changeRoute(status){
+        this.router.navigate(['/order-management/orders', status])
+    }
     downloadReport() {
         this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }

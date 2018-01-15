@@ -14,6 +14,13 @@ const routes: Routes = [
     }
   },
   {
+    path: 'orders/:orderStatus',
+    component: OrdersComponent,
+    data: {
+      MenuCode: 'ORD'
+    }
+  },
+  {
     path: 'orders/order-details/:orderId',
     component: OrderDetailsComponent,
     data: {

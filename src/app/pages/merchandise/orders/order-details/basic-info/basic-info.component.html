@@ -151,7 +151,7 @@
                 <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The subtotal of this order."></i>
             </div>
             <div class="col-9">
-                <span *ngIf="orderInfo.BookingDetails.TotalRetailPrice">
+                <span *ngIf="orderInfo.BookingDetails && orderInfo.BookingDetails.TotalRetailPrice">
                     {{ orderInfo.BookingDetails.TotalRetailPrice | currency: 'INR': true }}
                 </span>
             </div>
@@ -163,7 +163,7 @@
                 <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The total shipping cost for this order."></i>
             </div>
             <div class="col-9">
-                <span *ngIf="orderInfo.BookingDetails.UnitNetShippingPrice">
+                <span *ngIf="orderInfo.BookingDetails && orderInfo.BookingDetails.UnitNetShippingPrice">
                     {{ orderInfo.BookingDetails.UnitNetShippingPrice | currency: 'INR': true }}
                 </span>
             </div>
@@ -175,7 +175,7 @@
                 <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The total cost of this order (includes discounts, shipping and tax)."></i>
             </div>
             <div class="col-9">
-                <span *ngIf="orderInfo.BookingDetails.TotalRetailPriceIncludingTaxes">
+                <span *ngIf="orderInfo.BookingDetails && orderInfo.BookingDetails.TotalRetailPriceIncludingTaxes">
                     {{ orderInfo.BookingDetails.TotalRetailPriceIncludingTaxes | currency: 'INR': true }}
                 </span>
             </div>

@@ -5,9 +5,9 @@
             <span *ngIf="!vendorId">Add</span>
             <span *ngIf="vendorId">Edit</span> Seller
 
-            <button *ngIf=" vendorId " class="btn btn-success" [routerLink]="['/merchandise/products/vendorproducts', vendorId]">
+            <!-- <button *ngIf=" vendorId " class="btn btn-success" [routerLink]="['/merchandise/products/vendorproducts', vendorId]">
                 Show Products
-            </button>
+            </button> -->
 
             <span class="goBack float-right" [routerLink]="['/merchandise/vendors']">
                 <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to sellers list</span>

@@ -72,7 +72,7 @@ export class ProductsComponent implements OnInit {
         this.getAllProducts();
         this.getAllVendors();
         if (this.vendorId) {
-            this.getVendorInfo(this.vendorId);
+            this.searchProductForm.controls['vendor'].setValue(this.vendorId);
         }
     }
 
@@ -161,17 +161,6 @@ export class ProductsComponent implements OnInit {
 
     bulkUpload() {
         const activeModal = this.modalService.open(ProductsBulkUploadComponent, { size: 'sm' });
-    }
-
-    getVendorInfo(vendorId) {
-        const vendors = this.vendorsService.getVendors();
-        _.forEach(vendors, (vendor) => {
-            if (parseInt(vendor.id) === parseInt(vendorId)) {
-                this.vendorInfo = vendor;
-                console.log("this.vendorInfo", this.vendorInfo);
-                this.searchProductForm.controls['vendor'].setValue(vendor);
-            }
-        });
     }
 
     selectAll(e) {

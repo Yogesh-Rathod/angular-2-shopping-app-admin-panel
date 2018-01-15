@@ -50,7 +50,8 @@ export class OrderDetailsComponent implements OnInit {
     }
 
     createForm() {
-        this.cancelForm = this.fb.group({
+        if (this.orderInfo) {
+            this.cancelForm = this.fb.group({
             'PurchaseOrderNumber': [this.orderInfo.PurchaseOrderNumber],
             'Reason': ['', Validators.required],
             'Comments': ['']
@@ -59,6 +60,8 @@ export class OrderDetailsComponent implements OnInit {
             'PurchaseOrderNumber': [this.orderInfo.PurchaseOrderNumber],
             'Reason': ['', Validators.required]
         });
+        }
+
     }
 
     cancelOrderButton() {

@@ -23,6 +23,9 @@
         <input type="file" class="form-control" id="ExcelFile" (change)="handleFile($event)" accept=".xlsx, .xls">
         <a target="_blank" href="assets/samples/{{fileUrl}}" class="text-decoration btn-link float-right">Download Template</a>
       </div>
+      <div class="report">
+        <a target="_blank" *ngIf="errorData && errorData.length > 0" href="javascript:void(0)" (click)="downloadFile()" class="text-decoration btn-link">Download Error Report</a>
+      </div>
       <div class="form-group">
         <button class="btn btn-primary" [disabled]=" submitDisabled " (click)="uploadFile($event)">Update Orders</button>
         <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">

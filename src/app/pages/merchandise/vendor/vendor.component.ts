@@ -77,6 +77,10 @@ export class VendorComponent implements OnInit {
 
     }
 
+    changeRoute(vendorId){
+        this.router.navigate(['/merchandise/products', vendorId]);
+    }
+
     getAllVendors() {
         this.bigLoader = true;
         this.vendorsService.getVendors().

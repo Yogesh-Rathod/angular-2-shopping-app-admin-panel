@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-import { OrdersService, XlsxToJsonService } from 'app/services';
+import { OrdersService, XlsxToJsonService, JsonToExcelService } from 'app/services';
 
 @Component({
   selector: 'app-bulk-upload',
@@ -19,8 +19,10 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
   result: any;
   ordersInfo: any;
   request: any;
+  errorData: any;
 
   constructor(
+    private jsonToExcelService: JsonToExcelService,
     private xlsxToJsonService: XlsxToJsonService,
     private ordersService: OrdersService,
     private toastr: ToastsManager,
@@ -67,14 +69,16 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
               this.ordersService.sendToProcessed(this.ordersInfo).
                     then((success) => {
                         console.log("success ", success);
-                        if (success.Code === 200) {
+                        if (success) {
                             this.toastr.success('Sucessfully Done', 'Success!');
                             this.showLoader = false;
-                            this.closeModal(true);
-                        } else if (success.Code === 500) {
+                            this.errorData = success.Data;
+                            // this.closeModal(true);
+                        } else if (!success) {
                             this.showLoader = false;
                             // this.errorData = success.Data;
                             this.toastr.error('Oops! Could not process request.', 'Error!');
+                            this.errorData = success.Data;
                         }
                     }).catch((error) => {
                         console.log("error ", error);
@@ -140,6 +144,10 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
           }
 
         }
+    }
+
+    downloadFile() {
+      this.jsonToExcelService.exportAsExcelFile(this.errorData, this.request + '_products')
     }
 
   closeModal(status) {

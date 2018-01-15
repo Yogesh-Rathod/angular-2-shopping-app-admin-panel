@@ -74,8 +74,8 @@
                         </label>
                         <select id="Vendor" class="form-control col-12" formControlName="vendor">
                             <option value="">All</option>
-                            <option *ngFor="let item of vendors" [ngValue]="item">
-                                {{ item.first_name }} {{ item.last_name }}
+                            <option *ngFor="let item of vendors" [ngValue]="item.SellerId">
+                                {{ item.FirstName }} {{ item.LastName }}
                             </option>
                         </select>
                     </div>

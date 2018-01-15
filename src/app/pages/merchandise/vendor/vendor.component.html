@@ -100,7 +100,7 @@
                                 <button class="btn btn-secondary" [routerLink]="['./edit-vendor/', item.SellerId]" title="Edit">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </button>
-                                <button class="btn btn-secondary" [routerLink]="['/merchandise/products/vendorproducts', item.id]" title="View Products">
+                                <button class="btn btn-secondary" (click)="changeRoute(item.SellerId)" title="View Products">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </button>
                             </td>

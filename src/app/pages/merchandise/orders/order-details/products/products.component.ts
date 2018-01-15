@@ -9,7 +9,7 @@ declare let $: any;
 export class ProductsComponent implements OnInit {
 
   @Input() orderInfo: any;
-  
+
   constructor() { }
 
   ngOnInit() {

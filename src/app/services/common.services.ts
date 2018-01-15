@@ -64,8 +64,6 @@ export class CommonAppService {
         // Secret Will Be Updated Later On
         const clientSecret = utf8.encode(environment.hmacClientSecret);
         const finalSignature = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(utf8.encode(signatureRaw), clientSecret));
-
-        console.log("finalSignature ", `lvbportal:${finalSignature}:${nounce}:${timestamp}`);
         return `${environment.hmacCliendId}:${finalSignature}:${nounce}:${timestamp}`;
     }
 }

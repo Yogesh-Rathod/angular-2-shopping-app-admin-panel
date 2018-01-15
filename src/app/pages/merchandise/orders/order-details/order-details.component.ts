@@ -32,11 +32,12 @@ export class OrderDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getOrderDetails();
+        if (this.orderId) {
+            this.getOrderDetails();
+        }
     }
 
     getOrderDetails() {
-        this.orderId = 'LVB-TL-8-1000093';
         if (this.orderId) {
             this.ordersService.getOrdersByPONumber(this.orderId, null).
                 then((order) => {
@@ -44,6 +45,10 @@ export class OrderDetailsComponent implements OnInit {
                     this.orderInfo = order.Data;
                 }).catch((error) => {
                     console.log("error ", error);
+                    if (error) {
+                        this.toastr.error('Something went wrong.', 'Error!');
+                        this.goBack();
+                    }
                 })
         }
     }

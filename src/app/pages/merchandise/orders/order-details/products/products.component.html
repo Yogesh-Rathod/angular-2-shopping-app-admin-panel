@@ -1,53 +1,53 @@
-<div class="card" *ngIf="orderInfo">
+<div class="card">
   <div class="card-body">
 
     <table class="table table-responsive table-bordered">
       <thead class="black-muted-bg">
         <tr>
-          <th class="text-left">Picture</th>
+          <!-- <th class="text-left">Picture</th> -->
           <th>Name</th>
           <th>Price</th>
           <th>Quantity</th>
-          <th>Discount</th>
+          <!-- <th>Discount</th> -->
           <th>Total</th>
         </tr>
       </thead>
 
-      <tbody *ngIf="orderInfo.productsInfo && orderInfo.productsInfo.length > 0">
-        <tr *ngFor="let item of orderInfo.productsInfo">
-          <td class="text-left">
+      <tbody>
+        <tr *ngIf="orderInfo.BookingDetails">
+          <!-- <td class="text-left">
             <div class="product-image">
               <img class="img-fluid" src="{{ item.picture ? item.picture : 'assets/images/products/Placeholder.png' }}" alt="Product Image">
             </div>
-          </td>
+          </td> -->
           <td>
             <span class="productName">
               <em>
-                {{ item.name }}
+                {{ orderInfo.BookingDetails.Productmaster.Name }}
               </em>
             </span>
             <span class="block">
-              <span class="bold">SKU</span>: {{ item.sku }}
+              <span class="bold">SKU</span>: {{ orderInfo.BookingDetails.Productmaster.SKU }}
             </span>
           </td>
           <td>
             <span>
-               {{ item.price | currency: 'INR': true }}
+               {{ orderInfo.BookingDetails.TotalRetailPrice | currency: 'INR': true }}
             </span>
           </td>
           <td>
             <span>
-               {{ item.quantity }}
+             {{ orderInfo.BookingDetails.Quantity }}
             </span>
           </td>
-          <td>
+          <!-- <td>
             <span>
                {{ item.discount | currency: 'INR': true }}
             </span>
-          </td>
+          </td> -->
           <td>
             <span>
-               {{ item.total | currency: 'INR': true }}
+             {{ orderInfo.BookingDetails.TotalRetailPriceIncludingTaxes | currency: 'INR': true }}
             </span>
           </td>
         </tr>

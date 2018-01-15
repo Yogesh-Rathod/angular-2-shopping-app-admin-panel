@@ -132,6 +132,11 @@
       <th class="createDate">
         <strong>PO Date</strong>
       </th>
+      <th>
+          <strong>
+              Action
+          </strong>
+      </th>
     </tr>
   </thead>
   <tbody *ngIf=" orders && orders.length > 0 ">
@@ -149,8 +154,13 @@
       </td>-->
       <td>{{ item.Status }}</td>
       <td>
-        {{ item.OrderDate | date: 'shortDate' }}
+        {{ item.OrderDate | date: 'medium' }}
       </td>
+    <td>
+        <button class="btn btn-secondary" [routerLink]="['./order-details/', item.PurchaseOrderNumber]" title="Edit">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+    </td>
     </tr>
   </tbody>
 

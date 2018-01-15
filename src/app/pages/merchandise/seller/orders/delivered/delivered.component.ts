@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 
-import { ProductsService, OrdersService } from 'app/services';
+import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
 
 @Component({
     selector: 'app-delivered',
@@ -12,6 +12,7 @@ export class DeliveredComponent implements OnInit {
     @Output() onStatusChange = new EventEmitter<any>();
 
     constructor(
+        private jsonToExcelService: JsonToExcelService,
         private productsService: ProductsService,
         private ordersService: OrdersService
     ) { }
@@ -24,6 +25,10 @@ export class DeliveredComponent implements OnInit {
         this.orders = this.orders.filter(item => {
             return item.Status === 'DELIVERED'
         })
+    }
+
+    exportProducts() {
+        this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }
 
 }

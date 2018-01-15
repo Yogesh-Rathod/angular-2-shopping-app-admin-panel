@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 
 import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
 import * as _ from 'lodash';
@@ -6,38 +6,38 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SellerOrdersBulkUploadComponent } from '../bulk-upload/bulk-upload.component';
 
 @Component({
-  selector: 'app-fresh',
-  templateUrl: './fresh.component.html',
-  styleUrls: ['./fresh.component.scss']
+    selector: 'app-fresh',
+    templateUrl: './fresh.component.html',
+    styleUrls: ['./fresh.component.scss']
 })
 export class FreshComponent implements OnInit {
+    @Input() orders;
+    @Output() onStatusChange = new EventEmitter<any>();
 
-   orders: any;
-  selectAllCheckbox = false;
-  showSelectedAction = false;
+    // orders: any;
+    selectAllCheckbox = false;
+    showSelectedAction = false;
+    showLoader = false;
 
-  constructor(
-    private modalService: NgbModal,
-    private jsonToExcelService: JsonToExcelService,
-    private productsService: ProductsService,
-    private ordersService: OrdersService
-  ) { }
+    constructor(
+        private modalService: NgbModal,
+        private jsonToExcelService: JsonToExcelService,
+        private productsService: ProductsService,
+        private ordersService: OrdersService
+    ) {
+    }
 
-  ngOnInit() {
-    this.getAllOrders();
-  }
+    ngOnInit() {
+        this.getAllOrders();
+    }
 
-  getAllOrders() {
-    this.ordersService.getOrdersByPONumber().
-      then((orders) => {
-          this.orders = orders.Data.PurchaseOrder;
-          this.orders = this.orders.filter(item => {
+    getAllOrders() {
+        this.orders = this.orders.filter(item => {
             return item.Status === 'FRESH'
-          })
-      })
-  }
+        })
+    }
 
-  selectAll(e) {
+    selectAll(e) {
         if (e.target.checked) {
             this.selectAllCheckbox = true;
             _.forEach(this.orders, (item) => {
@@ -79,12 +79,12 @@ export class FreshComponent implements OnInit {
     }
 
     updateToProcessed() {
-      // this.approveLoader = true;
-      let productsToApprove = [];
+        this.showLoader = true;
+        let productsToApprove = [];
         if (this.selectAllCheckbox) {
             _.forEach(this.orders, (item) => {
                 productsToApprove.push({
-                  PurchaseOrderNumber: item.PurchaseOrderNumber
+                    PurchaseOrderNumber: item.PurchaseOrderNumber
                 });
                 item.isChecked = false;
             });
@@ -92,7 +92,7 @@ export class FreshComponent implements OnInit {
             _.forEach(this.orders, (item) => {
                 if (item.isChecked) {
                     productsToApprove.push({
-                      PurchaseOrderNumber: item.PurchaseOrderNumber
+                        PurchaseOrderNumber: item.PurchaseOrderNumber
                     });
                     item.isChecked = false;
                 }
@@ -103,19 +103,20 @@ export class FreshComponent implements OnInit {
                 console.log("success ", success);
                 if (success.Code === 200) {
                     this.getAllOrders();
+                    this.onStatusChange.emit(true);
+                    this.showLoader = false;
                 }
             }).catch((error) => {
                 console.log("error ", error);
-            })
-        console.log("productsToApprove ", productsToApprove);
+            });
         this.selectAllCheckbox = false;
         this.showSelectedAction = false;
     }
 
     importOrders() {
-      const activeModal = this.modalService.open(SellerOrdersBulkUploadComponent, { size: 'sm' });
-      activeModal.componentInstance.fileUrl = 'freshToProcessed.xlsx';
-      activeModal.componentInstance.request = 'fresh';
+        const activeModal = this.modalService.open(SellerOrdersBulkUploadComponent, { size: 'sm' });
+        activeModal.componentInstance.fileUrl = 'freshToProcessed.xlsx';
+        activeModal.componentInstance.request = 'fresh';
         activeModal.result.then(status => {
             if (status) {
                 this.getAllOrders();
@@ -124,7 +125,7 @@ export class FreshComponent implements OnInit {
     }
 
     exportProducts() {
-      this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
+        this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }
 
 }

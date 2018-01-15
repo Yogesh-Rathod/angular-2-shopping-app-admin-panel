@@ -1,23 +1,23 @@
 
 <button class="btn btn-info deleteSelectedButton" [class.disabled]="!showSelectedAction" (click)="exportProducts()">
     <i class="fa fa-download" aria-hidden="true"></i>
-    Export F.
+    Export
 </button>
-
+<img width="35" height="35" *ngIf="showLoader" src="assets/img/ajax-loader.gif" alt="Loader Image">
 <button class="btn btn-primary deleteSelectedButton" [class.disabled]="!showSelectedAction" (click)="updateToProcessed()">
   Update to processed
 </button>
 
 <button class="btn btn-info deleteSelectedButton pull-right" (click)="importOrders()">
   <i class="fa fa-download" aria-hidden="true"></i>
-  Bulk Update
+  Bulk Update to Processed
 </button>
 
 <table class="table table-bordered table-responsive" [mfData]="orders" #mf="mfDataTable" [mfRowsOnPage]="10">
   <thead class="black-muted-bg">
     <tr>
       <th class="text-center">
-          <input [class.disabled]="orders && orders.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+          <input [class.disabled]="!orders || orders.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
       </th>
       <th class="text-left orderno">
         <strong>PO No.</strong>
@@ -59,7 +59,7 @@
     </tr>
   </tbody>
 
-  <tbody *ngIf=" orders && orders.length === 0 ">
+  <tbody *ngIf=" !orders || orders.length === 0 ">
     <tr>
       <td colspan="6">
         <strong>There are no orders!</strong>

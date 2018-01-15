@@ -1,33 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 
 import { ProductsService, OrdersService } from 'app/services';
 
 @Component({
-  selector: 'app-delivered',
-  templateUrl: './delivered.component.html',
-  styleUrls: ['./delivered.component.scss']
+    selector: 'app-delivered',
+    templateUrl: './delivered.component.html',
+    styleUrls: ['./delivered.component.scss']
 })
 export class DeliveredComponent implements OnInit {
+    @Input() orders;
+    @Output() onStatusChange = new EventEmitter<any>();
 
-  orders: any;
+    constructor(
+        private productsService: ProductsService,
+        private ordersService: OrdersService
+    ) { }
 
-  constructor(
-    private productsService: ProductsService,
-    private ordersService: OrdersService
-  ) { }
+    ngOnInit() {
+        this.getAllOrders();
+    }
 
-  ngOnInit() {
-    this.getAllOrders();
-  }
-
-  getAllOrders() {
-     this.ordersService.getOrdersByPONumber().
-      then((orders) => {
-          this.orders = orders.Data.PurchaseOrder;
-          this.orders = this.orders.filter(item => {
+    getAllOrders() {
+        this.orders = this.orders.filter(item => {
             return item.Status === 'DELIVERED'
-          })
-      })
-  }
+        })
+    }
 
 }

@@ -1,11 +1,11 @@
 <button class="btn btn-info deleteSelectedButton" [class.disabled]="!showSelectedAction" (click)="exportProducts()">
   <i class="fa fa-download" aria-hidden="true"></i>
-  Export S.
+  Export
 </button>
 
 <button class="btn btn-info deleteSelectedButton pull-right" (click)="importOrders()">
   <i class="fa fa-download" aria-hidden="true"></i>
-  Bulk Update
+  Bulk Update to Delivered
 </button>
 
 <table class="table table-bordered table-responsive" [mfData]="orders" #mf="mfDataTable" [mfRowsOnPage]="10">
@@ -48,7 +48,7 @@
     </tr>
   </tbody>
 
-  <tbody *ngIf=" orders && orders.length === 0 ">
+  <tbody *ngIf=" !orders || orders.length === 0 ">
     <tr>
       <td colspan="6">
         <strong>There are no orders!</strong>

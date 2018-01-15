@@ -1,6 +1,6 @@
-<button class="btn btn-info deleteSelectedButton">
+<button class="btn btn-info deleteSelectedButton" (click)="exportProducts()">
   <i class="fa fa-download" aria-hidden="true"></i>
-  Export D.
+  Export
 </button>
 
 <table class="table table-bordered table-responsive" [mfData]="orders" #mf="mfDataTable" [mfRowsOnPage]="10">
@@ -43,7 +43,7 @@
     </tr>
   </tbody>
 
-  <tbody *ngIf=" orders && orders.length === 0 ">
+  <tbody *ngIf=" !orders || orders.length === 0 ">
     <tr>
       <td colspan="6">
         <strong>There are no orders!</strong>

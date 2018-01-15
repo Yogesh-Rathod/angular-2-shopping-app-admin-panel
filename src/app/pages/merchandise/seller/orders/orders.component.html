@@ -17,9 +17,9 @@
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A program name."></i>
                         </label>
                         <select id="programName" class="form-control" formControlName="e.programName">
-                            <!-- <option value="all">All</option> -->
-                            <option *ngFor="let item of programName" value="{{ item }}">
-                                {{ item }}
+                            <option value="">All</option>
+                            <option *ngFor="let item of programName" value="{{ item.id }}">
+                                {{ item.name }}
                             </option>
                         </select>
                     </div>
@@ -95,36 +95,43 @@
                 </div>
 
                 <div class="tabs-section">
-                  <!-- Tabs Top UI -->
-                  <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                      <a class="nav-link active" href="#Fresh" role="tab" data-toggle="tab">Fresh</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link " href="#Processed" role="tab" data-toggle="tab">Processed</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link " href="#Shipped" role="tab" data-toggle="tab">Dispatched</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link " href="#Delivered" role="tab" data-toggle="tab">Delivered</a>
-                    </li>
-                  </ul>
+                    <!-- Tabs Top UI -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#Fresh" role="tab" data-toggle="tab">Fresh</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#Processed" role="tab" data-toggle="tab">Processed</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#Shipped" role="tab" data-toggle="tab">Dispatched</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#Delivered" role="tab" data-toggle="tab">Delivered</a>
+                        </li>
+                    </ul>
                 </div>
 
-                <div class="tab-content col-12 no_left_padding no_right_padding">
-                  <div role="tabpanel" class="tab-pane fade in active" id="Fresh">
-                    <app-fresh class="col-12"></app-fresh>
-                  </div>
-                  <div role="tabpanel" class="tab-pane fade in" id="Processed">
-                    <app-processed class="col-12"></app-processed>
-                  </div>
-                  <div role="tabpanel" class="tab-pane fade in " id="Shipped">
-                    <app-shipped class="col-12"></app-shipped>
-                  </div>
-                  <div role="tabpanel" class="tab-pane fade in" id="Delivered">
-                    <app-delivered class="col-12"></app-delivered>
-                  </div>
+                <div class="tab-content col-12 no_left_padding no_right_padding" *ngIf="orders && orders.length > 0">
+                    <div role="tabpanel" class="tab-pane fade in active" id="Fresh">
+                        <app-fresh  [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-fresh>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade in" id="Processed">
+                        <app-processed [orders]="orders" class="col-12"></app-processed>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade in " id="Shipped">
+                        <app-shipped [orders]="orders" class="col-12"></app-shipped>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade in" id="Delivered">
+                        <app-delivered [orders]="orders" class="col-12"></app-delivered>
+                    </div>
+                </div>
+                <div class="no-orders" *ngIf="!orders || orders.length === 0">
+                    <p class="text-center">
+                        <strong>
+                             Sorry! There are no orders!
+                        </strong>
+                    </p>
                 </div>
             </div>
 

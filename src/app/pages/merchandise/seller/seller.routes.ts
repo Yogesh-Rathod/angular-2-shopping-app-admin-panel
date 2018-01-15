@@ -5,6 +5,7 @@ import { OrdersComponent } from './orders/orders.component';
 import { ProductsComponent } from '../products/products.component';
 import { SellerProductsComponent } from 'app/pages/merchandise/seller/seller-products/seller-products.component';
 import { AddSellerProductComponent } from 'app/pages/merchandise/seller/seller-products/add-product/add-seller-product.component';
+import { OrderDetailsComponent } from 'app/pages/merchandise/seller/order-details/order-details.component';
 
 const routes: Routes = [
     {
@@ -24,6 +25,13 @@ const routes: Routes = [
     {
         path: 'orders',
         component: OrdersComponent,
+        data: {
+            MenuCode: 'SLR'
+        }
+    },
+    {
+        path: 'orders/order-details/:orderId',
+        component: OrderDetailsComponent,
         data: {
             MenuCode: 'SLR'
         }

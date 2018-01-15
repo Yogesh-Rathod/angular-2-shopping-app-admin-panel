@@ -8,12 +8,11 @@ export const environment = {
     moviesApiUrl: 'http://192.168.61.203/LRAS.MovieAPI/Support/',
     crmUrl: 'http://192.168.250.222:9081/crm',
     citiesAPIUrl: 'http://192.168.61.202/LRAS.CommonAPI/V1/GetCities',
-    rbacUrl: 'http://192.168.61.203/LRAS.Brix.InternalUserManagementAPI/',
+    rbacUrl: 'http://192.168.61.202/LRAS.Brix.InternalUserManagementAPI/',
     merchandiseUrl: 'http://192.168.61.202/LRAS.MerchandiseSupportAPI/',
     appName: 'MERCHANDISE',
     hmacCliendId: 'lvbportal',
     hmacClientSecret: 'secret',
-    moduleId: '825362de-db45-11e7-960e-00155dc90735',
     domainName: 'localhost',
     timeOut: 30000,
     crm: {

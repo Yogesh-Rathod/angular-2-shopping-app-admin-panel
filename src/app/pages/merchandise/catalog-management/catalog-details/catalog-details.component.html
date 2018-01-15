@@ -46,7 +46,13 @@
                     <div class="tabs-section">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#mappedProduct" role="tab" data-toggle="tab">Product</a>
+                                <a class="nav-link active" href="#productList" role="tab" data-toggle="tab">Products</a>
+                            </li>
+                            <li class="nav-item" *ngIf="catalogMapOpen">
+                                <a class="nav-link" href="#mappedProduct" role="tab" data-toggle="tab">Add Products</a>
+                            </li>
+                            <li class="nav-item" *ngIf="catalogMapOpen">
+                                <a class="nav-link " href="#mappedProductApprove" role="tab" data-toggle="tab">Approve Pending</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link " href="#mappedBank" role="tab" data-toggle="tab">Bank</a>
@@ -54,52 +60,89 @@
                         </ul>
                     </div>
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane fade in active" id="mappedProduct">
+                        <div role="tabpanel" class="tab-pane fade in active" id="productList">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h4>Filters will be here</h4>
-                                    <div class="row">
-                                        <div class="col-md-12 text-center">
-                                            <button class="btn btn-primary" (click)="mapProductToCatalog(allProducts)" type="button"> << MAP</button>
-                                            <button class="btn btn-primary" type="button">UN-MAP >></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-7">
-                                    <table class="table table-bordered table-responsive" [mfData]="allMapProducts" #mfMapList="mfDataTable" [mfRowsOnPage]="10">
+                                    <table class="table table-bordered table-responsive" [mfData]="allMapProducts" #mfMapProList="mfDataTable" [mfRowsOnPage]="10">
                                         <thead class="black-muted-bg">
                                             <tr>
-                                                <th class="text-center" style="width:50px;">
-                                                    <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
-                                                </th>
-                                                <th class="text-left" style="width:200px;">
+                                                <th class="text-left">
                                                     <mfDefaultSorter by="Name">
-                                                        <strong>Product Name</strong>
+                                                        <strong>ID / Name</strong>
                                                     </mfDefaultSorter>
+                                                </th>
+                                                <th class="text-left">
+                                                    <strong>Retail Price</strong>
+                                                </th>
+                                                <th class="text-left">
+                                                    <strong>Retail Shipping Price</strong>
+                                                </th>
+                                                <th class="text-left">
+                                                    <strong>Discount Type</strong>
+                                                </th>
+                                                <th class="text-left">
+                                                    <strong>Discount</strong>
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody *ngIf=" allMapProducts && allMapProducts.length > 0 ">
-                                            <tr *ngFor=" let item of mfMapList.data; let i = index ">
-                                                <td class="text-center">
-                                                    <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
-                                                </td>
+                                            <tr *ngFor=" let item of mfMapProList.data; let i = index ">
                                                 <td class="text-left">
-                                                    {{ item.ProductId }}
+                                                    {{ item.ProductName }}
+                                                </td>
+                                                <td>
+                                                    {{item.RetailPrice}}
+                                                </td>
+                                                <td>
+                                                    {{item.RetailShippingPrice}}
+                                                </td>
+                                                <td>
+                                                    {{item.DiscountType}}
+                                                </td>
+                                                <td>
+                                                    {{item.Discount}}
                                                 </td>
                                             </tr>
                                         </tbody>
-                                        <tfoot *ngIf=" allMapProducts && allMapProducts.length > 10 ">
+                                        <tfoot *ngIf="allMapProducts.length < 1 ">
                                             <tr>
-                                                <td colspan="2">
+                                                <td colspan="5" class="text-center">
+                                                    <span>No Product Added</span>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                        <tfoot *ngIf="allMapProducts && allMapProducts.length > 10 ">
+                                            <tr>
+                                                <td colspan="5">
                                                     <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
                                                 </td>
                                             </tr>
                                         </tfoot>
                                     </table>
                                 </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" *ngIf="catalogMapOpen" class="tab-pane fade in" id="mappedProduct">
+                            <form class="row" [formGroup]="searchProductForm" (ngSubmit)="searchProductFormFunc(searchProductForm.value)">
+                                <div class="form-group col-md-3">
+                                    <label for="searchText" class="text-right">Search
+                                        <span class="mandatory">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="searchText" placeholder="Search Product" formControlName="searchText">
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="vendors" class="text-right">Vendors</label>
+                                        <angular2-multiselect id="vendors" [data]="vendorsList" formControlName="Vendors" [settings]="multiDropdownSettings">
+                                        </angular2-multiselect>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="submit" class="btn btn-primary" value="Search">
+                                    <button class="btn btn-primary" (click)="mapProductToCatalog(allProducts)" type="button">Add Selected to Catalog</button>
+                                </div>
+                            </form>
+                            <div class="row">
                                 <div class="col-sm-5">
                                     <table class="table table-bordered table-responsive" [mfData]="allProducts" #mfList="mfDataTable" [mfRowsOnPage]="10">
                                         <thead class="black-muted-bg">
@@ -140,6 +183,15 @@
                                                 </td>
                                             </tr>
                                         </tbody>
+                                        <tfoot *ngIf="allProducts.length <= 0">
+                                            <tr>
+                                                <td colspan="4" class="text-center">
+                                                    <span class="no-product-message">Search Product OR
+                                                        <a href="javascript:void(0)" (click)="searchProductFormFunc(null)">Get All</a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
                                         <tfoot *ngIf=" allProducts && allProducts.length > 10 ">
                                             <tr>
                                                 <td colspan="4">
@@ -149,11 +201,108 @@
                                         </tfoot>
                                     </table>
                                 </div>
+                                <div class="col-sm-7">
+                                    <table class="table table-bordered table-responsive" [mfData]="allMapTempProducts" #mfMapList="mfDataTable" [mfRowsOnPage]="10">
+                                        <thead class="black-muted-bg">
+                                            <tr>
+                                                <th class="text-left">
+                                                    <mfDefaultSorter by="Name">
+                                                        <strong>Product</strong>
+                                                    </mfDefaultSorter>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngIf=" allMapTempProducts && allMapTempProducts.length > 0 ">
+                                            <tr *ngFor=" let item of mfMapList.data; let i = index ">
+                                                <td class="text-left">
+                                                    <div>{{ item.Name }}</div>
+                                                    <div class="row product-map-edit">
+                                                        <div class="col-md-4 form-group">
+                                                            <label>Retail Price</label>
+                                                            <input type="number" min="0" class="form-control" [(ngModel)]="item.RetailPrice">
+                                                        </div>
+                                                        <div class="col-md-4 form-group">
+                                                            <label>Retail Shipping Price</label>
+                                                            <input type="number" min="0" class="form-control" [(ngModel)]="item.RetailShippingPrice">
+                                                        </div>
+                                                        <div class="col-md-4 form-group">
+                                                            <label>Discount</label>
+                                                            <input type="number" min="0" class="form-control" [(ngModel)]="item.Discount">
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <label>
+                                                                        <input type="checkbox" [(ngModel)]="item.IsFeaturedProduct">
+                                                                        <span>Is Featured Product</span>
+                                                                    </label>
+                                                                    <input min="0" placeholder="Display Order" class="form-control" type="number" [(ngModel)]="item.FeaturedProductDisplayOrder">
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <label>
+                                                                        <input type="checkbox" [(ngModel)]="item.IsHomePageProduct">
+                                                                        <span>Is Home Page Product</span>
+                                                                    </label>
+                                                                    <input min="0" class="form-control" placeholder="Display Order" type="number" [(ngModel)]="item.HomePageProductDisplayOrder">
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <label>
+                                                                        <input type="checkbox" [(ngModel)]="item.CatalogProductMappingIsActive">
+                                                                        <span>Catalog Product Mapping IsActive</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot *ngIf="allMapTempProducts && allMapTempProducts.length > 10 ">
+                                            <tr>
+                                                <td colspan="2">
+                                                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <button (click)="mapProductWithCatalog()" class="btn btn-primary" type="button"> Save Changes </button>
+                                <div class="col-md-12 save-product-map-changes-btn">
+                                    <button [disabled]="allMapTempProducts.length < 1" (click)="mapProductWithCatalog()" class="btn btn-primary" type="button">
+                                        Save Changes </button>
                                 </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" *ngIf="catalogMapOpen" class="tab-pane fade in" id="mappedProductApprove">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-bordered table-responsive" [mfData]="allMapProductsApprove" #mfListApprove="mfDataTable" [mfRowsOnPage]="10">
+                                        <thead class="black-muted-bg">
+                                            <tr>
+                                                <th>Name / ID</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngIf=" allMapProductsApprove && allMapProductsApprove.length > 0 ">
+                                            <tr *ngFor=" let item of mfListApprove.data; let i = index ">
+                                                <td>{{ item.Id }}</td>
+                                                <td>
+                                                    <button (click)="approveProductMap(item, i)" type="button" class="btn btn-primary">Approve</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot *ngIf=" allMapProductsApprove && allMapProductsApprove.length > 10 ">
+                                            <tr>
+                                                <td colspan="2">
+                                                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
                         <div role="tabpanel" class="tab-pane fade in" id="mappedBank">
@@ -161,13 +310,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <span class="btn btn-secondary" (click)="goBackFunc()">Cancel</span>
+                <div class="row">
+                    <div class="col-md-12 catalog-map-cancel-btn">
+                        <span class="btn btn-secondary" (click)="goBackFunc()">Cancel</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>

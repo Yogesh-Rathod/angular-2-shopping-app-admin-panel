@@ -20,7 +20,8 @@ export class ReportsComponent implements OnInit {
     public myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy',
         editableDateField: false,
-        openSelectorOnInputClick: true
+        openSelectorOnInputClick: true,
+        disableSince: this.disableSince()
     };
     vendorsList: any;
     SellerDropdownSetting = {
@@ -49,6 +50,16 @@ export class ReportsComponent implements OnInit {
         this.searchForm();
         this.getAllVendors();
         this.bigLoader = false;
+    }
+
+    disableSince() {
+        let d = new Date();
+        const disableSince = {
+            year: d.getFullYear(),
+            month: d.getMonth() + 1,
+            day: d.getDate() + 1
+        };
+        return disableSince;
     }
 
     // For Creating Add Category Form

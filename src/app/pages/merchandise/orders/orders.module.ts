@@ -17,6 +17,11 @@ import { BillingInfoComponent } from './order-details/billing-info/billing-info.
 import { ShippingInfoComponent } from './order-details/shipping-info/shipping-info.component';
 import { ProductsComponent } from './order-details/products/products.component';
 import { ReportsComponent } from './reports/reports.component';
+import { RtoComponent } from './rto/rto.component';
+import { FreshComponent } from './fresh/fresh.component';
+import { ProcessedComponent } from './processed/processed.component';
+import { DeliveredComponent } from './delivered/delivered.component';
+import { ShippedComponent } from './shipped/shipped.component';
 
 @NgModule({
     imports: [
@@ -31,13 +36,19 @@ import { ReportsComponent } from './reports/reports.component';
         AngularMultiSelectModule
     ],
     declarations: [
+        ProcessedComponent,
+        DeliveredComponent,
+        ShippedComponent,
         OrdersComponent,
         OrderDetailsComponent,
         BasicInfoComponent,
         BillingInfoComponent,
         ShippingInfoComponent,
         ProductsComponent,
-        ReportsComponent
+        ReportsComponent,
+        RtoComponent,
+        FreshComponent,
+        ProcessedComponent
     ],
     providers: [
         MerchandiseService,

@@ -14,7 +14,7 @@ import { BankDetailsComponent } from './catalog-details/catalog-details.componen
 import { BasicInfoComponent } from "./catalog-details/basic-info/basic-info.component";
 import { ProductsInfoComponent } from './catalog-details/products-info/products-info.component';
 import { VendorsInfoComponent } from './catalog-details/vendors-info/vendors-info.component';
-import { CatalogManagementService } from 'app/services';
+import { CatalogManagementService, VendorsService } from 'app/services';
 import { AddCatalogComponent } from './add-catalog/add-catalog.component';
 
 @NgModule({
@@ -38,7 +38,8 @@ import { AddCatalogComponent } from './add-catalog/add-catalog.component';
     AddCatalogComponent
   ],
   providers: [
-    CatalogManagementService
+    CatalogManagementService,
+    VendorsService
   ],
   entryComponents: [
   ]

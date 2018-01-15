@@ -14,7 +14,6 @@ export class VendorsService {
 
     headers = new Headers({
         'headers': '',
-        'ModuleId': environment.moduleId,
         'Content-Type': 'application/json',
         'Accept': 'q=0.8;application/json;q=0.9'
     });
@@ -43,6 +42,17 @@ export class VendorsService {
         let url = `${environment.citiesAPIUrl}`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    getUsers() {
+        let url = `${environment.merchandiseUrl}Seller/User`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
             .timeout(environment.timeOut)
             .toPromise()

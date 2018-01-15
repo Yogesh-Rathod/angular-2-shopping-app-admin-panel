@@ -12,7 +12,6 @@ export class MovieManagementService {
 
     headers = new Headers({
         'headers': '',
-        'ModuleId': environment.moduleId,
         'Content-Type': 'application/json',
         'Accept': 'q=0.8;application/json;q=0.9'
     });

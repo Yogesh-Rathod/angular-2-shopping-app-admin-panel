@@ -26,15 +26,15 @@ const menus = [
             }
         },
         children: [
-            {
-                path: 'profile',
-                data: {
-                    menu: {
-                        title: 'Profile',
-                        pathMatch: 'partial'
-                    }
-                }
-            },
+            // {
+            //     path: 'profile',
+            //     data: {
+            //         menu: {
+            //             title: 'Profile',
+            //             pathMatch: 'partial'
+            //         }
+            //     }
+            // },
             {
                 path: 'seller-products',
                 data: {
@@ -53,15 +53,15 @@ const menus = [
                     }
                 }
             },
-            {
-                path: 'returns',
-                data: {
-                    menu: {
-                        title: 'Returns',
-                        pathMatch: 'partial'
-                    }
-                }
-            }
+            // {
+            //     path: 'returns',
+            //     data: {
+            //         menu: {
+            //             title: 'Returns',
+            //             pathMatch: 'partial'
+            //         }
+            //     }
+            // }
         ]
     },
     {

@@ -59,12 +59,12 @@ export class CatalogManagementComponent implements OnInit {
     }
     approveCatalog(_catalog, _index) {
         this.catalogManagementService.approvePostCatalog(_catalog).then(res => {
-            if(res.Success){
-            this.toastr.success("Catalog approved.","Sucess!");
-            this.filteredApproveCatalogs.splice(_index,1);
-            this.getCatalogs();
-            }else{
-                this.toastr.error("Something went wrong.", "Error!","Error!");
+            if (res.Success) {
+                this.toastr.success("Catalog approved.", "Sucess!");
+                this.filteredApproveCatalogs.splice(_index, 1);
+                this.getCatalogs();
+            } else {
+                this.toastr.error("Something went wrong.", "Error!", "Error!");
             }
         });
     }

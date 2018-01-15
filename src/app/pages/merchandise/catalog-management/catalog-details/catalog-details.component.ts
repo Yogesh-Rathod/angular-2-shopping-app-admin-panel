@@ -4,11 +4,12 @@ declare let $: any;
 import {
     CatalogManagementService,
     MerchandiseService,
-    ProductsService
+    ProductsService,
+    VendorsService
 } from "app/services";
 import { Location } from "@angular/common";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { FormBuilder } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ToastsManager } from "ng2-toastr";
 import { ActivatedRoute, Router } from "@angular/router";
 import * as _ from "lodash";
@@ -19,6 +20,9 @@ import * as _ from "lodash";
     styleUrls: ["./catalog-details.component.scss"]
 })
 export class BankDetailsComponent implements OnInit {
+    allMapProductsApprove: any = [];
+    vendorsList: any = [];
+    allMapTempProducts:any = [];
     showSelectedDelete: boolean;
     catalogInfo: any;
     for: any;
@@ -28,10 +32,19 @@ export class BankDetailsComponent implements OnInit {
     bankInfo: any;
     banks: any;
     bigLoader: false;
-    allProducts:any;
-    allProductsFiltered:any;
+    allProducts: any = [];
+    allProductsFiltered: any = [];
     allMapProducts: any = [];
     selectAllCheckbox = false;
+    searchProductForm: FormGroup;
+    multiDropdownSettings = {
+        singleSelection: false,
+        text: "Select",
+        selectAllText: "Select All",
+        unSelectAllText: "UnSelect All",
+        enableSearchFilter: true,
+        classes: "col-9 no_padding"
+    };
 
     constructor(
         private location: Location,
@@ -42,7 +55,8 @@ export class BankDetailsComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private catalogManagementService: CatalogManagementService,
-        private productsService: ProductsService
+        private productsService: ProductsService,
+        private vendorsService: VendorsService
     ) {
         this.route.params.subscribe(params => {
             this.catalogId = params["catalogId"];
@@ -60,16 +74,43 @@ export class BankDetailsComponent implements OnInit {
             this.getMapProductListByCatalog(this.catalogId);
             if (this.for == "map") {
                 this.catalogMapOpen = true;
-                this.getAllProduct();
                 this.getAllProgram();
+                this.getMapProductForApproveFunc(this.catalogId)
             }
         }
+        this.createSearchForm();
+        this.getSellerList();
     }
 
-    getAllProduct() {
-        console.log("***************Call for all product *******************");
-        this.productsService.getProducts().then(res => {
-            console.log("res all product", res);
+    // Create Search Form
+    createSearchForm() {
+        this.searchProductForm = this.fb.group({
+            searchText: [""],
+            Vendors: [[]]
+        });
+    }
+    searchProductFormFunc(_searchData) {
+        this.getAllProduct(_searchData);
+        console.log("_searchData== >", _searchData);
+    }
+
+    // GET Seller List
+    getSellerList() {
+        this.vendorsService.getVendors().then(res => {
+            console.log("Vendors =========>>", res);
+            if (res.Code == 200) {
+                this.vendorsList = res.Data ? res.Data : [];
+                this.vendorsList.map(function(i) {
+                    i.itemName = i.FirstName;
+                    i.id = i.SellerId;
+                });
+            }
+        });
+    }
+
+    //GET products , TODO: API need to changed with filter
+    getAllProduct(_searchObj) {
+        this.productsService.getOpsProducts("Admin").then(res => {
             this.allProducts = res.Data;
             this.allProductsFiltered = this.allProducts;
         });
@@ -79,23 +120,108 @@ export class BankDetailsComponent implements OnInit {
         return [];
     }
 
+    //GET
     getCatalogDetails(_catalogId, _for) {
         this.catalogManagementService
             .getCatalogsById(_catalogId, _for)
             .then(res => {
-                this.catalogInfo = res.Data;
+                if (res.Code == 200) {
+                    this.catalogInfo = res.Data;
+                }
             });
     }
+
+    //GET
     getMapProductListByCatalog(_catalogId) {
         this.catalogManagementService
             .getMapProductList(_catalogId)
             .then(res => {
-                console.log("getMapProductListByCatalog ==========>>", res);
+                console.log("========**********+++++++++>>>",res);
+                if (res.Code == 200) {
+                    this.allMapProducts = res.Data;
+                }
+            });
+    }
+    getMapProductForApproveFunc(_catalogId) {
+        this.catalogManagementService
+            .getMapProductForApprove(_catalogId)
+            .then(res => {
+                console.log("getMapProductForApprove========**********+++++++++>>>",res);
+                if (res.Code == 200) {
+                    this.allMapProductsApprove = res.Data;
+                }
             });
     }
 
     goBackFunc() {
         this.location.back();
+    }
+
+    //UI ADD
+    mapProductToCatalog(_product) {
+        _.forEach(_product, item => {
+            if (item.isChecked) {
+                for (var i = 0; i < this.allMapTempProducts.length; i++) {
+                    if (this.allMapTempProducts[i].ProductId == item.Id) {
+                        return;
+                    }
+                }
+                let tempObj = {
+                    CatalogId: this.catalogId,
+                    ProductId: item.Id,
+                    Name: item.Name,
+                    RetailPrice: item.RetailPrice,
+                    RetailShippingPrice: item.RetailShippingPrice,
+                    RetailPriceInclusive: item.RetailPriceInclusive,
+                    DiscountType: item.DiscountType,
+                    Discount: item.Discount,
+                    CatalogProductMappingIsActive : item.CatalogProductMappingIsActive,
+                    IsFeaturedProduct:item.IsFeaturedProduct,
+                    FeaturedProductDisplayOrder:0,
+                    IsHomePageProduct:item.IsHomePageProduct,
+                    HomePageProductDisplayOrde:0
+                };
+                this.allMapTempProducts.push(tempObj);
+            }
+        });
+    }
+
+    //POST
+    mapProductWithCatalog() {
+        let productsToMap = JSON.stringify(this.allMapTempProducts);
+        this.catalogManagementService.mapProductToCatalog(this.catalogId, productsToMap)
+            .then(res => {
+                if (res.Success) {
+                    this.toastr.success(
+                        "Product mapped successfully.",
+                        "Sucess!"
+                    );
+                    this.getMapProductForApproveFunc(this.catalogId);
+                    this.allMapTempProducts = [];
+                } else {
+                    this.toastr.error(
+                        "Something went wrong.",
+                        "Error!",
+                        "Error!"
+                    );
+                }
+            });
+
+    }
+
+    //POST Approve Map
+    approveProductMap(_product, _index){
+        console.log(_product);
+        this.catalogManagementService.approveProductPostCatalog(_product).then(res => {
+            console.log(res);
+            if (res.Success) {
+                this.toastr.success("Catalog product map approved.", "Sucess!");
+                this.allMapProductsApprove.splice(_index, 1);
+                this.getMapProductListByCatalog(this.catalogId);
+            } else {
+                this.toastr.error("Something went wrong.", "Error!", "Error!");
+            }
+        })
     }
 
     selectAll(e) {
@@ -134,41 +260,5 @@ export class BankDetailsComponent implements OnInit {
         if (isCheckedArray.length === 0) {
             this.showSelectedDelete = false;
         }
-    }
-
-    mapProductToCatalog(_product){
-        _.forEach(_product, item =>{
-            if (item.isChecked) {
-                for(var i=0;i<this.allMapProducts.length;i++){
-                    if(this.allMapProducts[i].ProductId == item.Id){
-                        return;
-                    }
-                }
-                let tempObj = {
-                    CatalogId: this.catalogId,
-                    ProductId: item.Id,
-                    RetailPrice: item.Mrp,
-                    RetailShippingPrice: 0,
-                    RetailPriceInclusive: 0,
-                    DiscountType: "string",
-                    Discount: 0
-                    // ,
-                    // IsFeaturedProduct: true,
-                    // FeaturedProductDisplayOrder: 0,
-                    // IsHomePageProduct: true,
-                    // HomePageProductDisplayOrder: 0,
-                    // CatalogProductMappingIsActive: true,
-                    // OperationType: "string",
-                    // Status: 0
-                }
-                this.allMapProducts.push(tempObj);
-            }
-        })
-    }
-
-    mapProductWithCatalog(){
-        this.catalogManagementService.mapProductToCatalog(this.catalogId ,this.allMapProducts).then(res => {
-            console.log("mapProductWithCatalog ==========>>", res);
-        });
     }
 }

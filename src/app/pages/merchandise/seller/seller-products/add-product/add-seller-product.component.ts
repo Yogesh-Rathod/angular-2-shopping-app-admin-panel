@@ -283,6 +283,7 @@ export class AddSellerProductComponent implements OnInit {
                 "Size": addProductForm.Size,
                 "ImageNumber": 0,
                 "CurrencyId": addProductForm.CurrencyId,
+                "Currency": addProductForm.CurrencyId,
                 "NetPrice": addProductForm.NetPrice,
                 "NetShippingPrice": addProductForm.NetShippingPrice,
                 "Mrp": addProductForm.Mrp,

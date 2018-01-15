@@ -138,6 +138,10 @@ export class OrdersComponent implements OnInit {
         // this.orders = this.ordersService.getOrders();
     }
 
+    childStatusChanged(finished: boolean) {
+        this.getAllOrders();
+    }
+
     exportOrders() {
         this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }

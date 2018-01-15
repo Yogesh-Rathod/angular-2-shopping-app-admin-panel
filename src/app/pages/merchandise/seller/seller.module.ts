@@ -13,6 +13,8 @@ import { ProductsService, OrdersService, JsonToExcelService } from 'app/services
 import { FreshComponent } from './orders/fresh/fresh.component';
 import { ProcessedComponent } from './orders/processed/processed.component';
 import { DeliveredComponent } from './orders/delivered/delivered.component';
+import { RtoComponent } from './orders/rto/rto.component';
+
 import { ShippedComponent } from './orders/shipped/shipped.component';
 import { SellerProductsComponent } from './seller-products/seller-products.component';
 import { AddSellerProductComponent } from 'app/pages/merchandise/seller/seller-products/add-product/add-seller-product.component';
@@ -43,7 +45,8 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
         AddSellerProductComponent,
         SellerProductsComponent,
         ShippedComponent,
-        OrderDetailsComponent
+        OrderDetailsComponent,
+        RtoComponent
     ],
     providers: [
         ProductsService,

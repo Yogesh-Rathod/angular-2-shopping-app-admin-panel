@@ -44,7 +44,7 @@ export class OrderDetailsComponent implements OnInit {
                     console.log("orders ", order.Data);
                     this.orderInfo = order.Data;
                 }).catch((error) => {
-                    console.log("error ", error);
+                    console.log("getOrderDetails error ", error);
                     if (error) {
                         this.toastr.error('Something went wrong.', 'Error!');
                         this.goBack();

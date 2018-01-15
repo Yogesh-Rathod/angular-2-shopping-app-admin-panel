@@ -1,4 +1,4 @@
-<button class="btn btn-info deleteSelectedButton" [class.disabled]="!showSelectedAction" (click)="exportProducts()">
+<button class="btn btn-info deleteSelectedButton" (click)="exportProducts()" [class.disabled]=" !orders || orders.length === 0 ">
   <i class="fa fa-download" aria-hidden="true"></i>
   Export
 </button>

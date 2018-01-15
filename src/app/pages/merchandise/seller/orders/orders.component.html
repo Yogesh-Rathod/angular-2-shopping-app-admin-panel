@@ -109,6 +109,9 @@
                         <li class="nav-item">
                             <a class="nav-link " href="#Delivered" role="tab" data-toggle="tab">Delivered</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#RTO" role="tab" data-toggle="tab">RTO</a>
+                        </li>
                     </ul>
                 </div>
 
@@ -124,6 +127,9 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade in" id="Delivered">
                         <app-delivered [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-delivered>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade in" id="RTO">
+                        <app-rto [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-rto>
                     </div>
                 </div>
                 <div class="no-orders" *ngIf="!orders || orders.length === 0">

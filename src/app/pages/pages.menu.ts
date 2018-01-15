@@ -26,15 +26,15 @@ const menus = [
             }
         },
         children: [
-            {
-                path: 'profile',
-                data: {
-                    menu: {
-                        title: 'Profile',
-                        pathMatch: 'partial'
-                    }
-                }
-            },
+            // {
+            //     path: 'profile',
+            //     data: {
+            //         menu: {
+            //             title: 'Profile',
+            //             pathMatch: 'partial'
+            //         }
+            //     }
+            // },
             {
                 path: 'seller-products',
                 data: {

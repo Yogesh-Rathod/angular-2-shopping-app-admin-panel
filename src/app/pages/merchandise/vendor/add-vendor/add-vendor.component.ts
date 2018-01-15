@@ -31,6 +31,7 @@ export class AddVendorComponent implements OnInit {
     vendors: any;
     vendorInfo: any;
     citiesList: any;
+    usersList: any;
 
     constructor(
         private modalService: NgbModal,
@@ -52,6 +53,7 @@ export class AddVendorComponent implements OnInit {
         });
         this.createForm();
         this.getCities();
+        this.getUsersList();
         // this.getAllVendors();
         if (this.vendorId) {
             this.getVendorInfoForEdit();
@@ -61,7 +63,6 @@ export class AddVendorComponent implements OnInit {
     createForm() {
         this.addVendorForm = this.fb.group({
             'SellerId': [''],
-            'UserId': ['12345'],
             'FirstName': [
                 '',
                 Validators.compose([
@@ -158,8 +159,23 @@ export class AddVendorComponent implements OnInit {
                     Validators.required
                 ])
             ],
+            'UserId': [
+                '',
+                Validators.compose([
+                    Validators.required
+                ])
+            ],
             'CreatedBy': ['Yogesh']
         });
+    }
+
+    getUsersList() {
+        this.vendorsService.getUsers().
+            then((user) => {
+                this.usersList = user.Data;
+            }).catch((error) => {
+                console.log("error ", error);
+            });
     }
 
     getCities() {
@@ -222,6 +238,7 @@ export class AddVendorComponent implements OnInit {
                     this.vendorInfo = vendor.Data;
                     console.log("this.vendorInfo ", this.vendorInfo);
                     this.addVendorForm.controls['SellerId'].setValue(this.vendorInfo.SellerId);
+                    this.addVendorForm.controls['UserId'].setValue(this.vendorInfo.UserId);
                     this.addVendorForm.controls['FirstName'].setValue(this.vendorInfo.FirstName);
                     this.addVendorForm.controls['LastName'].setValue(this.vendorInfo.LastName);
                     this.addVendorForm.controls['SellerCode'].setValue(this.vendorInfo.SellerCode);

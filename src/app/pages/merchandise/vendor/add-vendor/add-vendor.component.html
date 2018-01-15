@@ -81,6 +81,15 @@
                     </label>
                     <input type="text" class="form-control" id="Phone" formControlName="AltContactNumber" (keydown)='validatenumber($event)'>
                 </div>
+                <div class="form-group col-6">
+                    <label for="user">Choose User:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="User."></i>
+                    </label>
+                    <select formControlName="UserId" id="user" class="form-control">
+                        <option *ngFor="let item of usersList" value="item.Id">{{ item.UserName }}</option>
+                    </select>
+                </div>
             </div>
 
             <div class="col-6 row top-margins">

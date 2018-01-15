@@ -13,7 +13,6 @@ export const environment = {
     appName: 'MERCHANDISE',
     hmacCliendId: 'lvbportal',
     hmacClientSecret: 'secret',
-    moduleId: '825362de-db45-11e7-960e-00155dc90735',
     domainName: 'localhost',
     timeOut: 30000,
     crm: {

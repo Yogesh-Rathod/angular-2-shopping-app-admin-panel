@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
 
 import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
 
@@ -18,6 +18,10 @@ export class DeliveredComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.getAllOrders();
+    }
+
+    ngOnChanges(changes) {
         this.getAllOrders();
     }
 

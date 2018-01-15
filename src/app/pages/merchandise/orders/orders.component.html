@@ -38,7 +38,7 @@
 							Start Date
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select Start Date for search."></i>
 						</label>
-						<my-date-picker id="startDate" class="no_padding" name="startDate" [options]="myDatePickerOptions" formControlName="e.orderFromDate">
+						<my-date-picker id="startDate" class="no_padding" name="startDate" [options]="myDatePickerOptions" formControlName="e.fromDate">
 						</my-date-picker>
 					</div>
 
@@ -47,7 +47,7 @@
 							End Date
 							<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select End Date for search."></i>
 						</label>
-						<my-date-picker id="endDate" class="no_padding" name="endDate" [options]="myDatePickerOptions" formControlName="e.orderTillDate">
+						<my-date-picker id="endDate" class="no_padding" name="endDate" [options]="myDatePickerOptions" formControlName="e.toDate">
 						</my-date-picker>
 					</div>
 
@@ -129,7 +129,7 @@
       <th>
         <strong>Status</strong>
       </th>
-      <th class="createDate">
+      <th>
         <strong>PO Date</strong>
       </th>
       <th>

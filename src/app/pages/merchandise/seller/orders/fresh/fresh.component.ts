@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
 
 import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
 import * as _ from 'lodash';
@@ -14,7 +14,6 @@ export class FreshComponent implements OnInit {
     @Input() orders;
     @Output() onStatusChange = new EventEmitter<any>();
 
-    // orders: any;
     selectAllCheckbox = false;
     showSelectedAction = false;
     showLoader = false;
@@ -24,10 +23,13 @@ export class FreshComponent implements OnInit {
         private jsonToExcelService: JsonToExcelService,
         private productsService: ProductsService,
         private ordersService: OrdersService
-    ) {
-    }
+    ) { }
 
     ngOnInit() {
+        this.getAllOrders();
+    }
+
+    ngOnChanges(changes) {
         this.getAllOrders();
     }
 

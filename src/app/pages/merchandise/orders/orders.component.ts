@@ -122,6 +122,7 @@ export class OrdersComponent implements OnInit {
   }
 
   searchProduct(searchOrdersForm) {
+ console.log("searchOrdersForm ", searchOrdersForm);
           this.searchLoader = true;
           this.bigLoader = true;
 
@@ -165,7 +166,7 @@ export class OrdersComponent implements OnInit {
     }
 
     searchOrdersForm = JSON.stringify(searchOrdersForm);
-    searchOrdersForm = searchOrdersForm.replace(/{|}|"/g,'');
+    searchOrdersForm = searchOrdersForm.replace(/{|}|[\[\]]|"/g,'');
     searchOrdersForm = searchOrdersForm.replace(/:/g, '=');
 
     console.log('searchOrdersForm', searchOrdersForm);

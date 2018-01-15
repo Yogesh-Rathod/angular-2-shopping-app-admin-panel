@@ -1,4 +1,4 @@
-<button class="btn btn-info deleteSelectedButton" [class.disabled]="!showSelectedAction" (click)="exportProducts()">
+<button class="btn btn-info deleteSelectedButton" (click)="exportProducts()">
   <i class="fa fa-download" aria-hidden="true"></i>
   Export
 </button>
@@ -29,6 +29,7 @@
       <th class="createDate">
         <strong>PO Date</strong>
       </th>
+      <th><strong>Action</strong></th>
     </tr>
   </thead>
   <tbody *ngIf=" orders && orders.length > 0 ">
@@ -45,6 +46,11 @@
       <td>
         {{ item.OrderDate | date: 'medium' }}
       </td>
+    <td>
+        <button class="btn btn-secondary" [routerLink]="['./order-details/', item.PurchaseOrderNumber]" title="Edit">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
+    </td>
     </tr>
   </tbody>
 

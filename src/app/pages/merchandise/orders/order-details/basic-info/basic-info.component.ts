@@ -16,6 +16,7 @@ export class BasicInfoComponent implements OnInit {
     cancelLoader = false;
     showCancelForm = false;
     hideCancelButton = false;
+    cancelError= false;
 
     constructor(
         private ordersService: OrdersService,
@@ -32,9 +33,14 @@ export class BasicInfoComponent implements OnInit {
     createForm() {
         this.cancelForm = this.fb.group({
             'PurchaseOrderNumber': [this.orderInfo.PurchaseOrderNumber],
-            'Reason': [''],
+            'Reason': ['', Validators.required],
             'Comments': ['']
         });
+    }
+
+    cancelOrderButton() {
+        this.showCancelForm = true;
+        this.hideCancelButton = true;
     }
 
     cancelOrder(cancelForm) {
@@ -43,9 +49,12 @@ export class BasicInfoComponent implements OnInit {
         ordersToCancel.push(cancelForm);
         this.ordersService.cancelOrder(ordersToCancel).
             then((success) => {
-                if (success.Code === 200) {
+                if (success.Code === 200 ) {
                     this.orderCancelled = true;
                     this.showCancelForm = false;
+                    this.cancelError = false;
+                } else {
+                    this.cancelError = true;
                 }
                 this.cancelLoader = false;
             });

@@ -1,0 +1,34 @@
+.card {
+    border: 1px solid rgba(0, 0, 0, .125);
+    box-shadow: none;
+}
+
+.fa[data-toggle="tooltip"] {
+    color: #209e91;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.info-record {
+    margin-bottom: 20px;
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.cancelForm {
+    .form-control,
+    button {
+        margin-top: 15px;
+    }
+    .error {
+        margin-top: 5px;
+        margin-left: 20px;
+    }
+}
+
+.orderDetails {
+    min-height: 200px;
+}

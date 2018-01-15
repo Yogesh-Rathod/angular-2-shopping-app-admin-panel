@@ -17,6 +17,7 @@ import { BillingInfoComponent } from './order-details/billing-info/billing-info.
 import { ShippingInfoComponent } from './order-details/shipping-info/shipping-info.component';
 import { ProductsComponent } from './order-details/products/products.component';
 import { ReportsComponent } from './reports/reports.component';
+import { RtoComponent } from './rto/rto.component';
 
 @NgModule({
     imports: [
@@ -37,7 +38,8 @@ import { ReportsComponent } from './reports/reports.component';
         BillingInfoComponent,
         ShippingInfoComponent,
         ProductsComponent,
-        ReportsComponent
+        ReportsComponent,
+        RtoComponent
     ],
     providers: [
         MerchandiseService,

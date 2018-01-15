@@ -1,0 +1,269 @@
+<div class="animated fadeIn card orderDetails pos_relative">
+
+    <div class="card-header clearfix">
+        <h2 class="card-title">
+            Order details
+            <span class="goBack float-right" (click)="goBack()">
+                <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to orders list</span>
+
+        </h2>
+    </div>
+
+    <div class="loader-container pos_absolute" *ngIf="bigLoader">
+        <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+    </div>
+
+
+    <div class="card" *ngIf="orderInfo">
+        <div class="card-body">
+
+            <div class="info-record row">
+                <div class="col-3 text-right bold">
+                    Order status
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Order status"></i>
+                </div>
+                <div class="col-9">
+                    <span *ngIf="orderInfo.Status">
+                        {{ orderInfo.Status }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="info-record row">
+                <div class="col-3 text-right bold">
+                    Order PO Number
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The unique number of this order."></i>
+                </div>
+                <div class="col-9">
+                    <span *ngIf="orderInfo.PurchaseOrderNumber">
+                        {{ orderInfo.PurchaseOrderNumber }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="info-record row">
+                <div class="col-3 text-right bold">
+                    Order Code
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Internal reference for order."></i>
+                </div>
+                <div class="col-9">
+                    <span *ngIf="orderInfo.PurchaseOrderId">
+                        {{ orderInfo.PurchaseOrderId }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="info-record row">
+                <div class="col-3 text-right bold">
+                    Seller
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A store name in which this order was placed."></i>
+                </div>
+                <div class="col-9">
+                    <span *ngIf="orderInfo.SellerName">
+                        {{ orderInfo.SellerName }}
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card" *ngIf="orderInfo">
+        <div class="card-body">
+
+            <div class="info-record row" *ngIf="orderInfo.ContactDetails">
+                <div class="col-3 text-right bold">
+                    Customer
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The customer who placed this order."></i>
+                </div>
+                <div class="col-9">
+                    <span *ngIf="orderInfo.ContactDetails">
+                        {{ orderInfo.ContactDetails.name }}
+                    </span>
+                    <span *ngIf="orderInfo.ContactDetails">
+                        ({{ orderInfo.ContactDetails.email }})
+                    </span>
+                </div>
+            </div>
+
+            <!-- <div class="info-record row">
+          <div class="col-3 text-right bold">
+            Customer IP address
+            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Customer IP address from where order has been placed."></i>
+          </div>
+          <div class="col-9">
+            <span *ngIf="orderInfo.customerInfo.ipAddress">
+              {{ orderInfo.customerInfo.ipAddress }}
+            </span>
+          </div>
+        </div> -->
+
+            <div class="info-record row">
+                <div class="col-3 text-right bold">
+                    Order subtotal
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The subtotal of this order."></i>
+                </div>
+                <div class="col-9">
+                    <span *ngIf="orderInfo.BookingDetails.TotalRetailPrice">
+                        {{ orderInfo.BookingDetails.TotalRetailPrice | currency: 'INR': true }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="info-record row">
+                <div class="col-3 text-right bold">
+                    Order shipping
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The total shipping cost for this order."></i>
+                </div>
+                <div class="col-9">
+                    <span *ngIf="orderInfo.BookingDetails.UnitNetShippingPrice">
+                        {{ orderInfo.BookingDetails.UnitNetShippingPrice | currency: 'INR': true }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="info-record row">
+                <div class="col-3 text-right bold">
+                    Order total
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The total cost of this order (includes discounts, shipping and tax)."></i>
+                </div>
+                <div class="col-9">
+                    <span *ngIf="orderInfo.BookingDetails.TotalRetailPriceIncludingTaxes">
+                        {{ orderInfo.BookingDetails.TotalRetailPriceIncludingTaxes | currency: 'INR': true }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- <div class="info-record row">
+          <div class="col-3 text-right bold">
+            Payment method
+            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The payment method used for this transaction. You can manage Payment Methods from Configuration : Payment : Payment Methods."></i>
+          </div>
+          <div class="col-9">
+            <span *ngIf="orderInfo.paymentMethod">
+              {{ orderInfo.paymentMethod }}
+            </span>
+          </div>
+        </div> -->
+
+        </div>
+    </div>
+
+    <div class="card" *ngIf="orderInfo">
+        <div class="card-body">
+
+            <!-- <div class="info-record row">
+          <div class="col-3 text-right bold">
+            Payment status
+            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The status of the payment."></i>
+          </div>
+          <div class="col-9">
+            <span *ngIf="orderInfo.paymentStatus">
+              {{ orderInfo.paymentStatus }}
+            </span>
+          </div>
+        </div> -->
+
+            <div class="info-record row">
+                <div class="col-3 text-right bold">
+                    Order Date
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The date/time the order was placed/created."></i>
+                </div>
+                <div class="col-9">
+                    <span *ngIf="orderInfo.OrderDate">
+                        {{ orderInfo.OrderDate | date: 'medium' }}
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card"  *ngIf="orderInfo">
+        <div class="card-body">
+
+            <h3>
+                Products Info
+            </h3>
+
+            <table class="table table-responsive table-bordered">
+                <thead class="black-muted-bg">
+                    <tr>
+                        <!-- <th class="text-left">Picture</th> -->
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <!-- <th>Discount</th> -->
+                        <th>Total</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngIf="orderInfo.BookingDetails">
+                        <!-- <td class="text-left">
+                <div class="product-image">
+                  <img class="img-fluid" src="{{ item.picture ? item.picture : 'assets/images/products/Placeholder.png' }}" alt="Product Image">
+                </div>
+              </td> -->
+                        <td>
+                            <span class="productName">
+                                <em>
+                                    {{ orderInfo.BookingDetails.Productmaster.Name }}
+                                </em>
+                            </span>
+                            <span class="block">
+                                <span class="bold">SKU</span>: {{ orderInfo.BookingDetails.Productmaster.SKU }}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{ orderInfo.BookingDetails.TotalRetailPrice | currency: 'INR': true }}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{ orderInfo.BookingDetails.Quantity }}
+                            </span>
+                        </td>
+                        <!-- <td>
+                <span>
+                   {{ item.discount | currency: 'INR': true }}
+                </span>
+              </td> -->
+                        <td>
+                            <span>
+                                {{ orderInfo.BookingDetails.TotalRetailPriceIncludingTaxes | currency: 'INR': true }}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tfoot *ngIf=" orderInfo.productsInfo && orderInfo.productsInfo.length > 10 ">
+                    <tr>
+                        <td colspan="5">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+
+                <tbody *ngIf="orderInfo.productsInfo && orderInfo.productsInfo.length == 0">
+                    <tr>
+                        <td colspan="6">
+                            <span class="bold">
+                                There are no products in this order!
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+
+
+
+</div>
+
+

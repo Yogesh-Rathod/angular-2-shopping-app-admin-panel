@@ -164,7 +164,7 @@
     </tr>
   </tbody>
 
-  <tbody *ngIf=" orders && orders.length === 0 ">
+  <tbody *ngIf=" !orders || orders.length === 0 ">
     <tr>
       <td colspan="6">
         <strong>There are no orders!</strong>

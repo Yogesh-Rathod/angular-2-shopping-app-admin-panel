@@ -13,7 +13,7 @@
         <span *ngIf="orderCancelled" class="bold error">
            : Order Cancelled
         </span>
-        <button class="btn btn-danger" (click)="showCancelForm = true" *ngIf="!showCancelForm">Cancel Order</button>
+        <button class="btn btn-danger" (click)="cancelOrderButton()" *ngIf="!hideCancelButton">Cancel Order</button>
         <!-- <button class="btn btn-info">Change Status</button> -->
       </div>
         <div class="col-3"></div>
@@ -22,9 +22,12 @@
                 <input type="hidden" formControlName="PurchaseOrderNumber">
                 <input placeholder="Reason" type="text" class="form-control" formControlName="Reason">
                 <textarea placeholder="Comments" cols="30" rows="3" class="form-control" formControlName="Comments"></textarea>
-                <button type="submit" class="btn btn-danger">
+                <button [disabled]=" !cancelForm.valid" type="submit" class="btn btn-danger">
                     Cancel Order
                 </button>
+                <span *ngIf="cancelError" class="error">
+                    Could not cancel order!
+                </span>
                 <span>
                     <img src="assets/img/ajax-loader.gif" width="40" height="40" alt="Loder Image" *ngIf="cancelLoader">
                 </span>

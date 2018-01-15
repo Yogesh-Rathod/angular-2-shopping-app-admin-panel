@@ -164,8 +164,9 @@ export class AddVendorComponent implements OnInit {
 
     getCities() {
         this.vendorsService.getCities().
-            then((then) => {
-                console.log("then ", then);
+            then((cities) => {
+                console.log("cities ", cities);
+                this.citiesList = cities.Data;
             }).catch((error) => {
                 console.log("error ", error);
             });

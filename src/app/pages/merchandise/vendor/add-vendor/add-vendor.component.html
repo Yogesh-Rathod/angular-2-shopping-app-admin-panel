@@ -98,7 +98,7 @@
                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor City."></i>
                     </label>
                     <select formControlName="CityId" id="city" class="form-control">
-                        <option *ngFor="let item of citiesList" value="item">{{ item }}</option>
+                        <option *ngFor="let item of citiesList" value="item.Id">{{ item.Name }}</option>
                     </select>
                 </div>
 

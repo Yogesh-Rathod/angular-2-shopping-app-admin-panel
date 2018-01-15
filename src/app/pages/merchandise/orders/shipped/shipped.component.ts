@@ -3,7 +3,7 @@ import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angu
 import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
 import * as _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SellerOrdersBulkUploadComponent } from '../bulk-upload/bulk-upload.component';
+import { SellerOrdersAdminBulkUploadComponent } from '../bulk-upload/bulk-upload.component';
 
 @Component({
     selector: 'app-shipped',
@@ -37,7 +37,7 @@ export class ShippedComponent implements OnInit {
     }
 
     importOrders() {
-        const activeModal = this.modalService.open(SellerOrdersBulkUploadComponent, { size: 'sm' });
+        const activeModal = this.modalService.open(SellerOrdersAdminBulkUploadComponent, { size: 'sm' });
         activeModal.componentInstance.fileUrl = 'DispatchedToDelivered.xlsx';
         activeModal.componentInstance.request = 'shipped';
         activeModal.result.then(status => {

@@ -22,7 +22,7 @@ import * as _ from "lodash";
 export class BankDetailsComponent implements OnInit {
     allMapProductsApprove: any = [];
     vendorsList: any = [];
-    allMapTempProducts:any = [];
+    allMapTempProducts: any = [];
     showSelectedDelete: boolean;
     catalogInfo: any;
     for: any;
@@ -75,7 +75,7 @@ export class BankDetailsComponent implements OnInit {
             if (this.for == "map") {
                 this.catalogMapOpen = true;
                 this.getAllProgram();
-                this.getMapProductForApproveFunc(this.catalogId)
+                this.getMapProductForApproveFunc(this.catalogId);
             }
         }
         this.createSearchForm();
@@ -110,9 +110,11 @@ export class BankDetailsComponent implements OnInit {
 
     //GET products , TODO: API need to changed with filter
     getAllProduct(_searchObj) {
-        this.productsService.getOpsProducts("Admin").then(res => {
-            this.allProducts = res.Data;
-            this.allProductsFiltered = this.allProducts;
+        this.productsService.getMasterProducts(_searchObj).then(res => {
+            if (res.Success) {
+                this.allProducts = res.Data.Products?res.Data.Products:[];
+                this.allProductsFiltered = this.allProducts;
+            }
         });
     }
     getAllProgram() {
@@ -136,7 +138,7 @@ export class BankDetailsComponent implements OnInit {
         this.catalogManagementService
             .getMapProductList(_catalogId)
             .then(res => {
-                console.log("========**********+++++++++>>>",res);
+                console.log("========**********+++++++++>>>", res);
                 if (res.Code == 200) {
                     this.allMapProducts = res.Data;
                 }
@@ -146,7 +148,10 @@ export class BankDetailsComponent implements OnInit {
         this.catalogManagementService
             .getMapProductForApprove(_catalogId)
             .then(res => {
-                console.log("getMapProductForApprove========**********+++++++++>>>",res);
+                console.log(
+                    "getMapProductForApprove========**********+++++++++>>>",
+                    res
+                );
                 if (res.Code == 200) {
                     this.allMapProductsApprove = res.Data;
                 }
@@ -175,11 +180,12 @@ export class BankDetailsComponent implements OnInit {
                     RetailPriceInclusive: item.RetailPriceInclusive,
                     DiscountType: item.DiscountType,
                     Discount: item.Discount,
-                    CatalogProductMappingIsActive : item.CatalogProductMappingIsActive,
-                    IsFeaturedProduct:item.IsFeaturedProduct,
-                    FeaturedProductDisplayOrder:0,
-                    IsHomePageProduct:item.IsHomePageProduct,
-                    HomePageProductDisplayOrde:0
+          //          CatalogProductMappingIsActive:item.CatalogProductMappingIsActive,
+                    CatalogProductMappingIsActive:true,
+                    IsFeaturedProduct: item.IsFeaturedProduct,
+                    FeaturedProductDisplayOrder: 0,
+                    IsHomePageProduct: item.IsHomePageProduct,
+                    HomePageProductDisplayOrde: 0
                 };
                 this.allMapTempProducts.push(tempObj);
             }
@@ -189,7 +195,8 @@ export class BankDetailsComponent implements OnInit {
     //POST
     mapProductWithCatalog() {
         let productsToMap = JSON.stringify(this.allMapTempProducts);
-        this.catalogManagementService.mapProductToCatalog(this.catalogId, productsToMap)
+        this.catalogManagementService
+            .mapProductToCatalog(this.catalogId, productsToMap)
             .then(res => {
                 if (res.Success) {
                     this.toastr.success(
@@ -206,22 +213,29 @@ export class BankDetailsComponent implements OnInit {
                     );
                 }
             });
-
     }
 
     //POST Approve Map
-    approveProductMap(_product, _index){
-        console.log(_product);
-        this.catalogManagementService.approveProductPostCatalog(_product).then(res => {
-            console.log(res);
-            if (res.Success) {
-                this.toastr.success("Catalog product map approved.", "Sucess!");
-                this.allMapProductsApprove.splice(_index, 1);
-                this.getMapProductListByCatalog(this.catalogId);
-            } else {
-                this.toastr.error("Something went wrong.", "Error!", "Error!");
-            }
-        })
+    approveProductMap(_product, _index) {
+        this.catalogManagementService
+            .approveProductPostCatalog(_product)
+            .then(res => {
+                console.log(res);
+                if (res.Success) {
+                    this.toastr.success(
+                        "Catalog product map approved.",
+                        "Sucess!"
+                    );
+                    this.allMapProductsApprove=[];
+                    this.getMapProductListByCatalog(this.catalogId);
+                } else {
+                    this.toastr.error(
+                        "Something went wrong.",
+                        "Error!",
+                        "Error!"
+                    );
+                }
+            });
     }
 
     selectAll(e) {

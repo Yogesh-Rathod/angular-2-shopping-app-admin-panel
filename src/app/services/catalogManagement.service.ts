@@ -71,10 +71,11 @@ export class CatalogManagementService {
             Id: _catalog.Id,
             Reason: _catalog.Reason?_catalog.Reason:'',
             IsApproved: true
-          }
+          };
+        let bodyObjPlain= JSON.stringify(bodyObj);
         let url = `${environment.merchandiseUrl}Merchandise/Catalog/Approval/${_catalog.Id}/Approve`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
-        return this.http.post(url, bodyObj, this.options)
+        return this.http.post(url, bodyObjPlain, this.options)
             .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
@@ -96,6 +97,32 @@ export class CatalogManagementService {
         let url = `${environment.merchandiseUrl}Merchandise/CatalogProductMap/Approval`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.post(url, _products, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    getMapProductForApprove(_catalogId){
+        let url = `${environment.merchandiseUrl}Merchandise/CatalogProductMap/Approval/${_catalogId}`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    approveProductPostCatalog(_product){
+        var bodyObj = {
+            Id: _product.CatalogId,
+            Reason: _product.Reason?_product.Reason:'Dummy hardcoded',
+            IsApproved: true
+          };
+        let bodyObjPlain= JSON.stringify(bodyObj);
+        let url = `${environment.merchandiseUrl}Merchandise/CatalogProductMap/${_product.CatalogId}/Approve`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        return this.http.post(url, bodyObjPlain, this.options)
             .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)

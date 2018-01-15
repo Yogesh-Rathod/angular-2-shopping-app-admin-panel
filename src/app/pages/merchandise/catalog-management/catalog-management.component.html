@@ -163,9 +163,10 @@
                                             <strong>Created Date</strong>
                                         </mfDefaultSorter>
                                     </th>
-                                    <th class="text-center">
+                                    <th class="text-center" colspan="2">
                                         <strong>Action</strong>
                                     </th>
+
                                 </tr>
                             </thead>
                             <tbody *ngIf=" filteredApproveCatalogs && filteredApproveCatalogs.length > 0 ">
@@ -181,8 +182,8 @@
                                         <i *ngIf=" !item.status " class="fa fa-times" aria-hidden="true"></i>
                                     </td> -->
                                     <td>
-                                        <span *ngIf="item.IsActive">Active</span>
-                                        <span *ngIf="!item.IsActive">Not Active</span>
+                                        <span *ngIf="item.CatalogIsActive">Active</span>
+                                        <span *ngIf="!item.CatalogIsActive">Not Active</span>
                                     </td>
                                     <td>{{ item.CreatedOn | date }}</td>
                                     <td class="text-center">

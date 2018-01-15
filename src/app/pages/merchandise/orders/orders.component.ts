@@ -46,7 +46,7 @@ export class OrdersComponent implements OnInit {
         }
     ];
     orderStatusDropdownSettings = {
-        singleSelection: false,
+        singleSelection: true,
         text: "Select...",
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',

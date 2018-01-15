@@ -69,16 +69,15 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
               this.ordersService.sendToProcessed(this.ordersInfo).
                     then((success) => {
                         console.log("success ", success);
-                        if (success) {
+                        if (success.Data.length === 0) {
                             this.toastr.success('Sucessfully Done', 'Success!');
                             this.showLoader = false;
                             this.errorData = success.Data;
-                            // this.closeModal(true);
-                        } else if (!success) {
+                            this.closeModal(true);
+                        } else if (success.Data.length > 0) {
                             this.showLoader = false;
-                            // this.errorData = success.Data;
-                            this.toastr.error('Oops! Could not process request.', 'Error!');
                             this.errorData = success.Data;
+                            this.toastr.error('Oops! Could not process request.', 'Error!');
                         }
                     }).catch((error) => {
                         console.log("error ", error);
@@ -95,13 +94,14 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
                 this.ordersService.sendToDispatched(this.ordersInfo).
                     then((success) => {
                         console.log("success ", success);
-                        if (success.Code === 200) {
+                        if (success.Data.length === 0) {
                             this.toastr.success('Sucessfully Done', 'Success!');
                             this.showLoader = false;
+                            this.errorData = success.Data;
                             this.closeModal(true);
-                        } else if (success.Code === 500) {
+                        } else if (success.Data.length > 0) {
                             this.showLoader = false;
-                            // this.errorData = success.Data;
+                            this.errorData = success.Data;
                             this.toastr.error('Oops! Could not process request.', 'Error!');
                         }
                     }).catch((error) => {
@@ -119,13 +119,14 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
                 this.ordersService.sendToDelivered(this.ordersInfo).
                     then((success) => {
                         console.log("success ", success);
-                        if (success.Code === 200) {
+                        if (success.Data.length === 0) {
                             this.toastr.success('Sucessfully Done', 'Success!');
                             this.showLoader = false;
+                            this.errorData = success.Data;
                             this.closeModal(true);
-                        } else if (success.Code === 500) {
+                        } else if (success.Data.length > 0) {
                             this.showLoader = false;
-                            // this.errorData = success.Data;
+                            this.errorData = success.Data;
                             this.toastr.error('Oops! Could not process request.', 'Error!');
                         }
                     }).catch((error) => {
@@ -147,7 +148,8 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
     }
 
     downloadFile() {
-      this.jsonToExcelService.exportAsExcelFile(this.errorData, this.request + '_products')
+      this.jsonToExcelService.exportAsExcelFile(this.errorData, this.request + '_products');
+      this.closeModal(true);
     }
 
   closeModal(status) {

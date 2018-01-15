@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-import { OrdersService, XlsxToJsonService } from 'app/services';
+import { OrdersService, XlsxToJsonService, JsonToExcelService } from 'app/services';
 
 @Component({
   selector: 'app-bulk-upload',
@@ -19,8 +19,10 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
   result: any;
   ordersInfo: any;
   request: any;
+  errorData: any;
 
   constructor(
+    private jsonToExcelService: JsonToExcelService,
     private xlsxToJsonService: XlsxToJsonService,
     private ordersService: OrdersService,
     private toastr: ToastsManager,
@@ -67,13 +69,14 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
               this.ordersService.sendToProcessed(this.ordersInfo).
                     then((success) => {
                         console.log("success ", success);
-                        if (success.Code === 200) {
+                        if (success.Data.length === 0) {
                             this.toastr.success('Sucessfully Done', 'Success!');
                             this.showLoader = false;
+                            this.errorData = success.Data;
                             this.closeModal(true);
-                        } else if (success.Code === 500) {
+                        } else if (success.Data.length > 0) {
                             this.showLoader = false;
-                            // this.errorData = success.Data;
+                            this.errorData = success.Data;
                             this.toastr.error('Oops! Could not process request.', 'Error!');
                         }
                     }).catch((error) => {
@@ -91,13 +94,14 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                 this.ordersService.sendToDispatched(this.ordersInfo).
                     then((success) => {
                         console.log("success ", success);
-                        if (success.Code === 200) {
+                        if (success.Data.length === 0) {
                             this.toastr.success('Sucessfully Done', 'Success!');
                             this.showLoader = false;
+                            this.errorData = success.Data;
                             this.closeModal(true);
-                        } else if (success.Code === 500) {
+                        } else if (success.Data.length > 0) {
                             this.showLoader = false;
-                            // this.errorData = success.Data;
+                            this.errorData = success.Data;
                             this.toastr.error('Oops! Could not process request.', 'Error!');
                         }
                     }).catch((error) => {
@@ -115,13 +119,14 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                 this.ordersService.sendToDelivered(this.ordersInfo).
                     then((success) => {
                         console.log("success ", success);
-                        if (success.Code === 200) {
+                        if (success.Data.length === 0) {
                             this.toastr.success('Sucessfully Done', 'Success!');
                             this.showLoader = false;
+                            this.errorData = success.Data;
                             this.closeModal(true);
-                        } else if (success.Code === 500) {
+                        } else if (success.Data.length > 0) {
                             this.showLoader = false;
-                            // this.errorData = success.Data;
+                            this.errorData = success.Data;
                             this.toastr.error('Oops! Could not process request.', 'Error!');
                         }
                     }).catch((error) => {
@@ -140,6 +145,11 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
           }
 
         }
+    }
+
+    downloadFile() {
+      this.jsonToExcelService.exportAsExcelFile(this.errorData, this.request + '_products');
+      this.closeModal(true);
     }
 
   closeModal(status) {

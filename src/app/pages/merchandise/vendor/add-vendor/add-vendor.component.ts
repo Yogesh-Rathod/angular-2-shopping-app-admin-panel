@@ -179,10 +179,12 @@ export class AddVendorComponent implements OnInit {
     }
 
     getCities() {
+        this.bigLoader = true;
         this.vendorsService.getCities().
             then((cities) => {
                 console.log("cities ", cities);
                 this.citiesList = cities.Data;
+                this.bigLoader = false;
             }).catch((error) => {
                 console.log("error ", error);
             });

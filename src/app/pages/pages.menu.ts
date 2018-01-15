@@ -146,15 +146,15 @@ const menus = [
                     }
                 }
             },
-            {
-                path: 'rto',
-                data: {
-                    menu: {
-                        title: 'RTO',
-                        pathMatch: 'partial'
-                    }
-                }
-            },
+            // {
+            //     path: 'rto',
+            //     data: {
+            //         menu: {
+            //             title: 'RTO',
+            //             pathMatch: 'partial'
+            //         }
+            //     }
+            // },
             {
                 path: 'reports',
                 data: {

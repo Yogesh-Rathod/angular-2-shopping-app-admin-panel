@@ -13,10 +13,14 @@ export class BasicInfoComponent implements OnInit {
     @Input() orderInfo: any;
     orderCancelled = false;
     cancelForm: FormGroup;
+    rtoForm: FormGroup;
     cancelLoader = false;
     showCancelForm = false;
+    showRTOForm = false;
     hideCancelButton = false;
-    cancelError= false;
+    hideRTOButton = false;
+    cancelError = false;
+    markRTOError = false;
 
     constructor(
         private ordersService: OrdersService,
@@ -39,11 +43,20 @@ export class BasicInfoComponent implements OnInit {
             'Reason': ['', Validators.required],
             'Comments': ['']
         });
+        this.rtoForm = this.fb.group({
+            'PurchaseOrderNumber': [this.orderInfo.PurchaseOrderNumber],
+            'Reason': ['', Validators.required]
+        });
     }
 
     cancelOrderButton() {
         this.showCancelForm = true;
         this.hideCancelButton = true;
+    }
+
+    markRTOButton() {
+        this.showRTOForm = true;
+        this.hideRTOButton = true;
     }
 
     cancelOrder(cancelForm) {
@@ -58,6 +71,23 @@ export class BasicInfoComponent implements OnInit {
                     this.cancelError = false;
                 } else {
                     this.cancelError = true;
+                }
+                this.cancelLoader = false;
+            });
+    }
+
+    markRTO(rtoForm) {
+        this.cancelLoader = true;
+        console.log("rtoForm ", rtoForm);
+        let ordersToRTO = [];
+        ordersToRTO.push(rtoForm);
+        this.ordersService.markOrderRTO(ordersToRTO).
+            then((success) => {
+                if (success.Code === 200) {
+                    this.showRTOForm = false;
+                    this.markRTOError = false;
+                } else {
+                    this.markRTOError = true;
                 }
                 this.cancelLoader = false;
             });

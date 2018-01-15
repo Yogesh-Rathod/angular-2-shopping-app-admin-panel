@@ -119,6 +119,7 @@ export class FreshComponent implements OnInit {
         activeModal.componentInstance.request = 'fresh';
         activeModal.result.then(status => {
             if (status) {
+                console.log("status ", status);
                 this.getAllOrders();
             }
         }).catch(status => { })

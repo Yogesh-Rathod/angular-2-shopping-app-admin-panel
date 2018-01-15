@@ -14,7 +14,7 @@
            : Order Cancelled
         </span>
         <button class="btn btn-danger" (click)="cancelOrderButton()" *ngIf="!hideCancelButton">Cancel Order</button>
-        <!-- <button class="btn btn-info">Change Status</button> -->
+        <button class="btn btn-info" (click)="markRTOButton()" *ngIf="!hideRTOButton">Mark RTO</button>
       </div>
         <div class="col-3"></div>
         <div class="col-9 cancelForm">
@@ -27,6 +27,22 @@
                 </button>
                 <span *ngIf="cancelError" class="error">
                     Could not cancel order!
+                </span>
+                <span>
+                    <img src="assets/img/ajax-loader.gif" width="40" height="40" alt="Loder Image" *ngIf="cancelLoader">
+                </span>
+            </form>
+        </div>
+        <div class="col-3"></div>
+        <div class="col-9 cancelForm">
+            <form *ngIf="showRTOForm" [formGroup]=" rtoForm " (ngSubmit)=" markRTO(rtoForm.value) ">
+                <input type="hidden" formControlName="PurchaseOrderNumber">
+                <input placeholder="Reason" type="text" class="form-control" formControlName="Reason">
+                <button [disabled]=" !rtoForm.valid" type="submit" class="btn btn-danger">
+                    Mark RTO
+                </button>
+                <span *ngIf="markRTOError" class="error">
+                    Could not mark RTO!
                 </span>
                 <span>
                     <img src="assets/img/ajax-loader.gif" width="40" height="40" alt="Loder Image" *ngIf="cancelLoader">

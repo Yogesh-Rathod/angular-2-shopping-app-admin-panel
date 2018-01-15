@@ -177,6 +177,18 @@ export class OrdersService {
             .catch((err) => this.responseHandler.handleError(err));
     }
 
+    markOrderRTO(data) {
+        let url = `${environment.merchandiseUrl}Orders/RTO`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        return this.http.post(url, JSON.stringify(data), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(
+            this.responseHandler.handleResponse
+            )
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
     editOrder(orders) {
         this.ordersInfo = orders;
         return this.ordersInfo;

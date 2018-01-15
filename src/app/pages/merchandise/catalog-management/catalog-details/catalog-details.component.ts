@@ -161,8 +161,8 @@ export class BankDetailsComponent implements OnInit {
     mapProductToCatalog(_product) {
         _.forEach(_product, item => {
             if (item.isChecked) {
-                for (var i = 0; i < this.allMapProducts.length; i++) {
-                    if (this.allMapProducts[i].ProductId == item.Id) {
+                for (var i = 0; i < this.allMapTempProducts.length; i++) {
+                    if (this.allMapTempProducts[i].ProductId == item.Id) {
                         return;
                     }
                 }
@@ -175,10 +175,10 @@ export class BankDetailsComponent implements OnInit {
                     RetailPriceInclusive: item.RetailPriceInclusive,
                     DiscountType: item.DiscountType,
                     Discount: item.Discount,
-                    CatalogProductMappingIsActive : true,
-                    IsFeaturedProduct:false,
+                    CatalogProductMappingIsActive : item.CatalogProductMappingIsActive,
+                    IsFeaturedProduct:item.IsFeaturedProduct,
                     FeaturedProductDisplayOrder:0,
-                    IsHomePageProduct:false,
+                    IsHomePageProduct:item.IsHomePageProduct,
                     HomePageProductDisplayOrde:0
                 };
                 this.allMapTempProducts.push(tempObj);

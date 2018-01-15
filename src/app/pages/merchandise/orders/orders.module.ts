@@ -47,7 +47,8 @@ import { ShippedComponent } from './shipped/shipped.component';
         ProductsComponent,
         ReportsComponent,
         RtoComponent,
-        FreshComponent
+        FreshComponent,
+        ProcessedComponent
     ],
     providers: [
         MerchandiseService,

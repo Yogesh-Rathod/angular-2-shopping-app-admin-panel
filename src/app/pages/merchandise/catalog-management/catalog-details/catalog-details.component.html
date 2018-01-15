@@ -48,10 +48,10 @@
                             <li class="nav-item">
                                 <a class="nav-link active" href="#productList" role="tab" data-toggle="tab">Products</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" *ngIf="catalogMapOpen">
                                 <a class="nav-link" href="#mappedProduct" role="tab" data-toggle="tab">Add Products</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" *ngIf="catalogMapOpen">
                                 <a class="nav-link " href="#mappedProductApprove" role="tab" data-toggle="tab">Approve Pending</a>
                             </li>
                             <li class="nav-item">
@@ -104,9 +104,16 @@
                                                 </td>
                                             </tr>
                                         </tbody>
+                                        <tfoot *ngIf="allMapProducts.length < 1 ">
+                                            <tr>
+                                                <td colspan="5" class="text-center">
+                                                    <span>No Product Added</span>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
                                         <tfoot *ngIf="allMapProducts && allMapProducts.length > 10 ">
                                             <tr>
-                                                <td colspan="2">
+                                                <td colspan="5">
                                                     <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
                                                 </td>
                                             </tr>
@@ -115,7 +122,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div role="tabpanel" class="tab-pane fade in" id="mappedProduct">
+                        <div role="tabpanel" *ngIf="catalogMapOpen" class="tab-pane fade in" id="mappedProduct">
                             <form class="row" [formGroup]="searchProductForm" (ngSubmit)="searchProductFormFunc(searchProductForm.value)">
                                 <div class="form-group col-md-3">
                                     <label for="searchText" class="text-right">Search
@@ -198,9 +205,6 @@
                                     <table class="table table-bordered table-responsive" [mfData]="allMapTempProducts" #mfMapList="mfDataTable" [mfRowsOnPage]="10">
                                         <thead class="black-muted-bg">
                                             <tr>
-                                                <!-- <th class="text-center" style="width:50px;">
-                                                    <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
-                                                </th> -->
                                                 <th class="text-left">
                                                     <mfDefaultSorter by="Name">
                                                         <strong>Product</strong>
@@ -210,9 +214,6 @@
                                         </thead>
                                         <tbody *ngIf=" allMapTempProducts && allMapTempProducts.length > 0 ">
                                             <tr *ngFor=" let item of mfMapList.data; let i = index ">
-                                                <!-- <td class="text-center">
-                                                    <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
-                                                </td> -->
                                                 <td class="text-left">
                                                     <div>{{ item.Name }}</div>
                                                     <div class="row product-map-edit">
@@ -228,6 +229,30 @@
                                                             <label>Discount</label>
                                                             <input type="number" min="0" class="form-control" [(ngModel)]="item.Discount">
                                                         </div>
+                                                        <div class="col-12">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <label>
+                                                                        <input type="checkbox" [(ngModel)]="item.IsFeaturedProduct">
+                                                                        <span>Is Featured Product</span>
+                                                                    </label>
+                                                                    <input min="0" placeholder="Display Order" class="form-control" type="number" [(ngModel)]="item.FeaturedProductDisplayOrder">
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <label>
+                                                                        <input type="checkbox" [(ngModel)]="item.IsHomePageProduct">
+                                                                        <span>Is Home Page Product</span>
+                                                                    </label>
+                                                                    <input min="0" class="form-control" placeholder="Display Order" type="number" [(ngModel)]="item.HomePageProductDisplayOrder">
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <label>
+                                                                        <input type="checkbox" [(ngModel)]="item.CatalogProductMappingIsActive">
+                                                                        <span>Catalog Product Mapping IsActive</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -240,15 +265,17 @@
                                             </tr>
                                         </tfoot>
                                     </table>
+
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 save-product-map-changes-btn">
-                                    <button [disabled]="allMapTempProducts.length < 1" (click)="mapProductWithCatalog()" class="btn btn-primary" type="button"> Save Changes </button>
+                                    <button [disabled]="allMapTempProducts.length < 1" (click)="mapProductWithCatalog()" class="btn btn-primary" type="button">
+                                        Save Changes </button>
                                 </div>
                             </div>
                         </div>
-                        <div role="tabpanel" class="tab-pane fade in" id="mappedProductApprove">
+                        <div role="tabpanel" *ngIf="catalogMapOpen" class="tab-pane fade in" id="mappedProductApprove">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <table class="table table-bordered table-responsive" [mfData]="allMapProductsApprove" #mfListApprove="mfDataTable" [mfRowsOnPage]="10">
@@ -275,10 +302,11 @@
                                         </tfoot>
                                     </table>
                                 </div>
-                                <div role="tabpanel" class="tab-pane fade in" id="mappedBank">
-                                    <h2>Program (Bank) List</h2>
-                                </div>
+
                             </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade in" id="mappedBank">
+                            <h2>Program (Bank) List</h2>
                         </div>
                     </div>
                 </div>

@@ -9,7 +9,7 @@ import { OrdersService, XlsxToJsonService } from 'app/services';
   templateUrl: './bulk-upload.component.html',
   styleUrls: ['./bulk-upload.component.scss']
 })
-export class SellerOrdersBulkUploadComponent implements OnInit {
+export class SellerOrdersAdminBulkUploadComponent implements OnInit {
 
   submitDisabled = true;
   blankFileError = false;

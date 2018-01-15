@@ -26,6 +26,7 @@ import { SellerOrdersBulkUploadComponent } from './merchandise/seller/orders/bul
 import { XlsxToJsonService, OrdersService } from 'app/services';
 import { HomeComponent } from './home/home.component';
 import { SellsBulkUploadComponent } from 'app/pages/merchandise/seller/seller-products/bulk-upload/bulk-upload.component';
+import { SellerOrdersAdminBulkUploadComponent } from './merchandise/orders/bulk-upload/bulk-upload.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { SellsBulkUploadComponent } from 'app/pages/merchandise/seller/seller-pr
     MovieDeletePopupComponent,
     SellsBulkUploadComponent,
     HomeComponent,
-    SellerOrdersBulkUploadComponent
+    SellerOrdersBulkUploadComponent,
+      SellerOrdersAdminBulkUploadComponent
   ],
   providers: [
     MerchandiseService,
@@ -71,7 +73,8 @@ import { SellsBulkUploadComponent } from 'app/pages/merchandise/seller/seller-pr
     BankDeletePopupComponent,
     MovieDeletePopupComponent,
     SellsBulkUploadComponent,
-    SellerOrdersBulkUploadComponent
+    SellerOrdersBulkUploadComponent,
+      SellerOrdersAdminBulkUploadComponent
   ],
 })
 export class PagesModule {

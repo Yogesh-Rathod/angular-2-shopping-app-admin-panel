@@ -22,6 +22,7 @@ import * as _ from "lodash";
 export class BankDetailsComponent implements OnInit {
     allMapProductsApprove: any = [];
     vendorsList: any = [];
+    allMapTempProducts:any = [];
     showSelectedDelete: boolean;
     catalogInfo: any;
     for: any;
@@ -180,14 +181,14 @@ export class BankDetailsComponent implements OnInit {
                     IsHomePageProduct:false,
                     HomePageProductDisplayOrde:0
                 };
-                this.allMapProducts.push(tempObj);
+                this.allMapTempProducts.push(tempObj);
             }
         });
     }
 
     //POST
     mapProductWithCatalog() {
-        let productsToMap = JSON.stringify(this.allMapProducts);
+        let productsToMap = JSON.stringify(this.allMapTempProducts);
         this.catalogManagementService.mapProductToCatalog(this.catalogId, productsToMap)
             .then(res => {
                 if (res.Success) {
@@ -195,6 +196,8 @@ export class BankDetailsComponent implements OnInit {
                         "Product mapped successfully.",
                         "Sucess!"
                     );
+                    this.getMapProductForApproveFunc(this.catalogId);
+                    this.allMapTempProducts = [];
                 } else {
                     this.toastr.error(
                         "Something went wrong.",
@@ -203,6 +206,7 @@ export class BankDetailsComponent implements OnInit {
                     );
                 }
             });
+
     }
 
     //POST Approve Map

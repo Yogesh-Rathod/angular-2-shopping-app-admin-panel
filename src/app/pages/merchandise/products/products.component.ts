@@ -103,10 +103,10 @@ export class ProductsComponent implements OnInit {
     getAllProducts() {
         this.bigLoader = true;
         this.productsService.getOpsProducts(this.userRole).
-        then((products) => {
-            console.log("products ", products);
-            this.products = products.Data;
-            this.bigLoader = false;
+            then((products) => {
+                console.log("products ", products);
+                this.products = products.Data;
+                this.bigLoader = false;
             }).catch((error) => {
                 console.log("error ", error);
             });
@@ -114,14 +114,14 @@ export class ProductsComponent implements OnInit {
 
     getAllVendors() {
         this.vendorsService.getVendors().
-        then((vendors) => {
-            console.log("vendors ", vendors);
-            this.vendors = vendors.Data;
-            // this.filteredVendorsList = this.vendorsList;
-            // this.bigLoader = false;
-        }).catch((error) => {
-            console.log("error ", error);
-        })
+            then((vendors) => {
+                console.log("vendors ", vendors);
+                this.vendors = vendors.Data;
+                // this.filteredVendorsList = this.vendorsList;
+                // this.bigLoader = false;
+            }).catch((error) => {
+                console.log("error ", error);
+            })
     }
 
     atLeastOneFieldRequires(someObject) {
@@ -205,6 +205,7 @@ export class ProductsComponent implements OnInit {
     }
 
     dropDownActionFunction(dropDownActionValue) {
+        console.log("value", dropDownActionValue);
         if (!dropDownActionValue) {
             this.noActionSelected = true;
         } else {
@@ -225,13 +226,14 @@ export class ProductsComponent implements OnInit {
 
     rejectAll() {
         this.approveLoader = true;
+        let productsToReject = [];
         if (this.selectAllCheckbox) {
             _.forEach(this.products, (item) => {
                 item.approvalStatus = 'Approved';
+                productsToReject.push(item.Id);
                 item.isChecked = false;
             });
         } else {
-            let productsToReject = [];
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
                     productsToReject.push(item.Id);
@@ -239,6 +241,7 @@ export class ProductsComponent implements OnInit {
                     item.isChecked = false;
                 }
             });
+        }
             this.productsService.rejectProducts(productsToReject, this.userRole).
                 then((success) => {
                     console.log("success ", success);
@@ -250,21 +253,22 @@ export class ProductsComponent implements OnInit {
                     console.log("error ", error);
                     this.approveLoader = false;
                 })
-            console.log("productsToReject ", productsToReject);
-        }
         this.selectAllCheckbox = false;
         this.showSelectedAction = false;
     }
 
     approveAll() {
         this.approveLoader = true;
+        let productsToApprove = [];
         if (this.selectAllCheckbox) {
+            productsToApprove = [];
             _.forEach(this.products, (item) => {
-                item.approvalStatus = 'Approved';
+                // item.approvalStatus = 'Approved';
+                productsToApprove.push(item.Id);
                 item.isChecked = false;
             });
         } else {
-            let productsToApprove = [];
+            productsToApprove = [];
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
                     productsToApprove.push(item.Id);
@@ -272,19 +276,18 @@ export class ProductsComponent implements OnInit {
                     item.isChecked = false;
                 }
             });
-            this.productsService.approveProducts(productsToApprove, this.userRole).
-                then((success) => {
-                    console.log("success ", success);
-                    if (success.Code === 200) {
-                        this.getAllProducts();
-                    }
-                    this.approveLoader = false;
-                }).catch((error) => {
-                    console.log("error ", error);
-                    this.approveLoader = false;
-                })
-            console.log("productsToApprove ", productsToApprove);
         }
+        this.productsService.approveProducts(productsToApprove, this.userRole).
+            then((success) => {
+                console.log("success ", success);
+                if (success.Code === 200) {
+                    this.getAllProducts();
+                }
+                this.approveLoader = false;
+            }).catch((error) => {
+                console.log("error ", error);
+                this.approveLoader = false;
+            })
         this.selectAllCheckbox = false;
         this.showSelectedAction = false;
     }

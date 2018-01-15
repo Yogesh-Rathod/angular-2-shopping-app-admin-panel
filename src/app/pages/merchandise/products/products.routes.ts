@@ -10,10 +10,6 @@ const routes: Routes = [
     component: ProductsComponent
   },
   {
-    path: ':vendorId',
-    component: ProductsComponent
-  },
-  {
     path: 'vendorproducts/:vendorId',
     component: ProductsComponent,
     data: {

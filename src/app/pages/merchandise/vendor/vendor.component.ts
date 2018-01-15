@@ -78,7 +78,7 @@ export class VendorComponent implements OnInit {
     }
 
     changeRoute(vendorId){
-        this.router.navigate(['/merchandise/products', vendorId]);
+        this.router.navigate(['/merchandise/products/vendorproducts', vendorId]);
     }
 
     getAllVendors() {

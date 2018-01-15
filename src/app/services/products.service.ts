@@ -113,7 +113,6 @@ export class ProductsService {
             .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
-
     getOpsProductById(productId, role) {
         const url = `${environment.merchandiseUrl}Merchandise/${role}/Products/${productId}`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
@@ -124,6 +123,17 @@ export class ProductsService {
             .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
+    confirmOperationProduct(product, role){
+        const url = `${environment.merchandiseUrl}Merchandise/${role}/Products/Confirm`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        return this.http.post(url, JSON.stringify(product), this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+    
     editOperationProduct(data, role){
         const url = `${environment.merchandiseUrl}Merchandise/${role}/Products`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());

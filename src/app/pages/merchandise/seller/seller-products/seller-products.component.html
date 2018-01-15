@@ -124,7 +124,6 @@
                     Confirm Products
                 </button>
 
-
                 <div class="table-responsive">
                     <table class="table table-bordered" [mfData]="products" #mf="mfDataTable" [mfRowsOnPage]="10">
                         <thead class="black-muted-bg">
@@ -165,7 +164,7 @@
                             <tr *ngFor=" let item of mf.data; let i = index; ">
 
                                 <td class="text-center">
-                                    <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                                    <input  *ngIf="item.Status!='Approved'" [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
                                 </td>
 
                                 <td class="text-left">
@@ -196,9 +195,10 @@
                                     </span>
                                 </td> -->
                                 <td class="action">
-                                    <button class="btn btn-secondary" [routerLink]="['/seller/edit-seller-product', item.Id]" title="Edit">
+                                    <button class="btn btn-secondary" *ngIf="item.Status!='Approved'" [routerLink]="['/seller/edit-seller-product', item.Id]" title="Edit">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </button>
+                                    <span *ngIf="item.Status=='Approved'">---</span>
                                     <!-- <button class="btn btn-danger" (click)="deleteProduct(item, i)" title="Delete" [disabled]="deleteLoader == i">
 										<i class="fa fa-trash-o" aria-hidden="true"></i>
 									</button> -->

@@ -1,3 +1,131 @@
-<p>
-  products works!
-</p>
+<div class="loader-container pos_absolute" *ngIf="bigLoader">
+  <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+</div>
+
+<button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 || !showSelectedAction }"
+  (click)="exportProducts()">
+  <i class="fa fa-download" aria-hidden="true"></i>
+  Export Products
+</button>
+<img *ngIf="approveLoader" class="pull-right" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+
+<div class="pull-right col-4 dropDownAction no_padding" [class.disabled]="!showSelectedAction">
+  <form class="form-inline">
+      <div class="form-group row no_margin col-12 no_padding">
+          <label for="action">
+              Action
+              <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select action to perform."></i>
+          </label>
+          <select id="action" class="form-control col-6" #dropDownActionSelect>
+              <option value="">Select Action</option>
+              <option *ngFor="let item of dropDownAction;" value="{{ item }}">
+                  {{ item }}
+              </option>
+          </select>
+          <button class="btn btn-success" type="button" (click)="dropDownActionFunction(dropDownActionSelect.value)" [disabled]="dropDownActionSelect.value==''">Submit</button>
+          <p *ngIf="noActionSelected" class="no-action error no-text-transform">Please select a action.</p>
+      </div>
+  </form>
+</div>
+<div class="table-responsive">
+  <table class="table table-bordered" [mfData]="products" #mf="mfDataTable" [mfRowsOnPage]="10">
+    <thead class="black-muted-bg">
+      <tr>
+        <th class="text-center">
+          <input [class.disabled]="products && products.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+        </th>
+        <th class="text-left">
+          <strong>Product Image</strong>
+        </th>
+        <th>
+          <strong>Product name</strong>
+        </th>
+        <th>
+          <strong>SKU</strong>
+        </th>
+        <th>
+          <mfDefaultSorter by="price">
+            <strong>Price </strong>
+          </mfDefaultSorter>
+        </th>
+        <!-- <th>
+                <strong>Type</strong>
+              </th> -->
+        <th>
+          <strong>Product Status</strong>
+        </th>
+        <!-- <th>
+                <strong>Approval Status</strong>
+              </th> -->
+        <th class="action" *ngIf="userRole!='Admin'">
+          <strong>Action</strong>
+        </th>
+      </tr>
+    </thead>
+    <tbody *ngIf=" products && products.length > 0 ">
+      <tr *ngFor=" let item of mf.data; let i = index; ">
+
+        <td class="text-center">
+          <input *ngIf="item.Status!=='Draft' && item.Status!=='Approved' && item.Status!=='APPROVED'" [ngModel]="item.isChecked" type="checkbox"
+            (change)="checkBoxSelected($event, item)">
+        </td>
+
+        <td class="text-left">
+          <div class="product-image" *ngIf="item.picture">
+            <img class="img-fluid" src="{{ item.picture[0].url ? item.picture[0].url : 'assets/images/products/Placeholder.png' }}" alt="{{ item.picture[0].alt ? item.picture[0].alt : 'Product Image' }}">
+          </div>
+        </td>
+        <td>
+          <span>{{ item.Name }}</span>
+        </td>
+        <td>{{ item.Sku }}</td>
+        <td>{{ item.Mrp | currency: 'INR': true }}</td>
+        <!-- <td>{{ item.productType }}</td> -->
+        <td class="text-center" [ngClass]="{
+                'Draft': item.Status == 'Draft',
+                'APPROVED': item.Status === 'APPROVED',
+                'approved': item.Status == 'Approved',
+                'pending': item.Status == 'Pending',
+                'rejected': item.Status == 'Rejected'
+              }">
+          {{ item.Status }}
+        </td>
+        <!-- <td class="text-center order-status">
+                <span [ngClass]="{
+                  'approved': item.Status == 'Draft',
+                  'pending': item.Status == 'Pending',
+                  'rejected': item.Status == 'Rejected'
+                }">
+                  {{ item.Status }}
+                </span>
+              </td> -->
+        <td class="action" *ngIf="userRole!='Admin'">
+          <button *ngIf="item.Status=='Draft' || item.Status=='Approved' || item.Status=='APPROVED'" class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.Id]"
+            title="Edit">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </button>
+          <span *ngIf="item.Status!=='Draft' && item.Status!=='Approved' && item.Status!=='APPROVED'">---</span>
+          <!-- <button class="btn btn-danger" (click)="deleteProduct(item, i)" title="Delete" [disabled]="deleteLoader == i">
+                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button> -->
+          <!-- <img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35"> -->
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf=" !products || products.length === 0 ">
+      <tr>
+        <td colspan="9">
+          <strong>There are no products!</strong>
+        </td>
+      </tr>
+    </tbody>
+
+    <tfoot *ngIf=" products && products.length > 10 ">
+      <tr>
+        <td colspan="9">
+          <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

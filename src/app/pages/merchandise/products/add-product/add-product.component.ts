@@ -293,6 +293,8 @@ export class AddProductComponent implements OnInit {
                 "NetShippingPrice": addProductForm.NetShippingPrice,
                 "Mrp": addProductForm.Mrp,
                 "RetailPrice": addProductForm.RetailPrice,
+                "DiscountType":'Static',
+                "Discount":0,
                 "RetailShippingPrice": addProductForm.RetailShippingPrice,
                 "RetailPriceInclusive": addProductForm.RetailPriceInclusive,
                 "Comments": addProductForm.Comments,
@@ -313,7 +315,59 @@ export class AddProductComponent implements OnInit {
         if (addProductForm.id) {
         }
     }
-
+    sendApproval(addProductForm){
+        let value = '';
+        addProductForm.specifications = addProductForm.specifications.map((data, index) => {
+            if (index == 0) {
+                value = data.key + ':' + data.value
+            }
+            else {
+                let value2 = "|" + data.key + ':' + data.value
+                value = value.concat(value2);
+            }
+            return data;
+        });
+        let specification = value;
+        let res = [
+            {
+                "Id": addProductForm.Id,
+                "ParentProductCode": addProductForm.ParentProductCode,
+                "Sku": addProductForm.Sku,
+                "Name": addProductForm.Name,
+                "ModelNumber": addProductForm.ModelNumber,
+                "ShortDescription": addProductForm.ShortDescription,
+                "FullDescription": addProductForm.FullDescription,
+                "ProductSpecification": specification,
+                "Category": addProductForm.CategoryId[0].itemName,
+                "SubCategory": addProductForm.SubCategories[0].itemName,
+                "SubSubCategory": addProductForm.SubSubCategories[0].itemName,
+                "Brand": addProductForm.Brand,
+                "Colour": addProductForm.Colour,
+                "Size": addProductForm.Size,
+                "Type": 'Merchandise',
+                "ImageNumber": 0,
+                "CurrencyId": addProductForm.CurrencyId,
+                "DiscountType":'Static',
+                "Discount":0,
+                "NetPrice": addProductForm.NetPrice,
+                "NetShippingPrice": addProductForm.NetShippingPrice,
+                "Mrp": addProductForm.Mrp,
+                "RetailPrice": addProductForm.RetailPrice,
+                "RetailShippingPrice": addProductForm.RetailShippingPrice,
+                "RetailPriceInclusive": addProductForm.RetailPriceInclusive,
+                "Comments": addProductForm.Comments,
+                "ManufacturerPartNumber": addProductForm.ManufacturerPartNumber,
+                "Gtin": addProductForm.Gtin,
+                "Status": addProductForm.Status
+            }
+        ]
+        this.showLoader = true;
+            this.productsService.confirmOperationProduct(res, this.userRole).then(res => {
+                this.toastr.success('Sucessfully Done!', 'Sucess!');
+                this.showLoader = false;
+                this.goBack();
+            }).catch(err => { })
+    }
     getAllCategories() {
         this.subSubCategory = [];
         this.subCategories = [];

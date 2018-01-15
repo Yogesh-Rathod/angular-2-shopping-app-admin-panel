@@ -16,6 +16,7 @@ import { SellsBulkUploadComponent } from "./bulk-upload/bulk-upload.component";
     styleUrls: ['./seller-products.component.scss']
 })
 export class SellerProductsComponent implements OnInit {
+    isCheckedArray = [];
 
     searchProductForm: FormGroup;
     bigLoader = true;
@@ -160,7 +161,15 @@ export class SellerProductsComponent implements OnInit {
 
     approve() {
         this.approveLoader = true;
-        this.productsService.sendproductForApproval(this.products)
+        let productsToConfirm = [];
+        _.forEach(this.products, (item) => {
+            // item.approvalStatus = 'Approved';
+            if (item.isChecked) {
+                productsToConfirm.push(item);
+                item.isChecked = false;
+            }
+        });
+        this.productsService.sendproductForApproval(productsToConfirm)
             .then(res => {
                 if (res.Code === 200) {
                     this.getAllProducts();
@@ -195,26 +204,20 @@ export class SellerProductsComponent implements OnInit {
 
     checkBoxSelected(e, item) {
         this.selectAllCheckbox = false;
+        console.log(e.target.checked);
         if (e.target.checked) {
-            this.productSelected = false;
             item.isChecked = true;
+            this.productSelected = false
         } else {
             item.isChecked = false;
+            this.productSelected = true;
         }
-
-        let isCheckedArray = [];
 
         _.forEach(this.products, (item) => {
             if (item.isChecked) {
-                this.showSelectedDelete = true;
-                isCheckedArray.push(item);
+                this.isCheckedArray.push(item);
             }
         });
-
-        if (isCheckedArray.length === 0) {
-            this.productSelected = true;
-            this.showSelectedDelete = false;
-        }
 
     }
 

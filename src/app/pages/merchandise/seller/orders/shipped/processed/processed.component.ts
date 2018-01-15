@@ -3,7 +3,7 @@ import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angu
 import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
 import * as _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SellerOrdersBulkUploadComponent } from '../bulk-upload/bulk-upload.component';
+import { SellerOrdersBulkUploadComponent } from '../../bulk-upload/bulk-upload.component';
 
 @Component({
     selector: 'app-processed',
@@ -13,7 +13,7 @@ import { SellerOrdersBulkUploadComponent } from '../bulk-upload/bulk-upload.comp
 export class ProcessedComponent implements OnInit {
     @Input() orders;
     @Output() onStatusChange = new EventEmitter<any>();
-    showSelectedAction = false;
+    showSelectedAction = false; 
 
     constructor(
         private modalService: NgbModal,

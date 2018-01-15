@@ -16,11 +16,12 @@ export class ReportsComponent implements OnInit {
     searchOrdersForm: FormGroup;
     bigLoader = true;
     deleteLoader: Number;
-    orders: any;
+    orders = [];
     public myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy',
         editableDateField: false,
-        openSelectorOnInputClick: true
+        openSelectorOnInputClick: true,
+        disableSince: this.disableSince()
     };
     vendorsList: any;
     SellerDropdownSetting = {
@@ -49,6 +50,16 @@ export class ReportsComponent implements OnInit {
         this.searchForm();
         this.getAllVendors();
         this.bigLoader = false;
+    }
+
+    disableSince() {
+        let d = new Date();
+        const disableSince = {
+            year: d.getFullYear(),
+            month: d.getMonth() + 1,
+            day: d.getDate() + 1
+        };
+        return disableSince;
     }
 
     // For Creating Add Category Form
@@ -101,14 +112,12 @@ export class ReportsComponent implements OnInit {
         searchOrdersForm['SellerId'] = searchOrdersForm['SellerId'].map((item) => {
             return item.SellerId;
         });
-
-        console.log('searchOrdersForm', searchOrdersForm);
         this.ordersService.getReports(searchOrdersForm).
             then((orders) => {
-                if (orders.Code === 200) {
-                    this.orders = orders.Data.PurchaseOrder;
+                console.log(orders)
+                if (orders.Code == 200) {
+                    this.orders = orders.Data;
                     this.searchLoader = false;
-                    console.log("this.orders ", this.orders);
                 } else if (orders.Code === 500) {
                 }
                 this.searchLoader = false;
@@ -117,7 +126,9 @@ export class ReportsComponent implements OnInit {
                 console.log("error ", error);
             });
     }
-
+    changeRoute(status){
+        this.router.navigate(['/order-management/orders', status])
+    }
     downloadReport() {
         this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }

@@ -183,7 +183,7 @@ export class OrdersService {
     }
 
     getReports(data) {
-        let url = `${environment.merchandiseUrl}Order/SLA`;
+        let url = `${environment.merchandiseUrl}Orders/SLA`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.post(url, JSON.stringify(data), this.options)
             .timeout(environment.timeOut)

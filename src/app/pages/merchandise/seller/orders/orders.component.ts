@@ -53,7 +53,8 @@ export class OrdersComponent implements OnInit {
     public myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy',
         editableDateField: false,
-        openSelectorOnInputClick: true
+        openSelectorOnInputClick: true,
+        disableSince: this.disableSince()
     };
 
     constructor(
@@ -72,6 +73,16 @@ export class OrdersComponent implements OnInit {
         this.searchForm();
         this.getAllOrders();
         this.bigLoader = false;
+    }
+
+    disableSince() {
+        let d = new Date();
+        const disableSince = {
+            year: d.getFullYear(),
+            month: d.getMonth() + 1,
+            day: d.getDate() + 1
+        };
+        return disableSince;
     }
 
     // For Creating Add Category Form

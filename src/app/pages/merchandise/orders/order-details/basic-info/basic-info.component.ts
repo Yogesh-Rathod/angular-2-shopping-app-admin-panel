@@ -28,6 +28,9 @@ export class BasicInfoComponent implements OnInit {
             $('[data-toggle="tooltip"]').tooltip();
         });
         this.createForm();
+        if (this.orderInfo.Status == 'Pending For Cancellation') {
+            this.hideCancelButton = true;
+        }
     }
 
     createForm() {

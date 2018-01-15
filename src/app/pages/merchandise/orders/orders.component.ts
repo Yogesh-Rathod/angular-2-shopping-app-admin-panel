@@ -14,6 +14,7 @@ import { ProductsService, OrdersService, JsonToExcelService, VendorsService } fr
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
+  status: any;
 
   searchProductForm: FormGroup;
   bigLoader = true;
@@ -28,8 +29,8 @@ export class OrdersComponent implements OnInit {
       itemName: 'PROCESSED'
     },
     {
-      id: 'SHIPPED',
-      itemName: 'SHIPPED'
+      id: 'DISPATCHED',
+      itemName: 'DISPATCHED'
     },
     {
       id: 'DELIVERED',
@@ -58,8 +59,8 @@ export class OrdersComponent implements OnInit {
   vendorsList: any;
 
   constructor(
-      private vendorsService: VendorsService,
-      private jsonToExcelService: JsonToExcelService,
+    private vendorsService: VendorsService,
+    private jsonToExcelService: JsonToExcelService,
     private fb: FormBuilder,
     private productsService: ProductsService,
     private ordersService: OrdersService,
@@ -74,21 +75,26 @@ export class OrdersComponent implements OnInit {
     this.searchForm();
     this.getAllVendors();
     this.getAllOrders();
+    this.status = this.route.params;
+    if (this.status._value.orderStatus != undefined) {
+      this.searchProductForm.controls['e.status'].setValue([{ id: this.status._value.orderStatus, itemName: this.status._value.orderStatus }]);
+      this.searchProduct(this.searchProductForm.value);
+    }
     this.bigLoader = false;
   }
 
   getAllVendors() {
-      this.vendorsService.getVendors().
-          then((vendors) => {
-              this.vendorsList = vendors.Data;
-              this.vendorsList = this.vendorsList.map((item) => {
-                  item.id = item.SellerId;
-                  item.itemName = `${item.FirstName} ${item.LastName}`;
-                  return item;
-              });
-          }).catch((error) => {
-              console.log("error", error);
-          })
+    this.vendorsService.getVendors().
+      then((vendors) => {
+        this.vendorsList = vendors.Data;
+        this.vendorsList = this.vendorsList.map((item) => {
+          item.id = item.SellerId;
+          item.itemName = `${item.FirstName} ${item.LastName}`;
+          return item;
+        });
+      }).catch((error) => {
+        console.log("error", error);
+      })
   }
 
   // For Creating Add Category Form
@@ -105,39 +111,39 @@ export class OrdersComponent implements OnInit {
   }
 
   getAllOrders() {
-      this.bigLoader = true;
-      this.ordersService.getOrdersByPONumber().
-        then((orders) => {
-            this.orders = orders.Data.PurchaseOrder;
-            console.log("orders ", orders);
-            this.bigLoader = false;
-        }).catch((error) => {
-            console.log("error ", error);
-        })
+    this.bigLoader = true;
+    this.ordersService.getOrdersByPONumber().
+      then((orders) => {
+        this.orders = orders.Data.PurchaseOrder;
+        console.log("orders ", orders);
+        this.bigLoader = false;
+      }).catch((error) => {
+        console.log("error ", error);
+      })
     // this.orders = this.ordersService.getOrders();
   }
 
   exportOrders() {
-      this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
+    this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
   }
 
   searchProduct(searchOrdersForm) {
- console.log("searchOrdersForm ", searchOrdersForm);
-          this.searchLoader = true;
-          this.bigLoader = true;
 
-      for (let key in searchOrdersForm) {
-        // check also if property is not inherited from prototype
-        if (searchOrdersForm.hasOwnProperty(key)) {
-          let value = searchOrdersForm[key];
-          if (!value || value.length === 0) {
-            delete searchOrdersForm[key];
-          }
+    this.searchLoader = true;
+    this.bigLoader = true;
+
+    for (let key in searchOrdersForm) {
+      // check also if property is not inherited from prototype
+      if (searchOrdersForm.hasOwnProperty(key)) {
+        let value = searchOrdersForm[key];
+        if (!value || value.length === 0) {
+          delete searchOrdersForm[key];
         }
       }
+    }
 
     if (searchOrdersForm['e.orderFromDate']) {
-        searchOrdersForm['e.orderFromDate'] = new Date(`
+      searchOrdersForm['e.orderFromDate'] = new Date(`
             ${searchOrdersForm['e.orderFromDate'].date.month}/
             ${searchOrdersForm['e.orderFromDate'].date.day}/
             ${searchOrdersForm['e.orderFromDate'].date.year}
@@ -145,7 +151,7 @@ export class OrdersComponent implements OnInit {
     }
 
     if (searchOrdersForm['e.orderTillDate']) {
-        searchOrdersForm['e.orderTillDate'] = new Date(`
+      searchOrdersForm['e.orderTillDate'] = new Date(`
         ${searchOrdersForm['e.orderTillDate'].date.month}/
         ${searchOrdersForm['e.orderTillDate'].date.day}/
         ${searchOrdersForm['e.orderTillDate'].date.year}
@@ -153,15 +159,15 @@ export class OrdersComponent implements OnInit {
     }
     let status = [];
     if (searchOrdersForm['e.status'] && searchOrdersForm['e.status'].length > 0) {
-        _.forEach(searchOrdersForm['e.status'], (item) => {
-            status.push(item.itemName);
-        });
-        searchOrdersForm['e.status'] = status;
+      _.forEach(searchOrdersForm['e.status'], (item) => {
+        status.push(item.itemName);
+      });
+      searchOrdersForm['e.status'] = status;
     }
 
     if (searchOrdersForm['e.sellerId'] && searchOrdersForm['e.sellerId'].length > 0) {
       searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].map(item => {
-         return item.SellerId;
+        return item.SellerId;
       });
     }
 
@@ -171,14 +177,14 @@ export class OrdersComponent implements OnInit {
 
     console.log('searchOrdersForm', searchOrdersForm);
     this.ordersService.getOrdersByPONumber(null, searchOrdersForm).
-        then((orders) => {
-            this.orders = orders.Data.PurchaseOrder;
-            console.log("orders ", orders);
-            this.bigLoader = false;
-            this.searchLoader = false;
-        }).catch((error) => {
-            console.log("error ", error);
-        })
+      then((orders) => {
+        this.orders = orders.Data.PurchaseOrder;
+        console.log("orders ", orders);
+        this.bigLoader = false;
+        this.searchLoader = false;
+      }).catch((error) => {
+        console.log("error ", error);
+      })
   }
 
   resetForm() {

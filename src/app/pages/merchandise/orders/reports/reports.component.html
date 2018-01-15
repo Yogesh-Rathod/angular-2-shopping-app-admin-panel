@@ -82,7 +82,7 @@
                             <td class="text-center">{{ item.Status }}</td>
                             <td class="text-center">{{ item.Age }}</td>
                             <td class="text-center">
-                                <span [routerLink]="['../orders/order-details/12333']">{{ item.NoOfOrders }}</span>
+                                <a class="nav-link" href="javascrip:void(0)" (click)="changeRoute(item.Status)" style="text-decoration:underline">{{ item.NoOfOrders }}</a>
                             </td>
                         </tr>
                     </tbody>

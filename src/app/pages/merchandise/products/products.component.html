@@ -147,7 +147,7 @@
                                     {{ item }}
                                 </option>
                             </select>
-                            <button class="btn btn-success" type="button" (click)="dropDownActionFunction(dropDownActionSelect.value)">Submit</button>
+                            <button class="btn btn-success" type="button" (click)="dropDownActionFunction(dropDownActionSelect.value)" [disabled]="dropDownActionSelect.value==''">Submit</button>
                             <p *ngIf="noActionSelected" class="no-action error no-text-transform">Please select a action.</p>
                         </div>
                     </form>

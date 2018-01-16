@@ -8,7 +8,7 @@
             </div>
             <div class="col-9">
                 <span class="bold" *ngIf="orderInfo.Status">
-                    {{ orderInfo.Status }}
+                    {{ orderInfo.Status || 'NA' }}
                 </span>
                 <span *ngIf="orderCancelled" class="bold error">
                     : Order Cancelled
@@ -58,7 +58,7 @@
             </div>
             <div class="col-9">
                 <span *ngIf="orderInfo.PurchaseOrderNumber">
-                    {{ orderInfo.PurchaseOrderNumber }}
+                    {{ orderInfo.PurchaseOrderNumber || 'NA' }}
                 </span>
             </div>
         </div>
@@ -82,7 +82,7 @@
             </div>
             <div class="col-9">
                 <span *ngIf="orderInfo.SellerName">
-                    {{ orderInfo.SellerName }}
+                    {{ orderInfo.SellerName || 'NA' }}
                 </span>
             </div>
         </div>
@@ -151,8 +151,8 @@
                 <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The subtotal of this order."></i>
             </div>
             <div class="col-9">
-                <span *ngIf="orderInfo.BookingDetails && orderInfo.BookingDetails.TotalRetailPrice">
-                    {{ orderInfo.BookingDetails.TotalRetailPrice | currency: 'INR': true }}
+                <span>
+                    {{  orderInfo.BookingDetails ? (orderInfo.BookingDetails.TotalRetailPrice | currency: 'INR': true) :'NA'  }}
                 </span>
             </div>
         </div>
@@ -163,8 +163,8 @@
                 <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The total shipping cost for this order."></i>
             </div>
             <div class="col-9">
-                <span *ngIf="orderInfo.BookingDetails && orderInfo.BookingDetails.UnitNetShippingPrice">
-                    {{ orderInfo.BookingDetails.UnitNetShippingPrice | currency: 'INR': true }}
+                <span>
+                    {{  orderInfo.BookingDetails ? (orderInfo.BookingDetails.UnitNetShippingPrice | currency: 'INR': true):'NA' }}
                 </span>
             </div>
         </div>

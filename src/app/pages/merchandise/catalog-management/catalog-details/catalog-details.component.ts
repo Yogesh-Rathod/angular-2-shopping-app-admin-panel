@@ -216,9 +216,13 @@ export class BankDetailsComponent implements OnInit {
     }
 
     //POST Approve Map
-    approveProductMap(_product, _index) {
+    approveProductMap(_reason) {
+        var approveObj = {
+            Reason:_reason,
+            CatalogId: this.catalogId
+        }
         this.catalogManagementService
-            .approveProductPostCatalog(_product)
+            .approveProductPostCatalog(approveObj)
             .then(res => {
                 console.log(res);
                 if (res.Success) {

@@ -83,7 +83,7 @@
                     </tr>
                 </tbody>
 
-                <tbody *ngIf=" filteredUserListData && filteredUserListData.length === 0 ">
+                <tbody *ngIf=" !filteredUserListData || filteredUserListData.length === 0 ">
                     <tr>
                         <td colspan="6" class="text-center">
                             <strong>There are no users!</strong>

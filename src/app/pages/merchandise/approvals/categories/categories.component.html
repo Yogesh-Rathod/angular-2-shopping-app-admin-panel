@@ -4,10 +4,10 @@
 <table class="table table-bordered table-responsive">
     <thead class="black-muted-bg">
         <tr>
-            <th>Name</th>
+            <th><strong>Name</strong> </th>
             <!-- <th class="description">Description</th> -->
-            <th>Parent Name</th>
-            <th class="comment">Comment</th>
+            <th><strong>Parent Name</strong> </th>
+            <th class="comment">Comment<strong></strong> </th>
             <!-- <th>Action</th> -->
         </tr>
     </thead>
@@ -29,11 +29,13 @@
             </td>
         </tr>
     </tbody>
-    <tfoot *ngIf="unApprovedCategories && unApprovedCategories.length === 0">
+    <tbody *ngIf="!unApprovedCategories || unApprovedCategories.length === 0">
         <tr>
             <td colspan="4" class="text-center">
-                There are no un-approved categories.
+                 <strong>
+                     There are no un-approved categories.
+                 </strong>
             </td>
         </tr>
-    </tfoot>
+    </tbody>
 </table>

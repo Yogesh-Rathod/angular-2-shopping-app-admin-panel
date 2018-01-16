@@ -56,7 +56,7 @@
             </tr>
         </tbody>
 
-        <tbody *ngIf=" filteredApproveCatalogs && filteredApproveCatalogs.length === 0 ">
+        <tbody *ngIf=" !filteredApproveCatalogs || filteredApproveCatalogs.length === 0 ">
             <tr>
                 <td colspan="5">
                     <strong>There are no filteredCatalogs!</strong>

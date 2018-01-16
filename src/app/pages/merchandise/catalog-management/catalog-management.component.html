@@ -126,7 +126,7 @@
                                 </tr>
                             </tbody>
 
-                            <tbody *ngIf=" filteredCatalogs && filteredCatalogs.length === 0 ">
+                            <tbody *ngIf=" !filteredCatalogs || filteredCatalogs.length === 0 ">
                                 <tr>
                                     <td colspan="5">
                                         <strong>There are no Catalogs!</strong>
@@ -201,7 +201,7 @@
                                 </tr>
                             </tbody>
 
-                            <tbody *ngIf=" filteredApproveCatalogs && filteredApproveCatalogs.length === 0 ">
+                            <tbody *ngIf=" !filteredApproveCatalogs || filteredApproveCatalogs.length === 0 ">
                                 <tr>
                                     <td colspan="5">
                                         <strong>There are no Catalogs!</strong>

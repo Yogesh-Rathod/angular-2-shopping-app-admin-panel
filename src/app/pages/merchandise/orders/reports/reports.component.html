@@ -72,9 +72,9 @@
                     <!-- [mfData]="orders" #mf="mfDataTable" [mfRowsOnPage]="10" -->
                     <thead class="black-muted-bg">
                         <tr>
-                            <th class="text-center">PO Status</th>
-                            <th class="text-center">Age</th>
-                            <th class="text-center">No. of orders</th>
+                            <th class="text-center"><strong>PO Status</strong> </th>
+                            <th class="text-center"><strong>Age</strong> </th>
+                            <th class="text-center"><strong>No. of orders</strong> </th>
                         </tr>
                     </thead>
                     <tbody *ngIf="orders && orders.length > 0">
@@ -89,7 +89,7 @@
                     <tbody *ngIf="!orders || orders.length === 0">
                         <tr>
                             <td class="text-center" colspan=3>
-                                Sorry ! There are no products.
+                                <strong> Sorry ! There are no products.</strong>
                             </td>
                         </tr>
                     </tbody>

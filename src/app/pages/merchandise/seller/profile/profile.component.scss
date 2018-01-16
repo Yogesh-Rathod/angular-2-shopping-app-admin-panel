@@ -1,0 +1,19 @@
+.info-container {
+    width: 60%;
+    padding: 20px 0;
+    margin: auto;
+    border: 1px solid #9a8888;
+    border-radius: 5px;
+}
+
+.card-body {
+    min-height: 100px;
+}
+
+.table {
+    margin-bottom: 15px;
+
+    >tbody>tr>td {
+        border: 1px solid gainsboro;
+    }
+}

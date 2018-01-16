@@ -1,3 +1,67 @@
-<p>
-  profile works!
-</p>
+<div class="card">
+    <div class="card-header" *ngIf="this.vendorInfo">
+        <h3 class="card-title">
+             {{this.vendorInfo.FirstName}} {{this.vendorInfo.LastName}}
+        </h3>
+    </div>
+    <div class="card-body pos_relative">
+        <div class="loader-container pos_absolute" *ngIf="bigLoader">
+            <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+        </div>
+        <div class="row info-container" *ngIf="this.vendorInfo">
+            <div class="col-3" align="center">
+                <img width="100" src="/assets/images/generic-user-purple.png" alt="Profile Image">
+            </div>
+            <div class=" col-md-9 col-lg-9 ">
+                <table class="table table-user-information">
+                    <tbody>
+                        <tr>
+                            <td>Role:</td>
+                            <td>Seller</td>
+                        </tr>
+                        <tr>
+                            <td>Registered date:</td>
+                            <td>{{this.vendorInfo.CreatedOn | date: 'medium'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Home Address</td>
+                            <td>{{this.vendorInfo.Address}}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>
+                                <a class="no-text-transform" href="mailto:{{this.vendorInfo.EmailAddress}}">
+                                    {{this.vendorInfo.EmailAddress}}
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>Phone Number</td>
+                            <td>{{this.vendorInfo.ContactNumber}}
+                                <br>{{this.vendorInfo.AltContactNumber}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Website</td>
+                            <td class="no-text-transform">
+                                {{this.vendorInfo.Website}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Listing Fee</td>
+                            <td>
+                                {{this.vendorInfo.ListingFee}}
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <a [routerLink]="['../seller-products']" class="btn btn-primary">Show Products</a>
+                <a [routerLink]="['../orders']" class="btn btn-primary">Show Orders</a>
+            </div>
+        </div>
+    </div>
+
+</div>

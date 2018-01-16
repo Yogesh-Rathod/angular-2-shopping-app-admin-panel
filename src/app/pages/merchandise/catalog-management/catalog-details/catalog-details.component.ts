@@ -148,12 +148,8 @@ export class BankDetailsComponent implements OnInit {
         this.catalogManagementService
             .getMapProductForApprove(_catalogId)
             .then(res => {
-                console.log(
-                    "getMapProductForApprove========**********+++++++++>>>",
-                    res
-                );
                 if (res.Code == 200) {
-                    this.allMapProductsApprove = res.Data;
+                    this.allMapProductsApprove = res.Data?res.Data:[];
                 }
             });
     }

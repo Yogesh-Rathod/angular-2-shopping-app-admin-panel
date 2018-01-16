@@ -25,6 +25,7 @@ export class ProfileComponent implements OnInit {
 
     ngOnInit() {
         this.vendorId = this.cookieService.get('sellerId');
+        console.log("this.vendorId ", this.vendorId);
         if (this.vendorId) {
             this.getVendorInfoForEdit();
         }
@@ -33,7 +34,7 @@ export class ProfileComponent implements OnInit {
     getVendorInfoForEdit() {
         this.bigLoader = true;
         if (this.vendorId) {
-            this.vendorsService.getVendors(this.vendorId).
+            this.vendorsService.getSingleUser(this.vendorId).
                 then((vendor) => {
                     this.vendorInfo = vendor.Data;
                     console.log("this.vendorInfo ", this.vendorInfo);

@@ -145,7 +145,7 @@ export class SellsBulkUploadComponent implements OnInit {
     }
 
     closeModal(status) {
-        this.activeModal.close();
+        this.activeModal.close(status);
     }
 
 }

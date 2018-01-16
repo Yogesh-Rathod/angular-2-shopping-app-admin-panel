@@ -66,7 +66,7 @@ export class ProductsBulkUploadComponent implements OnInit {
             if (action === 'save') {
                 this.productsService.addProduct(this.productsInfo).
                     then((success) => {
-                        console.log("success ", success);
+                        console.log("addProduct success ", success);
                         if (success.Code === 200) {
                             this.toastr.success('Product sucessfully saved in draft', 'Success!');
                             this.showLoader = false;
@@ -88,7 +88,7 @@ export class ProductsBulkUploadComponent implements OnInit {
             } else if (action === 'submit') {
                 this.productsService.sendproductForApproval(this.productsInfo).
                     then((success) => {
-                        console.log("success ", success);
+                        console.log("sendproductForApproval success ", success);
                         if (success.Code === 200) {
                             this.toastr.success('Product sucessfully sent for approval!', 'Success!');
                             this.showLoader = false;
@@ -116,7 +116,8 @@ export class ProductsBulkUploadComponent implements OnInit {
     }
 
     closeModal(status) {
-        this.activeModal.close();
+        console.log("closeModal status ", status);
+        this.activeModal.close(status);
     }
 
 }

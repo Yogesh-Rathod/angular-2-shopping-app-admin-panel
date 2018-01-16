@@ -161,6 +161,12 @@ export class ProductsComponent implements OnInit {
 
     bulkUpload() {
         const activeModal = this.modalService.open(ProductsBulkUploadComponent, { size: 'sm' });
+
+        activeModal.result.then(status => {
+            if (status) {
+                this.getAllProducts();
+            }
+        }).catch(status => { })
     }
 
     selectAll(e) {

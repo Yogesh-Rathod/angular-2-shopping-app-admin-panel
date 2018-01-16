@@ -41,15 +41,15 @@ export class ProfileComponent implements OnInit {
                     if (!this.vendorInfo) {
                         this.vendorInfo = {
                             "SellerCode": "string",
-                            "FirstName": "Yogesh",
-                            "LastName": "Rathod",
+                            "FirstName": "Loylty",
+                            "LastName": "Rewardz",
                             "Company": "Company Name",
-                            "Address": "101, Chibber Tower",
+                            "Address": "201, Chibber house.",
                             "ZipCode": "400606",
-                            "EmailAddress": "email@gmail.com",
+                            "EmailAddress": "loylty@gmail.com",
                             "ContactNumber": "9920105555",
                             "AltContactNumber": "9876432111",
-                            "Website": "www.in.com",
+                            "Website": "www.loylty.com",
                             "ListingFee": "1000",
                             "CreatedOn": '12/12/2017'
                         };

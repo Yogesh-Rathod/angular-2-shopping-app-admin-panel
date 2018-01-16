@@ -12,7 +12,6 @@ declare let $: any;
 import { VendorsService } from 'app/services';
 import { RegEx } from './../../../regular-expressions';
 import { VendorDeletePopupComponent } from '../delete-popup/delete-popup.component';
-import { UserService } from 'lrshared_modules/pages/user-management/user.service';
 
 @Component({
     selector: 'app-add-vendor',
@@ -43,7 +42,6 @@ export class AddVendorComponent implements OnInit {
         private toastr: ToastsManager,
         private route: ActivatedRoute,
         private router: Router,
-        private userService: UserService,
     ) {
         this.route.params.subscribe(params =>
             this.vendorId = params['vendorId']
@@ -181,19 +179,6 @@ export class AddVendorComponent implements OnInit {
             });
     }
 
-    getUserName() {
-        if (this.vendorInfo) {
-            this.vendorsService.getSingleUser(this.vendorInfo.UserId).
-                then((user) => {
-                    if (user) {
-                        this.usersName = user.Data.FirstName + ' ' + user.Data.LastName;
-                    }
-                }).catch((error) => {
-                    console.log("error ", error);
-                });
-        }
-    }
-
     getCities() {
         this.bigLoader = true;
         this.vendorsService.getCities().
@@ -257,6 +242,7 @@ export class AddVendorComponent implements OnInit {
                     console.log("this.vendorInfo ", this.vendorInfo);
                     this.addVendorForm.controls['SellerId'].setValue(this.vendorInfo.SellerId);
                     this.addVendorForm.controls['UserId'].setValue(this.vendorInfo.UserId);
+                    this.usersName = this.vendorInfo.UserId;
                     this.addVendorForm.controls['FirstName'].setValue(this.vendorInfo.FirstName);
                     this.addVendorForm.controls['LastName'].setValue(this.vendorInfo.LastName);
                     this.addVendorForm.controls['SellerCode'].setValue(this.vendorInfo.SellerCode);
@@ -272,7 +258,6 @@ export class AddVendorComponent implements OnInit {
                     // this.addVendorForm.controls['country'].setValue(this.vendorInfo.country);
                     this.addVendorForm.controls['ZipCode'].setValue(this.vendorInfo.ZipCode);
                     this.addVendorForm.controls['IsActive'].setValue(this.vendorInfo.IsActive);
-                    this.getUserName();
                     this.checkFormValidation();
                     this.bigLoader = false;
                 }).catch((error) => {

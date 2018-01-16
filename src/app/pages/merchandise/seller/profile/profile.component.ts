@@ -47,8 +47,8 @@ export class ProfileComponent implements OnInit {
                             "Address": "101, Chibber Tower",
                             "ZipCode": "400606",
                             "EmailAddress": "email@gmail.com",
-                            "ContactNumber": "9920105214",
-                            "AltContactNumber": "987643211",
+                            "ContactNumber": "9920105555",
+                            "AltContactNumber": "9876432111",
                             "Website": "www.in.com",
                             "ListingFee": "1000",
                             "CreatedOn": '12/12/2017'

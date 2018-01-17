@@ -22,6 +22,7 @@ import { FreshComponent } from './fresh/fresh.component';
 import { ProcessedComponent } from './processed/processed.component';
 import { DeliveredComponent } from './delivered/delivered.component';
 import { ShippedComponent } from './shipped/shipped.component';
+import { CancellledComponent } from './cancellled/cancellled.component';
 
 @NgModule({
     imports: [
@@ -48,7 +49,8 @@ import { ShippedComponent } from './shipped/shipped.component';
         ReportsComponent,
         RtoComponent,
         FreshComponent,
-        ProcessedComponent
+        ProcessedComponent,
+        CancellledComponent
     ],
     providers: [
         MerchandiseService,

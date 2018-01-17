@@ -100,6 +100,7 @@ export class FreshComponent implements OnInit {
                 }
             });
         }
+        console.log("productsToApprove ", productsToApprove);
         this.ordersService.sendToProcessed(productsToApprove).
             then((success) => {
                 console.log("success ", success);
@@ -109,6 +110,7 @@ export class FreshComponent implements OnInit {
                     this.showLoader = false;
                 }
             }).catch((error) => {
+                this.showLoader = false;
                 console.log("error ", error);
             });
         this.selectAllCheckbox = false;

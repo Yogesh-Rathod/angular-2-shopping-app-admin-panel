@@ -43,14 +43,13 @@ export class OrderDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.createForm();
         if (this.orderId) {
             this.getOrderDetails();
         }
     }
 
     createForm() {
-        if (this.orderInfo) {
+        // if (this.orderInfo) {
             this.cancelForm = this.fb.group({
             'PurchaseOrderNumber': [this.orderInfo.PurchaseOrderNumber],
             'Reason': ['', Validators.required],
@@ -60,7 +59,7 @@ export class OrderDetailsComponent implements OnInit {
             'PurchaseOrderNumber': [this.orderInfo.PurchaseOrderNumber],
             'Reason': ['', Validators.required]
         });
-        }
+        // }
 
     }
 
@@ -98,7 +97,7 @@ export class OrderDetailsComponent implements OnInit {
         ordersToRTO.push(rtoForm);
         this.ordersService.markOrderRTO(ordersToRTO).
             then((success) => {
-                if (success.Code === 200) {
+                if (success.Code === 200 && success.Data.length === 0) {
                     this.showRTOForm = false;
                     this.markRTOError = false;
                 } else {
@@ -115,7 +114,14 @@ export class OrderDetailsComponent implements OnInit {
                 then((order) => {
                     console.log("orders ", order.Data);
                     this.orderInfo = order.Data;
+                    if (order.Data.Status.match(/cancel/i)) {
+                        this.hideCancelButton = true;
+                    }
+                    if (!order.Data.Status.match(/dispatch/i)) {
+                        this.hideRTOButton = true;
+                    }
                     this.bigLoader = false;
+                    this.createForm();
                 }).catch((error) => {
                     console.log("error ", error);
                     if (error) {

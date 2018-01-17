@@ -35,7 +35,7 @@ export class OrderDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-       
+
     }
 
     getOrderDetails() {

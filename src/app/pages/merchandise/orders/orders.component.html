@@ -16,12 +16,8 @@
                             Program Name
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A program name."></i>
                         </label>
-                        <select id="programName" class="form-control" formControlName="e.programName">
-                            <!-- <option value="all">All</option> -->
-                            <option *ngFor="let item of programName" value="{{ item }}">
-                                {{ item }}
-                            </option>
-                        </select>
+                        <angular2-multiselect id="programName" [data]="programName" formControlName="e.programName" [settings]="orderStatusDropdownSettings">
+                        </angular2-multiselect>
                     </div>
 
                     <div class="form-group col-3" *ngIf="vendorsList">

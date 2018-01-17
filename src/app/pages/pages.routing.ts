@@ -66,11 +66,11 @@ export const routes: Routes = [
         data: {
           MenuCode: 'SLR'
         }
+      },
+      {
+        path: 'PageNotFound',
+        component: NotFoundComponent
       }
-      // {
-      //   path: 'PageNotFound',
-      //   component: NotFoundComponent
-      // }
     ]
   },
 ];

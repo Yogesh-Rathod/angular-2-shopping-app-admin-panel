@@ -46,7 +46,7 @@ export class OrdersComponent implements OnInit {
         }
     ];
     orderStatusDropdownSettings = {
-        singleSelection: true,
+        singleSelection: false,
         text: "Select...",
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',
@@ -54,7 +54,7 @@ export class OrdersComponent implements OnInit {
         classes: 'col-8 no_padding'
     };
     searchLoader = false;
-    programName = ['LVB'];
+    programName = [{ id: 'ff8080815ff282bd016092e003f00004', itemName: 'LVB'}];
     public myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy',
         editableDateField: false,
@@ -129,7 +129,7 @@ export class OrdersComponent implements OnInit {
         this.bigLoader = true;
         this.ordersService.getOrdersByPONumber().
             then((orders) => {
-                this.orders = orders.Data.PurchaseOrder;
+                this.orders = orders.Data.PurchaseOrder ? orders.Data.PurchaseOrder : '';
                 console.log("orders ", orders);
                 this.bigLoader = false;
             }).catch((error) => {
@@ -173,6 +173,7 @@ export class OrdersComponent implements OnInit {
             searchOrdersForm['e.toDate'] = `${searchOrdersForm['e.toDate'].date.month}/${searchOrdersForm['e.toDate'].date.day}/${searchOrdersForm['e.toDate'].date.year}`;
             searchOrdersForm['e.toDate'] = encodeURIComponent(searchOrdersForm['e.toDate']);
         }
+
         let status = [];
         if (searchOrdersForm['e.status'] && searchOrdersForm['e.status'].length > 0) {
             _.forEach(searchOrdersForm['e.status'], (item) => {
@@ -185,12 +186,19 @@ export class OrdersComponent implements OnInit {
             searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].map(item => {
                 return item.SellerId;
             });
+            searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].join(',')
+        }
+
+        let programName = [];
+        if (searchOrdersForm['e.programName'] && searchOrdersForm['e.programName'].length > 0) {
+            _.forEach(searchOrdersForm['e.programName'], (item) => {
+                programName.push(item.itemName);
+            });
+            searchOrdersForm['e.programName'] = programName;
         }
 
         searchOrdersForm = JSON.stringify(searchOrdersForm);
-        searchOrdersForm = searchOrdersForm.replace(/{|}|[\[\]]|"/g, '');
-        searchOrdersForm = searchOrdersForm.replace(/:/g, '=');
-        searchOrdersForm = searchOrdersForm.replace(/,/g, '&');
+        searchOrdersForm = searchOrdersForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
 
         console.log('searchOrdersForm', searchOrdersForm);
         this.ordersService.getOrdersByPONumber(null, searchOrdersForm).

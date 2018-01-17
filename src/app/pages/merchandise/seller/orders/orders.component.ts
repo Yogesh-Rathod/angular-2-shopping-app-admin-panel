@@ -49,7 +49,7 @@ export class OrdersComponent implements OnInit {
         enableSearchFilter: true,
         classes: 'col-8 no_padding'
     };
-    programName = [{ id: 'ff8081815fbfbcaf015fc488a8e20002', name: 'LVB'}];
+    programName = [{ id: 'ff8081815fbfbcaf015fc488a8e20002', itemName: 'LVB'}];
     public myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy',
         editableDateField: false,
@@ -88,7 +88,7 @@ export class OrdersComponent implements OnInit {
     // For Creating Add Category Form
     searchForm() {
         this.searchProductForm = this.fb.group({
-            'e.programName': [''],
+            'e.programName': [[]],
             'e.fromDate': [''],
             'e.toDate': [''],
             'e.status': [[]],
@@ -150,12 +150,19 @@ export class OrdersComponent implements OnInit {
             searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].map(item => {
                 return item.SellerId;
             });
+            searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].join(',')
+        }
+
+        let programName = [];
+        if (searchOrdersForm['e.programName'] && searchOrdersForm['e.programName'].length > 0) {
+            _.forEach(searchOrdersForm['e.programName'], (item) => {
+                programName.push(item.itemName);
+            });
+            searchOrdersForm['e.programName'] = programName;
         }
 
         searchOrdersForm = JSON.stringify(searchOrdersForm);
-        searchOrdersForm = searchOrdersForm.replace(/{|}|[\[\]]|"/g, '');
-        searchOrdersForm = searchOrdersForm.replace(/:/g, '=');
-        searchOrdersForm = searchOrdersForm.replace(/,/g, '&');
+        searchOrdersForm = searchOrdersForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
 
         console.log('searchOrdersForm', searchOrdersForm);
         this.ordersService.getOrdersByPONumber(null, searchOrdersForm).

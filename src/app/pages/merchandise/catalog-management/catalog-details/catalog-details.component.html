@@ -68,7 +68,7 @@
                                             <tr>
                                                 <th class="text-left">
                                                     <mfDefaultSorter by="Name">
-                                                        <strong>ID / Name</strong>
+                                                        <strong>Name</strong>
                                                     </mfDefaultSorter>
                                                 </th>
                                                 <th class="text-left">
@@ -215,7 +215,7 @@
                                         <tbody *ngIf=" allMapTempProducts && allMapTempProducts.length > 0 ">
                                             <tr *ngFor=" let item of mfMapList.data; let i = index ">
                                                 <td class="text-left">
-                                                    <div>{{ item.Name }}</div>
+                                                    <div><strong>{{ item.Name }}</strong></div>
                                                     <div class="row product-map-edit">
                                                         <div class="col-md-4 form-group">
                                                             <label>Retail Price</label>

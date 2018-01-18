@@ -4,6 +4,7 @@ import { ProductsService, OrdersService, JsonToExcelService } from 'app/services
 import * as _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SellerOrdersAdminBulkUploadComponent } from '../bulk-upload/bulk-upload.component';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
     selector: 'app-fresh',
@@ -20,6 +21,7 @@ export class FreshComponent implements OnInit {
 
     constructor(
         private modalService: NgbModal,
+        private toastr: ToastsManager,
         private jsonToExcelService: JsonToExcelService,
         private productsService: ProductsService,
         private ordersService: OrdersService
@@ -106,11 +108,17 @@ export class FreshComponent implements OnInit {
                 console.log("success ", success);
                 if (success.Code === 200) {
                     this.getAllOrders();
-                    this.onStatusChange.emit(true);
                     this.showLoader = false;
+                    this.onStatusChange.emit(true);
+                }
+                if (success.Data.length === 0) {
+                    this.showLoader = false;
+                    this.onStatusChange.emit(true);
+                    this.toastr.success('Sucessfully Done', 'Success!');
                 }
             }).catch((error) => {
                 this.showLoader = false;
+                this.toastr.error('Oops! Could not process request.', 'Error!');
                 console.log("error ", error);
             });
         this.selectAllCheckbox = false;

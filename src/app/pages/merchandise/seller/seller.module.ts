@@ -21,6 +21,7 @@ import { AddSellerProductComponent } from 'app/pages/merchandise/seller/seller-p
 import { CKEditorModule } from 'ng2-ckeditor';
 import { DateTimePickerModule } from 'ng-pick-datetime';
 import { OrderDetailsComponent } from './order-details/order-details.component';
+import { CancellledComponent } from './orders/cancellled/cancellled.component';
 
 @NgModule({
     imports: [
@@ -46,7 +47,8 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
         SellerProductsComponent,
         ShippedComponent,
         OrderDetailsComponent,
-        RtoComponent
+        RtoComponent,
+        CancellledComponent
     ],
     providers: [
         ProductsService,

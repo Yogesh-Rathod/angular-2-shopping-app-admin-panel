@@ -81,11 +81,7 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                         }
                     }).catch((error) => {
                         console.log("error ", error);
-                        if (error.Code === 500) {
-                            this.toastr.error('Oops! Could not process request.', 'Error!');
-                        } else if (error.Code === 400) {
-                            // this.validationError = error.FailureReasons;
-                        }
+                        this.toastr.error('Oops! Could not process request.', 'Error!');
                         this.showLoader = false;
                     });
               break;
@@ -106,11 +102,7 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                         }
                     }).catch((error) => {
                         console.log("error ", error);
-                        if (error.Code === 500) {
-                            this.toastr.error('Oops! Could not process request.', 'Error!');
-                        } else if (error.Code === 400) {
-                            // this.validationError = error.FailureReasons;
-                        }
+                        this.toastr.error('Oops! Could not process request.', 'Error!');
                         this.showLoader = false;
                     });
               break;
@@ -131,11 +123,7 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                         }
                     }).catch((error) => {
                         console.log("error ", error);
-                        if (error.Code === 500) {
-                            this.toastr.error('Oops! Could not process request.', 'Error!');
-                        } else if (error.Code === 400) {
-                            // this.validationError = error.FailureReasons;
-                        }
+                        this.toastr.error('Oops! Could not process request.', 'Error!');
                         this.showLoader = false;
                     });
               break;

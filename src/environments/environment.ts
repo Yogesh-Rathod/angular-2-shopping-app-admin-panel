@@ -9,7 +9,7 @@ export const environment = {
     crmUrl: 'http://192.168.250.222:9081/crm',
     citiesAPIUrl: 'http://192.168.61.202/LRAS.CommonAPI/V1/GetCities',
     rbacUrl: 'http://192.168.61.202/LRAS.Brix.InternalUserManagementAPI/',
-    merchandiseUrl: 'http://192.168.61.202/LRAS.MerchandiseSupportAPI/',
+    merchandiseUrl: 'http://192.168.61.203/LRAS.MerchandiseSupportAPI/',
     appName: 'MERCHANDISE',
     hmacCliendId: 'lvbportal',
     hmacClientSecret: 'secret',

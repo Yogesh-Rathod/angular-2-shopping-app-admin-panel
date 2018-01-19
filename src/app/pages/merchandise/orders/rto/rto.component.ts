@@ -20,9 +20,15 @@ export class RtoComponent implements OnInit {
         this.getAllOrders();
     }
 
+    ngOnChanges(changes) {
+        console.log("changes ", changes);
+        this.getAllOrders();
+    }
+
     getAllOrders() {
         this.orders = this.orders.filter(item => {
-            if (item.Status.indexOf('RTO') > -1) {
+            console.log("item RTO", item);
+            if (item.Status.match(/rto/i)) {
                 return item;
             }
         })

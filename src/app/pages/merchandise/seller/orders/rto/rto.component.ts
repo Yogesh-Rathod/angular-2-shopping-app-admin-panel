@@ -22,10 +22,14 @@ export class RtoComponent implements OnInit {
 
     getAllOrders() {
         this.orders = this.orders.filter(item => {
-            if (item.Status.indexOf('RTO') > -1) {
+            if (item.Status.match(/rto/i)) {
                 return item;
             }
         })
+    }
+
+    ngOnChanges(changes) {
+        this.getAllOrders();
     }
 
     exportProducts() {

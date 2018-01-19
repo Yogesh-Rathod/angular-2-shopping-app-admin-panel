@@ -4,7 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { OrdersComponent } from './orders.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { ReportsComponent } from './reports/reports.component';
-import { RtoComponent } from './rto/rto.component';
 
 const routes: Routes = [
     {
@@ -31,13 +30,6 @@ const routes: Routes = [
     {
         path: 'reports',
         component: ReportsComponent,
-        data: {
-            MenuCode: 'ORD'
-        }
-    },
-    {
-        path: 'rto',
-        component: RtoComponent,
         data: {
             MenuCode: 'ORD'
         }

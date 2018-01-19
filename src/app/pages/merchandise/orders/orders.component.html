@@ -137,7 +137,7 @@
                         <app-delivered [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-delivered>
                     </div>
                     <div role="tabpanel" class="tab-pane fade in" id="RTO">
-                        <app-rto [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-rto>
+                        <app-rto-orders [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-rto-orders>
                     </div>
                     <div role="tabpanel" class="tab-pane fade in" id="Cancel">
                         <app-cancellled [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-cancellled>

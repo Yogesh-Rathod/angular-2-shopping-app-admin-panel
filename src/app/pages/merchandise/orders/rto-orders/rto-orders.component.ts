@@ -1,18 +1,24 @@
 import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
-import { ProductsService, OrdersService, JsonToExcelService, VendorsService } from 'app/services';
+
+import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
 import * as _ from 'lodash';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'app-rto',
-    templateUrl: './rto.component.html',
-    styleUrls: ['./rto.component.scss']
+  selector: 'app-rto-orders',
+  templateUrl: './rto-orders.component.html',
+  styleUrls: ['./rto-orders.component.scss']
 })
-export class RtoComponent implements OnInit {
+export class RtoOrdersComponent implements OnInit {
+
     @Input() orders;
     @Output() onStatusChange = new EventEmitter<any>();
+    showSelectedAction = false;
 
     constructor(
+        private modalService: NgbModal,
         private jsonToExcelService: JsonToExcelService,
+        private productsService: ProductsService,
         private ordersService: OrdersService
     ) { }
 
@@ -20,18 +26,16 @@ export class RtoComponent implements OnInit {
         this.getAllOrders();
     }
 
-    ngOnChanges(changes) {
-        console.log("changes ", changes);
-        this.getAllOrders();
-    }
-
     getAllOrders() {
         this.orders = this.orders.filter(item => {
-            console.log("item RTO", item);
             if (item.Status.match(/rto/i)) {
                 return item;
             }
         })
+    }
+
+    ngOnChanges(changes) {
+        this.getAllOrders();
     }
 
     exportProducts() {

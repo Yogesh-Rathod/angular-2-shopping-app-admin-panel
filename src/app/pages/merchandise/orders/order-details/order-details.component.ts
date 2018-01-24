@@ -44,6 +44,9 @@ export class OrderDetailsComponent implements OnInit {
                 then((order) => {
                     if (order.Success) {
                         this.orderInfo = order.Data;
+                    } else {
+                        this.orderInfo = 'not-present';
+                        console.log("this.orderInfo ", this.orderInfo);
                     }
                     this.bigLoader = false;
                     console.log("order ", order);

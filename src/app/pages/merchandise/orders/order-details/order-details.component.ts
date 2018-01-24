@@ -29,20 +29,24 @@ export class OrderDetailsComponent implements OnInit {
         this.route.params.subscribe(params =>
             this.orderId = params['orderId']
         )
+    }
+
+    ngOnInit() {
         if (this.orderId) {
             this.getOrderDetails();
         }
     }
 
-    ngOnInit() {
-
-    }
-
     getOrderDetails() {
+        this.bigLoader = true;
         if (this.orderId) {
             this.ordersService.getOrdersByPONumber(this.orderId, null).
                 then((order) => {
-                    this.orderInfo = order.Data;
+                    if (order.Success) {
+                        this.orderInfo = order.Data;
+                    }
+                    this.bigLoader = false;
+                    console.log("order ", order);
                 }).catch((error) => {
                     console.log("getOrderDetails error ", error);
                     if (error) {

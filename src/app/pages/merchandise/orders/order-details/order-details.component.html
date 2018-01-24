@@ -14,7 +14,7 @@
     </h2>
   </div>
 
-  <div class="card-body" *ngIf="orderInfo">
+  <div class="card-body pos_relative" *ngIf="orderInfo">
 
     <div class="loader-container pos_absolute" *ngIf="bigLoader">
       <img src="assets/img/ajax-loader.gif" alt="Loader Image">
@@ -56,6 +56,6 @@
   </div>
 
   <div class="card-body" *ngIf="!orderInfo">
-    Order info for this order hash is not available!!!
+    Order info for this PO Number is not available!!! <span class="btn-link" (click)="goBack()">Go Back</span>
   </div>
 </div>

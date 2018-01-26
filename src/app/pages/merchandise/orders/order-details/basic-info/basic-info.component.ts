@@ -35,7 +35,7 @@ export class BasicInfoComponent implements OnInit {
         if (this.orderInfo.Status.match(/cancel/i)) {
             this.hideCancelButton = true;
         }
-        if (!this.orderInfo.Status.match(/deliver/i)) {
+        if (!this.orderInfo.Status.match(/deliver/i) || this.orderInfo.Status.match(/rto/i)) {
             this.hideRTOButton = true;
         }
     }

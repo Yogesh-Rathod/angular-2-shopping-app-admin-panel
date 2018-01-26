@@ -28,6 +28,7 @@ export class OrderDetailsComponent implements OnInit {
     hideRTOButton = false;
     cancelError = false;
     markRTOError = false;
+    rtoErrorMessage: any;
 
     constructor(
         private _location: Location,
@@ -95,12 +96,17 @@ export class OrderDetailsComponent implements OnInit {
         console.log("rtoForm ", rtoForm);
         let ordersToRTO = [];
         ordersToRTO.push(rtoForm);
+        rtoForm.PurchaseOrderNumber = 'LVB-TL-8-10000088';
+        console.log("rtoForm ", rtoForm);
         this.ordersService.markOrderRTO(ordersToRTO).
             then((success) => {
-                if (success.Code === 200 && success.Data.length === 0) {
+                if (success.Code === 200 && success.Data[0].Status !== 'Failed') {
                     this.showRTOForm = false;
                     this.markRTOError = false;
+                    this.toastr.success('Successfully marked RTO.', 'Success');
+                    this.getOrderDetails();
                 } else {
+                    this.rtoErrorMessage = success.Data[0].Reason;
                     this.markRTOError = true;
                 }
                 this.cancelLoader = false;
@@ -118,7 +124,7 @@ export class OrderDetailsComponent implements OnInit {
                         if (order.Data.Status.match(/cancel/i)) {
                             this.hideCancelButton = true;
                         }
-                        if (!order.Data.Status.match(/dispatch/i)) {
+                        if (!order.Data.Status.match(/dispatch/i) || order.Data.Status.match(/rto/i)) {
                             this.hideRTOButton = true;
                         }
                     }

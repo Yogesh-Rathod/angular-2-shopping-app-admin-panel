@@ -22,6 +22,12 @@
       <th>
         <strong>Status</strong>
       </th>
+      <th>
+        <strong>RTO By</strong>
+      </th>
+      <th>
+        <strong>RTO Comments</strong>
+      </th>
       <th class="createDate">
         <strong>PO Date</strong>
       </th>
@@ -39,6 +45,8 @@
         {{ item.customerInfo.email }}
       </td>-->
       <td>{{ item.Status }}</td>
+      <td>{{ item.RTOBy }}</td>
+      <td>{{ item.RTOComments }}</td>
       <td>
         {{ item.OrderDate | date: 'medium' }}
       </td>

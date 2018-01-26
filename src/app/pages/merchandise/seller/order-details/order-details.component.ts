@@ -114,11 +114,13 @@ export class OrderDetailsComponent implements OnInit {
                 then((order) => {
                     console.log("orders ", order.Data);
                     this.orderInfo = order.Data;
-                    if (order.Data.Status.match(/cancel/i)) {
-                        this.hideCancelButton = true;
-                    }
-                    if (!order.Data.Status.match(/dispatch/i)) {
-                        this.hideRTOButton = true;
+                    if (order.Data.Status) {
+                        if (order.Data.Status.match(/cancel/i)) {
+                            this.hideCancelButton = true;
+                        }
+                        if (!order.Data.Status.match(/dispatch/i)) {
+                            this.hideRTOButton = true;
+                        }
                     }
                     this.bigLoader = false;
                     this.createForm();

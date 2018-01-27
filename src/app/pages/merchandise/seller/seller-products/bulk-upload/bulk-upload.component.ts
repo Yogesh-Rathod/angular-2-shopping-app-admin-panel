@@ -105,13 +105,13 @@ export class SellsBulkUploadComponent implements OnInit {
                     }
                 }).catch((error) => {
                     console.log("error ", error);
+                    this.showLoader = false;
+                    this.toastr.error('Oops! Could not upload products.', 'Error!');
                     if (error.Code === 500) {
-                        this.toastr.error('Oops! Could not add movie.', 'Error!');
                     } else if (error.Code === 400) {
                         this.validationError = error.FailureReasons;
-                        this.closeModal(true);
+                        this.closeModal(false);
                     }
-                    this.showLoader = false;
                 });
         }
     }

@@ -96,6 +96,7 @@ export class SellerProductsComponent implements OnInit {
                 this.products = products.Data;
                 this.bigLoader = false;
             }).catch((error) => {
+                this.bigLoader = false;
                 console.log("error ", error);
             });
     }

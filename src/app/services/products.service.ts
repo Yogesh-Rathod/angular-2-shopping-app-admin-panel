@@ -37,7 +37,7 @@ export class ProductsService {
         //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http
             .get(url, this.options)
-            .timeout(environment.timeOut)
+            // .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -52,7 +52,7 @@ export class ProductsService {
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http
             .get(url, this.options)
-            .timeout(environment.timeOut)
+            // .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -69,7 +69,7 @@ export class ProductsService {
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
         return this.http
             .post(url, JSON.stringify(products), this.options)
-            .timeout(environment.timeOut)
+            // .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -86,7 +86,7 @@ export class ProductsService {
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
         return this.http
             .post(url, JSON.stringify(products), this.options)
-            .timeout(environment.timeOut)
+            // .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -104,7 +104,7 @@ export class ProductsService {
         );
         return this.http
             .post(url, JSON.stringify(product), this.options)
-            .timeout(environment.timeOut)
+            // .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -121,7 +121,7 @@ export class ProductsService {
         );
         return this.http
             .put(url, JSON.stringify(product), this.options)
-            .timeout(environment.timeOut)
+            // .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -140,7 +140,7 @@ export class ProductsService {
         );
         return this.http
             .get(url, this.options)
-            .timeout(environment.timeOut)
+            // .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -156,7 +156,7 @@ export class ProductsService {
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
         return this.http
             .post(url, JSON.stringify(product), this.options)
-            .timeout(environment.timeOut)
+            // .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -172,7 +172,7 @@ export class ProductsService {
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
         return this.http
             .get(url, this.options)
-            .timeout(environment.timeOut)
+            // .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -188,7 +188,7 @@ export class ProductsService {
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
         return this.http
             .post(url, JSON.stringify(product), this.options)
-            .timeout(environment.timeOut)
+            // .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -203,7 +203,7 @@ export class ProductsService {
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
         return this.http
             .put(url, data, this.options)
-            .timeout(environment.timeOut)
+            // .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -237,7 +237,7 @@ export class ProductsService {
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
         return this.http
             .get(url, this.options)
-            .timeout(environment.timeOut)
+            // .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));

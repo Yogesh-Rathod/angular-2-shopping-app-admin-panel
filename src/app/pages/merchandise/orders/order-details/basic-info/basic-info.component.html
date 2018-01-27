@@ -43,6 +43,9 @@
                     </button>
                     <span *ngIf="markRTOError" class="error">
                         Could not mark RTO!
+                        <span *ngIf="this.rtoErrorMessage">
+                            {{ this.rtoErrorMessage }}
+                        </span>
                     </span>
                     <span>
                         <img src="assets/img/ajax-loader.gif" width="40" height="40" alt="Loder Image" *ngIf="cancelLoader">

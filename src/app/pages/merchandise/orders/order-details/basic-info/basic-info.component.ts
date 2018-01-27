@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 declare let $: any;
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { OrdersService } from 'app/services';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
     selector: 'app-basic-info',
@@ -21,8 +22,10 @@ export class BasicInfoComponent implements OnInit {
     hideRTOButton = false;
     cancelError = false;
     markRTOError = false;
+    rtoErrorMessage: any;
 
     constructor(
+        public toastr: ToastsManager,
         private ordersService: OrdersService,
         private fb: FormBuilder,
     ) { }
@@ -89,7 +92,9 @@ export class BasicInfoComponent implements OnInit {
                 if (success.Code === 200) {
                     this.showRTOForm = false;
                     this.markRTOError = false;
+                    this.toastr.success('Successfully marked RTO.', 'Success');
                 } else {
+                    this.rtoErrorMessage = success.Data[0].Reason;
                     this.markRTOError = true;
                 }
                 this.cancelLoader = false;

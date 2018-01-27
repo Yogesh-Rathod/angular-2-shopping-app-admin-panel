@@ -103,6 +103,7 @@ export class OrderDetailsComponent implements OnInit {
                 if (success.Code === 200 && success.Data[0].Status !== 'Failed') {
                     this.showRTOForm = false;
                     this.markRTOError = false;
+                    this.markRTOError = false;
                     this.toastr.success('Successfully marked RTO.', 'Success');
                     this.getOrderDetails();
                 } else {

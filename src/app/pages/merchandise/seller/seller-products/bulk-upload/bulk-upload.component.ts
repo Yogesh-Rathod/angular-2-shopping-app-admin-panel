@@ -121,14 +121,14 @@ export class SellsBulkUploadComponent implements OnInit {
         if (this.productsInfo && this.productsInfo.length > 0) {
             this.productsService.addProduct(this.productsInfo).
                 then((success) => {
-                    if (success.Code === 200) {
+                    if (success.Code === 200 && success.Data.length === 0) {
                         this.toastr.success('Product sucessfully sent for approval!', 'Success!');
                         this.showLoader = false;
                         this.closeModal(true);
-                    } else if (success.Code === 500) {
-                        // this.showLoader = false;
+                    } else {
+                        this.showLoader = false;
                         this.downloadIssue = success.Data;
-                        this.toastr.error('Oops! Could not upload products.', 'Error!');
+                        this.toastr.error('Oops! Could not upload all products.', 'Error!');
                     }
                 }).catch((error) => {
                     console.log("error ", error);

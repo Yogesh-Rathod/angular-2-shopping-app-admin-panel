@@ -135,12 +135,13 @@ export class AddVendorComponent implements OnInit {
                     Validators.required
                 ])
             ],
-            //   "state": [
-            //     '',
-            //     Validators.compose([
-            //       Validators.required
-            //     ])
-            //   ],
+            "GstIn": [
+                '',
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.gstIn)
+                ])
+            ],
             //   "country": [
             //     '',
             //     Validators.compose([

@@ -100,7 +100,7 @@
                 </div>
             </div>
 
-            <div class="col-6 row top-margins">
+            <div class="col-6 row">
                 <div class="form-group col-12">
                     <label for="Address">Address:
                         <span class="mandatory">*</span>
@@ -120,6 +120,14 @@
                 </div>
 
                 <div class="form-group col-6">
+                    <label for="Zip">Zip Code:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Zip / Postal Code should be number with length 6."></i>
+                    </label>
+                    <input formControlName="ZipCode" id="Zip" class="form-control" type="text" (keydown)='validatenumber($event)'>
+                </div>
+
+                <div class="form-group col-6">
                     <label for="Website">
                         Website:
                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Website (should start with 'http://' or 'https://')"></i>
@@ -135,33 +143,15 @@
                     <input formControlName="ListingFee" type="text" class="form-control" id="listingFee" (keydown)='validatenumber($event)'>
                 </div>
 
-                <!-- <div class="form-group col-6">
-          <label for="State">State:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor State."></i>
-          </label>
-          <select formControlName="state" id="State" class="form-control">
-            <option value="Maharashtra">Maharashtra</option>
-            <option value="Delhi">Delhi</option>
-          </select>
-        </div>
-        <div class="form-group col-6">
-          <label for="Country">Country:
-            <span class="mandatory">*</span>
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Country."></i>
-          </label>
-          <select formControlName="country" id="Country" class="form-control">
-            <option value="India">India</option>
-            <option value="Pakistan">Pakistan</option>
-          </select>
-        </div> -->
                 <div class="form-group col-6">
-                    <label for="Zip">Zip Code:
+                    <label for="gstIn">
+                        GST IN
                         <span class="mandatory">*</span>
-                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Zip / Postal Code should be number with length 6."></i>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor GST Identification Number (GSTIN)"></i>
                     </label>
-                    <input formControlName="ZipCode" id="Zip" class="form-control" type="text" (keydown)='validatenumber($event)'>
+                    <input formControlName="GstIn" type="text" class="form-control" id="gstIn">
                 </div>
+
                 <div class="form-group col-6" [class.disabled]="!vendorId">
                     <label for="Status">Status:
                         <span class="mandatory">*</span>
@@ -169,7 +159,6 @@
                         <input formControlName="IsActive" id="Status" type="checkbox">
                     </label>
                 </div>
-                <div class="block"></div>
             </div>
 
 

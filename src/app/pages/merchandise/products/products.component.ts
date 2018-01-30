@@ -23,13 +23,9 @@ export class ProductsComponent implements OnInit {
     searchProductForm: FormGroup;
     bigLoader = true;
     approveLoader = false;
+    searchLoader = false;
     products: any;
     categories: any;
-    productTypes = [
-        'simple',
-        'grouped (product with variants)'
-    ];
-    manufacturer = ['apple', 'lenovo', 'samsung'];
     status = ['Draft', 'Pending', 'APPROVED'];
     vendors: any;
     showSelectedAction = false;
@@ -79,15 +75,12 @@ export class ProductsComponent implements OnInit {
     // For Creating Add Category Form
     searchForm() {
         this.searchProductForm = this.fb.group({
-            name: [''],
-            code: [''],
-            parentCode: [''],
-            category: [''],
-            productType: [''],
-            manufacturer: [''],
-            status: [''],
-            vendor: [''],
-            approvalStatus: ['']
+            'e.name': [''],
+            'e.sKU': [''],
+            'e.parentProductCode': [''],
+            'e.categoryId': [''],
+            'e.status': [''],
+            'e.sellerId': ['']
         });
     }
 
@@ -142,6 +135,40 @@ export class ProductsComponent implements OnInit {
     searchProduct(searchProductForm) {
         console.log('searchProductForm', searchProductForm);
         this.atLeastOneFieldRequires(searchProductForm);
+        if (!this.atLeastOnePresent) {
+            console.log('searchProductForm', searchProductForm);
+            this.products = [];
+            this.searchLoader = true;
+            this.bigLoader = true;
+
+            for (let key in searchProductForm) {
+                if (searchProductForm.hasOwnProperty(key)) {
+                    let value = searchProductForm[key];
+                    if (!value || value.length === 0) {
+                        delete searchProductForm[key];
+                    }
+                    if (typeof searchProductForm[key] === 'string') {
+                        searchProductForm[key] = searchProductForm[key].trim();
+                    }
+                }
+            }
+
+            searchProductForm = JSON.stringify(searchProductForm);
+            searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
+            console.log("searchProductForm ", searchProductForm);
+
+            this.productsService.getProducts(searchProductForm).
+                then((products) => {
+                    console.log("products ", products);
+                    this.products = products.Data;
+                    this.bigLoader = false;
+                    this.searchLoader = false;
+                }).catch((error) => {
+                    this.bigLoader = false;
+                    console.log("error ", error);
+                })
+
+        }
     }
 
     exportProducts() {
@@ -300,6 +327,7 @@ export class ProductsComponent implements OnInit {
 
     resetForm() {
         this.searchForm();
+        this.getAllProducts();
     }
 
 }

@@ -8,14 +8,10 @@
 					<i class="fa fa-download" aria-hidden="true"></i>
 					Bulk Import
 				</button>
-                <button *ngIf="!vendorId" class="btn btn-primary float-right" [routerLink]="['/seller/add-seller-product']">
+                <button class="btn btn-primary float-right" [routerLink]="['/seller/add-seller-product']">
                     <i class="fa fa-plus-square" aria-hidden="true"></i>
                     Add New Product
                 </button>
-                <!-- <button *ngIf="vendorId" class="btn btn-primary float-right" [routerLink]="['/seller/add-seller-product',vendorId]">
-                    <i class="fa fa-plus-square" aria-hidden="true"></i>
-                    Add New Product
-                </button> -->
             </h2>
         </div>
 
@@ -35,7 +31,7 @@
                             Product Name
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A product name."></i>
                         </label>
-                        <input type="text" class="form-control" id="name" placeholder="Product Name" formControlName="name">
+                        <input type="text" class="form-control" id="name" placeholder="Product Name" formControlName="e.name">
                     </div>
 
                     <div class="form-group col-3">
@@ -43,7 +39,7 @@
                             Product Code
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A product Code."></i>
                         </label>
-                        <input type="text" class="form-control" id="id" placeholder="Product Code" formControlName="code">
+                        <input type="text" class="form-control" id="id" placeholder="Product Code" formControlName="e.sKU">
                     </div>
 
                     <div class="form-group col-3">
@@ -51,7 +47,7 @@
                             Parent Product Code
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A parent product Code."></i>
                         </label>
-                        <input type="text" class="form-control" id="id" placeholder="Parent Product Code" formControlName="parentCode">
+                        <input type="text" class="form-control" id="id" placeholder="Parent Product Code" formControlName="e.parentProductCode">
                     </div>
 
                     <div class="form-group col-3">
@@ -59,9 +55,9 @@
                             Category
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific category."></i>
                         </label>
-                        <select id="Category" class="form-control col-12" formControlName="category">
+                        <select id="Category" class="form-control col-12" formControlName="e.categoryId">
                             <option value="">All</option>
-                            <option *ngFor="let item of categories" [ngValue]="item">
+                            <option *ngFor="let item of categories" [ngValue]="item.Id">
                                 {{ item.Name }}
                             </option>
                         </select>
@@ -72,22 +68,9 @@
                             Status
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Status' property."></i>
                         </label>
-                        <select id="Status" class="form-control col-12" formControlName="status">
+                        <select id="Status" class="form-control col-12" formControlName="e.status">
                             <option value="">All</option>
                             <option *ngFor="let item of status" value="{{ item }}">
-                                {{ item }}
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="form-group col-3">
-                        <label for="approvalStatus">
-                            Approval Status
-                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Product Approval Status' property."></i>
-                        </label>
-                        <select id="approvalStatus" class="form-control col-12" formControlName="approvalStatus">
-                            <option value="">All</option>
-                            <option *ngFor="let item of approvalStatus" value="{{ item }}">
                                 {{ item }}
                             </option>
                         </select>
@@ -97,6 +80,11 @@
                         <button type="submit" class="btn btn-primary searchButton">
                             <i class="fa fa-search" aria-hidden="true"></i>
                             Search
+                        </button>
+                        <img width="35" height="35" *ngIf="searchLoader" src="assets/img/ajax-loader.gif" alt="Loader Image">
+                        <button type="button" class="btn btn-info searchButton" (click)="resetForm()">
+                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                            Reset
                         </button>
                     </div>
 

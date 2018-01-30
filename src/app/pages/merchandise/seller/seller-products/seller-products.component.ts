@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 declare let $: any;
 
-import { ProductsService, MerchandiseService, VendorsService, JsonToExcelService } from 'app/services';
+import { ProductsService, MerchandiseService, JsonToExcelService } from 'app/services';
 import { SellsBulkUploadComponent } from "./bulk-upload/bulk-upload.component";
 
 @Component({
@@ -16,27 +16,19 @@ import { SellsBulkUploadComponent } from "./bulk-upload/bulk-upload.component";
     styleUrls: ['./seller-products.component.scss']
 })
 export class SellerProductsComponent implements OnInit {
-    isCheckedArray = [];
 
+    isCheckedArray = [];
     searchProductForm: FormGroup;
     bigLoader = true;
     productSelected = true;
     approveLoader = false;
+    searchLoader = false;
     products: any;
     categories: any;
-    productTypes = [
-        'simple',
-        'grouped (product with variants)'
-    ];
-    manufacturer = ['apple', 'lenovo', 'samsung'];
-    status = ['Active', 'Inactive', 'Banned', 'Out of stock'];
-    vendors: any;
+    status = ['Draft', 'Pending', 'APPROVED'];
     showSelectedDelete = false;
     selectAllCheckbox = false;
     atLeastOnePresent = false;
-    vendorId: any;
-    vendorInfo: any;
-    approvalStatus = ['Pending', 'Approved', 'Rejected'];
 
     constructor(
         private jsonToExcelService: JsonToExcelService,
@@ -45,11 +37,7 @@ export class SellerProductsComponent implements OnInit {
         private fb: FormBuilder,
         private productsService: ProductsService,
         private route: ActivatedRoute,
-        private vendorsService: VendorsService,
         private merchandiseService: MerchandiseService) {
-        this.route.params.subscribe((params) => {
-            this.vendorId = params['vendorId'];
-        });
     }
 
     ngOnInit() {
@@ -59,24 +47,16 @@ export class SellerProductsComponent implements OnInit {
         this.searchForm();
         this.getAllProducts();
         this.getAllCategories();
-        this.getAllVendors();
-        if (this.vendorId) {
-            this.getVendorInfo(this.vendorId);
-        }
     }
 
     // For Creating Add Category Form
     searchForm() {
         this.searchProductForm = this.fb.group({
-            name: [''],
-            code: [''],
-            parentCode: [''],
-            category: [''],
-            productType: [''],
-            manufacturer: [''],
-            status: [''],
-            vendor: [''],
-            approvalStatus: ['']
+            'e.name': [''],
+            'e.sKU': [''],
+            'e.parentProductCode': [''],
+            'e.categoryId': [''],
+            'e.status': ['']
         });
     }
 
@@ -101,9 +81,6 @@ export class SellerProductsComponent implements OnInit {
             });
     }
 
-    getAllVendors() {
-        this.vendors = this.vendorsService.getVendors();
-    }
     atLeastOneFieldRequires(someObject) {
         if (someObject) {
             for (var key in someObject) {
@@ -120,8 +97,41 @@ export class SellerProductsComponent implements OnInit {
     }
 
     searchProduct(searchProductForm) {
-        console.log('searchProductForm', searchProductForm);
         this.atLeastOneFieldRequires(searchProductForm);
+        if (!this.atLeastOnePresent) {
+            console.log('searchProductForm', searchProductForm);
+            this.products = [];
+            this.searchLoader = true;
+            this.bigLoader = true;
+
+            for (let key in searchProductForm) {
+                if (searchProductForm.hasOwnProperty(key)) {
+                    let value = searchProductForm[key];
+                    if (!value || value.length === 0) {
+                        delete searchProductForm[key];
+                    }
+                    if (typeof searchProductForm[key] === 'string') {
+                        searchProductForm[key] = searchProductForm[key].trim();
+                    }
+                }
+            }
+
+            searchProductForm = JSON.stringify(searchProductForm);
+            searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
+            console.log("searchProductForm ", searchProductForm);
+
+            this.productsService.getProducts(searchProductForm).
+                then((products) => {
+                    console.log("products ", products);
+                    this.products = products.Data;
+                    this.bigLoader = false;
+                    this.searchLoader = false;
+                }).catch((error) => {
+                    this.bigLoader = false;
+                    console.log("error ", error);
+                })
+
+        }
     }
 
     exportProducts() {
@@ -148,23 +158,11 @@ export class SellerProductsComponent implements OnInit {
         }).catch(status => { })
     }
 
-    getVendorInfo(vendorId) {
-        const vendors = this.vendorsService.getVendors();
-        _.forEach(vendors, (vendor) => {
-            if (parseInt(vendor.id) === parseInt(vendorId)) {
-                this.vendorInfo = vendor;
-                console.log("this.vendorInfo", this.vendorInfo);
-                this.searchProductForm.controls['vendor'].setValue(vendor);
-            }
-        });
-    }
-
 
     approve() {
         this.approveLoader = true;
         let productsToConfirm = [];
         _.forEach(this.products, (item) => {
-            // item.approvalStatus = 'Approved';
             if (item.isChecked) {
                 productsToConfirm.push(item);
                 item.isChecked = false;
@@ -274,6 +272,7 @@ export class SellerProductsComponent implements OnInit {
 
     resetForm() {
         this.searchForm();
+        this.getAllProducts();
     }
 
 

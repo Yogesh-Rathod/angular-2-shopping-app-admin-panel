@@ -28,13 +28,16 @@ export class ProductsService {
         private commonAppSer: CommonAppService
     ) {}
 
-    getProducts() {
+    getProducts(queryParams?) {
         let url = `${environment.merchandiseUrl}Merchandise/Seller/Products`;
         this.headers.set(
             "Authorization",
             this.commonAppSer.crateAuthorization()
         );
         //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        if (queryParams) {
+            url = `${url}?${queryParams}`
+        }
         return this.http
             .get(url, this.options)
             // .timeout(environment.timeOut)
@@ -43,12 +46,15 @@ export class ProductsService {
             .catch(err => this.responseHandler.handleError(err));
     }
 
-    getOpsProducts(role) {
+    getOpsProducts(role, queryParams?) {
         let url = `${environment.merchandiseUrl}Merchandise/${role}/Products`;
         this.headers.set(
             "Authorization",
             this.commonAppSer.crateAuthorization()
         );
+        if (queryParams) {
+            url = `${url}?${queryParams}`
+        }
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http
             .get(url, this.options)

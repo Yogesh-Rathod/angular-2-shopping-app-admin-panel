@@ -17,6 +17,7 @@ import { MerchandiseService, ProductsService, VendorsService } from 'app/service
     styleUrls: ['./add-product.component.scss']
 })
 export class AddSellerProductComponent implements OnInit {
+
     subCategories = [];
     subSubCategory = [];
     addProductForm: FormGroup;
@@ -29,7 +30,6 @@ export class AddSellerProductComponent implements OnInit {
     products: any;
     productInfo = [];
     showLoader = false;
-    deleteLoader = false;
     categories = [];
     vendors: any;
     categoriesDropdownSettings = {
@@ -41,7 +41,7 @@ export class AddSellerProductComponent implements OnInit {
         classes: 'col-8 no_padding'
     };
     currencyOptions = ['₹ (INR)', '$ (US)'];
-    statusOptions = ['Active', 'Inactive', 'Banned', 'Out of stock'];
+    statusOptions = ['Draft', 'Pending', 'APPROVED'];
     bigLoader = true;
     productImageName;
     public myDatePickerOptions: IMyDpOptions = {
@@ -76,7 +76,6 @@ export class AddSellerProductComponent implements OnInit {
         this.createForm();
         this.getAllCategories();
         this.getAllVendors();
-        this.bigLoader = false;
         if (this.productId) {
             this.getProductInfoForEdit();
         }
@@ -123,15 +122,11 @@ export class AddSellerProductComponent implements OnInit {
                 ])
             ],
             'specifications': this.fb.array([this.createControl()]),
-            // 'sku': [
-            //   '',
-            //   Validators.required
-            // ],
             'status': [
                 '',
                 Validators.required
             ],
-            'CurrencyId': [''],
+            'CurrencyId': ['₹ (INR)'],
             'NetPrice': [
                 '',
                 Validators.required
@@ -144,10 +139,6 @@ export class AddSellerProductComponent implements OnInit {
                 '',
                 Validators.required
             ],
-            // 'stockQuantity': [
-            //   '',
-            //   Validators.required
-            // ],
             'CategoryId': [
                 [],
                 Validators.required
@@ -155,10 +146,6 @@ export class AddSellerProductComponent implements OnInit {
             'Type': [[]],
             'SubCategories': [[], Validators.required],
             'SubSubCategories': [[], Validators.required],
-            // 'SellerId': [
-            //     '',
-            //     Validators.required
-            // ],
             'pictureName': [''],
             'pictureAlt': [''],
             'pictureTitle': [''],
@@ -166,7 +153,6 @@ export class AddSellerProductComponent implements OnInit {
             'Brand': [''],
             'Colour': [''],
             'Size': [''],
-            // 'reOrderLevel': [''],
             'Comments': [''],
             'ManufacturerPartNumber': [''],
             'approvalStatus': ['Pending']
@@ -205,12 +191,12 @@ export class AddSellerProductComponent implements OnInit {
     }
 
     getProductInfoForEdit() {
+        this.bigLoader = true;
         if (this.productId) {
             this.productsService.getProductById(this.productId).then(res => {
                 this.products = res.Data;
                 if (res.Code != 500) {
-                    console.log("this.productInfo ", this.productInfo);
-                    console.log("this.products[0] ", this.products[0]);
+                    this.productInfo = res.Data;
                     let specification = this.products[0].ProductSpecification.split('|');
                     let specificationData = [];
                     _.forEach(specification, (data, index) => {
@@ -225,7 +211,6 @@ export class AddSellerProductComponent implements OnInit {
                     });
                     this.removeStructure(specificationData.length);
 
-                    this.productInfo = res.Data;
                     this.addProductForm.controls['Id'].setValue(this.products[0].Id);
                     this.addProductForm.controls['ParentProductCode'].setValue(this.products[0].ParentProductCode);
                     this.addProductForm.controls['ModelNumber'].setValue(this.products[0].ModelNumber);
@@ -243,22 +228,11 @@ export class AddSellerProductComponent implements OnInit {
                     this.addProductForm.controls['FullDescription'].setValue(this.products[0].FullDescription);
                     this.addProductForm.controls['Sku'].setValue(this.products[0].Sku);
                     this.addProductForm.controls['CurrencyId'].setValue(this.products[0].CurrencyId);
-                    this.addProductForm.controls['Status'].setValue(this.products[0].Status);
-                    // if (this.productId && this.products) {
-                        console.log("this.productInfo ", this.productInfo);
-                        console.log("this.products[0] ", this.products[0]);
-                        const selectedCategory = this.categories.filter((category) => {
-                            if (category.Id === this.products[0].CategoryId) {
-                                return category;
-                            }
-                        });
-
-                    console.log("selectedCategory ", selectedCategory);
-                        if (selectedCategory && selectedCategory.length > 0) {
-                            this.addProductForm.controls['CategoryId'].setValue(selectedCategory);
-                        }
-                    // }
-
+                    this.addProductForm.controls['status'].setValue(this.products[0].Status);
+                    this.addProductForm.controls['CurrencyId'].setValue('₹ (INR)');
+                    this.setCategoriesInEditMode();
+                    this.checkFormValidation();
+                    this.bigLoader = false;
                 }
             }).catch(err => { });
         }
@@ -354,28 +328,52 @@ export class AddSellerProductComponent implements OnInit {
                     category.itemName = category.Name;
                     return category;
                 });
-                if (this.productId && this.products) {
-                    console.log( "this.products[0] ", this.products );
-                    const selectedCategory = this.categories.filter((category) => {
-                        if (category.Id === this.products[0].CategoryId) {
+                this.bigLoader = false;
+            }).catch((error) => {
+                console.log("error ", error);
+            });
+    }
+
+    setCategoriesInEditMode() {
+        const setCategories = setInterval( () => {
+            if (this.productId && this.products) {
+                const selectedCategory = this.categories.filter((category) => {
+                    if (category.Id === this.products[0].CategoryId) {
+                        return category;
+                    }
+                });
+                if (selectedCategory && selectedCategory.length > 0) {
+                    this.addProductForm.controls['CategoryId'].setValue(selectedCategory);
+                }
+                this.getSubCategory(2, true);
+                this.getSubSubCategory(3, true);
+                clearInterval(setCategories);
+            }
+        }, 1000);
+        setCategories;
+    }
+
+    getSubCategory(value, isload?) {
+        this.addProductForm.controls['SubCategories'].setValue([]);
+        this.addProductForm.controls['SubSubCategories'].setValue([]);
+        this.merchandiseService.getCategoriesByLevel(2).
+            then((categories) => {
+                this.subCategories = categories.Data;
+                if (this.productId && this.products && isload) {
+                    this.subCategories = this.subCategories.map((category) => {
+                        category.id = category.Id;
+                        category.itemName = category.Name;
+                        return category;
+                    });
+                    const selectedCategory = this.subCategories.filter((category) => {
+                        if (category.Id === this.products[0].SubCategoryId) {
                             return category;
                         }
                     });
                     if (selectedCategory && selectedCategory.length > 0) {
-                        this.addProductForm.controls['CategoryId'].setValue(selectedCategory);
+                        this.addProductForm.controls['SubCategories'].setValue(selectedCategory);
                     }
                 }
-            }).catch((error) => {
-                console.log("error ", error);
-            });
-
-
-    }
-
-    getSubCategory(value) {
-        this.merchandiseService.getCategoriesByLevel(2).
-            then((categories) => {
-                this.subCategories = categories.Data;
                 this.subCategories = this.subCategories.filter((category) => {
                     if (category.ParentCategoryId == value.Id) {
                         category.id = category.Id;
@@ -388,10 +386,26 @@ export class AddSellerProductComponent implements OnInit {
             });
     }
 
-    getSubSubCategory(value) {
+    getSubSubCategory(value, isload?) {
         this.merchandiseService.getCategoriesByLevel(3).
             then((categories) => {
                 this.subSubCategory = categories.Data;
+                if (this.productId && this.products && isload) {
+                    this.subSubCategory = this.subSubCategory.map((category) => {
+                        category.id = category.Id;
+                        category.itemName = category.Name;
+                        return category;
+                    });
+                    const selectedCategory = this.subSubCategory.filter((category) => {
+                        if (category.Id === this.products[0].SubSubCategoryId) {
+                            return category;
+                        }
+                    });
+                    console.log("selectedCategory ", selectedCategory);
+                    if (selectedCategory && selectedCategory.length > 0) {
+                        this.addProductForm.controls['SubSubCategories'].setValue(selectedCategory);
+                    }
+                }
                 this.subSubCategory = this.subSubCategory.filter((category) => {
                     if (category.ParentCategoryId == value.Id) {
                         category.id = category.Id;
@@ -407,6 +421,8 @@ export class AddSellerProductComponent implements OnInit {
     clearSubCategory() {
         this.subSubCategory = [];
         this.subCategories = [];
+        this.addProductForm.controls['SubCategories'].setValue([]);
+        this.addProductForm.controls['SubSubCategories'].setValue([]);
     }
 
     uploadProductImage(addProductForm) {
@@ -418,6 +434,12 @@ export class AddSellerProductComponent implements OnInit {
             this.productImageName = image.target.files[0].name;
         } else {
             this.productImageName = '';
+        }
+    }
+
+    checkFormValidation() {
+        for (var i in this.addProductForm.controls) {
+            this.addProductForm.controls[i].markAsTouched();
         }
     }
 

@@ -209,6 +209,8 @@ export class AddSellerProductComponent implements OnInit {
             this.productsService.getProductById(this.productId).then(res => {
                 this.products = res.Data;
                 if (res.Code != 500) {
+                    console.log("this.productInfo ", this.productInfo);
+                    console.log("this.products[0] ", this.products[0]);
                     let specification = this.products[0].ProductSpecification.split('|');
                     let specificationData = [];
                     _.forEach(specification, (data, index) => {
@@ -242,6 +244,20 @@ export class AddSellerProductComponent implements OnInit {
                     this.addProductForm.controls['Sku'].setValue(this.products[0].Sku);
                     this.addProductForm.controls['CurrencyId'].setValue(this.products[0].CurrencyId);
                     this.addProductForm.controls['Status'].setValue(this.products[0].Status);
+                    // if (this.productId && this.products) {
+                        console.log("this.productInfo ", this.productInfo);
+                        console.log("this.products[0] ", this.products[0]);
+                        const selectedCategory = this.categories.filter((category) => {
+                            if (category.Id === this.products[0].CategoryId) {
+                                return category;
+                            }
+                        });
+
+                    console.log("selectedCategory ", selectedCategory);
+                        if (selectedCategory && selectedCategory.length > 0) {
+                            this.addProductForm.controls['CategoryId'].setValue(selectedCategory);
+                        }
+                    // }
 
                 }
             }).catch(err => { });
@@ -338,7 +354,8 @@ export class AddSellerProductComponent implements OnInit {
                     category.itemName = category.Name;
                     return category;
                 });
-                if (this.productId) {
+                if (this.productId && this.products) {
+                    console.log( "this.products[0] ", this.products );
                     const selectedCategory = this.categories.filter((category) => {
                         if (category.Id === this.products[0].CategoryId) {
                             return category;

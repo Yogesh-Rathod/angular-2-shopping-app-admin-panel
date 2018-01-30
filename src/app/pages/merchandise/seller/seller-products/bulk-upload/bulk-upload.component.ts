@@ -94,7 +94,7 @@ export class SellsBulkUploadComponent implements OnInit {
         if (this.productsInfo && this.productsInfo.length > 0) {
             this.productsService.sendproductForApproval(this.productsInfo).
                 then((success) => {
-                    if (success.Code === 200 && success.Data.length === 0) {
+                    if (success.Code === 200 && success.Data && success.Data.length === 0) {
                         this.toastr.success('Product sucessfully sent for approval!', 'Success!');
                         this.showLoader = false;
                         this.closeModal(true);
@@ -122,7 +122,7 @@ export class SellsBulkUploadComponent implements OnInit {
         if (this.productsInfo && this.productsInfo.length > 0) {
             this.productsService.addProduct(this.productsInfo).
                 then((success) => {
-                    if (success.Code === 200 && success.Data.length === 0) {
+                    if (success.Code === 200 && success.Data && success.Data.length === 0) {
                         this.toastr.success('Product sucessfully sent for approval!', 'Success!');
                         this.showLoader = false;
                         this.closeModal(true);

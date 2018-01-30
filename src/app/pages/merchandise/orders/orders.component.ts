@@ -5,8 +5,10 @@ import * as _ from 'lodash';
 declare let $: any;
 
 import { IMyDpOptions } from 'mydatepicker';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProductsService, OrdersService, JsonToExcelService, VendorsService } from 'app/services';
+import { SellerOrdersAdminBulkUploadComponent } from './bulk-upload/bulk-upload.component';
 
 @Component({
     selector: 'app-orders',
@@ -64,6 +66,7 @@ export class OrdersComponent implements OnInit {
     vendorsList: any;
 
     constructor(
+        private modalService: NgbModal,
         private vendorsService: VendorsService,
         private jsonToExcelService: JsonToExcelService,
         private fb: FormBuilder,
@@ -210,6 +213,17 @@ export class OrdersComponent implements OnInit {
             }).catch((error) => {
                 console.log("error ", error);
             })
+    }
+
+    bulkCancel() {
+        const activeModal = this.modalService.open(SellerOrdersAdminBulkUploadComponent, { size: 'sm' });
+        activeModal.componentInstance.fileUrl = 'cancelOrder.xlsx';
+        activeModal.componentInstance.request = 'cancel';
+        activeModal.result.then(status => {
+            if (status) {
+                this.getAllOrders();
+            }
+        }).catch(status => { })
     }
 
     resetForm() {

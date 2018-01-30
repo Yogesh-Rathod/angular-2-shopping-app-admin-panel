@@ -34,7 +34,7 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
 
   handleFile(event) {
     // this.validationError = null;
-        // this.blankFileError = false;
+        this.blankFileError = false;
         let file = event.target.files[0];
         if (file) {
             this.showLoader = true;
@@ -70,18 +70,18 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                     then((success) => {
                         console.log("success ", success);
                         if (success.Data.length === 0) {
-                            this.toastr.success('Sucessfully Done', 'Success!');
+                            this.toastr.success('Sucessfully Changed Status', 'Success!');
                             this.showLoader = false;
                             this.errorData = success.Data;
                             this.closeModal(true);
                         } else if (success.Data.length > 0) {
                             this.showLoader = false;
                             this.errorData = success.Data;
-                            this.toastr.error('Oops! Could not process request.', 'Error!');
+                            this.toastr.error('Oops! Could not change status.', 'Error!');
                         }
                     }).catch((error) => {
                         console.log("error ", error);
-                        this.toastr.error('Oops! Could not process request.', 'Error!');
+                        this.toastr.error('Oops! Could not change status.', 'Error!');
                         this.showLoader = false;
                     });
               break;
@@ -91,18 +91,18 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                     then((success) => {
                         console.log("success ", success);
                         if (success.Data.length === 0) {
-                            this.toastr.success('Sucessfully Done', 'Success!');
+                            this.toastr.success('Sucessfully Changed Status', 'Success!');
                             this.showLoader = false;
                             this.errorData = success.Data;
                             this.closeModal(true);
                         } else if (success.Data.length > 0) {
                             this.showLoader = false;
                             this.errorData = success.Data;
-                            this.toastr.error('Oops! Could not process request.', 'Error!');
+                            this.toastr.error('Oops! Could not change status.', 'Error!');
                         }
                     }).catch((error) => {
                         console.log("error ", error);
-                        this.toastr.error('Oops! Could not process request.', 'Error!');
+                        this.toastr.error('Oops! Could not change status.', 'Error!');
                         this.showLoader = false;
                     });
               break;
@@ -112,21 +112,43 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                     then((success) => {
                         console.log("success ", success);
                         if (success.Data.length === 0) {
-                            this.toastr.success('Sucessfully Done', 'Success!');
+                            this.toastr.success('Sucessfully Changed Status', 'Success!');
                             this.showLoader = false;
                             this.errorData = success.Data;
                             this.closeModal(true);
                         } else if (success.Data.length > 0) {
                             this.showLoader = false;
                             this.errorData = success.Data;
-                            this.toastr.error('Oops! Could not process request.', 'Error!');
+                            this.toastr.error('Oops! Could not change status.', 'Error!');
                         }
                     }).catch((error) => {
                         console.log("error ", error);
-                        this.toastr.error('Oops! Could not process request.', 'Error!');
+                        this.toastr.error('Oops! Could not change status.', 'Error!');
                         this.showLoader = false;
                     });
               break;
+
+              case "cancel":
+                  console.log("this.ordersInfo ", this.ordersInfo);
+                  this.ordersService.cancelOrder(this.ordersInfo).
+                      then((success) => {
+                          console.log("success ", success);
+                          if (success.Data.length === 0) {
+                              this.toastr.success('Sucessfully Changed Status', 'Success!');
+                              this.showLoader = false;
+                              this.errorData = success.Data;
+                              this.closeModal(true);
+                          } else if (success.Data.length > 0) {
+                              this.showLoader = false;
+                              this.errorData = success.Data;
+                              this.toastr.error('Oops! Could not change status.', 'Error!');
+                          }
+                      }).catch((error) => {
+                          console.log("error ", error);
+                          this.toastr.error('Oops! Could not change status.', 'Error!');
+                          this.showLoader = false;
+                      });
+                  break;
             default:
               // code...
               break;

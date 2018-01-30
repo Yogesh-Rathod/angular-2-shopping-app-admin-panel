@@ -162,9 +162,9 @@
                         </thead>
                         <tbody *ngIf=" products && products.length > 0 ">
                             <tr *ngFor=" let item of mf.data; let i = index; ">
-
                                 <td class="text-center">
-                                    <input  *ngIf="item.Status!='Approved'" [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                                    <input *ngIf="item.Status !=='Pending' && item.Status!=='Approved' && item.Status!=='APPROVED'" [ngModel]="item.isChecked" type="checkbox"
+                                        (change)="checkBoxSelected($event, item)">
                                 </td>
 
                                 <td class="text-left">

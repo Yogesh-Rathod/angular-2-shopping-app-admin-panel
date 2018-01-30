@@ -70,18 +70,18 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
                         then((success) => {
                             console.log("success ", success);
                             if (success.Data.length === 0) {
-                                this.toastr.success('Sucessfully Done', 'Success!');
+                                this.toastr.success('Sucessfully Changed Status', 'Success!');
                                 this.showLoader = false;
                                 this.errorData = success.Data;
                                 this.closeModal(true);
                             } else if (success.Data.length > 0) {
                                 this.showLoader = false;
                                 this.errorData = success.Data;
-                                this.toastr.error('Oops! Could not process request.', 'Error!');
+                                this.toastr.error('Oops! Could not change status.', 'Error!');
                             }
                         }).catch((error) => {
                             console.log("error ", error);
-                            this.toastr.error('Oops! Could not process request.', 'Error!');
+                            this.toastr.error('Oops! Could not change status.', 'Error!');
                             this.showLoader = false;
                         });
                     break;
@@ -91,18 +91,18 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
                         then((success) => {
                             console.log("success ", success);
                             if (success.Data.length === 0) {
-                                this.toastr.success('Sucessfully Done', 'Success!');
+                                this.toastr.success('Sucessfully Changed Status', 'Success!');
                                 this.showLoader = false;
                                 this.errorData = success.Data;
                                 this.closeModal(true);
                             } else if (success.Data.length > 0) {
                                 this.showLoader = false;
                                 this.errorData = success.Data;
-                                this.toastr.error('Oops! Could not process request.', 'Error!');
+                                this.toastr.error('Oops! Could not change status.', 'Error!');
                             }
                         }).catch((error) => {
                             console.log("error ", error);
-                            this.toastr.error('Oops! Could not process request.', 'Error!');
+                            this.toastr.error('Oops! Could not change status.', 'Error!');
                             this.showLoader = false;
                         });
                     break;
@@ -112,18 +112,18 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
                         then((success) => {
                             console.log("success ", success);
                             if (success.Data.length === 0) {
-                                this.toastr.success('Sucessfully Done', 'Success!');
+                                this.toastr.success('Sucessfully Changed Status', 'Success!');
                                 this.showLoader = false;
                                 this.errorData = success.Data;
                                 this.closeModal(true);
                             } else if (success.Data.length > 0) {
                                 this.showLoader = false;
                                 this.errorData = success.Data;
-                                this.toastr.error('Oops! Could not process request.', 'Error!');
+                                this.toastr.error('Oops! Could not change status.', 'Error!');
                             }
                         }).catch((error) => {
                             console.log("error ", error);
-                            this.toastr.error('Oops! Could not process request.', 'Error!');
+                            this.toastr.error('Oops! Could not change status.', 'Error!');
                             this.showLoader = false;
                         });
                     break;
@@ -134,18 +134,18 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
                         then((success) => {
                             console.log("success ", success);
                             if (success.Data.length === 0) {
-                                this.toastr.success('Sucessfully Done', 'Success!');
+                                this.toastr.success('Sucessfully Changed Status', 'Success!');
                                 this.showLoader = false;
                                 this.errorData = success.Data;
                                 this.closeModal(true);
                             } else if (success.Data.length > 0) {
                                 this.showLoader = false;
                                 this.errorData = success.Data;
-                                this.toastr.error('Oops! Could not process request.', 'Error!');
+                                this.toastr.error('Oops! Could not change status.', 'Error!');
                             }
                         }).catch((error) => {
                             console.log("error ", error);
-                            this.toastr.error('Oops! Could not process request.', 'Error!');
+                            this.toastr.error('Oops! Could not change status.', 'Error!');
                             this.showLoader = false;
                         });
                     break;

@@ -5,8 +5,10 @@ declare let $: any;
 import * as _ from 'lodash';
 
 import { IMyDpOptions } from 'mydatepicker';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProductsService, OrdersService } from 'app/services';
+import { SellerOrdersBulkUploadComponent } from './bulk-upload/bulk-upload.component';
 
 @Component({
     selector: 'app-orders',
@@ -58,6 +60,7 @@ export class OrdersComponent implements OnInit {
     };
 
     constructor(
+        private modalService: NgbModal,
         private fb: FormBuilder,
         private productsService: ProductsService,
         private ordersService: OrdersService,
@@ -178,6 +181,17 @@ export class OrdersComponent implements OnInit {
 
     searchByOrderHash(orderHash) {
         this.router.navigate(['order-details', orderHash], { relativeTo: this.route });
+    }
+
+    bulkCancel() {
+        const activeModal = this.modalService.open(SellerOrdersBulkUploadComponent, { size: 'sm' });
+        activeModal.componentInstance.fileUrl = 'cancelOrder.xlsx';
+        activeModal.componentInstance.request = 'cancel';
+        activeModal.result.then(status => {
+            if (status) {
+                this.getAllOrders();
+            }
+        }).catch(status => { })
     }
 
     resetForm() {

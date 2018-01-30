@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import './ckeditor.loader';
-import 'ckeditor';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as _ from 'lodash';
@@ -22,10 +20,6 @@ export class AddVendorComponent implements OnInit {
 
     vendorId: any;
     addVendorForm: FormGroup;
-    public config = {
-        uiColor: '#F0F3F4',
-        height: '200'
-    };
     showLoader = false;
     bigLoader = false;
     vendors: any;
@@ -33,6 +27,13 @@ export class AddVendorComponent implements OnInit {
     citiesList: any;
     usersList: any;
     usersName: any;
+    usersDropdownSettings = {
+        singleSelection: false,
+        text: "Select Users",
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
+        enableSearchFilter: true
+    };
 
     constructor(
         private modalService: NgbModal,
@@ -166,7 +167,7 @@ export class AddVendorComponent implements OnInit {
                 ])
             ],
             'UserId': [
-                '',
+                [],
                 Validators.compose([
                     Validators.required
                 ])
@@ -179,6 +180,11 @@ export class AddVendorComponent implements OnInit {
         this.vendorsService.getUsers().
             then((user) => {
                 this.usersList = user.Data;
+                this.usersList = this.usersList.map((item) => {
+                    item.id = item.Id;
+                    item.itemName = item.UserName;
+                    return item;
+                });
             }).catch((error) => {
                 console.log("error ", error);
             });

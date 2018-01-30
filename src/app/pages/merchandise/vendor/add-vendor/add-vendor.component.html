@@ -53,6 +53,7 @@
                 <div class="form-group col-6">
                     <label for="Company">
                         Company:
+                        <span class="mandatory">*</span>
                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendors company name."></i>
                     </label>
                     <input type="text" class="form-control" id="Company" formControlName="Company">
@@ -76,7 +77,6 @@
                 <div class="form-group col-6">
                     <label for="Phone">
                         Alternate Phone Number:
-                        <span class="mandatory">*</span>
                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Alternate Phone Number (Should be 10 digit long and must start with 7/8/9)"></i>
                     </label>
                     <input type="text" class="form-control" id="Phone" formControlName="AltContactNumber" (keydown)='validatenumber($event)'>
@@ -116,6 +116,7 @@
                     </label>
                     <select formControlName="CityId" id="city" class="form-control">
                         <option *ngFor="let item of citiesList" value="item.Id">{{ item.Name }}</option>
+                        <option *ngIf="!citiesList || citiesList.length === 0" value="notAvailable" disabled>Not Available</option>
                     </select>
                 </div>
 

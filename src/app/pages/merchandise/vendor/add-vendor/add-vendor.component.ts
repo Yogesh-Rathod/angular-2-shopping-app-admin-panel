@@ -88,7 +88,12 @@ export class AddVendorComponent implements OnInit {
                     Validators.maxLength(20)
                 ])
             ],
-            "Company": [''],
+            "Company": [
+                '',
+                Validators.compose([
+                    Validators.required
+                ])
+            ],
             'EmailAddress': [
                 '',
                 Validators.compose([
@@ -106,7 +111,6 @@ export class AddVendorComponent implements OnInit {
             "AltContactNumber": [
                 '',
                 Validators.compose([
-                    Validators.required,
                     Validators.pattern(RegEx.phoneNumber)
                 ])
             ],
@@ -181,7 +185,7 @@ export class AddVendorComponent implements OnInit {
     }
 
     getCities() {
-        this.bigLoader = true;
+        // this.bigLoader = true;
         this.vendorsService.getCities().
             then((cities) => {
                 console.log("cities ", cities);
@@ -253,6 +257,7 @@ export class AddVendorComponent implements OnInit {
                     this.addVendorForm.controls['AltContactNumber'].setValue(this.vendorInfo.AltContactNumber);
                     this.addVendorForm.controls['Website'].setValue(this.vendorInfo.Website);
                     this.addVendorForm.controls['ListingFee'].setValue(this.vendorInfo.ListingFee);
+                    this.addVendorForm.controls['GstIn'].setValue(this.vendorInfo.GstIn);
                     this.addVendorForm.controls['Address'].setValue(this.vendorInfo.Address);
                     this.addVendorForm.controls['CityId'].setValue(this.vendorInfo.CityId);
                     // this.addVendorForm.controls['state'].setValue(this.vendorInfo.state);

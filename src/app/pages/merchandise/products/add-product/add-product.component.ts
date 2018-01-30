@@ -45,7 +45,7 @@ export class AddProductComponent implements OnInit {
         classes: 'col-8 no_padding'
     };
     currencyOptions = ['₹ (INR)', '$ (US)'];
-    statusOptions = ['Active', 'Inactive', 'Banned', 'Out of stock'];
+    statusOptions = ['Draft', 'Pending', 'APPROVED'];
     bigLoader = true;
     productImageName;
     public myDatePickerOptions: IMyDpOptions = {
@@ -220,7 +220,6 @@ export class AddProductComponent implements OnInit {
                         let specificationData = [];
                         _.forEach(specification, (data, index) => {
                             let value = data.split(":");
-
                             specificationData[index] = ({
                                 key: value[0],
                                 value: value[1]
@@ -234,6 +233,7 @@ export class AddProductComponent implements OnInit {
                         this.addProductForm.controls['ModelNumber'].setValue(this.products[0].ModelNumber);
                         this.addProductForm.controls['ManufacturerPartNumber'].setValue(this.products[0].ManufacturerPartNumber);
                         this.addProductForm.controls['Gtin'].setValue(this.products[0].Gtin);
+                        console.log("this.products ", this.products);
                         this.addProductForm.controls['Name'].setValue(this.products[0].Name);
                         this.addProductForm.controls['Comments'].setValue(this.products[0].Comments);
                         this.addProductForm.controls['ShortDescription'].setValue(this.products[0].ShortDescription);
@@ -246,7 +246,7 @@ export class AddProductComponent implements OnInit {
                         this.addProductForm.controls['FullDescription'].setValue(this.products[0].FullDescription);
                         this.addProductForm.controls['Sku'].setValue(this.products[0].Sku);
                         this.addProductForm.controls['CurrencyId'].setValue(this.products[0].CurrencyId);
-                        // this.addProductForm.controls['Status'].setValue(this.products[0].Status);
+                        this.addProductForm.controls['Status'].setValue(this.products[0].Status);
                         this.addProductForm.controls['RetailPrice'].setValue(this.products[0].RetailPrice);
                         this.addProductForm.controls['RetailShippingPrice'].setValue(this.products[0].RetailShippingPrice);
                         this.addProductForm.controls['RetailPriceInclusive'].setValue(this.products[0].RetailPriceInclusive);
@@ -380,14 +380,22 @@ export class AddProductComponent implements OnInit {
                     return category;
                 });
                 if (this.productId) {
-                    const selectedCategory = this.categories.filter((category) => {
-                        if (category.Id === this.products[0].CategoryId) {
-                            return category;
-                        }
-                    });
-                    if (selectedCategory && selectedCategory.length > 0) {
-                        this.addProductForm.controls['CategoryId'].setValue(selectedCategory);
-                    }
+                    // const selectedCategory = this.categories.filter((category) => {
+                        //     console.log("category ", category);
+                        //     if (category.Id === this.products[0].CategoryId) {
+                            //         console.log("if ");
+                            //         return category;
+                            //     }
+                            // });
+                            // console.log("selectedCategory ", selectedCategory);
+                            // if (selectedCategory && selectedCategory.length > 0) {
+                                console.log("this.productId ", this.productId);
+                        this.addProductForm.controls['CategoryId'].setValue({
+                            id: this.products[0].CategoryId,
+                            itemName: this.products[0].Category
+                        });
+                        console.log("this.addProductForm.controls['CategoryId'] ", this.addProductForm.controls['CategoryId'].value);
+                    // }
                 }
             }).catch((error) => {
                 console.log("error ", error);

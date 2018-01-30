@@ -30,7 +30,7 @@ export class ProductsComponent implements OnInit {
         'grouped (product with variants)'
     ];
     manufacturer = ['apple', 'lenovo', 'samsung'];
-    status = ['Active', 'Inactive', 'Banned', 'Out of stock'];
+    status = ['Draft', 'Pending', 'APPROVED'];
     vendors: any;
     showSelectedAction = false;
     selectAllCheckbox = false;

@@ -26,7 +26,7 @@
                 <label for="ExcelFile" class="text-right">Excel File</label>
                 <input type="file" class="form-control" id="ExcelFile" (change)="handleFile($event)" accept=".xlsx, .xls">
                 <a target="_blank" href="assets/samples/SampleProducts.xlsx" class="text-decoration btn-link float-right">Download Template</a>
-                <a *ngIf="downloadIssue.length>0" target="_blank" href="javascript:void(0)" (click)="download()" class="text-decoration btn-link float-left">Download Error Report</a>
+                <a *ngIf="downloadIssue.length>0" target="_blank" href="javascript:void(0)" (click)="download()" class="error text-decoration btn-link float-left">Download Error Report</a>
             </div>
             <div class="row col-md-12 uploadButton form-group">
                 <button class="btn btn-primary col-md-3" [disabled]=" submitDisabled " (click)="uploadFile($event)">Upload</button>

@@ -113,12 +113,12 @@ export class FreshComponent implements OnInit {
                 if (success.Data.length === 0) {
                     this.showLoader = false;
                     this.onStatusChange.emit(true);
-                    this.toastr.success('Sucessfully Done', 'Success!');
+                    this.toastr.success('Status changed successfully.', 'Success');
                 }
             }).catch((error) => {
                 console.log("error ", error);
                 this.showLoader = false;
-                this.toastr.error('Oops! Could not process request.', 'Error!');
+                this.toastr.error('Oops! Could not change status.', 'Error!');
             });
         this.selectAllCheckbox = false;
         this.showSelectedAction = false;

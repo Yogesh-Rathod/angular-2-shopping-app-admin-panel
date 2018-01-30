@@ -70,7 +70,7 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                     then((success) => {
                         console.log("success ", success);
                         if (success.Data.length === 0) {
-                            this.toastr.success('Sucessfully Changed Status', 'Success!');
+                            this.toastr.success('Status changed successfully.', 'Success');
                             this.showLoader = false;
                             this.errorData = success.Data;
                             this.closeModal(true);
@@ -91,7 +91,7 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                     then((success) => {
                         console.log("success ", success);
                         if (success.Data.length === 0) {
-                            this.toastr.success('Sucessfully Changed Status', 'Success!');
+                            this.toastr.success('Status changed successfully.', 'Success');
                             this.showLoader = false;
                             this.errorData = success.Data;
                             this.closeModal(true);
@@ -112,7 +112,7 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                     then((success) => {
                         console.log("success ", success);
                         if (success.Data.length === 0) {
-                            this.toastr.success('Sucessfully Changed Status', 'Success!');
+                            this.toastr.success('Status changed successfully.', 'Success');
                             this.showLoader = false;
                             this.errorData = success.Data;
                             this.closeModal(true);
@@ -134,7 +134,7 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                       then((success) => {
                           console.log("success ", success);
                           if (success.Data.length === 0) {
-                              this.toastr.success('Sucessfully Changed Status', 'Success!');
+                              this.toastr.success('Status changed successfully.', 'Success');
                               this.showLoader = false;
                               this.errorData = success.Data;
                               this.closeModal(true);

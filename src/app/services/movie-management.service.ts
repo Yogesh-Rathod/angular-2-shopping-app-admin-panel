@@ -25,7 +25,7 @@ export class MovieManagementService {
     }
 
     getMovies() {
-        const url = `${environment.moviesApiUrl}Event`;
+        const url = `${environment.moviesApiUrl}Event?pageSize=100`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)

@@ -5,7 +5,7 @@
 
 export const environment = {
     production: false,
-    moviesApiUrl: 'http://192.168.32.54/V1/Support/',
+    moviesApiUrl: 'http://192.168.61.203/LRAS.MovieAPI/Support/',
     crmUrl: 'http://192.168.250.222:9081/crm',
     citiesAPIUrl: 'http://192.168.61.203/LRAS.CommonAPI/GetCities',
     rbacUrl: 'http://192.168.61.203/LRAS.Brix.InternalUserManagementAPI/',

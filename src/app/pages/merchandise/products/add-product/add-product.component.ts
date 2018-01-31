@@ -86,7 +86,6 @@ export class AddProductComponent implements OnInit {
         this.createForm();
         this.getAllVendors();
         this.getAllCategories();
-        this.bigLoader = false;
         if (this.productId) {
             this.getProductInfoForEdit(this.productId);
         }
@@ -139,7 +138,7 @@ export class AddProductComponent implements OnInit {
                 '',
                 Validators.required
             ],
-            'CurrencyId': [''],
+            'CurrencyId': ['₹ (INR)'],
             'NetPrice': [
                 '',
                 Validators.required
@@ -211,6 +210,7 @@ export class AddProductComponent implements OnInit {
     }
 
     getProductInfoForEdit(productId) {
+        this.bigLoader = true;
         if (this.productId) {
             this.productsService.getOpsProductById(productId, this.userRole)
                 .then((res) => {
@@ -250,11 +250,34 @@ export class AddProductComponent implements OnInit {
                         this.addProductForm.controls['RetailPrice'].setValue(this.products[0].RetailPrice);
                         this.addProductForm.controls['RetailShippingPrice'].setValue(this.products[0].RetailShippingPrice);
                         this.addProductForm.controls['RetailPriceInclusive'].setValue(this.products[0].RetailPriceInclusive);
+                        this.addProductForm.controls['CurrencyId'].setValue('₹ (INR)');
+                        this.setCategoriesInEditMode();
+                        this.checkFormValidation();
+                        this.bigLoader = false;
                     }
                 }).catch((error) => {
                     console.log("error ", error);
                 })
         }
+    }
+
+    setCategoriesInEditMode() {
+        const setCategories = setInterval(() => {
+            if (this.productId && this.products) {
+                const selectedCategory = this.categories.filter((category) => {
+                    if (category.Id === this.products[0].CategoryId) {
+                        return category;
+                    }
+                });
+                if (selectedCategory && selectedCategory.length > 0) {
+                    this.addProductForm.controls['CategoryId'].setValue(selectedCategory);
+                }
+                this.getSubCategory(2, true);
+                this.getSubSubCategory(3, true);
+                clearInterval(setCategories);
+            }
+        }, 1000);
+        setCategories;
     }
 
     addProduct(addProductForm) {
@@ -379,33 +402,33 @@ export class AddProductComponent implements OnInit {
                     category.itemName = category.Name;
                     return category;
                 });
-                if (this.productId) {
-                    // const selectedCategory = this.categories.filter((category) => {
-                        //     console.log("category ", category);
-                        //     if (category.Id === this.products[0].CategoryId) {
-                            //         console.log("if ");
-                            //         return category;
-                            //     }
-                            // });
-                            // console.log("selectedCategory ", selectedCategory);
-                            // if (selectedCategory && selectedCategory.length > 0) {
-                                console.log("this.productId ", this.productId);
-                        this.addProductForm.controls['CategoryId'].setValue({
-                            id: this.products[0].CategoryId,
-                            itemName: this.products[0].Category
-                        });
-                        console.log("this.addProductForm.controls['CategoryId'] ", this.addProductForm.controls['CategoryId'].value);
-                    // }
-                }
+                this.bigLoader = false;
             }).catch((error) => {
                 console.log("error ", error);
             });
     }
 
-    getSubCategory(value) {
+    getSubCategory(value, isload?) {
+        this.addProductForm.controls['SubCategories'].setValue([]);
+        this.addProductForm.controls['SubSubCategories'].setValue([]);
         this.merchandiseService.getCategoriesByLevel(2).
             then((categories) => {
                 this.subCategories = categories.Data;
+                if (this.productId && this.products && isload) {
+                    this.subCategories = this.subCategories.map((category) => {
+                        category.id = category.Id;
+                        category.itemName = category.Name;
+                        return category;
+                    });
+                    const selectedCategory = this.subCategories.filter((category) => {
+                        if (category.Id === this.products[0].SubCategoryId) {
+                            return category;
+                        }
+                    });
+                    if (selectedCategory && selectedCategory.length > 0) {
+                        this.addProductForm.controls['SubCategories'].setValue(selectedCategory);
+                    }
+                }
                 this.subCategories = this.subCategories.filter((category) => {
                     if (category.ParentCategoryId == value.Id) {
                         category.id = category.Id;
@@ -418,10 +441,26 @@ export class AddProductComponent implements OnInit {
             });
     }
 
-    getSubSubCategory(value) {
+    getSubSubCategory(value, isload?) {
         this.merchandiseService.getCategoriesByLevel(3).
             then((categories) => {
                 this.subSubCategory = categories.Data;
+                if (this.productId && this.products && isload) {
+                    this.subSubCategory = this.subSubCategory.map((category) => {
+                        category.id = category.Id;
+                        category.itemName = category.Name;
+                        return category;
+                    });
+                    const selectedCategory = this.subSubCategory.filter((category) => {
+                        if (category.Id === this.products[0].SubSubCategoryId) {
+                            return category;
+                        }
+                    });
+                    console.log("selectedCategory ", selectedCategory);
+                    if (selectedCategory && selectedCategory.length > 0) {
+                        this.addProductForm.controls['SubSubCategories'].setValue(selectedCategory);
+                    }
+                }
                 this.subSubCategory = this.subSubCategory.filter((category) => {
                     if (category.ParentCategoryId == value.Id) {
                         category.id = category.Id;
@@ -449,6 +488,12 @@ export class AddProductComponent implements OnInit {
             this.productImageName = image.target.files[0].name;
         } else {
             this.productImageName = '';
+        }
+    }
+
+    checkFormValidation() {
+        for (var i in this.addProductForm.controls) {
+            this.addProductForm.controls[i].markAsTouched();
         }
     }
 

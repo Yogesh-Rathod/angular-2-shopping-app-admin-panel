@@ -177,7 +177,7 @@
                             <tr *ngFor=" let item of mf.data; let i = index; ">
 
                                 <td class="text-center">
-                                    <input *ngIf="item.Status!=='Draft' && item.Status!=='Approved' && item.Status!=='APPROVED'" [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                                    <input *ngIf="item.Status!=='Approved' && item.Status!=='APPROVED'" [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
                                 </td>
 
                                 <td class="text-left">

@@ -5,9 +5,9 @@
             <h2 class="card-title ">
                 Manage Products
                 <button *ngIf="userRole!='Admin'" class="btn btn-primary float-right" (click)=" bulkUpload() ">
-					<i class="fa fa-download" aria-hidden="true"></i>
-					Bulk Import
-				</button>
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    Bulk Import
+                </button>
             </h2>
         </div>
 
@@ -174,8 +174,7 @@
                             </tr>
                         </thead>
                         <tbody *ngIf=" products && products.length > 0 ">
-                            <tr *ngFor=" let item of mf.data; let i = index; ">
-
+                            <tr *ngFor=" let item of products| paginate: { itemsPerPage: 10, currentPage: p, totalItems: totalRecords }; let i = index; ">
                                 <td class="text-center">
                                     <input *ngIf="item.Status!=='Approved' && item.Status!=='APPROVED'" [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
                                 </td>
@@ -210,7 +209,8 @@
 									</span>
 								</td> -->
                                 <td class="action" *ngIf="userRole!='Admin'">
-                                    <button *ngIf="item.Status=='Draft' || item.Status=='Approved' || item.Status=='APPROVED'"  class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.Id]" title="Edit">
+                                    <button *ngIf="item.Status=='Draft' || item.Status=='Approved' || item.Status=='APPROVED'" class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.Id]"
+                                        title="Edit">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </button>
                                     <span *ngIf="item.Status!=='Draft' && item.Status!=='Approved' && item.Status!=='APPROVED'">---</span>
@@ -232,7 +232,7 @@
                         <tfoot *ngIf=" products && products.length > 10 ">
                             <tr>
                                 <td colspan="9">
-                                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                                    <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
                                 </td>
                             </tr>
                         </tfoot>

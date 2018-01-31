@@ -20,6 +20,8 @@ import { ProductsDeletePopupComponent } from './delete-popup/delete-popup.compon
 })
 export class ProductsComponent implements OnInit {
 
+    p: number = 1;
+    totalRecords: any = 1;
     searchProductForm: FormGroup;
     bigLoader = true;
     approveLoader = false;
@@ -97,10 +99,12 @@ export class ProductsComponent implements OnInit {
         this.bigLoader = true;
         this.productsService.getOpsProducts(this.userRole).
             then((products) => {
-                console.log("products ", products);
-                this.products = products.Data;
+                this.products = products.Data.Products;
+                this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
             }).catch((error) => {
+                this.bigLoader = false;
+                this.toastr.error('Could not get products', 'Error');
                 console.log("error ", error);
             });
     }
@@ -157,10 +161,11 @@ export class ProductsComponent implements OnInit {
             searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
             console.log("searchProductForm ", searchProductForm);
 
-            this.productsService.getProducts(searchProductForm).
+            this.productsService.getOpsProducts(this.userRole, searchProductForm).
                 then((products) => {
                     console.log("products ", products);
-                    this.products = products.Data;
+                    this.products = products.Data.Products;
+                    this.totalRecords = products.Data.TotalRecords;
                     this.bigLoader = false;
                     this.searchLoader = false;
                 }).catch((error) => {
@@ -169,6 +174,10 @@ export class ProductsComponent implements OnInit {
                 })
 
         }
+    }
+
+    pageChanged($event) {
+        this.p = $event;
     }
 
     exportProducts() {

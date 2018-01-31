@@ -73,10 +73,11 @@ export class SellerProductsComponent implements OnInit {
         this.bigLoader = true;
         this.productsService.getProducts().
             then((products) => {
-                this.products = products.Data;
+                this.products = products.Data.Products;
                 this.bigLoader = false;
             }).catch((error) => {
                 this.bigLoader = false;
+                this.toastr.error('Could not get products', 'Error');
                 console.log("error ", error);
             });
     }
@@ -123,7 +124,7 @@ export class SellerProductsComponent implements OnInit {
             this.productsService.getProducts(searchProductForm).
                 then((products) => {
                     console.log("products ", products);
-                    this.products = products.Data;
+                    this.products = products.Data.Products;
                     this.bigLoader = false;
                     this.searchLoader = false;
                 }).catch((error) => {

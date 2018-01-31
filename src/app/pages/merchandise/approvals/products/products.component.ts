@@ -84,9 +84,14 @@ export class ProductsComponent implements OnInit {
         this.productsService.getOpsProducts(this.userRole).
             then((products) => {
                 console.log("products ", products);
-                this.products = products.Data;
+                this.products = products.Data.Products;
                 this.bigLoader = false;
+                if (products.Code === 500) {
+                    this.toastr.error('Could not get products.', 'Error');
+                }
             }).catch((error) => {
+                this.bigLoader = false;
+                this.toastr.error('Could not get products.', 'Error');
                 console.log("error ", error);
             });
     }

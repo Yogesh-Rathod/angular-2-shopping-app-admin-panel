@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProductsService, OrdersService, JsonToExcelService, VendorsService } from 'app/services';
 import { SellerOrdersAdminBulkUploadComponent } from './bulk-upload/bulk-upload.component';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
     selector: 'app-orders',
@@ -66,6 +67,7 @@ export class OrdersComponent implements OnInit {
     vendorsList: any;
 
     constructor(
+        public toastr: ToastsManager,
         private modalService: NgbModal,
         private vendorsService: VendorsService,
         private jsonToExcelService: JsonToExcelService,
@@ -136,6 +138,7 @@ export class OrdersComponent implements OnInit {
                 console.log("orders ", orders);
                 this.bigLoader = false;
             }).catch((error) => {
+                this.toastr.error('Could not get orders', 'Error');
                 console.log("error ", error);
             })
         // this.orders = this.ordersService.getOrders();

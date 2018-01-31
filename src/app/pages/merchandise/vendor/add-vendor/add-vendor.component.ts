@@ -135,18 +135,18 @@ export class AddVendorComponent implements OnInit {
                 ])
             ],
             "CityId": [
-                '',
+                'test',
                 Validators.compose([
                     Validators.required
                 ])
             ],
-            "GstIn": [
-                '',
-                Validators.compose([
-                    Validators.required,
-                    Validators.pattern(RegEx.gstIn)
-                ])
-            ],
+            // "GstIn": [
+            //     '',
+            //     Validators.compose([
+            //         Validators.required,
+            //         Validators.pattern(RegEx.gstIn)
+            //     ])
+            // ],
             //   "country": [
             //     '',
             //     Validators.compose([
@@ -167,7 +167,7 @@ export class AddVendorComponent implements OnInit {
                 ])
             ],
             'UserId': [
-                [],
+                '',
                 Validators.compose([
                     Validators.required
                 ])
@@ -263,7 +263,7 @@ export class AddVendorComponent implements OnInit {
                     this.addVendorForm.controls['AltContactNumber'].setValue(this.vendorInfo.AltContactNumber);
                     this.addVendorForm.controls['Website'].setValue(this.vendorInfo.Website);
                     this.addVendorForm.controls['ListingFee'].setValue(this.vendorInfo.ListingFee);
-                    this.addVendorForm.controls['GstIn'].setValue(this.vendorInfo.GstIn);
+                    // this.addVendorForm.controls['GstIn'].setValue(this.vendorInfo.GstIn);
                     this.addVendorForm.controls['Address'].setValue(this.vendorInfo.Address);
                     this.addVendorForm.controls['CityId'].setValue(this.vendorInfo.CityId);
                     // this.addVendorForm.controls['state'].setValue(this.vendorInfo.state);

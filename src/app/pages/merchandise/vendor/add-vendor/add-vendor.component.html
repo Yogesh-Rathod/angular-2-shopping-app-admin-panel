@@ -81,22 +81,23 @@
                     </label>
                     <input type="text" class="form-control" id="Phone" formControlName="AltContactNumber" (keydown)='validatenumber($event)'>
                 </div>
-                <div class="form-group col-6" *ngIf="!vendorId">
-                    <label for="user">Choose User:
+                <div class="form-group col-6">
+                    <label for="user">
+                        <span *ngIf="!vendorId">Choose</span>
+                        <span *ngIf="vendorId">Change</span> User:
                         <span class="mandatory">*</span>
                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="User."></i>
                     </label>
-                    <angular2-multiselect *ngIf="usersList && usersList.length > 0" id="user" [data]="usersList" formControlName="UserId" [settings]="usersDropdownSettings"
-                    ></angular2-multiselect>
+                    <select id="user" formControlName="UserId" class="form-control">
+                        <option *ngFor="let item of usersList" value="{{item.Id}}" >
+                            {{ item.UserName }}
+                        </option>
+                    </select>
+                    <!-- <angular2-multiselect *ngIf="usersList && usersList.length > 0" id="user" [data]="usersList" formControlName="UserId" [settings]="usersDropdownSettings"
+                    ></angular2-multiselect> -->
                 </div>
 
-                <div class="form-group col-6" *ngIf="vendorId && usersName">
-                    <label for="user">User ID Mapped:
-                        <span class="mandatory">*</span>
-                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="User."></i>
-                    </label>
-                    <input class="form-control" type="text" value="{{ usersName }}" disabled>
-                </div>
+
             </div>
 
             <div class="col-6 row">
@@ -143,13 +144,21 @@
                     <input formControlName="ListingFee" type="text" class="form-control" id="listingFee" (keydown)='validatenumber($event)'>
                 </div>
 
-                <div class="form-group col-6">
+                <!-- <div class="form-group col-6">
                     <label for="gstIn">
                         GST IN
                         <span class="mandatory">*</span>
                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor GST Identification Number (GSTIN)"></i>
                     </label>
                     <input formControlName="GstIn" type="text" class="form-control" id="gstIn">
+                </div> -->
+
+                <div class="form-group col-6" *ngIf="vendorId && usersName">
+                    <label for="user">User ID Mapped:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="User."></i>
+                    </label>
+                    <input class="form-control" type="text" value="{{ usersName }}" disabled>
                 </div>
 
                 <div class="form-group col-6" [class.disabled]="!vendorId">

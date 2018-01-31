@@ -19,7 +19,6 @@ import { ShippedComponent } from './orders/shipped/shipped.component';
 import { SellerProductsComponent } from './seller-products/seller-products.component';
 import { AddSellerProductComponent } from 'app/pages/merchandise/seller/seller-products/add-product/add-seller-product.component';
 import { CKEditorModule } from 'ng2-ckeditor';
-import { DateTimePickerModule } from 'ng-pick-datetime';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { CancellledComponent } from './orders/cancellled/cancellled.component';
 
@@ -34,8 +33,7 @@ import { CancellledComponent } from './orders/cancellled/cancellled.component';
         CKEditorModule,
         MyDatePickerModule,
         ProductsModule,
-        AngularMultiSelectModule,
-        DateTimePickerModule
+        AngularMultiSelectModule
     ],
     declarations: [
         ProfileComponent,

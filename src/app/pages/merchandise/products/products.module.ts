@@ -7,7 +7,6 @@ import { DataTableModule } from "angular2-datatable";
 import { CKEditorModule } from 'ng2-ckeditor';
 import { MyDatePickerModule } from 'mydatepicker';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
-import { DateTimePickerModule } from 'ng-pick-datetime';
 
 import { ProductsComponent} from './products.component';
 import { ProductsService, VendorsService, JsonToExcelService } from 'app/services';
@@ -23,8 +22,7 @@ import { AddProductComponent } from "./add-product/add-product.component";
     DataTableModule,
     CKEditorModule,
     MyDatePickerModule,
-    AngularMultiSelectModule,
-    DateTimePickerModule
+    AngularMultiSelectModule
   ],
   declarations: [
     ProductsComponent,

@@ -20,7 +20,6 @@
       "prefix": "app",
       "styles": [
         "../node_modules/roboto-fontface/css/roboto/sass/roboto-fontface.scss",
-        "../node_modules/ng-pick-datetime/assets/style/picker.min.css",
         "../node_modules/normalize.css/normalize.css",
         "../node_modules/font-awesome/scss/font-awesome.scss",
         "../node_modules/ionicons/scss/ionicons.scss",

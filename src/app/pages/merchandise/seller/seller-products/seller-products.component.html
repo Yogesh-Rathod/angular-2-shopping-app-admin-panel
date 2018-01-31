@@ -96,7 +96,7 @@
         <div class="spacer col-12"></div>
 
         <div class="card col-12">
-            <div class="card-body pos_relative no_left_padding no_right_padding clearfix">
+            <div class="tableLoader card-body pos_relative no_left_padding no_right_padding clearfix">
 
                 <div class="loader-container pos_absolute" *ngIf="bigLoader">
                     <img src="assets/img/ajax-loader.gif" alt="Loader Image">
@@ -132,7 +132,7 @@
                                 </th>
                                 <th>
                                     <mfDefaultSorter by="price">
-                                        <strong>Price </strong>
+                                        <strong>MRP </strong>
                                     </mfDefaultSorter>
                                 </th>
                                 <th class="text-center">
@@ -149,7 +149,7 @@
                             </tr>
                         </thead>
                         <tbody *ngIf=" products && products.length > 0 ">
-                            <tr *ngFor=" let item of mf.data; let i = index; ">
+                            <tr *ngFor=" let item of mf.data | paginate: { itemsPerPage: 10, currentPage: p, totalItems: totalRecords }; let i = index; ">
                                 <td class="text-center">
                                     <input *ngIf="item.Status !=='Pending' && item.Status!=='Approved' && item.Status!=='APPROVED'" [ngModel]="item.isChecked" type="checkbox"
                                         (change)="checkBoxSelected($event, item)">
@@ -203,10 +203,11 @@
                             </tr>
                         </tbody>
 
-                        <tfoot *ngIf=" products && products.length > 10 ">
+                        <tfoot *ngIf=" products && totalRecords > 10 ">
                             <tr>
                                 <td colspan="9">
-                                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                                    <pagination-controls class="my-pagination" (pageChange)="pageChanged($event)"></pagination-controls>
+                                    <!-- <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator> -->
                                 </td>
                             </tr>
                         </tfoot>

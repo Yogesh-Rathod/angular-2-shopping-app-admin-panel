@@ -97,7 +97,7 @@ export class ProductsComponent implements OnInit {
 
     getAllProducts() {
         this.bigLoader = true;
-        this.productsService.getOpsProducts(this.userRole).
+        this.productsService.getOpsProducts(this.userRole, null, 1, 10).
             then((products) => {
                 this.products = products.Data.Products;
                 this.totalRecords = products.Data.TotalRecords;
@@ -138,6 +138,7 @@ export class ProductsComponent implements OnInit {
 
     searchProduct(searchProductForm) {
         console.log('searchProductForm', searchProductForm);
+        this.p = 1;
         this.atLeastOneFieldRequires(searchProductForm);
         if (!this.atLeastOnePresent) {
             console.log('searchProductForm', searchProductForm);
@@ -161,7 +162,7 @@ export class ProductsComponent implements OnInit {
             searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
             console.log("searchProductForm ", searchProductForm);
 
-            this.productsService.getOpsProducts(this.userRole, searchProductForm).
+            this.productsService.getOpsProducts(this.userRole, searchProductForm, 1, 10).
                 then((products) => {
                     console.log("products ", products);
                     this.products = products.Data.Products;
@@ -171,13 +172,25 @@ export class ProductsComponent implements OnInit {
                 }).catch((error) => {
                     this.bigLoader = false;
                     console.log("error ", error);
-                })
+                });
 
         }
     }
 
     pageChanged($event) {
+        this.bigLoader = true;
         this.p = $event;
+        console.log("this.p ", this.p);
+        this.productsService.getOpsProducts(this.userRole, null, this.p, 10).
+            then((products) => {
+                console.log("products ", products);
+                this.products = products.Data.Products;
+                this.totalRecords = products.Data.TotalRecords;
+                this.bigLoader = false;
+            }).catch((error) => {
+                this.bigLoader = false;
+                console.log("error ", error);
+            })
     }
 
     exportProducts() {

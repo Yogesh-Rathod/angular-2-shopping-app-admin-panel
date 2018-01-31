@@ -123,7 +123,7 @@ export class SellsBulkUploadComponent implements OnInit {
             this.productsService.addProduct(this.productsInfo).
                 then((success) => {
                     if (success.Code === 200 && success.Data && success.Data.length === 0) {
-                        this.toastr.success('Product sucessfully sent for approval!', 'Success!');
+                        this.toastr.success('Product sucessfully added!', 'Success!');
                         this.showLoader = false;
                         this.closeModal(true);
                     } else {

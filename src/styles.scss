@@ -206,6 +206,56 @@ fieldset[disabled] {
     color: #666666 !important;
 }
 
+// Ngx Pagination
+.my-pagination /deep/ {
+    .ngx-pagination {
+        border-radius: .25rem;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+
+        li {
+            position: relative;
+            display: block;
+            padding: .5rem .75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #d6d6d6;
+            background-color: #fff;
+            border: 1px solid #ddd;
+
+            &:hover {
+                background-color: #d6d6d6;
+                color: #fff;
+                cursor: pointer;
+            }
+
+            a {
+                color: #666;
+                padding: 0;
+                &:hover {
+                    color: #666;
+                    background-color: transparent;
+                }
+            }
+
+            &.current {
+                color: #fff;
+                background-color: rgba(0, 0, 0, .3) !important;
+            }
+
+            &.disabled {
+                opacity: .7;
+                pointer-events: none;
+            }
+        }
+
+
+
+    }
+}
+
+
 // Media Queries
 @media (min-width: 576px) {
     .modal-sm {

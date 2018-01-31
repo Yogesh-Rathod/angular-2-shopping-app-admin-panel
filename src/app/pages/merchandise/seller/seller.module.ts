@@ -14,6 +14,7 @@ import { FreshComponent } from './orders/fresh/fresh.component';
 import { ProcessedComponent } from './orders/processed/processed.component';
 import { DeliveredComponent } from './orders/delivered/delivered.component';
 import { RtoComponent } from './orders/rto/rto.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { ShippedComponent } from './orders/shipped/shipped.component';
 import { SellerProductsComponent } from './seller-products/seller-products.component';
@@ -33,7 +34,8 @@ import { CancellledComponent } from './orders/cancellled/cancellled.component';
         CKEditorModule,
         MyDatePickerModule,
         ProductsModule,
-        AngularMultiSelectModule
+        AngularMultiSelectModule,
+        NgxPaginationModule
     ],
     declarations: [
         ProfileComponent,

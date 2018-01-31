@@ -28,15 +28,15 @@ export class ProductsService {
         private commonAppSer: CommonAppService
     ) {}
 
-    getProducts(queryParams?) {
-        let url = `${environment.merchandiseUrl}Merchandise/Seller/Products`;
+    getProducts(queryParams?, pageIndex?, pageSize?) {
+        let url = `${environment.merchandiseUrl}Merchandise/Seller/Products?e.pageIndex=${pageIndex}&e.pageSize=${pageSize}`;
         this.headers.set(
             "Authorization",
             this.commonAppSer.crateAuthorization()
         );
         //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         if (queryParams) {
-            url = `${url}?${queryParams}`
+            url = `${url}&${queryParams}`
         }
         return this.http
             .get(url, this.options)
@@ -46,14 +46,14 @@ export class ProductsService {
             .catch(err => this.responseHandler.handleError(err));
     }
 
-    getOpsProducts(role, queryParams?) {
-        let url = `${environment.merchandiseUrl}Merchandise/${role}/Products`;
+    getOpsProducts(role, queryParams?, pageIndex?, pageSize?) {
+        let url = `${environment.merchandiseUrl}Merchandise/${role}/Products?e.pageIndex=${pageIndex}&e.pageSize=${pageSize}`;
         this.headers.set(
             "Authorization",
             this.commonAppSer.crateAuthorization()
         );
         if (queryParams) {
-            url = `${url}?${queryParams}`
+            url = `${url}&${queryParams}`
         }
         // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http

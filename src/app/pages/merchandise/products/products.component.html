@@ -105,7 +105,7 @@
         <div class="spacer col-12"></div>
 
         <div class="card col-12">
-            <div class="card-body pos_relative no_left_padding no_right_padding clearfix">
+            <div class="tableLoader card-body pos_relative no_left_padding no_right_padding clearfix">
 
                 <div class="loader-container pos_absolute" *ngIf="bigLoader">
                     <img src="assets/img/ajax-loader.gif" alt="Loader Image">
@@ -149,14 +149,17 @@
                                     <strong>Product Image</strong>
                                 </th>
                                 <th>
-                                    <strong>Product name</strong>
+                                    <mfDefaultSorter by="Name">
+                                        <strong>Product name</strong>
+
+                                    </mfDefaultSorter>
                                 </th>
                                 <th>
                                     <strong>SKU</strong>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="price">
-                                        <strong>Price </strong>
+                                    <mfDefaultSorter by="Mrp">
+                                        <strong>MRP</strong>
                                     </mfDefaultSorter>
                                 </th>
                                 <!-- <th>
@@ -174,7 +177,7 @@
                             </tr>
                         </thead>
                         <tbody *ngIf=" products && products.length > 0 ">
-                            <tr *ngFor=" let item of products| paginate: { itemsPerPage: 10, currentPage: p, totalItems: totalRecords }; let i = index; ">
+                            <tr *ngFor=" let item of mf.data | paginate: { itemsPerPage: 10, currentPage: p, totalItems: totalRecords }; let i = index; ">
                                 <td class="text-center">
                                     <input *ngIf="item.Status!=='Approved' && item.Status!=='APPROVED'" [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
                                 </td>
@@ -229,10 +232,11 @@
                             </tr>
                         </tbody>
 
-                        <tfoot *ngIf=" products && products.length > 10 ">
+                        <tfoot *ngIf=" products && totalRecords > 10">
                             <tr>
                                 <td colspan="9">
-                                    <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+                                    <pagination-controls class="my-pagination" (pageChange)="pageChanged($event)"></pagination-controls>
+                                    <!-- <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator> -->
                                 </td>
                             </tr>
                         </tfoot>

@@ -165,10 +165,12 @@ export class SellerProductsComponent implements OnInit {
                 then((products) => {
                     if (products.Data && products.Data.Products.length > 0) {
                         this.jsonToExcelService.exportAsExcelFile(products.Data.Products, 'products');
+                        this.selectAllCheckbox = false;
                     }
                 }).catch((error) => {
                     this.toastr.error('Could not get products for export', 'Error');
                     console.log("error ", error);
+                    this.selectAllCheckbox = false;
                 });
         } else {
             _.forEach(this.products, (item) => {
@@ -207,8 +209,12 @@ export class SellerProductsComponent implements OnInit {
                 } else if (res.Code === 500) {
                     this.toastr.error('Could not send for approval.', 'Error');
                 }
+                this.selectAllCheckbox = false;
+                this.productSelected = true;
                 this.approveLoader = false;
             }).catch(err => {
+                this.selectAllCheckbox = false;
+                this.productSelected = true;
                 this.approveLoader = false;
                 this.toastr.error('Could not send for approval.', 'Error');
             })

@@ -85,7 +85,7 @@ export class ProductsComponent implements OnInit {
         this.bigLoader = true;
         this.productsService.getOpsProducts(this.userRole, null, 1, 10).
             then((products) => {
-                this.products = products.Data.Products;
+                this.products = products.Data;
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
                 if (products.Code === 500) {
@@ -131,23 +131,15 @@ export class ProductsComponent implements OnInit {
     exportProducts() {
         let products = [];
         if (this.selectAllCheckbox) {
-            this.productsService.getOpsProducts(this.userRole, null, null, this.totalRecords).
-                then((products) => {
-                    if (products.Data && products.Data.Products.length > 0) {
-                        this.jsonToExcelService.exportAsExcelFile(products.Data.Products, 'products');
-                    }
-                }).catch((error) => {
-                    this.toastr.error('Could not get products for export', 'Error');
-                    console.log("error ", error);
-                });
+            products = this.products;
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
                     products.push(item);
                 }
             });
-            this.jsonToExcelService.exportAsExcelFile(products, 'products');
         }
+        this.jsonToExcelService.exportAsExcelFile(products, 'products');
     }
 
     selectAll(e) {

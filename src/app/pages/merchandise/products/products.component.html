@@ -231,11 +231,11 @@
                             </tr>
                         </tbody>
 
-                        <tfoot *ngIf=" products && totalRecords > 10">
+                        <tfoot *ngIf=" products && products.length > 10">
                             <tr>
                                 <td colspan="9">
-                                    <pagination-controls class="my-pagination" (pageChange)="pageChanged($event)"></pagination-controls>
-                                    <!-- <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator> -->
+                                    <!-- <pagination-controls class="my-pagination" (pageChange)="pageChanged($event)"></pagination-controls> -->
+                                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
                                 </td>
                             </tr>
                         </tfoot>

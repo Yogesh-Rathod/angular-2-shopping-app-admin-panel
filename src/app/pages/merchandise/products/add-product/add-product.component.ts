@@ -212,7 +212,7 @@ export class AddProductComponent implements OnInit {
         if (this.productId) {
             this.productsService.getOpsProductById(productId, this.userRole)
                 .then((res) => {
-                    this.products = res.Data.Products;
+                    this.products = res.Data;
                     if (res.Code != 500) {
                         let specification = this.products[0].ProductSpecification.split('|');
                         let specificationData = [];

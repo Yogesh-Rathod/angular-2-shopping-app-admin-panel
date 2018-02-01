@@ -75,7 +75,7 @@ export class SellerProductsComponent implements OnInit {
         this.bigLoader = true;
         this.productsService.getProducts(null, 1, 10).
             then((products) => {
-                this.products = products.Data.Products;
+                this.products = products.Data;
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
             }).catch((error) => {
@@ -128,7 +128,7 @@ export class SellerProductsComponent implements OnInit {
             this.productsService.getProducts(searchProductForm, 1, 10).
                 then((products) => {
                     console.log("products ", products);
-                    this.products = products.Data.Products;
+                    this.products = products.Data;
                     this.totalRecords = products.Data.TotalRecords;
                     this.bigLoader = false;
                     this.searchLoader = false;
@@ -148,7 +148,7 @@ export class SellerProductsComponent implements OnInit {
         this.productsService.getProducts(null, this.p, 10).
             then((products) => {
                 console.log("products ", products);
-                this.products = products.Data.Products;
+                this.products = products.Data;
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
             }).catch((error) => {
@@ -161,23 +161,15 @@ export class SellerProductsComponent implements OnInit {
     exportProducts() {
         let products = [];
         if (this.selectAllCheckbox) {
-            this.productsService.getProducts(null, null, this.totalRecords).
-                then((products) => {
-                    if (products.Data && products.Data.Products.length > 0) {
-                        this.jsonToExcelService.exportAsExcelFile(products.Data.Products, 'products');
-                    }
-                }).catch((error) => {
-                    this.toastr.error('Could not get products for export', 'Error');
-                    console.log("error ", error);
-                });
+            products = this.products;
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
                     products.push(item);
                 }
             });
-            this.jsonToExcelService.exportAsExcelFile(products, 'products');
         }
+        this.jsonToExcelService.exportAsExcelFile(products, 'products');
     }
 
     bulkUpload() {

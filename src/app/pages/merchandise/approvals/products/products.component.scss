@@ -95,3 +95,11 @@ button[type="submit"].searchButton {
     margin-bottom: 0;
     margin-left: 70px;
 }
+
+.loader-container img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+

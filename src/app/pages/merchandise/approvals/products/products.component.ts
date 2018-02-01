@@ -20,6 +20,8 @@ import { ProductsBulkUploadComponent } from 'app/pages/merchandise/products/bulk
 })
 export class ProductsComponent implements OnInit {
 
+    p: number = 1;
+    totalRecords: any = 1;
     searchProductForm: FormGroup;
     bigLoader = true;
     approveLoader = false;
@@ -81,10 +83,10 @@ export class ProductsComponent implements OnInit {
 
     getAllProducts() {
         this.bigLoader = true;
-        this.productsService.getOpsProducts(this.userRole).
+        this.productsService.getOpsProducts(this.userRole, null, 1, 10).
             then((products) => {
-                console.log("products ", products);
                 this.products = products.Data.Products;
+                this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
                 if (products.Code === 500) {
                     this.toastr.error('Could not get products.', 'Error');
@@ -94,6 +96,21 @@ export class ProductsComponent implements OnInit {
                 this.toastr.error('Could not get products.', 'Error');
                 console.log("error ", error);
             });
+    }
+
+    pageChanged($event) {
+        this.bigLoader = true;
+        this.p = $event;
+        this.productsService.getOpsProducts(this.userRole, null, this.p, 10).
+            then((products) => {
+                console.log("products ", products);
+                this.products = products.Data.Products;
+                this.totalRecords = products.Data.TotalRecords;
+                this.bigLoader = false;
+            }).catch((error) => {
+                this.bigLoader = false;
+                console.log("error ", error);
+            })
     }
 
     atLeastOneFieldRequires(someObject) {

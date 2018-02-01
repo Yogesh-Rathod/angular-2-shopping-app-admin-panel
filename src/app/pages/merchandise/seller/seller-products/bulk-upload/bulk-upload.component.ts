@@ -11,6 +11,7 @@ import { ProductsService, XlsxToJsonService, JsonToExcelService } from 'app/serv
     styleUrls: ['./bulk-upload.component.scss']
 })
 export class SellsBulkUploadComponent implements OnInit {
+
     downloadIssue = []
     submitDisabled = true;
     showUploadError = false;
@@ -18,7 +19,6 @@ export class SellsBulkUploadComponent implements OnInit {
     productsInfo: any;
     result: any;
     blankFileError = false;
-    validationError: any;
 
     constructor(
         private toastr: ToastsManager,
@@ -31,8 +31,7 @@ export class SellsBulkUploadComponent implements OnInit {
     ngOnInit() { }
 
     handleFile(event) {
-        // this.validationError = null;
-        // this.blankFileError = false;
+        this.blankFileError = false;
         let file = event.target.files[0];
         if (file) {
             this.showLoader = true;
@@ -59,36 +58,10 @@ export class SellsBulkUploadComponent implements OnInit {
         }
     }
 
-    // convertJSONResponse(result) {
-    //     console.log("result ", result);
-    //     _.forEach(result, (movie) => {
-    //         const productsInformation = {
-    //             "Title": movie['Title*'],
-    //             "Type": movie['Type*'],
-    //             "Language": movie['Language*'],
-    //             "CensorRating": movie['Censor Rating*'],
-    //             "StarRating": movie['Star Rating (1-5)'],
-    //             "Duration": parseInt(movie['Duration* (in minutes)']),
-    //             "Genre": movie['Genre*'],
-    //             "Writer": movie['Writer*'],
-    //             "Music": movie['Music'],
-    //             "Starring": movie['Starring*'],
-    //             "Director": movie['Director*'],
-    //             "Synopsis": movie['Synopsis*'],
-    //             "ReleaseDate": movie['Release Date* (dd/MM/yyyy)'],
-    //             "ImageUrl": movie['Thumb Image Link*'],
-    //             "PosterUrl": movie['Poster Image Link'],
-    //             "LandscapeUrl": movie['Landscape Image Link'],
-    //             "TrailerUrl": movie['Trailer Link'],
-    //             "Sequence": movie['Sequence*'],
-    //             'RBCNimageUrl': movie['Land scape Image Link_RBCN*']
-    //         };
-    //         this.productsInfo.push(productsInformation);
-    //     });
-    // }
     download(){
         this.jsonToExcelService.exportAsExcelFile(this.downloadIssue, 'products');
     }
+
     sendApproval(event) {
         this.showLoader = true;
         if (this.productsInfo && this.productsInfo.length > 0) {
@@ -98,21 +71,17 @@ export class SellsBulkUploadComponent implements OnInit {
                         this.toastr.success('Product sucessfully sent for approval!', 'Success!');
                         this.showLoader = false;
                         this.closeModal(true);
-
-                    } else {
-                        this.showLoader = false;
+                    } else if (success.Data) {
                         this.downloadIssue = success.Data;
                         this.toastr.error('Oops! Could not upload all products.', 'Error!');
+                    } else if (success.Code === 500) {
+                        this.toastr.error('Oops! Could not upload products.', 'Error!');
                     }
+                    this.showLoader = false;
                 }).catch((error) => {
                     console.log("error ", error);
                     this.showLoader = false;
                     this.toastr.error('Oops! Could not upload products.', 'Error!');
-                    if (error.Code === 500) {
-                    } else if (error.Code === 400) {
-                        this.validationError = error.FailureReasons;
-                        this.closeModal(false);
-                    }
                 });
         }
     }
@@ -126,20 +95,16 @@ export class SellsBulkUploadComponent implements OnInit {
                         this.toastr.success('Product sucessfully added!', 'Success!');
                         this.showLoader = false;
                         this.closeModal(true);
-                    } else {
-                        this.showLoader = false;
+                    } else if (success.Data) {
                         this.downloadIssue = success.Data;
                         this.toastr.error('Oops! Could not upload all products.', 'Error!');
+                    } else if (success.Code === 500) {
+                        this.toastr.error('Oops! Could not upload products.', 'Error!');
                     }
+                    this.showLoader = false;
                 }).catch((error) => {
                     console.log("error ", error);
-                    if (error.Code === 500) {
-                        this.downloadIssue = error.Data;
-                        this.toastr.error('Oops! Could not add movie.', 'Error!');
-                    } else if (error.Code === 400) {
-                        this.downloadIssue = error.Data;
-                        this.validationError = error.FailureReasons;
-                    }
+                    this.toastr.error('Oops! Could not upload products.', 'Error!');
                     this.showLoader = false;
                 });
         }

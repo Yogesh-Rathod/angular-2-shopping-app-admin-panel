@@ -4,6 +4,7 @@ import { AppTranslationModule } from '../../../app.translation.module';
 import { MerchandiseService } from 'app/services';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTableModule } from "angular2-datatable";
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { routing } from './approvals.routes';
 
@@ -20,7 +21,8 @@ import { CatalogManagementService } from "app/services";
         routing,
         ReactiveFormsModule,
         FormsModule,
-        DataTableModule
+        DataTableModule,
+        NgxPaginationModule
     ],
     declarations: [
         ApprovalsComponent,

@@ -61,7 +61,7 @@ export class Pages {
                 this._cookieService.put('sellerId', res.Data.Id);
                 this._cookieService.put('MenuListAllowed', MenuListArray);
                 var PAGES_MENU_NEW = JSON.parse(JSON.stringify(PAGES_MENU));
-                let updatedMenuItems = JSON.parse(JSON.stringify(customMenu));;
+                let updatedMenuItems = JSON.parse(JSON.stringify(customMenu));
                 _.each(updatedMenuItems, (item) => {
                     if (item.MenuCode === 'PRD') {
                         if (!(userRoles.indexOf('SuperAdmin') >= 0 || userRoles.indexOf('Admin') >= 0)) {

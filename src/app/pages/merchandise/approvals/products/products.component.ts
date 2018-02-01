@@ -131,16 +131,23 @@ export class ProductsComponent implements OnInit {
     exportProducts() {
         let products = [];
         if (this.selectAllCheckbox) {
-            console.log("this.selectAllCheckbox ", this.selectAllCheckbox);
-            products = this.products;
+            this.productsService.getOpsProducts(this.userRole, null, null, this.totalRecords).
+                then((products) => {
+                    if (products.Data && products.Data.Products.length > 0) {
+                        this.jsonToExcelService.exportAsExcelFile(products.Data.Products, 'products');
+                    }
+                }).catch((error) => {
+                    this.toastr.error('Could not get products for export', 'Error');
+                    console.log("error ", error);
+                });
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
                     products.push(item);
                 }
             });
+            this.jsonToExcelService.exportAsExcelFile(products, 'products');
         }
-        this.jsonToExcelService.exportAsExcelFile(products, 'products');
     }
 
     selectAll(e) {

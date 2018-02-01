@@ -293,16 +293,6 @@
                   </label>
                   <textarea class="form-control col-8" id="Comments" placeholder="Comments" formControlName="Comments"></textarea>
                 </div>
-                <div class="form-group row">
-                  <label for="approvalStatus" class="col-4 text-right">
-                    Approval Status
-                  </label>
-                  <select id="approvalStatus" formControlName="approvalStatus" class="form-control col-8" [class.disabled]="!productId">
-                    <option *ngFor="let item of approvalStatus" [ngValue]="item">
-                      {{ item }}
-                    </option>
-                  </select>
-                </div>
               </div>
             </div>
           </div>

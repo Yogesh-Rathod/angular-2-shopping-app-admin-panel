@@ -64,18 +64,17 @@ export class ProductsBulkUploadComponent implements OnInit {
         this.showLoader = true;
         if (this.productsInfo && this.productsInfo.length > 0) {
             if (action === 'save') {
-                this.productsService.addProduct(this.productsInfo).
+                this.productsService.editOperationProduct(this.productsInfo, 'Operations').
                     then((success) => {
                         console.log("addProduct success ", success);
                         if (success.Code === 200) {
                             this.toastr.success('Product sucessfully saved in draft', 'Success!');
-                            this.showLoader = false;
                             this.closeModal(true);
                         } else if (success.Code === 500) {
-                            this.showLoader = false;
                             this.errorData = success.Data;
                             this.toastr.error('Oops! Could not upload products.', 'Error!');
                         }
+                        this.showLoader = false;
                     }).catch((error) => {
                         console.log("error ", error);
                         if (error.Code === 500) {
@@ -86,18 +85,17 @@ export class ProductsBulkUploadComponent implements OnInit {
                         this.showLoader = false;
                     });
             } else if (action === 'submit') {
-                this.productsService.sendproductForApproval(this.productsInfo).
+                this.productsService.confirmOperationProduct(this.productsInfo, 'Operations').
                     then((success) => {
                         console.log("sendproductForApproval success ", success);
                         if (success.Code === 200) {
                             this.toastr.success('Product sucessfully sent for approval!', 'Success!');
-                            this.showLoader = false;
                             this.closeModal(true);
                         } else if (success.Code === 500) {
-                            this.showLoader = false;
                             this.errorData = success.Data;
                             this.toastr.error('Oops! Could not upload products.', 'Error!');
                         }
+                        this.showLoader = false;
                     }).catch((error) => {
                         console.log("error ", error);
                         if (error.Code === 500) {
@@ -116,7 +114,6 @@ export class ProductsBulkUploadComponent implements OnInit {
     }
 
     closeModal(status) {
-        console.log("closeModal status ", status);
         this.activeModal.close(status);
     }
 

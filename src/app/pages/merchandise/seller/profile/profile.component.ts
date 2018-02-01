@@ -40,20 +40,8 @@ export class ProfileComponent implements OnInit {
                     console.log("this.vendorInfo ", this.vendorInfo);
                     this.bigLoader = false;
                     if (!this.vendorInfo) {
-                        this.vendorInfo = {
-                            "SellerCode": "string",
-                            "FirstName": "Loylty",
-                            "LastName": "Rewardz",
-                            "Company": "Company Name",
-                            "Address": "201, Chibber house.",
-                            "ZipCode": "400606",
-                            "EmailAddress": "loylty@gmail.com",
-                            "ContactNumber": "9920105555",
-                            "AltContactNumber": "9876432111",
-                            "Website": "www.loylty.com",
-                            "ListingFee": "1000",
-                            "CreatedOn": '12/12/2017'
-                        };
+                        this.toastr.error('Could not get seller info.', 'Error');
+                        this.vendorInfo = {};
                     }
                 }).catch((error) => {
                     console.log("error ", error);

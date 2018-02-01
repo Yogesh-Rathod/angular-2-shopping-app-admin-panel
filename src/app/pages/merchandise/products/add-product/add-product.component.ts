@@ -56,7 +56,6 @@ export class AddProductComponent implements OnInit {
     bankId: any;
     vendorId: any;
     specifications: any = [];
-    approvalStatus = ['Pending', 'Approved', 'Rejected'];
     userRole: any;
 
     constructor(
@@ -173,8 +172,7 @@ export class AddProductComponent implements OnInit {
             'Colour': [''],
             'Size': [''],
             'Comments': [''],
-            'ManufacturerPartNumber': [''],
-            'approvalStatus': ['Pending']
+            'ManufacturerPartNumber': ['']
         });
     }
 
@@ -214,7 +212,7 @@ export class AddProductComponent implements OnInit {
         if (this.productId) {
             this.productsService.getOpsProductById(productId, this.userRole)
                 .then((res) => {
-                    this.products = res.Data;
+                    this.products = res.Data.Products;
                     if (res.Code != 500) {
                         let specification = this.products[0].ProductSpecification.split('|');
                         let specificationData = [];

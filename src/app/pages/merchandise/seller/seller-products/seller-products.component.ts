@@ -145,31 +145,39 @@ export class SellerProductsComponent implements OnInit {
         this.bigLoader = true;
         this.p = $event;
         console.log("this.p ", this.p);
-        this.productsService.getOpsProducts(null, this.p, 10).
+        this.productsService.getProducts(null, this.p, 10).
             then((products) => {
                 console.log("products ", products);
                 this.products = products.Data.Products;
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
             }).catch((error) => {
+                this.toastr.error('Could not get products', 'Error');
                 this.bigLoader = false;
                 console.log("error ", error);
-            })
+            });
     }
 
     exportProducts() {
         let products = [];
         if (this.selectAllCheckbox) {
-            console.log("this.selectAllCheckbox ", this.selectAllCheckbox);
-            products = this.products;
+            this.productsService.getProducts(null, null, this.totalRecords).
+                then((products) => {
+                    if (products.Data && products.Data.Products.length > 0) {
+                        this.jsonToExcelService.exportAsExcelFile(products.Data.Products, 'products');
+                    }
+                }).catch((error) => {
+                    this.toastr.error('Could not get products for export', 'Error');
+                    console.log("error ", error);
+                });
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
                     products.push(item);
                 }
             });
+            this.jsonToExcelService.exportAsExcelFile(products, 'products');
         }
-        this.jsonToExcelService.exportAsExcelFile(products, 'products');
     }
 
     bulkUpload() {

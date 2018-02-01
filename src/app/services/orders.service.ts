@@ -148,10 +148,10 @@ export class OrdersService {
 
 
     getOrdersByPONumber(poNumber?, queryParams?) {
-        let url = poNumber ? `${environment.merchandiseUrl}Orders/${poNumber}` : `${environment.merchandiseUrl}Orders`;
+        let url = poNumber ? `${environment.merchandiseUrl}Orders/${poNumber}?e.pageSize=150` : `${environment.merchandiseUrl}Orders?e.pageSize=150`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         if (queryParams) {
-            url = `${url}?${queryParams}`
+            url = `${url}&${queryParams}`
         }
         return this.http.get(url, this.options)
             .timeout(environment.timeOut)

@@ -275,16 +275,6 @@
                   </label>
                   <textarea class="form-control col-8" id="Comments" placeholder="Comments" formControlName="Comments"></textarea>
                 </div>
-                <div class="form-group row">
-                  <label for="approvalStatus" class="col-4 text-right">
-                    Approval Status
-                  </label>
-                  <select id="approvalStatus" formControlName="approvalStatus" class="form-control col-8" [class.disabled]="!productId">
-                    <option *ngFor="let item of approvalStatus" [ngValue]="item">
-                      {{ item }}
-                    </option>
-                  </select>
-                </div>
               </div>
             </div>
           </div>
@@ -295,54 +285,6 @@
             <div class="card-body" *ngIf=" !productId ">
               <p>You need to save the product before you can upload pictures for this product.</p>
             </div>
-            <!-- <div class="card-body" *ngIf=" productId ">
-              <table class="table table-bordered table-responsive">
-                <thead class="black-muted-bg">
-                  <tr>
-                    <th>Picture</th>
-                    <th>Display order</th>
-                    <th>Alt</th>
-                    <th>Title</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody *ngIf="productInfo && productInfo.picture.length > 0 ">
-                  <tr *ngFor="let item of productInfo.picture">
-                    <td>
-                      <div class="product-image">
-                        <img class="img-fluid" src="{{ item.url ? item.url : 'assets/images/products/Placeholder.png' }}" alt="Product Image">
-                      </div>
-                    </td>
-                    <td>
-                      {{ item.displayOrder }}
-                    </td>
-                    <td>
-                      {{ item.alt }}
-                    </td>
-                    <td>
-                      {{ item.title }}
-                    </td>
-                    <td>
-                      <button class="btn btn-primary">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                        Edit
-                      </button>
-                      <button class="btn btn-info">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody *ngIf="productInfo.picture.length < 1">
-                  <tr>
-                    <td colspan="5">
-                      No Pictures Yet
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div> -->
           </div>
           <div class="card fadeIn animated" *ngIf=" productId ">
             <div class="card-header">

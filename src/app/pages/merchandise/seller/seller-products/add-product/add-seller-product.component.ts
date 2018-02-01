@@ -28,7 +28,6 @@ export class AddSellerProductComponent implements OnInit {
     };
     productId: any;
     products: any;
-    productInfo = [];
     showLoader = false;
     categories = [];
     vendors: any;
@@ -52,7 +51,6 @@ export class AddSellerProductComponent implements OnInit {
     bankId: any;
     vendorId: any;
     specifications: any = [];
-    approvalStatus = ['Pending', 'Approved', 'Rejected'];
 
     constructor(
         private modalService: NgbModal,
@@ -154,8 +152,7 @@ export class AddSellerProductComponent implements OnInit {
             'Colour': [''],
             'Size': [''],
             'Comments': [''],
-            'ManufacturerPartNumber': [''],
-            'approvalStatus': ['Pending']
+            'ManufacturerPartNumber': ['']
         });
     }
 
@@ -194,9 +191,8 @@ export class AddSellerProductComponent implements OnInit {
         this.bigLoader = true;
         if (this.productId) {
             this.productsService.getProductById(this.productId).then(res => {
-                this.products = res.Data;
+                this.products = res.Data.Products;
                 if (res.Code != 500) {
-                    this.productInfo = res.Data;
                     let specification = this.products[0].ProductSpecification.split('|');
                     let specificationData = [];
                     _.forEach(specification, (data, index) => {

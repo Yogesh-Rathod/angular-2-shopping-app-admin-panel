@@ -81,7 +81,7 @@
                     </label>
                     <input type="text" class="form-control" id="Phone" formControlName="AltContactNumber" (keydown)='validatenumber($event)'>
                 </div>
-                <div class="form-group col-6">
+                <div class="form-group col-6" *ngIf="!vendorId">
                     <label for="user">
                         <span *ngIf="!vendorId">Choose</span>
                         <span *ngIf="vendorId">Change</span> User:
@@ -95,6 +95,14 @@
                     </select>
                     <!-- <angular2-multiselect *ngIf="usersList && usersList.length > 0" id="user" [data]="usersList" formControlName="UserId" [settings]="usersDropdownSettings"
                     ></angular2-multiselect> -->
+                </div>
+
+                <div class="form-group col-6" *ngIf="vendorId">
+                    <label for="user">User ID Mapped:
+                        <span class="mandatory">*</span>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="User."></i>
+                    </label>
+                    <input class="form-control" type="text" value="{{ usersName }}" disabled>
                 </div>
 
 
@@ -153,13 +161,13 @@
                     <input formControlName="GstIn" type="text" class="form-control" id="gstIn">
                 </div> -->
 
-                <div class="form-group col-6" *ngIf="vendorId && usersName">
+                <!-- <div class="form-group col-6" *ngIf="vendorId && usersName">
                     <label for="user">User ID Mapped:
                         <span class="mandatory">*</span>
                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="User."></i>
                     </label>
                     <input class="form-control" type="text" value="{{ usersName }}" disabled>
-                </div>
+                </div> -->
 
                 <div class="form-group col-6" [class.disabled]="!vendorId">
                     <label for="Status">Status:

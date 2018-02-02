@@ -93,21 +93,6 @@ export class UserService {
                         .catch((err) => this.responseHandler.handleError(err));
         }
 
-        getAgents(programId): Promise<any> {
-                const url = `${environment.crmUrl}/program/${programId}/agents`;
-
-                const header = new Headers();
-                this.commSer.createAuthorizationHeader(header);
-                header.append('XServiceName', `getAllAgents`);
-                const options = new RequestOptions({ headers: header });
-
-                return this.http.get(url, options)
-                        .timeout(environment.timeOut)
-                        .toPromise()
-                        .then(this.responseHandler.handleResponse)
-                        .catch((err) => this.responseHandler.handleError(err));
-        }
-
         fetchRoles() {
                 const url = `${environment.rbacUrl}Role/All`;
                 this.headers.set('Authorization', this.commonAppSer.crateAuthorization());

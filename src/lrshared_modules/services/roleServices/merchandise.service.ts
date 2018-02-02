@@ -18,18 +18,6 @@ export class MerchandiseService {
 
     init(): Promise<boolean> {
         this._spinner.show();
-        // const url = `${environment.rbacUrl}/user`;
-
-        // const header = new Headers();
-        // this.commSer.createAuthorizationHeader(header);
-        // header.append('XServiceName', `adduser`);
-        // const options = new RequestOptions({ headers: header });
-
-        // return this.http.post(url, '', options)
-        //     .timeout(environment.timeOut)
-        //     .toPromise()
-        //     .then(this.responseHandler.handleResponse)
-        //     .catch((err) => this.responseHandler.handleError(err));
         return new Promise(
             (resolve, reject) => {
                 resolve(true);

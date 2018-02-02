@@ -16,7 +16,7 @@ import { environment } from 'environments/environment';
 import { GlobalState } from 'app/global.state';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { CrmService, AdminService, MerchandiseService, RetailService } from 'lrshared_modules/services/roleServices';
+import { MerchandiseService } from 'lrshared_modules/services/roleServices';
 import { BaThemeSpinner } from 'app/theme/services';
 
 @Component({
@@ -47,10 +47,7 @@ export class LoginComponent implements OnInit {
     private vcr: ViewContainerRef,
     private _state: GlobalState,
     private activeModal: NgbActiveModal,
-    private crmService: CrmService,
-    private adminService: AdminService,
     private merchandiseService: MerchandiseService,
-    private retailService: RetailService,
     private _spinner: BaThemeSpinner,
   ) {
 
@@ -149,38 +146,9 @@ export class LoginComponent implements OnInit {
     }));
 
     switch (environment.appName) {
-      case 'CRM':
-        this.crmService.init(loginPayload, loginPayload.username || this.loginForm.value.email.toLowerCase())
-          .then((res) => {
-            this.navigateToDashboard();
-          })
-          .catch(() => {
-            this.somethingWentWrong();
-          });
-        break;
-
-      case 'RETAIL':
-        this.retailService.init()
-          .then(() => {
-            this.navigateToDashboard();
-          })
-          .catch(() => {
-            this.somethingWentWrong();
-          });
-        break;
 
       case 'MERCHANDISE':
         this.merchandiseService.init()
-          .then(() => {
-            this.navigateToDashboard();
-          })
-          .catch(() => {
-            this.somethingWentWrong();
-          });
-        break;
-
-      case 'ADMIN':
-        this.adminService.init()
           .then(() => {
             this.navigateToDashboard();
           })

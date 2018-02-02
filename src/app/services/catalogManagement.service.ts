@@ -174,4 +174,42 @@ export class CatalogManagementService {
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
     }
+
+    getAllProgramList(){
+        let url = `${environment.programAPIUrl}` ;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    mapCatalogProgram(bodyObj){
+        let bodyObjPlain = JSON.stringify(bodyObj);
+        let url = `${environment.merchandiseUrl}Merchandise/CatalogProgramMap`;
+        this.headers.set('Authorization',this.commonAppSer.crateAuthorization());
+        this.headers.set(
+            "LRSignAuth",
+            this.commonAppSer.createHMACSignature("POST", url, bodyObjPlain)
+        );
+        return this.http
+            .post(url, bodyObjPlain, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch(err => this.responseHandler.handleError(err));
+    }
+
+    getAllMappedProgramList(_catalogId){
+        let url = `${environment.merchandiseUrl}Merchandise/CatalogProgramMap/${_catalogId}` ;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        return this.http.get(url, this.options)
+            .timeout(environment.timeOut)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
 }

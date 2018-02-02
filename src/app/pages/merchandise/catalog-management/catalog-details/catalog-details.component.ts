@@ -20,6 +20,10 @@ import * as _ from "lodash";
     styleUrls: ["./catalog-details.component.scss"]
 })
 export class BankDetailsComponent implements OnInit {
+    programList: any = [];
+    curentSelectedProgram: any = null;
+    showMapprogram:boolean =false;
+    programMappedList: any = [{name:"LVB Bank"}];
     allMapProductsApprove: any = [];
     vendorsList: any = [];
     allMapTempProducts: any = [];
@@ -72,12 +76,13 @@ export class BankDetailsComponent implements OnInit {
         if (this.catalogId) {
             this.getCatalogDetails(this.catalogId, this.for);
             this.getMapProductListByCatalog(this.catalogId);
+            this.getAllMappedProgram(this.catalogId);
             if (this.for == "map") {
                 this.catalogMapOpen = true;
-                this.getAllProgram();
                 this.getMapProductForApproveFunc(this.catalogId);
             }
         }
+        this.getAllProgram();
         this.createSearchForm();
         this.getSellerList();
     }
@@ -91,13 +96,11 @@ export class BankDetailsComponent implements OnInit {
     }
     searchProductFormFunc(_searchData) {
         this.getAllProduct(_searchData);
-        console.log("_searchData== >", _searchData);
     }
 
     // GET Seller List
     getSellerList() {
         this.vendorsService.getVendors().then(res => {
-            console.log("Vendors =========>>", res);
             if (res.Code == 200) {
                 this.vendorsList = res.Data ? res.Data : [];
                 this.vendorsList.map(function(i) {
@@ -118,10 +121,44 @@ export class BankDetailsComponent implements OnInit {
         });
     }
     getAllProgram() {
-        console.log("***************Call for all program *******************");
-        return [];
+       this.catalogManagementService.getAllProgramList().then(res =>{
+            if(res.Success){
+                console.log("Program List res == >",res);
+                this.programList =res.Data;
+            }
+       })
+    }
+    getAllMappedProgram(_catalogId){
+        this.catalogManagementService.getAllMappedProgramList(_catalogId).then(res =>{
+            if(res.Success){
+                this.programMappedList = res.Data;
+            }
+            else{
+                this.programMappedList =[];
+            }
+        })
     }
 
+    mapProgram(_program){
+        let bodyObj = {
+            CatalougeId: this.catalogId,
+            ProgramId: _program.Id
+        }
+        this.catalogManagementService.mapCatalogProgram(bodyObj).then(res=>{
+            if(res.Success){
+                this.toastr.success(
+                    "Bank mapped with catalog successfully.",
+                    "Sucess!"
+                );
+            }else{
+                this.toastr.error(
+                    res.Message,
+                    "Error!"
+                );
+            }
+            console.log("Post res ==>",res);
+        })
+    }
     //GET
     getCatalogDetails(_catalogId, _for) {
         this.catalogManagementService
@@ -138,7 +175,6 @@ export class BankDetailsComponent implements OnInit {
         this.catalogManagementService
             .getMapProductList(_catalogId)
             .then(res => {
-                console.log("========**********+++++++++>>>", res);
                 if (res.Code == 200) {
                     this.allMapProducts = res.Data;
                 }
@@ -204,7 +240,6 @@ export class BankDetailsComponent implements OnInit {
                 } else {
                     this.toastr.error(
                         "Something went wrong.",
-                        "Error!",
                         "Error!"
                     );
                 }

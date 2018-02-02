@@ -215,7 +215,9 @@
                                         <tbody *ngIf=" allMapTempProducts && allMapTempProducts.length > 0 ">
                                             <tr *ngFor=" let item of mfMapList.data; let i = index ">
                                                 <td class="text-left">
-                                                    <div><strong>{{ item.Name }}</strong></div>
+                                                    <div>
+                                                        <strong>{{ item.Name }}</strong>
+                                                    </div>
                                                     <div class="row product-map-edit">
                                                         <div class="col-md-4 form-group">
                                                             <label>Retail Price</label>
@@ -296,7 +298,7 @@
                                             </tr>
                                         </thead>
                                         <tbody *ngIf=" allMapProductsApprove && allMapProductsApprove.length > 0 ">
-                                            <tr *ngFor=" let item of mfListApprove.data; let i = index ">
+                                            <tr *ngFor="let item of mfListApprove.data; let i = index ">
                                                 <td>{{ i+1 }}</td>
                                                 <td>{{ item.ProductName }}</td>
                                                 <td>{{ item.RetailPrice }}</td>
@@ -323,7 +325,30 @@
                             </div>
                         </div>
                         <div role="tabpanel" class="tab-pane fade in" id="mappedBank">
-                            <h2>Program (Bank) List</h2>
+                            <h2 *ngIf="programMappedList.length > 0">Mapped Programs</h2>
+                            <h2 *ngIf="programMappedList.length < 1">Mapped programs not found</h2>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <ul class="list-group">
+                                        <li *ngFor="let program of programMappedList" class="list-group-item">{{program.ProgramName}}</li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-12" style="padding:15px;">
+                                    <button type="button" (click)="showMapprogram = !showMapprogram" class="btn btn-primary">Map New Program</button>
+                                </div>
+                                <div class="col-sm-12" *ngIf="showMapprogram"  style="padding:25px 15px;">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <select class="form-control" [(ngModel)]="curentSelectedProgram">
+                                                <option *ngFor="let program of programList" [ngValue]="program">{{program.ProgramName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <button class="btn btn-primary" (click)="mapProgram(curentSelectedProgram)" type="button">Map Program</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

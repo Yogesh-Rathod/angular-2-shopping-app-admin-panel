@@ -5,15 +5,14 @@
 
 export const environment = {
     production: true,
-    moviesApiUrl: 'http://192.168.61.203/LRAS.MovieAPI/Support/',
+    moviesApiUrl: 'https://movb9.loylty.com/V1/Support/',
     crmUrl: 'http://192.168.250.222:9081/crm',
-    citiesAPIUrl: 'http://192.168.61.202/LRAS.CommonAPI/V1/GetCities',
-    rbacUrl: 'http://192.168.61.203/LRAS.Brix.InternalUserManagementAPI/',
-    merchandiseUrl: 'http://192.168.61.203/LRAS.MerchandiseSupportAPI/',
+    citiesAPIUrl: 'https://comb9.loylty.com/V1/GetCities',
+    rbacUrl: 'https://mgtb9.loylty.com/User/V1/',
+    merchandiseUrl: 'https://mgtb9.loylty.com/Merchandise/V1/',
     appName: 'MERCHANDISE',
     hmacCliendId: 'lvbportal',
     hmacClientSecret: 'secret',
-    moduleId: '825362de-db45-11e7-960e-00155dc90735',
     domainName: 'localhost',
     timeOut: 30000,
     crm: {

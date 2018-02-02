@@ -120,16 +120,13 @@ export class AddProductComponent implements OnInit {
             'ShortDescription': [
                 '',
                 Validators.compose([
-                    Validators.required,
-                    Validators.minLength(1),
-                    Validators.maxLength(1000)
+                    Validators.required
                 ])
             ],
             'FullDescription': [
                 '',
                 Validators.compose([
-                    Validators.minLength(1),
-                    Validators.maxLength(5000)
+                    Validators.required
                 ])
             ],
             'specifications': this.fb.array([this.createControl()]),

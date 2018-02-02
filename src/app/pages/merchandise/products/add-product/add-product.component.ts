@@ -45,7 +45,7 @@ export class AddProductComponent implements OnInit {
         classes: 'col-8 no_padding'
     };
     currencyOptions = ['₹ (INR)', '$ (US)'];
-    statusOptions = ['Draft', 'Pending', 'APPROVED'];
+    statusOptions = ['Draft', 'Pending', 'Approved'];
     bigLoader = true;
     productImageName;
     public myDatePickerOptions: IMyDpOptions = {
@@ -250,8 +250,8 @@ export class AddProductComponent implements OnInit {
                         this.addProductForm.controls['RetailPriceInclusive'].setValue(this.products[0].RetailPriceInclusive);
                         this.addProductForm.controls['CurrencyId'].setValue('₹ (INR)');
                         this.setCategoriesInEditMode();
-                        this.checkFormValidation();
                         this.bigLoader = false;
+                        this.checkFormValidation();
                     }
                 }).catch((error) => {
                     console.log("error ", error);

@@ -42,6 +42,7 @@ export class ProductsComponent implements OnInit {
     dropDownAction = ['Approve', 'Reject'];
     approvalStatus = ['Pending', 'Approved', 'Rejected'];
     noActionSelected = false;
+    disableSubmitButton = false;
     userRole: any;
 
     constructor(
@@ -189,6 +190,14 @@ export class ProductsComponent implements OnInit {
             this.showSelectedAction = false;
         }
 
+    }
+
+    actionDropDownSelected(dropDownActionSelect) {
+        if (dropDownActionSelect) {
+            this.disableSubmitButton = true;
+        } else {
+            this.disableSubmitButton = false;
+        }
     }
 
     dropDownActionFunction(dropDownActionValue) {

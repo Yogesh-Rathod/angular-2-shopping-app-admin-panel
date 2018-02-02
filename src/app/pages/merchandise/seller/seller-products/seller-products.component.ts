@@ -27,7 +27,7 @@ export class SellerProductsComponent implements OnInit {
     searchLoader = false;
     products: any;
     categories: any;
-    status = ['Draft', 'Pending', 'APPROVED'];
+    status = ['Draft', 'Pending', 'Approved'];
     showSelectedDelete = false;
     selectAllCheckbox = false;
     atLeastOnePresent = false;
@@ -310,6 +310,7 @@ export class SellerProductsComponent implements OnInit {
     resetForm() {
         this.searchForm();
         this.getAllProducts();
+        this.atLeastOnePresent = false;
     }
 
 

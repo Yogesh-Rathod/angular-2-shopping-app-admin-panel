@@ -22,7 +22,7 @@
 
                 <form class="form-inline row" [formGroup]="searchProductForm" (ngSubmit)=" searchProduct(searchProductForm.value) ">
 
-                    <div class="form-group col-3">
+                    <div class="form-group col-6 col-lg-3">
                         <label for="name">
                             Product Name
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A product name."></i>
@@ -30,7 +30,7 @@
                         <input type="text" class="form-control" id="name" placeholder="Product Name" formControlName="e.name">
                     </div>
 
-                    <div class="form-group col-3">
+                    <div class="form-group col-6 col-lg-3">
                         <label for="id">
                             Product Code
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A product Code."></i>
@@ -38,7 +38,7 @@
                         <input type="text" class="form-control" id="id" placeholder="Product Code" formControlName="e.sKU">
                     </div>
 
-                    <div class="form-group col-3">
+                    <div class="form-group col-6 col-lg-3">
                         <label for="id">
                             Parent Product Code
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A parent product Code."></i>
@@ -46,7 +46,7 @@
                         <input type="text" class="form-control" id="id" placeholder="Parent Product Code" formControlName="e.parentProductCode">
                     </div>
 
-                    <div class="form-group col-3">
+                    <div class="form-group col-6 col-lg-3">
                         <label for="Category">
                             Category
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific category."></i>
@@ -59,7 +59,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-3">
+                    <div class="form-group col-6 col-lg-3">
                         <label for="Vendor">
                             Seller
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific seller."></i>
@@ -72,7 +72,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-3">
+                    <div class="form-group col-6 col-lg-3">
                         <label for="Status">
                             Status
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Status' property."></i>
@@ -125,14 +125,19 @@
                                 Action
                                 <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select action to perform."></i>
                             </label>
-                            <select id="action" class="form-control col-6" #dropDownActionSelect>
+                            <select id="action" class="form-control col-6" #dropDownActionSelect (change)="actionDropDownSelected(dropDownActionSelect.value)">
                                 <option value="">Select Action</option>
                                 <option *ngFor="let item of dropDownAction;" value="{{ item }}">
                                     {{ item }}
                                 </option>
                             </select>
-                            <button class="btn btn-success" type="button" (click)="dropDownActionFunction(dropDownActionSelect.value)" [disabled]="dropDownActionSelect.value==''">Submit</button>
-                            <p *ngIf="noActionSelected" class="no-action error no-text-transform">Please select a action.</p>
+                            <button
+                                class="btn btn-success"
+                                type="button"
+                                [disabled]="!disableSubmitButton"
+                                (click)="dropDownActionFunction(dropDownActionSelect.value)">
+                                    Submit
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -211,7 +216,7 @@
 									</span>
 								</td> -->
                                 <td class="action" *ngIf="userRole!='Admin'">
-                                    <button *ngIf="item.Status=='Draft' || item.Status=='Approved' || item.Status=='APPROVED'" class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.Id]"
+                                    <button *ngIf="item.Status=='Draft' || item.Status=='Approved' || item.Status=='APPROVED' || userRole == 'Admin'" class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.Id]"
                                         title="Edit">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </button>

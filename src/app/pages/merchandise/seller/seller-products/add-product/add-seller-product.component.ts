@@ -40,7 +40,7 @@ export class AddSellerProductComponent implements OnInit {
         classes: 'col-8 no_padding'
     };
     currencyOptions = ['₹ (INR)', '$ (US)'];
-    statusOptions = ['Draft', 'Pending', 'APPROVED'];
+    statusOptions = ['Draft', 'Pending', 'Approved'];
     bigLoader = true;
     productImageName;
     public myDatePickerOptions: IMyDpOptions = {

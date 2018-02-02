@@ -115,8 +115,7 @@ export class AddSellerProductComponent implements OnInit {
             'FullDescription': [
                 '',
                 Validators.compose([
-                    Validators.minLength(1),
-                    Validators.maxLength(5000)
+                    Validators.required
                 ])
             ],
             'specifications': this.fb.array([this.createControl()]),

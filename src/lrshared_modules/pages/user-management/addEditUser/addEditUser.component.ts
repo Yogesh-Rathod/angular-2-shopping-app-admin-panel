@@ -13,7 +13,6 @@ import * as _ from 'lodash';
 declare let $: any;
 
 import { AppState } from 'app/app.service';
-import { CommonService } from 'lrshared_modules/services/common-services.service';
 import { GlobalState } from 'app/global.state';
 
 @Component({
@@ -65,7 +64,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         public router: Router,
         private globals: AppState,
         private _state: GlobalState,
-        private commonService: CommonService,
     ) {
         this.route.params.subscribe(params => {
             this.routeName = this.route.snapshot.data.name;

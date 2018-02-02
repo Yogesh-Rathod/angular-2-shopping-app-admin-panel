@@ -27,7 +27,7 @@ export class SellerProductsComponent implements OnInit {
     searchLoader = false;
     products: any;
     categories: any;
-    status = ['Draft', 'Pending', 'APPROVED'];
+    status = ['Draft', 'Pending', 'Approved'];
     showSelectedDelete = false;
     selectAllCheckbox = false;
     atLeastOnePresent = false;
@@ -75,7 +75,7 @@ export class SellerProductsComponent implements OnInit {
         this.bigLoader = true;
         this.productsService.getProducts(null, 1, 10).
             then((products) => {
-                this.products = products.Data;
+                this.products = products.Data.Products;
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
             }).catch((error) => {
@@ -128,7 +128,7 @@ export class SellerProductsComponent implements OnInit {
             this.productsService.getProducts(searchProductForm, 1, 10).
                 then((products) => {
                     console.log("products ", products);
-                    this.products = products.Data;
+                    this.products = products.Data.Products;
                     this.totalRecords = products.Data.TotalRecords;
                     this.bigLoader = false;
                     this.searchLoader = false;
@@ -148,7 +148,7 @@ export class SellerProductsComponent implements OnInit {
         this.productsService.getProducts(null, this.p, 10).
             then((products) => {
                 console.log("products ", products);
-                this.products = products.Data;
+                this.products = products.Data.Products;
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
             }).catch((error) => {
@@ -161,15 +161,25 @@ export class SellerProductsComponent implements OnInit {
     exportProducts() {
         let products = [];
         if (this.selectAllCheckbox) {
-            products = this.products;
+            this.productsService.getProducts(null, null, this.totalRecords).
+                then((products) => {
+                    if (products.Data && products.Data.Products.length > 0) {
+                        this.jsonToExcelService.exportAsExcelFile(products.Data.Products, 'products');
+                        this.selectAllCheckbox = false;
+                    }
+                }).catch((error) => {
+                    this.toastr.error('Could not get products for export', 'Error');
+                    console.log("error ", error);
+                    this.selectAllCheckbox = false;
+                });
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
                     products.push(item);
                 }
             });
+            this.jsonToExcelService.exportAsExcelFile(products, 'products');
         }
-        this.jsonToExcelService.exportAsExcelFile(products, 'products');
     }
 
     bulkUpload() {
@@ -199,8 +209,12 @@ export class SellerProductsComponent implements OnInit {
                 } else if (res.Code === 500) {
                     this.toastr.error('Could not send for approval.', 'Error');
                 }
+                this.selectAllCheckbox = false;
+                this.productSelected = true;
                 this.approveLoader = false;
             }).catch(err => {
+                this.selectAllCheckbox = false;
+                this.productSelected = true;
                 this.approveLoader = false;
                 this.toastr.error('Could not send for approval.', 'Error');
             })
@@ -296,6 +310,7 @@ export class SellerProductsComponent implements OnInit {
     resetForm() {
         this.searchForm();
         this.getAllProducts();
+        this.atLeastOnePresent = false;
     }
 
 

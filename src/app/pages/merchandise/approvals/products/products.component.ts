@@ -42,6 +42,7 @@ export class ProductsComponent implements OnInit {
     dropDownAction = ['Approve', 'Reject'];
     approvalStatus = ['Pending', 'Approved', 'Rejected'];
     noActionSelected = false;
+    disableSubmitButton = false;
     userRole: any;
 
     constructor(
@@ -77,7 +78,7 @@ export class ProductsComponent implements OnInit {
             then((categories) => {
                 this.categories = categories.Data;
             }).catch((error) => {
-                console.log("error ", error);
+                this.toastr.error('Could not get categories.', 'Error');
             });
     }
 
@@ -85,7 +86,7 @@ export class ProductsComponent implements OnInit {
         this.bigLoader = true;
         this.productsService.getOpsProducts(this.userRole, null, 1, 10).
             then((products) => {
-                this.products = products.Data;
+                this.products = products.Data.Products;
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
                 if (products.Code === 500) {
@@ -94,7 +95,6 @@ export class ProductsComponent implements OnInit {
             }).catch((error) => {
                 this.bigLoader = false;
                 this.toastr.error('Could not get products.', 'Error');
-                console.log("error ", error);
             });
     }
 
@@ -103,13 +103,11 @@ export class ProductsComponent implements OnInit {
         this.p = $event;
         this.productsService.getOpsProducts(this.userRole, null, this.p, 10).
             then((products) => {
-                console.log("products ", products);
                 this.products = products.Data.Products;
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
             }).catch((error) => {
                 this.bigLoader = false;
-                console.log("error ", error);
             })
     }
 
@@ -131,15 +129,22 @@ export class ProductsComponent implements OnInit {
     exportProducts() {
         let products = [];
         if (this.selectAllCheckbox) {
-            products = this.products;
+            this.productsService.getOpsProducts(this.userRole, null, null, this.totalRecords).
+                then((products) => {
+                    if (products.Data && products.Data.Products.length > 0) {
+                        this.jsonToExcelService.exportAsExcelFile(products.Data.Products, 'products');
+                    }
+                }).catch((error) => {
+                    this.toastr.error('Could not get products for export', 'Error');
+                });
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
                     products.push(item);
                 }
             });
+            this.jsonToExcelService.exportAsExcelFile(products, 'products');
         }
-        this.jsonToExcelService.exportAsExcelFile(products, 'products');
     }
 
     selectAll(e) {
@@ -183,8 +188,15 @@ export class ProductsComponent implements OnInit {
 
     }
 
+    actionDropDownSelected(dropDownActionSelect) {
+        if (dropDownActionSelect) {
+            this.disableSubmitButton = true;
+        } else {
+            this.disableSubmitButton = false;
+        }
+    }
+
     dropDownActionFunction(dropDownActionValue) {
-        console.log("value", dropDownActionValue);
         if (!dropDownActionValue) {
             this.noActionSelected = true;
         } else {
@@ -200,7 +212,6 @@ export class ProductsComponent implements OnInit {
                     break;
             }
         }
-        console.log("dropDownActionValue ", dropDownActionValue);
     }
 
     rejectAll() {
@@ -216,20 +227,17 @@ export class ProductsComponent implements OnInit {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
                     productsToReject.push(item.Id);
-                    // item.approvalStatus = 'Approved';
                     item.isChecked = false;
                 }
             });
         }
         this.productsService.rejectProducts(productsToReject, this.userRole).
             then((success) => {
-                console.log("success ", success);
                 if (success.Code === 200) {
                     this.getAllProducts();
                 }
                 this.approveLoader = false;
             }).catch((error) => {
-                console.log("error ", error);
                 this.approveLoader = false;
             })
         this.selectAllCheckbox = false;
@@ -242,7 +250,6 @@ export class ProductsComponent implements OnInit {
         if (this.selectAllCheckbox) {
             productsToApprove = [];
             _.forEach(this.products, (item) => {
-                // item.approvalStatus = 'Approved';
                 productsToApprove.push(item.Id);
                 item.isChecked = false;
             });
@@ -251,20 +258,17 @@ export class ProductsComponent implements OnInit {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
                     productsToApprove.push(item.Id);
-                    // item.approvalStatus = 'Approved';
                     item.isChecked = false;
                 }
             });
         }
         this.productsService.approveProducts(productsToApprove, this.userRole).
             then((success) => {
-                console.log("success ", success);
                 if (success.Code === 200) {
                     this.getAllProducts();
                 }
                 this.approveLoader = false;
             }).catch((error) => {
-                console.log("error ", error);
                 this.approveLoader = false;
             })
         this.selectAllCheckbox = false;

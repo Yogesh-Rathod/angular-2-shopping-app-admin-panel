@@ -40,7 +40,7 @@ export class AddSellerProductComponent implements OnInit {
         classes: 'col-8 no_padding'
     };
     currencyOptions = ['₹ (INR)', '$ (US)'];
-    statusOptions = ['Draft', 'Pending', 'APPROVED'];
+    statusOptions = ['Draft', 'Pending', 'Approved'];
     bigLoader = true;
     productImageName;
     public myDatePickerOptions: IMyDpOptions = {
@@ -191,7 +191,7 @@ export class AddSellerProductComponent implements OnInit {
         this.bigLoader = true;
         if (this.productId) {
             this.productsService.getProductById(this.productId).then(res => {
-                this.products = res.Data;
+                this.products = res.Data.Products;
                 if (res.Code != 500) {
                     let specification = this.products[0].ProductSpecification.split('|');
                     let specificationData = [];

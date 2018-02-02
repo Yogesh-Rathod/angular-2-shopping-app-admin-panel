@@ -21,9 +21,9 @@
             </div>
             <a *ngIf="downloadIssue.length>0" target="_blank" href="javascript:void(0)" (click)="download()" class="error text-decoration btn-link float-left">Download Error Report</a>
             <div class="row col-md-12 uploadButton form-group">
-                <button class="btn btn-primary col-md-3" [disabled]=" submitDisabled || showLoader" (click)="uploadFile($event)">Upload</button>
-                <img class="" *ngIf="showLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-                <button type="button" class="sendApproval btn btn-primary col-md-6" [disabled]=" submitDisabled || showLoader " (click)="sendApproval($event)">Request approval</button>
+                <button class="btn btn-primary col-3" [disabled]=" submitDisabled || showLoader" (click)="uploadFile($event)">Upload</button>
+                <img *ngIf="showLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+                <button type="button" class="sendApproval btn btn-primary col-6" [disabled]=" submitDisabled || showLoader " (click)="sendApproval($event)">Request approval</button>
             </div>
         </form>
     </div>

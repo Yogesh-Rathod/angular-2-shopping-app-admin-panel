@@ -28,7 +28,7 @@ export class ProductsComponent implements OnInit {
     searchLoader = false;
     products: any;
     categories: any;
-    status = ['Draft', 'Pending', 'APPROVED'];
+    status = ['Draft', 'Pending', 'Approved'];
     vendors: any;
     showSelectedAction = false;
     selectAllCheckbox = false;
@@ -39,6 +39,7 @@ export class ProductsComponent implements OnInit {
     approvalStatus = ['Pending', 'Approved', 'Rejected'];
     noActionSelected = false;
     userRole: any;
+    disableSubmitButton = false;
 
     constructor(
         private cookieService: CookieService,
@@ -99,7 +100,7 @@ export class ProductsComponent implements OnInit {
         this.bigLoader = true;
         this.productsService.getOpsProducts(this.userRole, null, 1, 10).
             then((products) => {
-                this.products = products.Data;
+                this.products = products.Data.Products;
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
             }).catch((error) => {
@@ -258,6 +259,14 @@ export class ProductsComponent implements OnInit {
 
     }
 
+    actionDropDownSelected(dropDownActionSelect) {
+        if (dropDownActionSelect) {
+            this.disableSubmitButton = true;
+        } else {
+            this.disableSubmitButton = false;
+        }
+    }
+
     dropDownActionFunction(dropDownActionValue) {
         console.log("value", dropDownActionValue);
         if (!dropDownActionValue) {
@@ -347,6 +356,7 @@ export class ProductsComponent implements OnInit {
     }
 
     resetForm() {
+        this.atLeastOnePresent = false;
         this.searchForm();
         this.getAllProducts();
     }

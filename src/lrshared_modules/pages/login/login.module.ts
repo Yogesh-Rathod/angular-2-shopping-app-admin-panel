@@ -8,7 +8,7 @@ import { FormsModule as AngularFormsModule, ReactiveFormsModule } from '@angular
 
 import { AppTranslationModule } from 'app/app.translation.module';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { CrmService, AdminService, MerchandiseService, RetailService } from 'lrshared_modules/services/roleServices';
+import { MerchandiseService } from 'lrshared_modules/services/roleServices';
 
 @NgModule({
   imports: [
@@ -24,10 +24,7 @@ import { CrmService, AdminService, MerchandiseService, RetailService } from 'lrs
   ],
   providers: [
     NgbActiveModal,
-    CrmService,
-    AdminService,
-    MerchandiseService,
-    RetailService
+    MerchandiseService
   ]
 })
 export class LoginModule {}

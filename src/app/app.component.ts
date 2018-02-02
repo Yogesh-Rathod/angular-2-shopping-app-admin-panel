@@ -26,17 +26,6 @@ export class App {
       }
       window.scrollTo(0, 0);
     });
-
-    // if ( this._cookieService.get('userLoggedInData') ) {
-    //   const userInfo = JSON.parse( this._cookieService.get('userLoggedInData') );
-    //   // console.log("userInfo", userInfo);
-    //   if ( userInfo.email !== 'yogeshr' && userInfo.password !== 'loylty'  ) {
-    //     window.location.href = 'http://localhost:4300';
-    //   }
-    // } else {
-    //   window.location.href = 'http://localhost:4300';
-    // }
-
   }
 
   isMenuCollapsed: boolean = false;

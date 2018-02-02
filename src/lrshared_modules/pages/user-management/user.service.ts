@@ -14,7 +14,6 @@ import { AppState } from 'app/app.service';
 import { CookieService } from 'ngx-cookie';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
-import { CommonService } from 'lrshared_modules/services/common-services.service';
 import { CommonAppService } from 'app/services/common.services';
 import { ResponseHandingService } from 'lrshared_modules/services/response-handling.service';
 
@@ -24,7 +23,6 @@ export class UserService {
         constructor(
                 private cookieService: CookieService,
                 private http: Http,
-                private commSer: CommonService,
                 private commonAppSer: CommonAppService,
                 private responseHandler: ResponseHandingService,
         ) {
@@ -87,21 +85,6 @@ export class UserService {
                 this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
                 this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, data));
                 return this.http.put(url, JSON.stringify(data), this.options)
-                        .timeout(environment.timeOut)
-                        .toPromise()
-                        .then(this.responseHandler.handleResponse)
-                        .catch((err) => this.responseHandler.handleError(err));
-        }
-
-        getAgents(programId): Promise<any> {
-                const url = `${environment.crmUrl}/program/${programId}/agents`;
-
-                const header = new Headers();
-                this.commSer.createAuthorizationHeader(header);
-                header.append('XServiceName', `getAllAgents`);
-                const options = new RequestOptions({ headers: header });
-
-                return this.http.get(url, options)
                         .timeout(environment.timeOut)
                         .toPromise()
                         .then(this.responseHandler.handleResponse)

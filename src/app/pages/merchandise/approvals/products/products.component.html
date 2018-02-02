@@ -16,14 +16,15 @@
               Action
               <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select action to perform."></i>
           </label>
-          <select id="action" class="form-control col-6" #dropDownActionSelect>
+          <select id="action" class="form-control col-6" #dropDownActionSelect (change)="actionDropDownSelected(dropDownActionSelect.value)">
               <option value="">Select Action</option>
               <option *ngFor="let item of dropDownAction;" value="{{ item }}">
                   {{ item }}
               </option>
           </select>
-          <button class="btn btn-success" type="button" (click)="dropDownActionFunction(dropDownActionSelect.value)" [disabled]="dropDownActionSelect.value==''">Submit</button>
-          <p *ngIf="noActionSelected" class="no-action error no-text-transform">Please select a action.</p>
+        <button class="btn btn-success" type="button" [disabled]="!disableSubmitButton" (click)="dropDownActionFunction(dropDownActionSelect.value)">
+            Submit
+        </button>
       </div>
   </form>
 </div>

@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {GlobalState} from '../../../global.state';
 import { CookieService } from 'ngx-cookie';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {ChangePasswordComponent} from 'lrshared_modules/components/changepassword/changepassword.component';
 
 @Component({
   selector: 'ba-page-top',
@@ -29,13 +28,13 @@ export class BaPageTop {
 
   changePassword(){
 
-    const activeModal = this.modalService.open(ChangePasswordComponent, { size: 'sm'});
-        activeModal.componentInstance.modalHeader = "Change Password";
-        activeModal.result.then((status) => {
-          if (status) {
-            console.log("Called Popup");          
-          }
-        });
+    // const activeModal = this.modalService.open(ChangePasswordComponent, { size: 'sm'});
+    //     activeModal.componentInstance.modalHeader = "Change Password";
+    //     activeModal.result.then((status) => {
+    //       if (status) {
+    //         console.log("Called Popup");
+    //       }
+    //     });
   }
   public toggleMenu() {
     this.isMenuCollapsed = !this.isMenuCollapsed;

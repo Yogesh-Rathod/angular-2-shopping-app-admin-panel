@@ -45,7 +45,7 @@ export class AddProductComponent implements OnInit {
         classes: 'col-8 no_padding'
     };
     currencyOptions = ['₹ (INR)', '$ (US)'];
-    statusOptions = ['Draft', 'Pending', 'APPROVED'];
+    statusOptions = ['Draft', 'Pending', 'Approved'];
     bigLoader = true;
     productImageName;
     public myDatePickerOptions: IMyDpOptions = {
@@ -120,16 +120,13 @@ export class AddProductComponent implements OnInit {
             'ShortDescription': [
                 '',
                 Validators.compose([
-                    Validators.required,
-                    Validators.minLength(1),
-                    Validators.maxLength(1000)
+                    Validators.required
                 ])
             ],
             'FullDescription': [
                 '',
                 Validators.compose([
-                    Validators.minLength(1),
-                    Validators.maxLength(5000)
+                    Validators.required
                 ])
             ],
             'specifications': this.fb.array([this.createControl()]),
@@ -212,7 +209,7 @@ export class AddProductComponent implements OnInit {
         if (this.productId) {
             this.productsService.getOpsProductById(productId, this.userRole)
                 .then((res) => {
-                    this.products = res.Data;
+                    this.products = res.Data.Products;
                     if (res.Code != 500) {
                         let specification = this.products[0].ProductSpecification.split('|');
                         let specificationData = [];
@@ -250,8 +247,8 @@ export class AddProductComponent implements OnInit {
                         this.addProductForm.controls['RetailPriceInclusive'].setValue(this.products[0].RetailPriceInclusive);
                         this.addProductForm.controls['CurrencyId'].setValue('₹ (INR)');
                         this.setCategoriesInEditMode();
-                        this.checkFormValidation();
                         this.bigLoader = false;
+                        this.checkFormValidation();
                     }
                 }).catch((error) => {
                     console.log("error ", error);

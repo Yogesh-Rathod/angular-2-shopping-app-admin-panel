@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { AppStateManagementService } from './app-state-management.service';
 import { AuthenticationService } from './authentication.service';
 import { ResponseHandingService } from './response-handling.service';
-import { CommonService } from './common-services.service';
 import { UserService } from "lrshared_modules/pages/user-management/user.service";
 import { LoginService } from 'lrshared_modules/pages/login/login.service';
 
@@ -15,7 +14,6 @@ import { LoginService } from 'lrshared_modules/pages/login/login.service';
   providers: [
     AppStateManagementService,
     AuthenticationService,
-    CommonService,
     ResponseHandingService,
     UserService,
     LoginService,

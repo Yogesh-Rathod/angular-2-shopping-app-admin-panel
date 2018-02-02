@@ -14,7 +14,6 @@ import { AppState } from 'app/app.service';
 import { CookieService } from 'ngx-cookie';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
-import { CommonService } from 'lrshared_modules/services/common-services.service';
 import { CommonAppService } from 'app/services/common.services';
 import { ResponseHandingService } from 'lrshared_modules/services/response-handling.service';
 
@@ -24,7 +23,6 @@ export class UserService {
         constructor(
                 private cookieService: CookieService,
                 private http: Http,
-                private commSer: CommonService,
                 private commonAppSer: CommonAppService,
                 private responseHandler: ResponseHandingService,
         ) {

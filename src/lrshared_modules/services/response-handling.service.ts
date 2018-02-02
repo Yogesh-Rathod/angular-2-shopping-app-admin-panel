@@ -26,7 +26,6 @@ export class ResponseHandingService {
       this.toastr.error(rejParse.message || 'Unauthorised access, please login to continue.')
         .then(() => this.logoutAfterDelay());
     } else if (error.status === 403) {
-      
     }
 
     try {

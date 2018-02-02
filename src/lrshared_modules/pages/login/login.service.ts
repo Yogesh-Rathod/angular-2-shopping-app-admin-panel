@@ -12,7 +12,6 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/timeout';
 
 import { environment } from 'environments/environment';
-import { CommonService } from 'lrshared_modules/services/common-services.service';
 import { CommonAppService } from 'app/services/common.services';
 import { ResponseHandingService } from 'lrshared_modules/services/response-handling.service';
 
@@ -29,7 +28,6 @@ export class LoginService {
     constructor(
         private http: Http,
         private commonAppSer: CommonAppService,
-        private commSer: CommonService,
         private responseHandler: ResponseHandingService
     ) {
 

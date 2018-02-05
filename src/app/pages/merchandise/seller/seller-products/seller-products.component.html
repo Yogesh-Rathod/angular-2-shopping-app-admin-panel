@@ -186,7 +186,7 @@
                                     <button class="btn btn-secondary" *ngIf="item.Status == 'Draft'" [routerLink]="['/seller/edit-seller-product', item.Id]" title="Edit">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </button>
-                                    <span *ngIf="item.Status=='Approved'">---</span>
+                                    <span *ngIf="item.Status!=='Draft'">---</span>
                                     <!-- <button class="btn btn-danger" (click)="deleteProduct(item, i)" title="Delete" [disabled]="deleteLoader == i">
 										<i class="fa fa-trash-o" aria-hidden="true"></i>
 									</button> -->

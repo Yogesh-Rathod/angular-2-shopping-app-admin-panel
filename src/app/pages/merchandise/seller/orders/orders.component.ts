@@ -77,7 +77,6 @@ export class OrdersComponent implements OnInit {
         });
         this.searchForm();
         this.getAllOrders();
-        this.bigLoader = false;
     }
 
     disableSince() {
@@ -109,10 +108,13 @@ export class OrdersComponent implements OnInit {
                 console.log("orders", orders);
                 this.orders = orders.Data.PurchaseOrder;
                 this.bigLoader = false;
+                if (!orders.Success) {
+                    this.toastr.error('Could not get orders.', 'Error');
+                }
             }).catch((error) => {
+                this.bigLoader = false;
                 this.toastr.error('Could not get orders', 'Error');
             });
-        // this.orders = this.ordersService.getOrders();
     }
 
     childStatusChanged(finished: boolean) {
@@ -174,11 +176,17 @@ export class OrdersComponent implements OnInit {
         console.log('searchOrdersForm', searchOrdersForm);
         this.ordersService.getOrdersByPONumber(null, searchOrdersForm).
             then((orders) => {
-                this.orders = orders.Data.PurchaseOrder;
-                console.log("orders ", orders);
+                if (orders.Data) {
+                    this.orders = orders.Data.PurchaseOrder;
+                }
                 this.bigLoader = false;
                 this.searchLoader = false;
+                if (!orders.Success) {
+                    this.toastr.error('Could not get orders.', 'Error');
+                }
             }).catch((error) => {
+                this.toastr.error('Could not get orders.', 'Error');
+                this.bigLoader = false;
                 console.log("error ", error);
             })
     }

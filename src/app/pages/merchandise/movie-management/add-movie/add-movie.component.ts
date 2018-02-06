@@ -11,8 +11,7 @@ declare let $: any;
 
 import { RegEx } from './../../../regular-expressions';
 import { MovieManagementService } from 'app/services';
-import { AppStateManagementService } from 'lrshared_modules/services';
-import { MovieDeletePopupComponent } from '../delete-popup/delete-popup.component';
+import { AppStateManagementService } from 'users_modules/services';
 import { log } from 'util';
 
 @Component({

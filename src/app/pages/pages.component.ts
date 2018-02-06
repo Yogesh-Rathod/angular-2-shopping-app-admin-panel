@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { BaMenuService } from '../theme';
 import { PAGES_MENU } from './pages.menu';
 import { AppState } from 'app/app.service';
-import { UserService } from 'lrshared_modules/pages/user-management/user.service';
+import { UserService } from 'users_modules/pages/user-management/user.service';
 import { CookieService } from 'ngx-cookie';
 
 import * as _ from 'lodash';

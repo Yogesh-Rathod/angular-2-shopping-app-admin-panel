@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "environments";
 import { CommonAppService } from "app/services/common.services";
 import { Http, Headers, RequestOptions } from "@angular/http";
-import { ResponseHandingService } from "lrshared_modules/services";
+import { ResponseHandingService } from "users_modules/services";
 
 @Injectable()
 export class CatalogManagementService {

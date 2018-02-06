@@ -44,7 +44,7 @@ export type StoreType = {
 };
 
 // Shared Modules
-import { LrSharedModule } from '../lrshared_modules/lr-shared.module';
+import { LrSharedModule } from '../users_modules/lr-shared.module';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -70,11 +70,11 @@ import { LrSharedModule } from '../lrshared_modules/lr-shared.module';
     BrowserAnimationsModule,
     CookieModule.forRoot(),
     LrSharedModule,
-    
+
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,
-    
+
   ],
 })
 

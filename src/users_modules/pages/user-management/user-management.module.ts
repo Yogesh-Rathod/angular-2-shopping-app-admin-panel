@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
-import { UserManagementComponent } from 'lrshared_modules/pages/user-management/user-management.component';
-import { routing } from 'lrshared_modules/pages/user-management/user-management.routing';
+import { UserManagementComponent } from 'users_modules/pages/user-management/user-management.component';
+import { routing } from 'users_modules/pages/user-management/user-management.routing';
 import { NgaModule } from 'app/theme/nga.module';
 import { DataTableModule } from "angular2-datatable";
 
-import { AddEditUserComponent } from 'lrshared_modules/pages/user-management/addEditUser/addEditUser.component';
+import { AddEditUserComponent } from 'users_modules/pages/user-management/addEditUser/addEditUser.component';
 import { FormsModule as AngularFormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppTranslationModule } from 'app/app.translation.module';
 import { CommonModule } from '@angular/common';
-import { LoaderModule } from 'lrshared_modules/components/loader/loader.module';
+import { LoaderModule } from 'users_modules/components/loader/loader.module';
 
 @NgModule({
   imports: [

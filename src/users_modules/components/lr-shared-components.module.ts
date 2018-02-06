@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoaderModule } from 'lrshared_modules/components/loader/loader.module';
+import { LoaderModule } from 'users_modules/components/loader/loader.module';
 
 @NgModule({
   imports: [

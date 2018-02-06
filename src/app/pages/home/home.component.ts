@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AppStateManagementService } from 'lrshared_modules/services';
+import { AppStateManagementService } from 'users_modules/services';
 
 @Component({
   selector: 'app-home',

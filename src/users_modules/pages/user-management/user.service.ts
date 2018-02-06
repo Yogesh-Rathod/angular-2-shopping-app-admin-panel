@@ -15,7 +15,7 @@ import { CookieService } from 'ngx-cookie';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
 import { CommonAppService } from 'app/services/common.services';
-import { ResponseHandingService } from 'lrshared_modules/services/response-handling.service';
+import { ResponseHandingService } from 'users_modules/services/response-handling.service';
 
 @Injectable()
 export class UserService {

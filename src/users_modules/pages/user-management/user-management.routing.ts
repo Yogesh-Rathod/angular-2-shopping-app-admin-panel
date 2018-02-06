@@ -1,7 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { UserManagementComponent } from 'lrshared_modules/pages/user-management/user-management.component';
-import { AddEditUserComponent } from 'lrshared_modules/pages/user-management/addEditUser/addEditUser.component';
+import { UserManagementComponent } from 'users_modules/pages/user-management/user-management.component';
+import { AddEditUserComponent } from 'users_modules/pages/user-management/addEditUser/addEditUser.component';
 
 
 // noinspection TypeScriptValidateTypes
@@ -15,14 +15,14 @@ export const routes: Routes = [
   },
   {
     path: 'edit/:id',
-    loadChildren: 'lrshared_modules/pages/user-management/addEditUser/addEditUser.module#AddEditUserModule',
+    loadChildren: 'users_modules/pages/user-management/addEditUser/addEditUser.module#AddEditUserModule',
     data: {
       MenuCode: 'SYS'
     }
   },
   {
     path: 'add',
-    loadChildren: 'lrshared_modules/pages/user-management/addEditUser/addEditUser.module#AddEditUserModule',
+    loadChildren: 'users_modules/pages/user-management/addEditUser/addEditUser.module#AddEditUserModule',
     data: {
       MenuCode: 'SYS'
     }

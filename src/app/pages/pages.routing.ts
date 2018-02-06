@@ -9,7 +9,7 @@ export const routes: Routes = [
   {
     path: 'login',
     canActivate: [AuthGuard],
-    loadChildren: 'lrshared_modules/pages/login/login.module#LoginModule'
+    loadChildren: 'users_modules/pages/login/login.module#LoginModule'
   },
   {
     path: '',
@@ -30,7 +30,7 @@ export const routes: Routes = [
       },
       {
         path: 'user-management',
-        loadChildren: 'lrshared_modules/pages/user-management/user-management.module#UserManagementModule',
+        loadChildren: 'users_modules/pages/user-management/user-management.module#UserManagementModule',
         data: {
           MenuCode: 'SYS'
         }

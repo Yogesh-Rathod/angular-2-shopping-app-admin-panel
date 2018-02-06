@@ -13,7 +13,7 @@ import 'rxjs/add/operator/timeout';
 
 import { environment } from 'environments/environment';
 import { CommonAppService } from 'app/services/common.services';
-import { ResponseHandingService } from 'lrshared_modules/services/response-handling.service';
+import { ResponseHandingService } from 'users_modules/services/response-handling.service';
 
 @Injectable()
 export class LoginService {

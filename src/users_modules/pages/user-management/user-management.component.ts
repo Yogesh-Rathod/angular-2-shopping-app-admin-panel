@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AppStateManagementService } from 'lrshared_modules/services/app-state-management.service';
-import { UserService } from 'lrshared_modules/pages/user-management/user.service';
+import { AppStateManagementService } from 'users_modules/services/app-state-management.service';
+import { UserService } from 'users_modules/pages/user-management/user.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import 'rxjs/add/operator/takeWhile';
 import { Router } from '@angular/router';

@@ -12,7 +12,6 @@ import { CookieService } from 'ngx-cookie';
 
 import { RegEx } from 'app/pages/regular-expressions';
 import { MerchandiseService, ProductsService, VendorsService } from 'app/services';
-import { ProductsDeletePopupComponent } from '../delete-popup/delete-popup.component';
 
 @Component({
     selector: 'app-add-product',

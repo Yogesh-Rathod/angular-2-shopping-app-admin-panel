@@ -7,7 +7,7 @@ import { FormsModule as AngularFormsModule, ReactiveFormsModule } from '@angular
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { routing } from './addEditUser.routing';
 import { AppTranslationModule } from 'app/app.translation.module';
-import { LoaderModule } from 'lrshared_modules/components/loader/loader.module';
+import { LoaderModule } from 'users_modules/components/loader/loader.module';
 
 @NgModule({
     imports: [

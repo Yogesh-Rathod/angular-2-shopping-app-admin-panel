@@ -14,11 +14,6 @@ import { ProductsBulkUploadComponent } from './merchandise/products/bulk-upload/
 import { VendorsBulkUploadComponent } from './merchandise/vendor/bulk-upload/bulk-upload.component';
 import { CatalogBulkUploadComponent } from './merchandise/catalog-management/bulk-upload/bulk-upload.component';
 import { MovieBulkUploadComponent } from './merchandise/movie-management/bulk-upload/bulk-upload.component';
-import { VendorDeletePopupComponent } from './merchandise/vendor/delete-popup/delete-popup.component';
-import { CategoryDeletePopupComponent } from './merchandise/categories/delete-popup/delete-popup.component';
-import { ProductsDeletePopupComponent } from './merchandise/products/delete-popup/delete-popup.component';
-import { BankDeletePopupComponent } from './merchandise/catalog-management/delete-popup/delete-popup.component';
-import { MovieDeletePopupComponent } from './merchandise/movie-management/delete-popup/delete-popup.component';
 
 import { SellerOrdersBulkUploadComponent } from './merchandise/seller/orders/bulk-upload/bulk-upload.component';
 
@@ -29,53 +24,43 @@ import { SellsBulkUploadComponent } from 'app/pages/merchandise/seller/seller-pr
 import { SellerOrdersAdminBulkUploadComponent } from './merchandise/orders/bulk-upload/bulk-upload.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AppTranslationModule,
-    NgaModule,
-    routing,
-    FileUploadModule,
-  ],
-  declarations: [
-    Pages,
-    BulkUploadComponent,
-    ProductsBulkUploadComponent,
-    VendorsBulkUploadComponent,
-    CatalogBulkUploadComponent,
-    MovieBulkUploadComponent,
-    VendorDeletePopupComponent,
-    CategoryDeletePopupComponent,
-    ProductsDeletePopupComponent,
-    BankDeletePopupComponent,
-    MovieDeletePopupComponent,
-    SellsBulkUploadComponent,
-    HomeComponent,
-    SellerOrdersBulkUploadComponent,
-      SellerOrdersAdminBulkUploadComponent
-  ],
-  providers: [
-    MerchandiseService,
-    MovieManagementService,
-    XlsxToJsonService,
-    ProductsService,
-    JsonToExcelService,
-    OrdersService
-  ],
-  entryComponents: [
-    BulkUploadComponent,
-    ProductsBulkUploadComponent,
-    VendorsBulkUploadComponent,
-    CatalogBulkUploadComponent,
-    MovieBulkUploadComponent,
-    VendorDeletePopupComponent,
-    CategoryDeletePopupComponent,
-    ProductsDeletePopupComponent,
-    BankDeletePopupComponent,
-    MovieDeletePopupComponent,
-    SellsBulkUploadComponent,
-    SellerOrdersBulkUploadComponent,
-      SellerOrdersAdminBulkUploadComponent
-  ],
+    imports: [
+        CommonModule,
+        AppTranslationModule,
+        NgaModule,
+        routing,
+        FileUploadModule,
+    ],
+    declarations: [
+        Pages,
+        BulkUploadComponent,
+        ProductsBulkUploadComponent,
+        VendorsBulkUploadComponent,
+        CatalogBulkUploadComponent,
+        MovieBulkUploadComponent,
+        SellsBulkUploadComponent,
+        HomeComponent,
+        SellerOrdersBulkUploadComponent,
+        SellerOrdersAdminBulkUploadComponent
+    ],
+    providers: [
+        MerchandiseService,
+        MovieManagementService,
+        XlsxToJsonService,
+        ProductsService,
+        JsonToExcelService,
+        OrdersService
+    ],
+    entryComponents: [
+        BulkUploadComponent,
+        ProductsBulkUploadComponent,
+        VendorsBulkUploadComponent,
+        CatalogBulkUploadComponent,
+        MovieBulkUploadComponent,
+        SellsBulkUploadComponent,
+        SellerOrdersBulkUploadComponent,
+        SellerOrdersAdminBulkUploadComponent
+    ],
 })
 export class PagesModule {
 }

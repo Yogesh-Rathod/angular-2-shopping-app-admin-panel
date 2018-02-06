@@ -10,7 +10,6 @@ declare let $: any;
 
 import { MerchandiseService } from 'app/services';
 import { BulkUploadComponent } from './bulk-upload/bulk-upload.component';
-import { CategoryDeletePopupComponent } from './delete-popup/delete-popup.component';
 
 @Component({
     selector: 'app-categories',

@@ -9,7 +9,6 @@ import { Location } from '@angular/common';
 import { RegEx } from './../../../regular-expressions';
 import { Config } from 'app/pages/app-config';
 import { MerchandiseService } from 'app/services';
-import { CategoryDeletePopupComponent } from '../delete-popup/delete-popup.component';
 
 @Component({
     selector: 'app-add-category',

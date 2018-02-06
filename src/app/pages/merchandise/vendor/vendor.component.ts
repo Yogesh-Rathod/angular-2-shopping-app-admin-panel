@@ -7,7 +7,6 @@ declare let $: any;
 
 import { VendorsService } from 'app/services';
 import { VendorsBulkUploadComponent } from './bulk-upload/bulk-upload.component';
-import { VendorDeletePopupComponent } from './delete-popup/delete-popup.component';
 
 @Component({
     selector: 'app-vendor',

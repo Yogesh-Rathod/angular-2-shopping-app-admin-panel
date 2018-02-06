@@ -76,32 +76,4 @@ export class ProductsInfoComponent implements OnInit {
     this.selectAllCheckbox = false;
   }
 
-  deleteAll() {
-    // const activeModal = this.modalService.open(ProductsDeletePopupComponent, { size: 'sm' });
-
-    // activeModal.result.then((status) => {
-      // if (status) {
-        this.bankInfo.productsInfo = [];
-        // this.toastr.success('Successfully Deleted!', 'Success!');
-        this.selectAllCheckbox = false;
-        this.showSelectedDelete = false;
-      // }
-    // });
-  }
-
-  deleteProduct(item, index) {
-    // const activeModal = this.modalService.open(ProductsDeletePopupComponent, { size: 'sm' });
-
-    // activeModal.result.then((status) => {
-      // if (status) {
-        // this.deleteLoader = index;
-        // _.remove(this.products, item);
-        // this.productsService.editProduct(this.products);
-        // this.deleteLoader = NaN;
-        // this.toastr.success('Successfully Deleted!', 'Success!');
-      // }
-    // });
-
-  }
-
 }

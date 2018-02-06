@@ -16,7 +16,7 @@ import { environment } from 'environments/environment';
 import { GlobalState } from 'app/global.state';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { MerchandiseService } from 'lrshared_modules/services/roleServices';
+import { MerchandiseService } from 'users_modules/services/roleServices';
 import { BaThemeSpinner } from 'app/theme/services';
 
 @Component({

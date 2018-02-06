@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RequestOptions, Http, Headers } from '@angular/http';
-import { ResponseHandingService } from 'lrshared_modules/services';
+import { ResponseHandingService } from 'users_modules/services';
 import { CommonAppService } from 'app/services/common.services';
 import { environment } from 'environments';
 

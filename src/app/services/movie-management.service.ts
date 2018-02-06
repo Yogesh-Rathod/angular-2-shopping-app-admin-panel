@@ -5,7 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import { environment } from './../../environments';
 import { AppState } from 'app/app.service';
 import { CommonAppService } from 'app/services/common.services';
-import { ResponseHandingService } from 'lrshared_modules/services';
+import { ResponseHandingService } from 'users_modules/services';
 
 @Injectable()
 export class MovieManagementService {

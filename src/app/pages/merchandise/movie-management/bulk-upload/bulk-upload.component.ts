@@ -5,7 +5,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as _ from 'lodash';
 
 import { MovieManagementService, XlsxToJsonService } from 'app/services';
-import { AppStateManagementService } from 'lrshared_modules/services';
+import { AppStateManagementService } from 'users_modules/services';
 
 @Component({
   selector: 'app-bulk-upload',

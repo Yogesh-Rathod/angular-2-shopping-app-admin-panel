@@ -44,8 +44,8 @@ Thumbs.db
 
 
 # Lidsys custom dependencies
-#/src/lrshared_modules/*
-#src/lrshared_modules
+#/src/users_modules/*
+#src/users_modules
 
 # Sublime Fuse File
 .fuse_hidden*

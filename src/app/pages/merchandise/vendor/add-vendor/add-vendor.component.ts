@@ -9,7 +9,6 @@ declare let $: any;
 
 import { VendorsService } from 'app/services';
 import { RegEx } from './../../../regular-expressions';
-import { VendorDeletePopupComponent } from '../delete-popup/delete-popup.component';
 
 @Component({
     selector: 'app-add-vendor',

@@ -11,7 +11,6 @@ import * as _ from "lodash";
 declare let $: any;
 
 import { CatalogBulkUploadComponent } from "./bulk-upload/bulk-upload.component";
-import { BankDeletePopupComponent } from "./delete-popup/delete-popup.component";
 import { CatalogManagementService } from "app/services";
 
 @Component({

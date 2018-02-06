@@ -8,7 +8,7 @@ import { FormsModule as AngularFormsModule, ReactiveFormsModule } from '@angular
 
 import { AppTranslationModule } from 'app/app.translation.module';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { MerchandiseService } from 'lrshared_modules/services/roleServices';
+import { MerchandiseService } from 'users_modules/services/roleServices';
 
 @NgModule({
   imports: [

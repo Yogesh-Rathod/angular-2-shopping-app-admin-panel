@@ -7,7 +7,6 @@ declare let $: any;
 
 import { MovieManagementService } from 'app/services';
 import { MovieBulkUploadComponent } from './bulk-upload/bulk-upload.component';
-import { MovieDeletePopupComponent } from './delete-popup/delete-popup.component';
 import { Attribute } from '@angular/core/src/metadata/di';
 
 @Component({

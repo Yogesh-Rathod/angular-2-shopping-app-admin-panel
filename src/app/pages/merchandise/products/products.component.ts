@@ -11,7 +11,6 @@ declare let $: any;
 
 import { ProductsService, MerchandiseService, VendorsService, JsonToExcelService } from 'app/services';
 import { ProductsBulkUploadComponent } from "./bulk-upload/bulk-upload.component";
-import { ProductsDeletePopupComponent } from './delete-popup/delete-popup.component';
 
 @Component({
     selector: 'app-products',

@@ -18,37 +18,11 @@ import { ToastsManager } from 'ng2-toastr';
     styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
-    status: any;
 
+    status: any;
     searchProductForm: FormGroup;
     bigLoader = true;
     orders: any;
-    orderStatus = [
-        {
-            id: 'FRESH',
-            itemName: 'FRESH'
-        },
-        {
-            id: 'PROCESSED',
-            itemName: 'PROCESSED'
-        },
-        {
-            id: 'DISPATCHED',
-            itemName: 'DISPATCHED'
-        },
-        {
-            id: 'DELIVERED',
-            itemName: 'DELIVERED'
-        },
-        {
-            id: 'CANCELLED',
-            itemName: 'CANCELLED'
-        },
-        {
-            id: 'RTO-PROCESSED',
-            itemName: 'RTO-PROCESSED'
-        }
-    ];
     orderStatusDropdownSettings = {
         singleSelection: false,
         text: "Select...",
@@ -90,9 +64,16 @@ export class OrdersComponent implements OnInit {
         this.getAllOrders();
         this.status = this.route.params;
         if (this.status._value.orderStatus != undefined) {
-            this.searchProductForm.controls['e.status'].setValue([{ id: this.status._value.orderStatus, itemName: this.status._value.orderStatus }]);
-            this.searchProduct(this.searchProductForm.value);
+            this.status = this.status._value.orderStatus;
+            if (this.status.match(/rto/i)) {
+                this.status = 'RTO';
+            } else if (this.status.match(/cancel/i)) {
+                this.status = 'CANCEL';
+            }
+        } else {
+            this.status = 'FRESH';
         }
+        console.log("this.status ", this.status);
     }
 
     disableSince() {

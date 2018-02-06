@@ -126,9 +126,6 @@ export class ReportsComponent implements OnInit {
                 console.log("error ", error);
             });
     }
-    changeRoute(status){
-        this.router.navigate(['/order-management/orders', status])
-    }
     downloadReport() {
         this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }

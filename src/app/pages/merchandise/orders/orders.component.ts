@@ -69,11 +69,18 @@ export class OrdersComponent implements OnInit {
                 this.status = 'RTO';
             } else if (this.status.match(/cancel/i)) {
                 this.status = 'CANCEL';
+            } else if (this.status.match(/process/i)) {
+                this.status = 'PROCESSED';
+            } else if (this.status.match(/dispatch/i)) {
+                this.status = 'DISPATCHED';
+            } else if (this.status.match(/deliver/i)) {
+                this.status = 'DELIVERED';
+            } else {
+                this.status = 'FRESH';
             }
         } else {
             this.status = 'FRESH';
         }
-        console.log("this.status ", this.status);
     }
 
     disableSince() {

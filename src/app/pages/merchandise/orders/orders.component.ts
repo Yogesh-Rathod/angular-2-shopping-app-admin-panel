@@ -7,7 +7,8 @@ declare let $: any;
 import { IMyDpOptions } from 'mydatepicker';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ProductsService, OrdersService, JsonToExcelService, VendorsService } from 'app/services';
+import { ProductsService, OrdersService, JsonToExcelService, VendorsService,
+    CatalogManagementService } from 'app/services';
 import { SellerOrdersAdminBulkUploadComponent } from './bulk-upload/bulk-upload.component';
 import { ToastsManager } from 'ng2-toastr';
 
@@ -57,7 +58,7 @@ export class OrdersComponent implements OnInit {
         classes: 'col-8 no_padding'
     };
     searchLoader = false;
-    programName = [{ id: 'ff8080815ff282bd016092e003f00004', itemName: 'LVB'}];
+    programName: any;
     public myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy',
         editableDateField: false,
@@ -70,6 +71,7 @@ export class OrdersComponent implements OnInit {
         public toastr: ToastsManager,
         private modalService: NgbModal,
         private vendorsService: VendorsService,
+        private catalogManagementService: CatalogManagementService,
         private jsonToExcelService: JsonToExcelService,
         private fb: FormBuilder,
         private productsService: ProductsService,
@@ -84,6 +86,7 @@ export class OrdersComponent implements OnInit {
         });
         this.searchForm();
         this.getAllVendors();
+        this.getAllPrograms();
         this.getAllOrders();
         this.status = this.route.params;
         if (this.status._value.orderStatus != undefined) {
@@ -100,6 +103,20 @@ export class OrdersComponent implements OnInit {
             day: d.getDate() + 1
         };
         return disableSince;
+    }
+
+    getAllPrograms() {
+        this.catalogManagementService.getAllProgramList().then(res => {
+            if (res.Success) {
+                console.log("Program List res == >", res);
+                this.programName = res.Data;
+                this.programName = this.programName.map((item) => {
+                    item.id = item.Id;
+                    item.itemName = item.ProgramName;
+                    return item;
+                });
+            }
+        })
     }
 
     getAllVendors() {

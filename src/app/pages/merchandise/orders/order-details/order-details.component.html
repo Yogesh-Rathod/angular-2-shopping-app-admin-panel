@@ -40,7 +40,7 @@
 
     <div *ngIf="orderInfo && orderInfo !== 'not-present'" class="tab-content col-12 no_left_padding no_right_padding">
       <div role="tabpanel" class="tab-pane fade in active" id="info">
-        <app-basic-info class="col-12" [orderInfo]="orderInfo"></app-basic-info>
+        <app-basic-info class="col-12" [orderInfo]="orderInfo" (onStatusChange)="childStatusChanged($event)"></app-basic-info>
       </div>
       <!-- <div role="tabpanel" *ngIf="false" class="tab-pane fade in" id="billingInfo">
         <app-billing-info class="col-12" [orderInfo]="orderInfo"></app-billing-info>

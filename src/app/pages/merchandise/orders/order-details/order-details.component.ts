@@ -60,6 +60,14 @@ export class OrderDetailsComponent implements OnInit {
         }
     }
 
+    // ngOnChanges(changes) {
+    //     this.getOrderDetails();
+    // }
+
+    childStatusChanged(finished: boolean) {
+        this.getOrderDetails();
+    }
+
     goBack() {
         this._location.back();
     }

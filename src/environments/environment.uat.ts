@@ -10,6 +10,7 @@ export const environment = {
     citiesAPIUrl: 'http://192.168.32.100/LRAS.CommonAPI/V1/GetCities',
     rbacUrl: 'http://192.168.32.100/LRAS.Brix.InternalUserManagementAPI/V1/',
     merchandiseUrl: 'http://192.168.32.101/LRAS.MerchandiseSupportAPI/',
+    programAPIUrl: 'http://192.168.32.100/LRAS.CommonAPI/V1/GetAllPrograms',
     appName: 'MERCHANDISE',
     hmacCliendId: 'lvbportal',
     hmacClientSecret: 'secret',

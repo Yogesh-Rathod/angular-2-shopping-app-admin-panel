@@ -330,12 +330,17 @@
                                 There are no mapped programs
                             </h4>
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-12">
                                     <ul class="list-group">
-                                        <li *ngFor="let program of programMappedList" class="list-group-item">{{program.ProgramName}}</li>
+                                        <li *ngFor="let program of programMappedList" class="list-group-item">
+                                            Program Id: {{program.ProgramId}}
+                                            <span (click)="unMapProgram(program.ProgramId)">
+                                                <i class="fa fa-times"></i>
+                                            </span>
+                                        </li>
                                     </ul>
                                 </div>
-                                <div class="col-sm-12" style="padding:15px;">
+                                <div class="col-12" style="padding:15px;">
                                     <button type="button" (click)="showMapprogram = !showMapprogram" class="btn btn-primary">Map New Program </button>
                                 </div>
                                 <div class="col-sm-12" *ngIf="showMapprogram"  style="padding:25px 15px;">

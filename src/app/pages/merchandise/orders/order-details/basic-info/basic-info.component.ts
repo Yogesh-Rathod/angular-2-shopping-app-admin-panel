@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges  } from '@angular/core';
 declare let $: any;
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { OrdersService } from 'app/services';
@@ -12,6 +12,8 @@ import { ToastsManager } from 'ng2-toastr';
 export class BasicInfoComponent implements OnInit {
 
     @Input() orderInfo: any;
+    @Output() onStatusChange = new EventEmitter<any>();
+
     orderCancelled = false;
     cancelForm: FormGroup;
     rtoForm: FormGroup;
@@ -93,6 +95,7 @@ export class BasicInfoComponent implements OnInit {
                     this.showRTOForm = false;
                     this.markRTOError = false;
                     this.toastr.success('Successfully marked RTO.', 'Success');
+                    this.onStatusChange.emit(true);
                 } else {
                     this.rtoErrorMessage = success.Data[0].Reason;
                     this.markRTOError = true;

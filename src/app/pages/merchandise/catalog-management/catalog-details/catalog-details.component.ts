@@ -23,7 +23,7 @@ export class BankDetailsComponent implements OnInit {
     programList: any = [];
     curentSelectedProgram: any = null;
     showMapprogram:boolean =false;
-    programMappedList: any = [{name:"LVB Bank"}];
+    programMappedList: any = [{ ProgramName:"LVB Bank" }];
     allMapProductsApprove: any = [];
     vendorsList: any = [];
     allMapTempProducts: any = [];
@@ -137,7 +137,11 @@ export class BankDetailsComponent implements OnInit {
             else{
                 this.programMappedList =[];
             }
-        })
+        });
+    }
+
+    unMapProgram(_program) {
+        console.log("_program ", _program);
     }
 
     mapProgram(_program){

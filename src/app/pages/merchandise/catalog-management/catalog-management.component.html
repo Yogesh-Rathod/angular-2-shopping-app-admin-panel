@@ -128,7 +128,7 @@
 
                             <tbody *ngIf=" !filteredCatalogs || filteredCatalogs.length === 0 ">
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="6">
                                         <strong>There are no Catalogs!</strong>
                                     </td>
                                 </tr>
@@ -136,7 +136,7 @@
 
                             <tfoot *ngIf=" filteredCatalogs && filteredCatalogs.length > 10 ">
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="6">
                                         <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
                                     </td>
                                 </tr>

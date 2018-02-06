@@ -55,7 +55,7 @@
                                 <a class="nav-link " href="#mappedProductApprove" role="tab" data-toggle="tab">Approve Pending</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " href="#mappedBank" role="tab" data-toggle="tab">Bank</a>
+                                <a class="nav-link " href="#mappedBank" role="tab" data-toggle="tab">Program</a>
                             </li>
                         </ul>
                     </div>
@@ -325,8 +325,10 @@
                             </div>
                         </div>
                         <div role="tabpanel" class="tab-pane fade in" id="mappedBank">
-                            <h2 *ngIf="programMappedList.length > 0">Mapped Programs</h2>
-                            <h2 *ngIf="programMappedList.length < 1">Mapped programs not found</h2>
+                            <h4 *ngIf="programMappedList.length > 0">Mapped Programs</h4>
+                            <h4 *ngIf="programMappedList.length < 1">
+                                There are no mapped programs
+                            </h4>
                             <div class="row">
                                 <div class="col-sm-12">
                                     <ul class="list-group">
@@ -334,7 +336,7 @@
                                     </ul>
                                 </div>
                                 <div class="col-sm-12" style="padding:15px;">
-                                    <button type="button" (click)="showMapprogram = !showMapprogram" class="btn btn-primary">Map New Program</button>
+                                    <button type="button" (click)="showMapprogram = !showMapprogram" class="btn btn-primary">Map New Program </button>
                                 </div>
                                 <div class="col-sm-12" *ngIf="showMapprogram"  style="padding:25px 15px;">
                                     <div class="row">
@@ -344,7 +346,7 @@
                                             </select>
                                         </div>
                                         <div class="col-sm-4">
-                                            <button class="btn btn-primary" (click)="mapProgram(curentSelectedProgram)" type="button">Map Program</button>
+                                            <button class="btn btn-primary" [class.disabled]="!curentSelectedProgram" (click)="mapProgram(curentSelectedProgram)" type="button">Map Program</button>
                                         </div>
                                     </div>
                                 </div>
@@ -353,7 +355,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div>
                     <div class="col-md-12 catalog-map-cancel-btn">
                         <span class="btn btn-secondary" (click)="goBackFunc()">Cancel</span>
                     </div>

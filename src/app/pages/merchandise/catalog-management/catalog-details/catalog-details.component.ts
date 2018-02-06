@@ -130,6 +130,7 @@ export class BankDetailsComponent implements OnInit {
     }
     getAllMappedProgram(_catalogId){
         this.catalogManagementService.getAllMappedProgramList(_catalogId).then(res =>{
+            console.log("res ", res);
             if(res.Success){
                 this.programMappedList = res.Data;
             }
@@ -143,11 +144,11 @@ export class BankDetailsComponent implements OnInit {
         let bodyObj = {
             CatalougeId: this.catalogId,
             ProgramId: _program.Id
-        }
+        };
         this.catalogManagementService.mapCatalogProgram(bodyObj).then(res=>{
             if(res.Success){
                 this.toastr.success(
-                    "Bank mapped with catalog successfully.",
+                    "Program mapped with catalog successfully.",
                     "Sucess!"
                 );
             }else{

@@ -15,7 +15,7 @@
             <div class="card-body no_top_padding">
                 <form class="row order-search-form" [formGroup]="searchProductForm" (ngSubmit)=" searchProduct(searchProductForm.value) ">
 
-                    <div class="form-group col-3">
+                    <div class="form-group col-3" *ngIf="programName">
                         <label for="programName" class="text-right">
                             Program Name
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A program name."></i>

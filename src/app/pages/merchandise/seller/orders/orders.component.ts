@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 import { IMyDpOptions } from 'mydatepicker';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ProductsService, OrdersService } from 'app/services';
+import { ProductsService, OrdersService, CatalogManagementService } from 'app/services';
 import { SellerOrdersBulkUploadComponent } from './bulk-upload/bulk-upload.component';
 import { ToastsManager } from 'ng2-toastr';
 
@@ -52,7 +52,7 @@ export class OrdersComponent implements OnInit {
         enableSearchFilter: true,
         classes: 'col-8 no_padding'
     };
-    programName = [{ id: 'ff8081815fbfbcaf015fc488a8e20002', itemName: 'LVB'}];
+    programName: any;
     public myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy',
         editableDateField: false,
@@ -65,6 +65,7 @@ export class OrdersComponent implements OnInit {
         private modalService: NgbModal,
         private fb: FormBuilder,
         private productsService: ProductsService,
+        private catalogManagementService: CatalogManagementService,
         private ordersService: OrdersService,
         private router: Router,
         private route: ActivatedRoute) {
@@ -76,6 +77,7 @@ export class OrdersComponent implements OnInit {
             $('[data-toggle="tooltip"]').tooltip();
         });
         this.searchForm();
+        this.getAllPrograms();
         this.getAllOrders();
     }
 
@@ -99,6 +101,21 @@ export class OrdersComponent implements OnInit {
             'e.purchaseOrderNumber': [''],
             // rtoCheck: ['']
         });
+    }
+
+    getAllPrograms() {
+        this.catalogManagementService.getAllProgramList().then(res => {
+            if (res.Success) {
+                console.log("Program List res == >", res);
+                this.programName = res.Data;
+                this.programName = this.programName.map((item) => {
+                    console.log("item ", item);
+                    item.id = item.Id;
+                    item.itemName = item.ProgramName;
+                    return item;
+                });
+            }
+        })
     }
 
     getAllOrders() {

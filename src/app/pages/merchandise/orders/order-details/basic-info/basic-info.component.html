@@ -139,11 +139,15 @@
         <div class="info-record row">
             <div class="col-3 text-right bold">
                 Customer Address
-                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The customer mobile number who placed this order."></i>
+                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The customer's address who placed this order."></i>
             </div>
             <div class="col-9">
-                <span *ngIf="orderInfo.ContactDetails">
-                    {{ orderInfo.ShippingDetails.Address1 }} {{ orderInfo.ShippingDetails.Address2 }} {{ orderInfo.ShippingDetails.City }} {{ orderInfo.ShippingDetails.State }} {{ orderInfo.ShippingDetails.Pincode }}
+                <span *ngIf="orderInfo.ShippingDetails">
+                    {{ orderInfo.ShippingDetails.Address1 }}
+                    {{ orderInfo.ShippingDetails.Address2 }},
+                    {{ orderInfo.ShippingDetails.City }},
+                    {{ orderInfo.ShippingDetails.State }},
+                    {{ orderInfo.ShippingDetails.Pincode }}.
                 </span>
             </div>
         </div>
@@ -186,7 +190,7 @@
 
         <div class="info-record row">
             <div class="col-3 text-right bold">
-                Order total
+                Order total(RPI)
                 <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The total cost of this order (includes discounts, shipping and tax)."></i>
             </div>
             <div class="col-9">

@@ -109,7 +109,6 @@ export class OrdersComponent implements OnInit {
                 console.log("Program List res == >", res);
                 this.programName = res.Data;
                 this.programName = this.programName.map((item) => {
-                    console.log("item ", item);
                     item.id = item.Id;
                     item.itemName = item.ProgramName;
                     return item;

@@ -44,7 +44,7 @@
       </div>
 
       <div class="table-container">
-        <table class="table table-bordered table-responsive" [mfData]="filteredMovies" #mf="mfDataTable" [mfRowsOnPage]="10">
+        <table class="table table-bordered table-responsive" [mfData]="filteredMovies" #mf="mfDataTable" [mfRowsOnPage]="50">
           <thead class="black-muted-bg">
             <tr>
               <th>
@@ -106,7 +106,7 @@
             </tr>
           </tbody>
 
-          <tfoot *ngIf=" filteredMovies && filteredMovies.length > 10 ">
+          <tfoot *ngIf=" filteredMovies && filteredMovies.length > 50 ">
             <tr>
               <td colspan="6">
                 <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>

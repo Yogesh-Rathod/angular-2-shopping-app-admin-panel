@@ -55,7 +55,6 @@ export class AddVendorComponent implements OnInit {
         this.createForm();
         this.getCities();
         this.getUsersList();
-        // this.getAllVendors();
         if (this.vendorId) {
             this.getVendorInfoForEdit();
         }
@@ -134,7 +133,7 @@ export class AddVendorComponent implements OnInit {
                 ])
             ],
             "CityId": [
-                'test',
+                '',
                 Validators.compose([
                     Validators.required
                 ])
@@ -146,12 +145,6 @@ export class AddVendorComponent implements OnInit {
             //         Validators.pattern(RegEx.gstIn)
             //     ])
             // ],
-            //   "country": [
-            //     '',
-            //     Validators.compose([
-            //       Validators.required
-            //     ])
-            //   ],
             "ZipCode": [
                 '',
                 Validators.compose([
@@ -193,12 +186,24 @@ export class AddVendorComponent implements OnInit {
         // this.bigLoader = true;
         this.vendorsService.getCities().
             then((cities) => {
-                console.log("cities ", cities);
                 this.citiesList = cities.Data;
                 this.bigLoader = false;
+                this.citiesList = this.citiesList.sort(this.sortCities);
             }).catch((error) => {
                 console.log("error ", error);
             });
+    }
+
+    sortCities(a, b) {
+        const genreA = a.Name.toUpperCase();
+        const genreB = b.Name.toUpperCase();
+        let comparison = 0;
+        if (genreA > genreB) {
+            comparison = 1;
+        } else if (genreA < genreB) {
+            comparison = -1;
+        }
+        return comparison;
     }
 
     validatenumber(e) {
@@ -265,8 +270,6 @@ export class AddVendorComponent implements OnInit {
                     // this.addVendorForm.controls['GstIn'].setValue(this.vendorInfo.GstIn);
                     this.addVendorForm.controls['Address'].setValue(this.vendorInfo.Address);
                     this.addVendorForm.controls['CityId'].setValue(this.vendorInfo.CityId);
-                    // this.addVendorForm.controls['state'].setValue(this.vendorInfo.state);
-                    // this.addVendorForm.controls['country'].setValue(this.vendorInfo.country);
                     this.addVendorForm.controls['ZipCode'].setValue(this.vendorInfo.ZipCode);
                     this.addVendorForm.controls['IsActive'].setValue(this.vendorInfo.IsActive);
                     this.checkFormValidation();

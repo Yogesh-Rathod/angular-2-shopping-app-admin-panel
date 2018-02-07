@@ -216,7 +216,7 @@ export class AddProductComponent implements OnInit {
                             let value = data.split(":");
                             specificationData[index] = ({
                                 key: value[0],
-                                value: value[1]
+                                value: value[1] ? value[1] : ''
                             });
                             this.addProductForm.controls['specifications'].setValue(specificationData);
                             this.appendMore();

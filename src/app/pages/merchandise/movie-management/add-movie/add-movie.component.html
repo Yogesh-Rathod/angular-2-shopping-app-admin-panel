@@ -163,6 +163,17 @@
                     <span class="mandatory">*</span>
                     <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Images to show"></i>
                 </label>
+                <div class="col-12">
+                    <div class="uploadType row">
+                        <label class="col-3">
+                            Upload type
+                        </label>
+                        <select id="uploadType" class="form-control col-3">
+                            <option value="url">Url</option>
+                            <option value="image">Image</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="col-12"></div>
                 <div *ngIf="movieId && movieInfo" class="col-3">
                     <div class="img-container">

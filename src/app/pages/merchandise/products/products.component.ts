@@ -100,7 +100,7 @@ export class ProductsComponent implements OnInit {
         this.bigLoader = true;
         this.productsService.getOpsProducts(this.userRole, null, 1, 10).
             then((products) => {
-                this.products = products.Data.Products;
+                this.products = products.Data ? products.Data.Products : [] ;
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
             }).catch((error) => {
@@ -166,7 +166,7 @@ export class ProductsComponent implements OnInit {
             this.productsService.getOpsProducts(this.userRole, searchProductForm, 1, 10).
                 then((products) => {
                     console.log("products ", products);
-                    this.products = products.Data.Products;
+                    this.products = products.Data ? products.Data.Products: [];
                     this.totalRecords = products.Data.TotalRecords;
                     this.bigLoader = false;
                     this.searchLoader = false;

@@ -154,12 +154,12 @@ export class OrdersComponent implements OnInit {
             }
         }
 
-        if (searchOrdersForm['e.fromDate']) {
+        if (searchOrdersForm['e.fromDate'] && typeof searchOrdersForm['e.fromDate'] == 'object') {
             searchOrdersForm['e.fromDate'] = `${searchOrdersForm['e.fromDate'].date.month}/${searchOrdersForm['e.fromDate'].date.day}/${searchOrdersForm['e.fromDate'].date.year}`;
             searchOrdersForm['e.fromDate'] = encodeURIComponent(searchOrdersForm['e.fromDate']);
         }
 
-        if (searchOrdersForm['e.toDate']) {
+        if (searchOrdersForm['e.toDate'] && typeof searchOrdersForm['e.toDate'] === 'object') {
             searchOrdersForm['e.toDate'] = `${searchOrdersForm['e.toDate'].date.month}/${searchOrdersForm['e.toDate'].date.day}/${searchOrdersForm['e.toDate'].date.year}`;
             searchOrdersForm['e.toDate'] = encodeURIComponent(searchOrdersForm['e.toDate']);
         }

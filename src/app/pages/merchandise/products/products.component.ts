@@ -70,7 +70,8 @@ export class ProductsComponent implements OnInit {
         this.getAllProducts();
         this.getAllVendors();
         if (this.vendorId) {
-            this.searchProductForm.controls['vendor'].setValue(this.vendorId);
+            this.searchProductForm.controls['e.sellerId'].setValue(this.vendorId);
+            this.searchProduct(this.searchProductForm.value);
         }
     }
 

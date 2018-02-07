@@ -54,11 +54,11 @@
                     </ul>
                 </div>
                 <div class="tab-content no_left_padding no_right_padding">
-                    <div role="tabpanel" class="tab-pane fade in active" id="ApprovedCatalog">
-                        <button class="btn btn-info float-right deleteSelectedButton" [ngClass]="{'disabled': !showSelectedDelete }">
+                    <div role="tabpanel" class="table-responsive tab-pane fade in active" id="ApprovedCatalog">
+                        <!-- <button class="btn btn-info float-right deleteSelectedButton" [ngClass]="{'disabled': !showSelectedDelete }">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                             Sync Products
-                        </button>
+                        </button> -->
 
                         <table class="table table-bordered table-responsive" [mfData]="filteredCatalogs" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead class="black-muted-bg">

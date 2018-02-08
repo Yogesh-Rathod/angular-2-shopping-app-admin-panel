@@ -17,6 +17,8 @@ import { DeleteMoviePopupComponent } from './delete-popup/delete-popup.component
 })
 export class MovieManagementComponent implements OnInit {
 
+    p: number = 1;
+    totalRecords: any = 1;
     searchTerm: any;
     movies: any;
     filteredMovies: any;
@@ -42,10 +44,11 @@ export class MovieManagementComponent implements OnInit {
 
     getAllMovies() {
         this.bigLoader = true;
-        this.movieManagementService.getMovies().
+        this.movieManagementService.getMovies(1).
             then((moviesInfo) => {
                 console.log("movies ", moviesInfo);
                 this.movies = moviesInfo.Data.Records;
+                this.totalRecords = moviesInfo.Data.TotalRecords;
                 this.filteredMovies = this.movies;
                 this.bigLoader = false;
             }).catch((error) => {
@@ -55,6 +58,22 @@ export class MovieManagementComponent implements OnInit {
                 }
                 this.bigLoader = false;
             });
+    }
+
+    pageChanged($event) {
+        this.bigLoader = true;
+        this.p = $event;
+        this.movieManagementService.getMovies(this.p).
+            then((moviesInfo) => {
+                console.log("movies ", moviesInfo);
+                this.movies = moviesInfo.Data.Records;
+                this.totalRecords = moviesInfo.Data.TotalRecords;
+                this.filteredMovies = this.movies;
+                this.bigLoader = false;
+            }).catch((error) => {
+                this.bigLoader = false;
+                console.log("error ", error);
+            })
     }
 
     searchMovie(searchTerm) {

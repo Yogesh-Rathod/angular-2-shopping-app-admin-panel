@@ -79,3 +79,10 @@
 .deleteSelectedButton {
     margin-bottom: 15px;
 }
+
+.tableLoader .loader-container img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

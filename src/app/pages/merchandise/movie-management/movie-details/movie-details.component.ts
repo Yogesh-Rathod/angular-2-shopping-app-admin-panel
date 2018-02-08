@@ -321,10 +321,25 @@ export class MovieDetailsComponent implements OnInit {
     }
 
     searchMovie(searchTerm) {
-        this.filteredUnmappedMovies = this.unmappedMovies.filter((item) => {
-            const caseInsensitiveSearch = new RegExp(`${searchTerm.trim()}`, "i");
-            return caseInsensitiveSearch.test(item.ProviderMovieName) || caseInsensitiveSearch.test(item.Language) || caseInsensitiveSearch.test(item.ProviderName);
-        });
+        this.unmappedLoader = true;
+        // if (condition) {
+            
+        // }
+        if (this.movieId) {
+            this.movieManagementService.getUnmappedMovies(searchTerm).
+                then((unmappedMovies) => {
+                    this.unmappedMovies = unmappedMovies.Data.Records;
+                    this.filteredUnmappedMovies = this.unmappedMovies;
+                    this.unmappedLoader = false;
+                }).catch((error) => {
+                    // console.log("getUnmappedMovies error ", error);
+                    if (error.Code === 500) {
+                        this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
+                        this.location.back();
+                    }
+                    this.unmappedLoader = false;
+                });
+        }
     }
 
     searchMappedMovies(mapSearchText) {

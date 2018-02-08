@@ -7,7 +7,7 @@ import { CKEditorModule } from 'ng2-ckeditor';
 import { MerchandiseService } from 'app/services';
 import { MyDatePickerModule } from 'mydatepicker';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
-// import { DataTableModule } from "angular2-serverpagination-datatable";
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { routing } from './movie-management.routes';
 import { MovieManagementService, XlsxToJsonService } from 'app/services';
@@ -23,6 +23,7 @@ import { MovieDetailsComponent } from './movie-details/movie-details.component';
         AppTranslationModule,
         routing,
         ReactiveFormsModule,
+        NgxPaginationModule,
         CKEditorModule,
         DataTableModule,
         MyDatePickerModule,

@@ -1,125 +1,139 @@
 <div class="row top20 clearfix fadeIn animated">
-  <div class="col-12">
+    <div class="col-12">
 
-    <div class="catSearch clearfix card-header">
-      <h2 class="card-title ">
-        Manage Movies
-        <button class="btn btn-primary float-right" (click)=" bulkUpload() ">
-          <i class="fa fa-download" aria-hidden="true"></i>
-          Import
-        </button>
-        <button class="btn btn-primary float-right" [routerLink]="['./add-movie']">
-          <i class="fa fa-plus-square" aria-hidden="true"></i>
-          Add New
-        </button>
-      </h2>
-    </div>
-
-    <div class="filters card col-12 fadeIn animated">
-      <div class="card-body">
-        <form>
-
-          <div class="form-group row">
-            <label for="name" class="col-3 col-xl-2 text-right">
-              Movie Search
-              <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search movie based on title, language and type."></i>
-            </label>
-            <input type="text" #searchText class="form-control col-4" id="name">
-            <button type="submit" class="btn btn-primary searchbutton" (click)=" searchMovie(searchText.value) ">
-              <i class="fa fa-search" aria-hidden="true"></i>
-              Search
-            </button>
-          </div>
-
-        </form>
-      </div>
-    </div>
-
-    <!-- <div class="spacer col-12"></div> -->
-
-    <div class="filters card col-12 pos_relative no_top_padding">
-
-      <div class="loader-container pos_absolute " *ngIf="bigLoader">
-        <img src="assets/img/ajax-loader.gif" alt="Loader Image">
-      </div>
-
-      <div class="table-container">
-        <table class="table table-bordered table-responsive" [mfData]="filteredMovies" #mf="mfDataTable" [mfRowsOnPage]="50">
-          <thead class="black-muted-bg">
-            <tr>
-              <th>
-                <strong>No.</strong>
-              </th>
-              <th class="text-center image">
-                <strong>Image</strong>
-              </th>
-              <th class="text-left name">
-                <mfDefaultSorter by="Title">
-                  <strong>Name</strong>
-                </mfDefaultSorter>
-              </th>
-              <th class="text-center language">
-                <mfDefaultSorter by="Language">
-                  <strong>language</strong>
-                </mfDefaultSorter>
-              </th>
-              <th class="text-center">
-                <strong>type</strong>
-              </th>
-              <th class="text-center">
-                <strong>Action</strong>
-              </th>
-            </tr>
-          </thead>
-          <tbody *ngIf=" filteredMovies && filteredMovies.length > 0 ">
-            <tr *ngFor=" let item of mf.data; let i = index ">
-              <td>{{ i + 1 }}</td>
-              <td class="text-left image">
-                <div class="movie-image">
-                  <img *ngIf="item.LandscapeUrl" class="img-fluid" [src]="item.LandscapeUrl" alt="Movie Image" onError="this.src='assets/images/movies/no-preview.jpg'">
-                  <img class="img-fluid" *ngIf="!item.LandscapeUrl" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
-                </div>
-              </td>
-              <td class="text-left name">
-                {{ item.Title }}
-              </td>
-              <td class="text-center language">
-                 {{ item.Language }}
-              </td>
-              <td class="text-center">{{ item.Type }}</td>
-              <td class="text-center">
-                <button class="btn btn-secondary" [routerLink]="['./edit-movie/', item.EventId]" title="Edit">
-                  <i class="fa fa-pencil" aria-hidden="true"></i>
+        <div class="catSearch clearfix card-header">
+            <h2 class="card-title ">
+                Manage Movies
+                <button class="btn btn-primary float-right" (click)=" bulkUpload() ">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    Import
                 </button>
-                <button class="btn btn-secondary" [routerLink]="['./movie-details/', item.EventId]" title="View Details/ Map">
-                  <i class="fa fa-eye" aria-hidden="true"></i>
+                <button class="btn btn-primary float-right" [routerLink]="['./add-movie']">
+                    <i class="fa fa-plus-square" aria-hidden="true"></i>
+                    Add New
                 </button>
-                <button class="btn btn-danger" (click)="deleteMovie(item.EventId)" title="Edit">
+            </h2>
+        </div>
+
+        <div class="filters card col-12 fadeIn animated">
+            <div class="card-body">
+                <form>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-3 col-xl-2 text-right">
+                            Movie Search
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search movie based on title, language and type."></i>
+                        </label>
+                        <input type="text" #searchText class="form-control col-4" id="name">
+                        <button type="submit" class="btn btn-primary searchbutton" (click)=" searchMovie(searchText.value) ">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            Search
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- <div class="spacer col-12"></div> -->
+
+        <div class="filters card col-12 pos_relative no_top_padding">
+
+            <div class="loader-container pos_absolute " *ngIf="bigLoader">
+                <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+            </div>
+
+            <div class="table-container">
+
+                <img width="35" height="35" *ngIf="deleteMultipleLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" class="pull-right">
+
+                <button class="btn btn-danger deleteSelectedButton pull-right" [class.disabled]="!showSelectedAction || deleteMultipleLoader" (click)="deleteMovie()">
                     <i class="fa fa-trash" aria-hidden="true"></i>
+                    Delete Selected
                 </button>
-              </td>
-            </tr>
-          </tbody>
 
-          <tbody *ngIf=" !filteredMovies || filteredMovies.length === 0 ">
-            <tr>
-              <td colspan="6">
-                <strong>There are no movies!</strong>
-              </td>
-            </tr>
-          </tbody>
+                <table class="table table-bordered table-responsive" [mfData]="filteredMovies" #mf="mfDataTable" [mfRowsOnPage]="50">
+                    <thead class="black-muted-bg">
+                        <tr>
+                            <th>
+                                <strong>No.</strong>
+                            </th>
+                            <th class="text-center">
+                                <input [class.disabled]="!filteredMovies || filteredMovies.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+                            </th>
+                            <th class="text-center image">
+                                <strong>Image</strong>
+                            </th>
+                            <th class="text-left name">
+                                <mfDefaultSorter by="Title">
+                                    <strong>Name</strong>
+                                </mfDefaultSorter>
+                            </th>
+                            <th class="text-center language">
+                                <mfDefaultSorter by="Language">
+                                    <strong>language</strong>
+                                </mfDefaultSorter>
+                            </th>
+                            <th class="text-center">
+                                <strong>type</strong>
+                            </th>
+                            <th class="text-center">
+                                <strong>Action</strong>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf=" filteredMovies && filteredMovies.length > 0 ">
+                        <tr *ngFor=" let item of mf.data; let i = index ">
+                            <td>{{ i + 1 }}</td>
+                            <td class="text-center">
+                                <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                            </td>
+                            <td class="text-left image">
+                                <div class="movie-image">
+                                    <img *ngIf="item.LandscapeUrl" class="img-fluid" [src]="item.LandscapeUrl" alt="Movie Image" onError="this.src='assets/images/movies/no-preview.jpg'">
+                                    <img class="img-fluid" *ngIf="!item.LandscapeUrl" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+                                </div>
+                            </td>
+                            <td class="text-left name">
+                                {{ item.Title }}
+                            </td>
+                            <td class="text-center language">
+                                {{ item.Language }}
+                            </td>
+                            <td class="text-center">{{ item.Type }}</td>
+                            <td class="text-center">
+                                <button class="btn btn-secondary" [routerLink]="['./edit-movie/', item.EventId]" title="Edit">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn btn-secondary" [routerLink]="['./movie-details/', item.EventId]" title="View Details/ Map">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn btn-danger" (click)="deleteMovie(item.EventId)" title="Delete">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
 
-          <tfoot *ngIf=" filteredMovies && filteredMovies.length > 50 ">
-            <tr>
-              <td colspan="6">
-                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+                    <tbody *ngIf=" !filteredMovies || filteredMovies.length === 0 ">
+                        <tr>
+                            <td colspan="6">
+                                <strong>There are no movies!</strong>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                    <tfoot *ngIf=" filteredMovies && filteredMovies.length > 50 ">
+                        <tr>
+                            <td colspan="6">
+                                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+        </div>
 
     </div>
-
-  </div>
 </div>

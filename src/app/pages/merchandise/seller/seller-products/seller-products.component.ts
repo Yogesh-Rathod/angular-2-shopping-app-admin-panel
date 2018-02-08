@@ -159,27 +159,38 @@ export class SellerProductsComponent implements OnInit {
     }
 
     exportProducts() {
+        // let products = [];
+        // if (this.selectAllCheckbox) {
+        //     this.productsService.getProducts(null, null, this.totalRecords).
+        //         then((products) => {
+        //             if (products.Data && products.Data.Products.length > 0) {
+        //                 this.jsonToExcelService.exportAsExcelFile(products.Data.Products, 'products');
+        //                 this.selectAllCheckbox = false;
+        //             }
+        //         }).catch((error) => {
+        //             this.toastr.error('Could not get products for export', 'Error');
+        //             console.log("error ", error);
+        //             this.selectAllCheckbox = false;
+        //         });
+        // } else {
+        //     _.forEach(this.products, (item) => {
+        //         if (item.isChecked) {
+        //             products.push(item);
+        //         }
+        //     });
+        //     this.jsonToExcelService.exportAsExcelFile(products, 'products');
+        // }
         let products = [];
         if (this.selectAllCheckbox) {
-            this.productsService.getProducts(null, null, this.totalRecords).
-                then((products) => {
-                    if (products.Data && products.Data.Products.length > 0) {
-                        this.jsonToExcelService.exportAsExcelFile(products.Data.Products, 'products');
-                        this.selectAllCheckbox = false;
-                    }
-                }).catch((error) => {
-                    this.toastr.error('Could not get products for export', 'Error');
-                    console.log("error ", error);
-                    this.selectAllCheckbox = false;
-                });
+            products = this.products;
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
                     products.push(item);
                 }
             });
-            this.jsonToExcelService.exportAsExcelFile(products, 'products');
         }
+        this.jsonToExcelService.exportAsExcelFile(products, 'products');
     }
 
     bulkUpload() {

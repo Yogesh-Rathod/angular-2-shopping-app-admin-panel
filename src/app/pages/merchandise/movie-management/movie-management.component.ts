@@ -8,6 +8,7 @@ declare let $: any;
 import { MovieManagementService } from 'app/services';
 import { MovieBulkUploadComponent } from './bulk-upload/bulk-upload.component';
 import { Attribute } from '@angular/core/src/metadata/di';
+import { DeleteMoviePopupComponent } from './delete-popup/delete-popup.component';
 
 @Component({
     selector: 'app-movie-management',
@@ -21,6 +22,9 @@ export class MovieManagementComponent implements OnInit {
     filteredMovies: any;
     deleteLoader: Number;
     bigLoader = false;
+    selectAllCheckbox = false;
+    showSelectedAction = false;
+    deleteMultipleLoader = false;
 
     constructor(
         private modalService: NgbModal,
@@ -71,8 +75,77 @@ export class MovieManagementComponent implements OnInit {
         });
     }
 
-    deleteMovie(eventId) {
+    selectAll(e) {
+        if (e.target.checked) {
+            this.selectAllCheckbox = true;
+            _.forEach(this.filteredMovies, (item) => {
+                item.isChecked = true;
+            });
+            this.showSelectedAction = true;
+        } else {
+            // this.noActionSelected = false;
+            this.selectAllCheckbox = false;
+            _.forEach(this.filteredMovies, (item) => {
+                item.isChecked = false;
+            });
+            this.showSelectedAction = false;
+        }
+    }
+
+    checkBoxSelected(e, item) {
+        this.selectAllCheckbox = false;
+        if (e.target.checked) {
+            item.isChecked = true;
+        } else {
+            item.isChecked = false;
+        }
+
+        let isCheckedArray = [];
+
+        _.forEach(this.filteredMovies, (item) => {
+            if (item.isChecked) {
+                this.showSelectedAction = true;
+                isCheckedArray.push(item);
+            }
+        });
+
+        if (isCheckedArray.length === 0) {
+            this.showSelectedAction = false;
+        }
+
+    }
+
+    deleteMovie(eventId?) {
         console.log("eventId ", eventId);
+        let moviesToDelete = [];
+        const activeModal = this.modalService.open(DeleteMoviePopupComponent, { size: 'sm' });
+        if (this.selectAllCheckbox) {
+            activeModal.componentInstance.movieText = 'movies';
+            _.forEach(this.filteredMovies, (item) => {
+                moviesToDelete.push({
+                    movieId: item.EventId
+                });
+                item.isChecked = false;
+            });
+            this.selectAllCheckbox = false;
+        } else {
+            activeModal.componentInstance.movieText = 'movie';
+            _.forEach(this.filteredMovies, (item) => {
+                if (item.isChecked) {
+                    moviesToDelete.push({
+                        movieId: item.EventId
+                    });
+                    item.isChecked = false;
+                }
+            });
+        }
+        activeModal.result.then((status) => {
+            console.log("moviesToDelete ", moviesToDelete);
+            if (status) {
+                this.deleteMultipleLoader = true;
+                // this.getAllMovies();
+            }
+        });
     }
 
 }

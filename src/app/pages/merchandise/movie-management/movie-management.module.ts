@@ -17,28 +17,28 @@ import { AddCinemaComponent } from './add-cinema/add-cinema.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    AppTranslationModule,
-    routing,
-    ReactiveFormsModule,
-    CKEditorModule,
-    DataTableModule,
-    MyDatePickerModule,
-    AngularMultiSelectModule
-  ],
-  declarations: [
-    MovieManagementComponent,
-    AddMovieComponent,
-    AddCinemaComponent,
-    MovieDetailsComponent
-  ],
-  providers: [
-    MovieManagementService,
-    XlsxToJsonService
-  ],
-  entryComponents: [
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        AppTranslationModule,
+        routing,
+        ReactiveFormsModule,
+        CKEditorModule,
+        DataTableModule,
+        MyDatePickerModule,
+        AngularMultiSelectModule
+    ],
+    declarations: [
+        MovieManagementComponent,
+        AddMovieComponent,
+        AddCinemaComponent,
+        MovieDetailsComponent
+    ],
+    providers: [
+        MovieManagementService,
+        XlsxToJsonService
+    ],
+    entryComponents: [
+    ]
 })
 export class MovieManagementModule { }

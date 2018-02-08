@@ -140,7 +140,7 @@ export class MovieManagementComponent implements OnInit {
             });
         }
         activeModal.result.then((status) => {
-            console.log("moviesToDelete ", moviesToDelete);
+            this.showSelectedAction = false;
             if (status) {
                 this.deleteMultipleLoader = true;
                 // this.getAllMovies();

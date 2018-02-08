@@ -164,7 +164,7 @@ export class AddVendorComponent implements OnInit {
                     Validators.required
                 ])
             ],
-            'CreatedBy': ['Yogesh']
+            'CreatedBy': ['']
         });
     }
 
@@ -183,7 +183,6 @@ export class AddVendorComponent implements OnInit {
     }
 
     getCities() {
-        // this.bigLoader = true;
         this.vendorsService.getCities().
             then((cities) => {
                 this.citiesList = cities.Data;
@@ -223,10 +222,12 @@ export class AddVendorComponent implements OnInit {
                         this.showLoader = false;
                         this._location.back();
                     } else if (success.Code === 500) {
-                        this.toastr.error('Could not update seller!', 'Error!');
+                        this.toastr.error('Could not update seller info!', 'Error!');
                         this.showLoader = false;
                     }
                 }).catch((error) => {
+                    this.showLoader = false;
+                    this.toastr.error('Could not update seller info!', 'Error!');
                     console.log("error ", error);
                 })
         } else {
@@ -243,6 +244,8 @@ export class AddVendorComponent implements OnInit {
                         this.showLoader = false;
                     }
                 }).catch((error) => {
+                    this.showLoader = false;
+                    this.toastr.error('Could not add seller!', 'Error!');
                     console.log("error ", error);
                 });
         }
@@ -275,6 +278,7 @@ export class AddVendorComponent implements OnInit {
                     this.checkFormValidation();
                     this.bigLoader = false;
                 }).catch((error) => {
+                    this.toastr.error('Could not get seller info!', 'Error!');
                     console.log("error ", error);
                 });
         }

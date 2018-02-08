@@ -66,6 +66,18 @@ export class MovieManagementService {
             .catch(reason => this.responseHandingService.handleError(reason));
     }
 
+    deleteMovies(movieInfo) {
+        const url = `${environment.moviesApiUrl}Event/ChangeActivation`;
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, movieInfo));
+        this.headers.delete('HMACheader');
+
+        return this.http.post(url, JSON.stringify(movieInfo), this.options)
+            .toPromise()
+            .then(response => this.responseHandingService.handleResponse(response))
+            .catch(reason => this.responseHandingService.handleError(reason));
+    }
+
     bulkUploadMovie(movieInfo) {
         const url = `${environment.moviesApiUrl}Events`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());

@@ -54,9 +54,9 @@
                             <li class="nav-item" *ngIf="catalogMapOpen">
                                 <a class="nav-link " href="#mappedProductApprove" role="tab" data-toggle="tab">Approve Pending</a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link " href="#mappedBank" role="tab" data-toggle="tab">Program</a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                     <div class="tab-content">
@@ -104,13 +104,13 @@
                                                 </td>
                                             </tr>
                                         </tbody>
-                                        <tfoot *ngIf="allMapProducts.length < 1 ">
+                                        <tbody *ngIf="allMapProducts && allMapProducts.length < 1 ">
                                             <tr>
                                                 <td colspan="5" class="text-center">
-                                                    <span>No Product Added</span>
+                                                    <strong>No Products Added</strong>
                                                 </td>
                                             </tr>
-                                        </tfoot>
+                                        </tbody>
                                         <tfoot *ngIf="allMapProducts && allMapProducts.length > 10 ">
                                             <tr>
                                                 <td colspan="5">

@@ -46,8 +46,9 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         this.goBackHome();
       }
     }
+
     if (!userInfo) {
-      if (!this.isToasterPresent) {
+        if (!this.isToasterPresent) {
         this.toastr.error('Something went wrong! You need to Login!', 'Error!');
         this.isToasterPresent = true;
       }

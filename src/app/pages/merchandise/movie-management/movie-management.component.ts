@@ -116,36 +116,56 @@ export class MovieManagementComponent implements OnInit {
     }
 
     deleteMovie(eventId?) {
-        console.log("eventId ", eventId);
         let moviesToDelete = [];
         const activeModal = this.modalService.open(DeleteMoviePopupComponent, { size: 'sm' });
         if (this.selectAllCheckbox) {
             activeModal.componentInstance.movieText = 'movies';
             _.forEach(this.filteredMovies, (item) => {
-                moviesToDelete.push({
-                    movieId: item.EventId
-                });
+                moviesToDelete.push(
+                    item.EventId
+                );
                 item.isChecked = false;
             });
             this.selectAllCheckbox = false;
+        } else if (eventId) {
+            activeModal.componentInstance.movieText = 'movie';
+            moviesToDelete.push(
+                eventId
+            );
         } else {
             activeModal.componentInstance.movieText = 'movie';
             _.forEach(this.filteredMovies, (item) => {
                 if (item.isChecked) {
-                    moviesToDelete.push({
-                        movieId: item.EventId
-                    });
+                    moviesToDelete.push(
+                        item.EventId
+                    );
                     item.isChecked = false;
                 }
             });
+            console.log("moviesToDelete ", moviesToDelete);
         }
         activeModal.result.then((status) => {
             this.showSelectedAction = false;
             if (status) {
-                this.deleteMultipleLoader = true;
-                // this.getAllMovies();
+                let moviesDelete = {
+                    EventId: moviesToDelete,
+                    IsActive: false
+                };
+                this.deleteMovies(moviesDelete);
             }
         });
+    }
+
+    deleteMovies(moviesToDelete) {
+        this.movieManagementService.deleteMovies(moviesToDelete).
+            then((success) => {
+                if (success.Success) {
+                    this.toastr.success('Movies successfully deleted.', 'Success!');
+                    this.getAllMovies();
+                }
+            }).catch((error) => {
+                this.toastr.error('Could not delete movies.', 'Error!');
+            });
     }
 
 }

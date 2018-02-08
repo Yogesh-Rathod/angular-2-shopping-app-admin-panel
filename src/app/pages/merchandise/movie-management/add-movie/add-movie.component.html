@@ -144,7 +144,7 @@
                     <label for="sequence">
                         Sequence:
                         <span class="mandatory">*</span>
-                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Sequence"></i>
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Sequence (Number)"></i>
                     </label>
                     <input formControlName="Sequence" id="sequence" class="form-control" type="text">
                 </div>
@@ -169,7 +169,7 @@
                             Upload type
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Images upload type to upload (Url's or Images)"></i>
                         </label>
-                        <select id="uploadType" #uploadType class="form-control col-3">
+                        <select id="uploadType" (change)="uploadTypeSelected(uploadType.value)" #uploadType class="form-control col-3">
                             <option value="image">Images</option>
                             <option value="url">Url's</option>
                         </select>
@@ -211,19 +211,19 @@
 
                 <div class="col-3" *ngIf="uploadType.value === 'url'">
                     <label for="Square">( Square Image Url)</label>
-                    <input formControlName="Image" type="text" id="Square" class="form-control">
+                    <input formControlName="ImageUrl" type="text" id="Square" class="form-control">
                 </div>
                 <div class="col-3" *ngIf="uploadType.value === 'url'">
                     <label for="Portrait">( Portrait Image Url)</label>
-                    <input formControlName="Poster" type="text" id="Portrait" class="form-control">
+                    <input formControlName="PosterUrl" type="text" id="Portrait" class="form-control">
                 </div>
                 <div class="col-3" *ngIf="uploadType.value === 'url'">
                     <label for="Landscape">( Landscape Image Url)</label>
-                    <input formControlName="Landscape" type="text" id="Landscape" class="form-control">
+                    <input formControlName="LandscapeUrl" type="text" id="Landscape" class="form-control">
                 </div>
                 <div class="col-3" *ngIf="uploadType.value === 'url'">
                     <label for="RBCN">( RBCN Image Url)</label>
-                    <input formControlName="RBCNimage" type="text" id="RBCN" class="form-control">
+                    <input formControlName="RBCNimageUrl" type="text" id="RBCN" class="form-control">
                 </div>
 
 

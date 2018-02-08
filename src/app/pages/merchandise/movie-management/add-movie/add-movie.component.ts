@@ -165,6 +165,30 @@ export class AddMovieComponent implements OnInit {
                     Validators.pattern(RegEx.onlyNumber)
                 ])
             ],
+            'ImageUrl': [
+                '',
+                Validators.compose([
+                    // Validators.required
+                ])
+            ],
+            'PosterUrl': [
+                '',
+                Validators.compose([
+                    // Validators.required
+                ])
+            ],
+            'LandscapeUrl': [
+                '',
+                Validators.compose([
+                    // Validators.required
+                ])
+            ],
+            'RBCNimageUrl': [
+                '',
+                Validators.compose([
+                    // Validators.required
+                ])
+            ],
             'Image': [
                 '',
                 Validators.compose([
@@ -200,6 +224,43 @@ export class AddMovieComponent implements OnInit {
         }
     }
 
+    uploadTypeSelected(uploadType) {
+        console.log("uploadType ", uploadType);
+        if (uploadType === 'image') {
+            this.addMovieForm.get('Image').setValidators([Validators.required]);
+            this.addMovieForm.get('Poster').setValidators([Validators.required]);
+            this.addMovieForm.get('Landscape').setValidators([Validators.required]);
+            this.addMovieForm.get('RBCNimage').setValidators([Validators.required]);
+            this.addMovieForm.get('ImageUrl').setValidators(null);
+            this.addMovieForm.get('PosterUrl').setValidators(null);
+            this.addMovieForm.get('LandscapeUrl').setValidators(null);
+            this.addMovieForm.get('RBCNimageUrl').setValidators(null);
+            this.updateValidation();
+        } else {
+            this.addMovieForm.get('Image').setValue(null);
+            this.addMovieForm.get('Poster').setValue(null);
+            this.addMovieForm.get('Landscape').setValue(null);
+            this.addMovieForm.get('Poster').setValue(null);
+            this.addMovieForm.get('Image').setValidators(null);
+            this.addMovieForm.get('Poster').setValidators(null);
+            this.addMovieForm.get('Landscape').setValidators(null);
+            this.addMovieForm.get('RBCNimage').setValidators(null);
+            this.addMovieForm.get('ImageUrl').setValidators([Validators.required]);
+            this.addMovieForm.get('PosterUrl').setValidators([Validators.required]);
+            this.addMovieForm.get('LandscapeUrl').setValidators([Validators.required]);
+            this.addMovieForm.get('RBCNimageUrl').setValidators([Validators.required]);
+            this.updateValidation();
+        }
+    }
+
+    updateValidation() {
+        const invalid = [];
+        const controls = this.addMovieForm.controls;
+        for (const name in controls) {
+            controls[name].updateValueAndValidity();
+        }
+    }
+
     handleFile(evt, Image) {
         const files = evt.target.files;
         const file = files[0];
@@ -211,7 +272,6 @@ export class AddMovieComponent implements OnInit {
 
             reader.onload = () => {
                 this.addMovieForm.controls[Image].setValue(`${reader.result.split(',')[1]}`);
-                console.log("reader.result.split(',')[1] ", reader.result.split(',')[1]);
             };
         } else {
             this.addMovieForm.controls[Image].setValue('');
@@ -231,12 +291,14 @@ export class AddMovieComponent implements OnInit {
             addMovieForm.ModifiedBy = this.userInfo.username;
             this.movieManagementService.updateMovie(addMovieForm, addMovieForm.id).
                 then((success) => {
-                    console.log("Update success ", success);
-                    this.toastr.success('Movie Sucessfully Updated!', 'Success!');
+                    if (success.Success) {
+                        this.toastr.success('Movie Sucessfully Updated!', 'Success!');
+                        this._location.back();
+                    } else {
+                        this.toastr.error('Oops! Could not update movie.', 'Error!', { toastLife: 1500 });
+                    }
                     this.showLoader = false;
-                    this._location.back();
                 }).catch((error) => {
-                    console.log("error ", error);
                     if (error.Code === 500) {
                         this.toastr.error('Oops! Could not add movie.', 'Error!', { toastLife: 1500 });
                     } else if (error.Code === 400) {
@@ -249,7 +311,6 @@ export class AddMovieComponent implements OnInit {
             delete addMovieForm['id'];
             this.movieManagementService.addMovie(addMovieForm).
                 then((success) => {
-                    console.log("Add success ", success);
                     if (success.Code === 200) {
                         this.toastr.success('Movie Sucessfully Added!', 'Success!');
                         this.showLoader = false;
@@ -259,7 +320,6 @@ export class AddMovieComponent implements OnInit {
                         this.toastr.error('Oops! Could not add movie.', 'Error!', { toastLife: 1500 });
                     }
                 }).catch((error) => {
-                    console.log("error ", error);
                     if (error.Code === 500) {
                         this.toastr.error('Oops! Could not add movie.', 'Error!', { toastLife: 1500 });
                     } else if (error.Code === 400) {
@@ -319,6 +379,10 @@ export class AddMovieComponent implements OnInit {
         this.addMovieForm.controls['RBCNimage'].setValue(movieInfo['RBCNimageUrl']);
         this.addMovieForm.controls['CreatedOn'].setValue(movieInfo['CreatedOn']);
         this.addMovieForm.controls['CreatedBy'].setValue(movieInfo['CreatedBy']);
+        this.addMovieForm.get('ImageUrl').setValue(movieInfo['ImageUrl']);
+        this.addMovieForm.get('PosterUrl').setValue(movieInfo['PosterUrl']);
+        this.addMovieForm.get('LandscapeUrl').setValue(movieInfo['LandscapeUrl']);
+        this.addMovieForm.get('RBCNimageUrl').setValue(movieInfo['RBCNimageUrl']);
         this.checkFormValidation();
     }
 

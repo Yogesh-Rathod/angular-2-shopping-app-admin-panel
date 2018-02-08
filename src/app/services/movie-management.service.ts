@@ -45,7 +45,7 @@ export class MovieManagementService {
     }
 
     getUnmappedMovies() {
-        const url = `${environment.moviesApiUrl}Movie/Unmapped`;
+        const url = `${environment.moviesApiUrl}Movie/Unmapped?pageSize=100`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
@@ -97,7 +97,7 @@ export class MovieManagementService {
     }
 
     geAlreadyMappedMovies(movieId) {
-        const url = `${environment.moviesApiUrl}EventMapping/${movieId}`;
+        const url = `${environment.moviesApiUrl}EventMapping/${movieId}?pageSize=100`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)

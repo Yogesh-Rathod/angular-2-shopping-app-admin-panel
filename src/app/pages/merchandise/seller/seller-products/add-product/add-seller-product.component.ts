@@ -48,8 +48,6 @@ export class AddSellerProductComponent implements OnInit {
         editableDateField: false,
         openSelectorOnInputClick: true
     };
-    bankId: any;
-    vendorId: any;
     specifications: any = [];
 
     constructor(
@@ -65,8 +63,6 @@ export class AddSellerProductComponent implements OnInit {
     ) {
         this.route.params.subscribe((params) => {
             this.productId = params['productId'];
-            this.bankId = params['bankId'];
-            this.vendorId = params['vendorId'];
         });
     }
 
@@ -192,19 +188,6 @@ export class AddSellerProductComponent implements OnInit {
             this.productsService.getProductById(this.productId).then(res => {
                 this.products = res.Data.Products;
                 if (res.Code != 500) {
-                    let specification = this.products[0].ProductSpecification.split('|');
-                    let specificationData = [];
-                    _.forEach(specification, (data, index) => {
-                        let value = data.split(":");
-
-                        specificationData[index] = ({
-                            key: value[0],
-                            value: value[1]
-                        });
-                        this.addProductForm.controls['specifications'].setValue(specificationData);
-                        this.appendMore();
-                    });
-                    this.removeStructure(specificationData.length);
 
                     this.addProductForm.controls['Id'].setValue(this.products[0].Id);
                     this.addProductForm.controls['ParentProductCode'].setValue(this.products[0].ParentProductCode);
@@ -225,6 +208,19 @@ export class AddSellerProductComponent implements OnInit {
                     this.addProductForm.controls['CurrencyId'].setValue(this.products[0].CurrencyId);
                     this.addProductForm.controls['status'].setValue(this.products[0].Status);
                     this.addProductForm.controls['CurrencyId'].setValue('₹ (INR)');
+                    let specification = this.products[0].ProductSpecification.split('|');
+                    let specificationData = [];
+                    _.forEach(specification, (data, index) => {
+                        let value = data.split(":");
+
+                        specificationData[index] = ({
+                            key: value[0],
+                            value: value[1] ? value[1] : ''
+                        });
+                        this.addProductForm.controls['specifications'].setValue(specificationData);
+                        this.appendMore();
+                    });
+                    this.removeStructure(specificationData.length);
                     this.setCategoriesInEditMode();
                     this.checkFormValidation();
                     this.bigLoader = false;

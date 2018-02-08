@@ -25,6 +25,7 @@ export class MovieDetailsComponent implements OnInit {
         unmap: false
     };
     unmappedMovies: any;
+    filteredUnmappedMovies: any;
     unmappedLoader = false;
     mappedMovies = [];
     mapMovieLoader = false;
@@ -82,6 +83,7 @@ export class MovieDetailsComponent implements OnInit {
                 then((unmappedMovies) => {
                     // console.log("unmappedMovies ", unmappedMovies);
                     this.unmappedMovies = unmappedMovies.Data.Records;
+                    this.filteredUnmappedMovies = this.unmappedMovies;
                     this.unmappedLoader = false;
                 }).catch((error) => {
                     // console.log("getUnmappedMovies error ", error);
@@ -302,7 +304,6 @@ export class MovieDetailsComponent implements OnInit {
         };
         this.movieManagementService.mapMovies(movieInfo).
             then((successFullyUnMapped) => {
-                // console.log("successFullyUnMapped ", successFullyUnMapped);
                 this.toastr.success('Movie Successfully Unmapped!', 'Success!', { toastLife: 3000 });
                 this.getUnMappedMovies();
                 this.getAlreadyMappedMovies();
@@ -310,12 +311,18 @@ export class MovieDetailsComponent implements OnInit {
                 this.selectAllCheckboxUnMap = false;
                 this.mapMovieLoader = false;
             }).catch((errorInUnMapping) => {
-                // console.log("errorInUnMapping errorInMapping ", errorInUnMapping);
                 this.mapMovieLoader = false;
                 this.toastr.error('Movie can not be unmapped!', 'Error!', { toastLife: 2000 });
                 this.showMappingbuttons.unmap = false;
                 this.selectAllCheckboxUnMap = false;
             });
+    }
+
+    searchMovie(searchTerm) {
+        this.filteredUnmappedMovies = this.unmappedMovies.filter((item) => {
+            const caseInsensitiveSearch = new RegExp(`${searchTerm.trim()}`, "i");
+            return caseInsensitiveSearch.test(item.ProviderMovieName) || caseInsensitiveSearch.test(item.Language) || caseInsensitiveSearch.test(item.ProviderName);
+        });
     }
 
 }

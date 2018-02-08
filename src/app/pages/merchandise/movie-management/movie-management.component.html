@@ -44,7 +44,7 @@
       </div>
 
       <div class="table-container">
-        <table class="table table-bordered table-responsive" [mfData]="filteredMovies" #mf="mfDataTable" [mfRowsOnPage]="10">
+        <table class="table table-bordered table-responsive" [mfData]="filteredMovies" #mf="mfDataTable" [mfRowsOnPage]="50">
           <thead class="black-muted-bg">
             <tr>
               <th>
@@ -94,6 +94,9 @@
                 <button class="btn btn-secondary" [routerLink]="['./movie-details/', item.EventId]" title="View Details/ Map">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </button>
+                <button class="btn btn-danger" (click)="deleteMovie(item.EventId)" title="Edit">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -106,7 +109,7 @@
             </tr>
           </tbody>
 
-          <tfoot *ngIf=" filteredMovies && filteredMovies.length > 10 ">
+          <tfoot *ngIf=" filteredMovies && filteredMovies.length > 50 ">
             <tr>
               <td colspan="6">
                 <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>

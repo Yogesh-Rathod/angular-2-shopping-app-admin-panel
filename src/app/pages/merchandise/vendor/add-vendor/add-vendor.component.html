@@ -72,14 +72,14 @@
                         <span class="mandatory">*</span>
                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Phone Number (Should be 10 digit long and must start with 7/8/9)"></i>
                     </label>
-                    <input type="text" class="form-control" id="Phone" formControlName="ContactNumber" (keydown)='validatenumber($event)'>
+                    <input type="text" class="form-control" id="Phone" formControlName="ContactNumber">
                 </div>
                 <div class="form-group col-6">
                     <label for="Phone">
                         Alternate Phone Number:
                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Alternate Phone Number (Should be 10 digit long and must start with 7/8/9)"></i>
                     </label>
-                    <input type="text" class="form-control" id="Phone" formControlName="AltContactNumber" (keydown)='validatenumber($event)'>
+                    <input type="text" class="form-control" id="Phone" formControlName="AltContactNumber">
                 </div>
                 <div class="form-group col-6" *ngIf="!vendorId">
                     <label for="user">
@@ -133,7 +133,7 @@
                         <span class="mandatory">*</span>
                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Zip / Postal Code should be number with length 6."></i>
                     </label>
-                    <input formControlName="ZipCode" id="Zip" class="form-control" type="text" (keydown)='validatenumber($event)'>
+                    <input formControlName="ZipCode" id="Zip" class="form-control" type="text">
                 </div>
 
                 <div class="form-group col-6">
@@ -149,7 +149,7 @@
                         <span class="mandatory">*</span>
                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Vendor Listing Fee"></i>
                     </label>
-                    <input formControlName="ListingFee" type="text" class="form-control" id="listingFee" (keydown)='validatenumber($event)'>
+                    <input formControlName="ListingFee" type="text" class="form-control" id="listingFee">
                 </div>
 
                 <!-- <div class="form-group col-6">

@@ -12,7 +12,7 @@ export const environment = {
     merchandiseUrl: 'http://192.168.61.203/LRAS.MerchandiseSupportAPI/',
     programAPIUrl: 'http://192.168.61.203/LRAS.CommonAPI/GetAllPrograms',
     appName: 'MERCHANDISE',
-    hmacCliendId: 'lvbportal',
+    hmacCliendId: 'portalinternal',
     hmacClientSecret: 'secret',
     domainName: 'localhost',
     timeOut: 30000,

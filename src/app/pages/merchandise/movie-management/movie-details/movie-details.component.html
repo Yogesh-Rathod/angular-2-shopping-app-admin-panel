@@ -1,228 +1,269 @@
 <div class="animated fadeIn card addCinema">
 
-  <div class="card-header clearfix">
-    <h2 class="card-title">
-      Movie Details
-      <span class="goBack float-right" [routerLink]="['/movie-management']">
-        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to movies list</span>
-    </h2>
-  </div>
-
-  <div class="loader-container pos_absolute" *ngIf="bigLoader">
-    <img src="assets/img/ajax-loader.gif" alt="Loader Image">
-  </div>
-  <div class="card-body pos_relative">
-
-    <div class="basic-info row" *ngIf="movieInfo">
-      <div class="col-4 basic-info-left">
-        <div class="image-container">
-          <img *ngIf="movieInfo.LandscapeUrl" [src]="movieInfo.LandscapeUrl" alt="Movie Image" class="img-fluid" onError="this.src='assets/images/movies/no-preview.jpg'">
-          <img class="img-fluid" *ngIf="!movieInfo.LandscapeUrl" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
-        </div>
-      </div>
-      <div class="col-8 movie-description">
-        <div>
-          <span class="bold">
-            Title
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Title"></i>
-          </span>
-          <span>
-            : {{ movieInfo.Title }}
-          </span>
-        </div>
-        <div>
-          <span class="bold">
-            Type
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Type"></i>
-          </span>
-          <span>
-            : {{ movieInfo.Type }}
-          </span>
-        </div>
-        <div>
-          <span class="bold">
-            Language
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Language"></i>
-          </span>
-          <span>
-            : {{ movieInfo.Language }}
-          </span>
-        </div>
-        <div>
-          <span class="bold">
-             Actor
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Actor"></i>
-          </span>
-          <span>
-            : {{ movieInfo.Starring }}
-          </span>
-        </div>
-        <div>
-          <span class="bold">
-             Director
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Director"></i>
-          </span>
-          <span>
-            : {{ movieInfo.Director }}
-          </span>
-        </div>
-        <div>
-          <span class="bold">
-            Synopsis
-            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Synopsis"></i>
-          </span>
-          <span>
-            : {{ movieInfo.Synopsis }}
-          </span>
-        </div>
-        <div>
-          <button class="btn btn-primary" [routerLink]="['/movie-management/edit-movie/', movieInfo.EventId]" title="Edit">
-            Edit movie
-          </button>
-        </div>
-      </div>
+    <div class="card-header clearfix">
+        <h2 class="card-title">
+            Movie Details
+            <span class="goBack float-right" [routerLink]="['/movie-management']">
+                <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to movies list</span>
+        </h2>
     </div>
 
-  </div>
+    <div class="loader-container pos_absolute" *ngIf="bigLoader">
+        <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+    </div>
+    <div class="card-body pos_relative">
+
+        <div class="basic-info row" *ngIf="movieInfo">
+            <div class="col-4 basic-info-left">
+                <div class="image-container">
+                    <img *ngIf="movieInfo.LandscapeUrl" [src]="movieInfo.LandscapeUrl" alt="Movie Image" class="img-fluid" onError="this.src='assets/images/movies/no-preview.jpg'">
+                    <img class="img-fluid" *ngIf="!movieInfo.LandscapeUrl" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
+                </div>
+            </div>
+            <div class="col-8 movie-description">
+                <div>
+                    <span class="bold">
+                        Title
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Title"></i>
+                    </span>
+                    <span>
+                        : {{ movieInfo.Title }}
+                    </span>
+                </div>
+                <div>
+                    <span class="bold">
+                        Type
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Type"></i>
+                    </span>
+                    <span>
+                        : {{ movieInfo.Type }}
+                    </span>
+                </div>
+                <div>
+                    <span class="bold">
+                        Language
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Language"></i>
+                    </span>
+                    <span>
+                        : {{ movieInfo.Language }}
+                    </span>
+                </div>
+                <div>
+                    <span class="bold">
+                        Actor
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Actor"></i>
+                    </span>
+                    <span>
+                        : {{ movieInfo.Starring }}
+                    </span>
+                </div>
+                <div>
+                    <span class="bold">
+                        Director
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Director"></i>
+                    </span>
+                    <span>
+                        : {{ movieInfo.Director }}
+                    </span>
+                </div>
+                <div>
+                    <span class="bold">
+                        Synopsis
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Synopsis"></i>
+                    </span>
+                    <span>
+                        : {{ movieInfo.Synopsis }}
+                    </span>
+                </div>
+                <div>
+                    <button class="btn btn-primary" [routerLink]="['/movie-management/edit-movie/', movieInfo.EventId]" title="Edit">
+                        Edit movie
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 <div class="animated fadeIn card mapMovies">
 
-  <div class="card-header clearfix">
-    <h2 class="card-title">Map Movies</h2>
-  </div>
-
-  <div class="card-body movie-maps row">
-    <div class="col-5 pos_relative">
-      <div class="loader-container pos_absolute" *ngIf="unmappedLoader">
-        <img src="assets/img/ajax-loader.gif" alt="Loader Image">
-      </div>
-      <h6 class="no-text-transform">
-        List of unmapped movies:
-      </h6>
-      <table class="table table-bordered table-responsive" [mfData]="unmappedMovies" #first="mfDataTable" [mfRowsOnPage]="10">
-        <thead class="black-muted-bg">
-          <tr>
-            <th class="text-center">
-              <input type="checkbox" [ngModel]='selectAllCheckboxUnMap' (change)="selectAll($event)">
-            </th>
-            <th class="text-left">
-              <mfDefaultSorter by="ProviderMovieName">
-                <strong>Title</strong>
-              </mfDefaultSorter>
-            </th>
-            <th class="text-center">
-              <mfDefaultSorter by="language">
-                <strong>language</strong>
-              </mfDefaultSorter>
-            </th>
-            <th class="text-center">
-              <strong>Provider</strong>
-            </th>
-          </tr>
-        </thead>
-        <tbody *ngIf=" unmappedMovies && unmappedMovies.length > 0 ">
-          <tr *ngFor=" let item of first.data; let i = index ">
-            <td class="text-center">
-              <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
-            </td>
-            <td class="text-left">
-              {{ item.ProviderMovieName }}
-            </td>
-            <td class="text-center">
-              {{ item.Language }}
-            </td>
-            <td class="text-center">{{ item.ProviderName }}</td>
-          </tr>
-        </tbody>
-        <tbody *ngIf=" unmappedMovies && unmappedMovies.length === 0 ">
-          <tr>
-            <td colspan="5">
-              <strong>There are no unmapped movies!</strong>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot *ngIf=" unmappedMovies && unmappedMovies.length > 10 ">
-          <tr>
-            <td colspan="5">
-              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+    <div class="card-header clearfix">
+        <h2 class="card-title">Map Movies</h2>
     </div>
 
-    <div class="col-2 map-buttons text-center">
-      <div class="pos_relative">
-        <div class="loader-container pos_absolute" *ngIf="mapMovieLoader">
-          <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+    <div class="card-body movie-maps row">
+        <div class="col-5 pos_relative">
+            <div class="loader-container pos_absolute" *ngIf="unmappedLoader">
+                <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+            </div>
+            <h6 class="no-text-transform">
+                List of unmapped movies:
+            </h6>
+
+            <form>
+                <div class="form-group row">
+                    <label for="name" class="col-3 text-right">
+                        Search
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search movie based on title, language and provider."></i>
+                    </label>
+                    <input type="text" #searchText class="form-control col-6" id="name">
+                    <button type="submit" class="btn btn-primary searchbutton" (click)=" searchMovie(searchText.value) ">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </form>
+
+            <table class="table table-bordered table-responsive" [mfData]="filteredUnmappedMovies" #first="mfDataTable" [mfRowsOnPage]="10">
+                <thead class="black-muted-bg">
+                    <tr>
+                        <th class="text-center">
+                            <input type="checkbox" [ngModel]='selectAllCheckboxUnMap' (change)="selectAll($event)">
+                        </th>
+                        <th class="text-left">
+                            <mfDefaultSorter by="ProviderMovieName">
+                                <strong>Title</strong>
+                            </mfDefaultSorter>
+                        </th>
+                        <th class="text-center">
+                            <mfDefaultSorter by="language">
+                                <strong>language</strong>
+                            </mfDefaultSorter>
+                        </th>
+                        <th class="text-center">
+                            <strong>Provider</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody *ngIf=" filteredUnmappedMovies && filteredUnmappedMovies.length > 0 ">
+                    <tr *ngFor=" let item of first.data; let i = index ">
+                        <td class="text-center">
+                            <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                        </td>
+                        <td class="text-left">
+                            {{ item.ProviderMovieName }}
+                        </td>
+                        <td class="text-center">
+                            {{ item.Language }}
+                        </td>
+                        <td class="text-center">{{ item.ProviderName }}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf=" filteredUnmappedMovies && filteredUnmappedMovies.length === 0 ">
+                    <tr>
+                        <td colspan="5">
+                            <strong>There are no unmapped movies!</strong>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot *ngIf=" filteredUnmappedMovies && filteredUnmappedMovies.length > 10 ">
+                    <tr>
+                        <td colspan="5">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
-      </div>
-      <div>
-        <button (click)="mapAMovie()" [ngClass]="{ 'disabled': !showMappingbuttons.map }" class="btn btn-primary">Map &#62;</button>
-      </div>
-      <div>
-        <button (click)="unMapAMovie()" [ngClass]="{ 'disabled': !showMappingbuttons.unmap }" class="btn btn-info">&#60; Unmap</button>
-      </div>
-    </div>
 
-    <div class="col-5 pos_relative">
-      <div class="loader-container pos_absolute" *ngIf="mappedLoader">
-        <img src="assets/img/ajax-loader.gif" alt="Loader Image">
-      </div>
-      <h6 class="no-text-transform">
-        List of mapped movies:
-      </h6>
-      <table class="table table-bordered table-responsive" [mfData]="mappedMovies" #second="mfDataTable" [mfRowsOnPage]="10">
-        <thead class="black-muted-bg">
-          <tr>
-            <th class="text-center">
-              <input type="checkbox" [ngModel]='selectAllCheckboxMapped' (change)="selectAllMapped($event)">
-            </th>
-            <th class="text-left">
-              <mfDefaultSorter by="title">
-                <strong>Name</strong>
-              </mfDefaultSorter>
-            </th>
-            <th class="text-center">
-              <strong>language</strong>
-            </th>
-            <th class="text-center">
-              <strong>Provider</strong>
-            </th>
-          </tr>
-        </thead>
-        <tbody *ngIf=" mappedMovies && mappedMovies.length > 0 ">
-          <tr *ngFor=" let item of second.data; let i = index ">
-            <td class="text-center">
-              <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
-            </td>
-            <td class="text-left">
-              {{ item.ProviderMovieName }}
-            </td>
-            <td class="text-center">
-              {{ item.Language }}
-            </td>
-            <td class="text-center">{{ item.ProviderName }}</td>
-          </tr>
-        </tbody>
-        <tbody *ngIf=" mappedMovies && mappedMovies.length === 0 ">
-          <tr>
-            <td colspan="5">
-              <strong>There are no mapped movies!</strong>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot *ngIf=" mappedMovies && mappedMovies.length > 10 ">
-          <tr>
-            <td colspan="5">
-              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
+        <div class="col-2 map-buttons text-center">
 
-  </div>
+            <form class="hidden">
+                <div class="form-group row">
+                    <label for="name" class="col-3 text-right">
+                        Search
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search movie based on title, language and provider type."></i>
+                    </label>
+                    <input type="text" class="form-control col-6" id="name">
+                    <button type="button" class="btn btn-primary searchbutton">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </form>
+
+            <div class="pos_relative">
+                <div class="loader-container pos_absolute" *ngIf="mapMovieLoader">
+                    <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+                </div>
+            </div>
+            <div>
+                <button (click)="mapAMovie()" [ngClass]="{ 'disabled': !showMappingbuttons.map }" class="btn btn-primary">Map &#62;</button>
+            </div>
+            <div>
+                <button (click)="unMapAMovie()" [ngClass]="{ 'disabled': !showMappingbuttons.unmap }" class="btn btn-info">&#60; Unmap</button>
+            </div>
+        </div>
+
+        <div class="col-5 pos_relative">
+            <div class="loader-container pos_absolute" *ngIf="mappedLoader">
+                <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+            </div>
+            <h6 class="no-text-transform">
+                List of mapped movies:
+            </h6>
+
+            <form class="hidden">
+                <div class="form-group row">
+                    <label for="name" class="col-3 text-right">
+                        Search
+                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search movie based on title, language and provider type."></i>
+                    </label>
+                    <input type="text" class="form-control col-6" id="name">
+                    <button type="button" class="btn btn-primary searchbutton">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </form>
+
+            <table class="table table-bordered table-responsive" [mfData]="mappedMovies" #second="mfDataTable" [mfRowsOnPage]="10">
+                <thead class="black-muted-bg">
+                    <tr>
+                        <th class="text-center">
+                            <input type="checkbox" [ngModel]='selectAllCheckboxMapped' (change)="selectAllMapped($event)">
+                        </th>
+                        <th class="text-left">
+                            <mfDefaultSorter by="title">
+                                <strong>Name</strong>
+                            </mfDefaultSorter>
+                        </th>
+                        <th class="text-center">
+                            <strong>language</strong>
+                        </th>
+                        <th class="text-center">
+                            <strong>Provider</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody *ngIf=" mappedMovies && mappedMovies.length > 0 ">
+                    <tr *ngFor=" let item of second.data; let i = index ">
+                        <td class="text-center">
+                            <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                        </td>
+                        <td class="text-left">
+                            {{ item.ProviderMovieName }}
+                        </td>
+                        <td class="text-center">
+                            {{ item.Language }}
+                        </td>
+                        <td class="text-center">{{ item.ProviderName }}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf=" mappedMovies && mappedMovies.length === 0 ">
+                    <tr>
+                        <td colspan="5">
+                            <strong>There are no mapped movies!</strong>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot *ngIf=" mappedMovies && mappedMovies.length > 10 ">
+                    <tr>
+                        <td colspan="5">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
 </div>
-

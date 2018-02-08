@@ -101,13 +101,9 @@
                 List of unmapped movies:
             </h6>
 
-            <form>
+            <form class="col-12">
                 <div class="form-group row">
-                    <label for="name" class="col-3 text-right">
-                        Search
-                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search movie based on title, language and provider."></i>
-                    </label>
-                    <input type="text" #searchText class="form-control col-6" id="name">
+                    <input type="text" #searchText class="form-control col-9" id="name"placeholder="Search by title, language or provider">
                     <button type="submit" class="btn btn-primary searchbutton" (click)=" searchMovie(searchText.value) ">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
@@ -206,20 +202,16 @@
                 List of mapped movies:
             </h6>
 
-            <form class="hidden">
+            <form class="col-12">
                 <div class="form-group row">
-                    <label for="name" class="col-3 text-right">
-                        Search
-                        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search movie based on title, language and provider type."></i>
-                    </label>
-                    <input type="text" class="form-control col-6" id="name">
-                    <button type="button" class="btn btn-primary searchbutton">
+                    <input type="text" #mapSearchText class="form-control col-9" id="name" placeholder="Search by title, language or provider">
+                    <button type="submit" class="btn btn-primary searchbutton" (click)="searchMappedMovies(mapSearchText.value)">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </div>
             </form>
 
-            <table class="table table-bordered table-responsive" [mfData]="mappedMovies" #second="mfDataTable" [mfRowsOnPage]="10">
+            <table class="table table-bordered table-responsive" [mfData]="filteredMappedMovies" #second="mfDataTable" [mfRowsOnPage]="10">
                 <thead class="black-muted-bg">
                     <tr>
                         <th class="text-center">
@@ -241,7 +233,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody *ngIf=" mappedMovies && mappedMovies.length > 0 ">
+                <tbody *ngIf=" filteredMappedMovies && filteredMappedMovies.length > 0 ">
                     <tr *ngFor=" let item of second.data; let i = index ">
                         <td class="text-center">
                             <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
@@ -256,14 +248,14 @@
                         <td class="text-center">{{ item.ProviderName }}</td>
                     </tr>
                 </tbody>
-                <tbody *ngIf=" mappedMovies && mappedMovies.length === 0 ">
+                <tbody *ngIf=" filteredMappedMovies && filteredMappedMovies.length === 0 ">
                     <tr>
                         <td colspan="5">
                             <strong>There are no mapped movies!</strong>
                         </td>
                     </tr>
                 </tbody>
-                <tfoot *ngIf=" mappedMovies && mappedMovies.length > 10 ">
+                <tfoot *ngIf=" filteredMappedMovies && filteredMappedMovies.length > 10 ">
                     <tr>
                         <td colspan="5">
                             <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>

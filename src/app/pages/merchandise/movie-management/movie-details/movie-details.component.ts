@@ -28,6 +28,7 @@ export class MovieDetailsComponent implements OnInit {
     filteredUnmappedMovies: any;
     unmappedLoader = false;
     mappedMovies = [];
+    filteredMappedMovies: any;
     mapMovieLoader = false;
     mappedLoader = false;
 
@@ -102,6 +103,7 @@ export class MovieDetailsComponent implements OnInit {
             this.movieManagementService.geAlreadyMappedMovies(this.movieId).
                 then((mappedMovies) => {
                     this.mappedMovies = mappedMovies.Data.ProviderMovies;
+                    this.filteredMappedMovies = this.mappedMovies;
                     // console.log("this.mappedMovies ", this.mappedMovies);
                     this.mappedLoader = false;
                 }).catch((error) => {
@@ -321,6 +323,13 @@ export class MovieDetailsComponent implements OnInit {
     searchMovie(searchTerm) {
         this.filteredUnmappedMovies = this.unmappedMovies.filter((item) => {
             const caseInsensitiveSearch = new RegExp(`${searchTerm.trim()}`, "i");
+            return caseInsensitiveSearch.test(item.ProviderMovieName) || caseInsensitiveSearch.test(item.Language) || caseInsensitiveSearch.test(item.ProviderName);
+        });
+    }
+
+    searchMappedMovies(mapSearchText) {
+        this.filteredMappedMovies = this.mappedMovies.filter((item) => {
+            const caseInsensitiveSearch = new RegExp(`${mapSearchText.trim()}`, "i");
             return caseInsensitiveSearch.test(item.ProviderMovieName) || caseInsensitiveSearch.test(item.Language) || caseInsensitiveSearch.test(item.ProviderName);
         });
     }

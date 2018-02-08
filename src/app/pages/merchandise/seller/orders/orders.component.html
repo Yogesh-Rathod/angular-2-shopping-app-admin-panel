@@ -15,6 +15,14 @@
             <div class="card-body no_top_padding">
                 <form class="row order-search-form" [formGroup]="searchProductForm" (ngSubmit)=" searchProduct(searchProductForm.value) ">
 
+                    <div class="form-group col-3">
+                        <label for="poNumber" class="text-right">
+                            PO Number
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by PO Number."></i>
+                        </label>
+                        <input type="text" id="poNumber" class="form-control" formControlName="e.purchaseOrderNumber">
+                    </div>
+
                     <div class="form-group col-3" *ngIf="programName">
                         <label for="programName" class="text-right">
                             Program Name
@@ -50,14 +58,6 @@
                         <angular2-multiselect id="orderStatus" [data]="orderStatus" formControlName="e.status" [settings]="orderStatusDropdownSettings">
                         </angular2-multiselect>
                     </div> -->
-
-                    <div class="form-group col-3">
-                        <label for="poNumber" class="text-right">
-                            PO Number
-                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by PO Number."></i>
-                        </label>
-                        <input type="text" id="poNumber" class="form-control" formControlName="e.purchaseOrderNumber">
-                    </div>
 
                     <!-- <div class="form-group col-3">
                         <div class="rtoCheck">

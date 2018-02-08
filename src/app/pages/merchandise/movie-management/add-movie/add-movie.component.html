@@ -165,12 +165,13 @@
                 </label>
                 <div class="col-12">
                     <div class="uploadType row">
-                        <label class="col-3">
+                        <label>
                             Upload type
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Movie Images upload type to upload (Url's or Images)"></i>
                         </label>
-                        <select id="uploadType" class="form-control col-3">
-                            <option value="url">Url</option>
-                            <option value="image">Image</option>
+                        <select id="uploadType" #uploadType class="form-control col-3">
+                            <option value="image">Images</option>
+                            <option value="url">Url's</option>
                         </select>
                     </div>
                 </div>
@@ -207,24 +208,40 @@
                         <img *ngIf="movieId && !movieInfo.RBCNimageUrl" class="img-fluid" src="assets/images/movies/no-preview.jpg" alt="Movie Image">
                     </div>
                 </div>
-                <div class="col-3">
+
+                <div class="col-3" *ngIf="uploadType.value === 'url'">
+                    <label for="Square">( Square Image Url)</label>
+                    <input formControlName="Image" type="text" id="Square" class="form-control">
+                </div>
+                <div class="col-3" *ngIf="uploadType.value === 'url'">
+                    <label for="Portrait">( Portrait Image Url)</label>
+                    <input formControlName="Poster" type="text" id="Portrait" class="form-control">
+                </div>
+                <div class="col-3" *ngIf="uploadType.value === 'url'">
+                    <label for="Landscape">( Landscape Image Url)</label>
+                    <input formControlName="Landscape" type="text" id="Landscape" class="form-control">
+                </div>
+                <div class="col-3" *ngIf="uploadType.value === 'url'">
+                    <label for="RBCN">( RBCN Image Url)</label>
+                    <input formControlName="RBCNimage" type="text" id="RBCN" class="form-control">
+                </div>
+
+
+                <div class="col-3" *ngIf="uploadType.value === 'image'">
                     <label for="Square">( Square Image )</label>
                     <input type="file" id="Square" class="form-control" (change)="handleFile($event, 'Image')">
                 </div>
-                <div class="col-3">
+                <div class="col-3" *ngIf="uploadType.value === 'image'">
                     <label for="Portrait">( Portrait Image )</label>
                     <input type="file" id="Portrait" class="form-control" (change)="handleFile($event, 'Poster')">
                 </div>
-                <div class="col-3">
+                <div class="col-3" *ngIf="uploadType.value === 'image'">
                     <label for="Landscape">( Landscape Image )</label>
                     <input type="file" id="Landscape" class="form-control" (change)="handleFile($event, 'Landscape')">
                 </div>
-                <div class="col-3">
+                <div class="col-3" *ngIf="uploadType.value === 'image'">
                     <label for="RBCN">( RBCN Image )</label>
                     <input type="file" id="RBCN" class="form-control" (change)="handleFile($event, 'RBCNimage')">
-
-
-
                 </div>
             </div>
 

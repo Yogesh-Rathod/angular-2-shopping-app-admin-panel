@@ -192,30 +192,33 @@ export class AddMovieComponent implements OnInit {
             'Image': [
                 '',
                 Validators.compose([
-                    Validators.required
+                    // Validators.required
                 ])
             ],
             'Poster': [
                 '',
                 Validators.compose([
-                    Validators.required
+                    // Validators.required
                 ])
             ],
             'Landscape': [
                 '',
                 Validators.compose([
-                    Validators.required
+                    // Validators.required
                 ])
             ],
             'RBCNimage': [
                 '',
                 Validators.compose([
-                    Validators.required
+                    // Validators.required
                 ])
             ],
             'CreatedOn': [new Date().toISOString()],
             'CreatedBy': ['']
         });
+        if (!this.movieId) {
+            this.uploadTypeSelected('image');
+        }
     }
 
     validatenumber(e) {
@@ -225,31 +228,32 @@ export class AddMovieComponent implements OnInit {
     }
 
     uploadTypeSelected(uploadType) {
-        console.log("uploadType ", uploadType);
-        if (uploadType === 'image') {
-            this.addMovieForm.get('Image').setValidators([Validators.required]);
-            this.addMovieForm.get('Poster').setValidators([Validators.required]);
-            this.addMovieForm.get('Landscape').setValidators([Validators.required]);
-            this.addMovieForm.get('RBCNimage').setValidators([Validators.required]);
-            this.addMovieForm.get('ImageUrl').setValidators(null);
-            this.addMovieForm.get('PosterUrl').setValidators(null);
-            this.addMovieForm.get('LandscapeUrl').setValidators(null);
-            this.addMovieForm.get('RBCNimageUrl').setValidators(null);
-            this.updateValidation();
-        } else {
-            this.addMovieForm.get('Image').setValue(null);
-            this.addMovieForm.get('Poster').setValue(null);
-            this.addMovieForm.get('Landscape').setValue(null);
-            this.addMovieForm.get('Poster').setValue(null);
-            this.addMovieForm.get('Image').setValidators(null);
-            this.addMovieForm.get('Poster').setValidators(null);
-            this.addMovieForm.get('Landscape').setValidators(null);
-            this.addMovieForm.get('RBCNimage').setValidators(null);
-            this.addMovieForm.get('ImageUrl').setValidators([Validators.required]);
-            this.addMovieForm.get('PosterUrl').setValidators([Validators.required]);
-            this.addMovieForm.get('LandscapeUrl').setValidators([Validators.required]);
-            this.addMovieForm.get('RBCNimageUrl').setValidators([Validators.required]);
-            this.updateValidation();
+        if (!this.movieId) {
+            if (uploadType === 'image') {
+                this.addMovieForm.get('Image').setValidators([Validators.required]);
+                this.addMovieForm.get('Poster').setValidators([Validators.required]);
+                this.addMovieForm.get('Landscape').setValidators([Validators.required]);
+                this.addMovieForm.get('RBCNimage').setValidators([Validators.required]);
+                this.addMovieForm.get('ImageUrl').setValidators(null);
+                this.addMovieForm.get('PosterUrl').setValidators(null);
+                this.addMovieForm.get('LandscapeUrl').setValidators(null);
+                this.addMovieForm.get('RBCNimageUrl').setValidators(null);
+                this.updateValidation();
+            } else {
+                this.addMovieForm.get('Image').setValue('');
+                this.addMovieForm.get('Poster').setValue('');
+                this.addMovieForm.get('Landscape').setValue('');
+                this.addMovieForm.get('Poster').setValue('');
+                this.addMovieForm.get('Image').setValidators(null);
+                this.addMovieForm.get('Poster').setValidators(null);
+                this.addMovieForm.get('Landscape').setValidators(null);
+                this.addMovieForm.get('RBCNimage').setValidators(null);
+                this.addMovieForm.get('ImageUrl').setValidators([Validators.required]);
+                this.addMovieForm.get('PosterUrl').setValidators([Validators.required]);
+                this.addMovieForm.get('LandscapeUrl').setValidators([Validators.required]);
+                this.addMovieForm.get('RBCNimageUrl').setValidators([Validators.required]);
+                this.updateValidation();
+            }
         }
     }
 
@@ -296,6 +300,7 @@ export class AddMovieComponent implements OnInit {
                         this._location.back();
                     } else {
                         this.toastr.error('Oops! Could not update movie.', 'Error!', { toastLife: 1500 });
+                        this.validationError = success.FailureReasons;
                     }
                     this.showLoader = false;
                 }).catch((error) => {
@@ -318,6 +323,7 @@ export class AddMovieComponent implements OnInit {
                     } else if (success.Code === 500) {
                         this.showLoader = false;
                         this.toastr.error('Oops! Could not add movie.', 'Error!', { toastLife: 1500 });
+                        this.validationError = success.FailureReasons;
                     }
                 }).catch((error) => {
                     if (error.Code === 500) {
@@ -373,10 +379,10 @@ export class AddMovieComponent implements OnInit {
         this.addMovieForm.controls['Synopsis'].setValue(movieInfo['Synopsis']);
         this.addMovieForm.controls['TrailerUrl'].setValue(movieInfo['TrailerUrl']);
         this.addMovieForm.controls['Sequence'].setValue(movieInfo['Sequence']);
-        this.addMovieForm.controls['Image'].setValue(movieInfo['ImageUrl']);
-        this.addMovieForm.controls['Poster'].setValue(movieInfo['PosterUrl']);
-        this.addMovieForm.controls['Landscape'].setValue(movieInfo['LandscapeUrl']);
-        this.addMovieForm.controls['RBCNimage'].setValue(movieInfo['RBCNimageUrl']);
+        // this.addMovieForm.controls['Image'].setValue(movieInfo['ImageUrl']);
+        // this.addMovieForm.controls['Poster'].setValue(movieInfo['PosterUrl']);
+        // this.addMovieForm.controls['Landscape'].setValue(movieInfo['LandscapeUrl']);
+        // this.addMovieForm.controls['RBCNimage'].setValue(movieInfo['RBCNimageUrl']);
         this.addMovieForm.controls['CreatedOn'].setValue(movieInfo['CreatedOn']);
         this.addMovieForm.controls['CreatedBy'].setValue(movieInfo['CreatedBy']);
         this.addMovieForm.get('ImageUrl').setValue(movieInfo['ImageUrl']);

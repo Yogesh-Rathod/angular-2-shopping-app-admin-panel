@@ -61,12 +61,10 @@ export class MovieDetailsComponent implements OnInit {
         if (this.movieId) {
             this.movieManagementService.getMoviedetails(this.movieId).
                 then((moviesInfo) => {
-                    // console.log("moviesInfo ", moviesInfo);
                     this.movieInfo = moviesInfo.Data;
                     this.bigLoader = false;
                     this.initTooltip();
                 }).catch((error) => {
-                    // console.log("getMoviedetails error ", error);
                     if (error.Code === 500) {
                         this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
                         this.location.back();
@@ -80,14 +78,12 @@ export class MovieDetailsComponent implements OnInit {
     getUnMappedMovies() {
         this.unmappedLoader = true;
         if (this.movieId) {
-            this.movieManagementService.getUnmappedMovies().
+            this.movieManagementService.getUnmappedMovies('').
                 then((unmappedMovies) => {
-                    // console.log("unmappedMovies ", unmappedMovies);
                     this.unmappedMovies = unmappedMovies.Data.Records;
                     this.filteredUnmappedMovies = this.unmappedMovies;
                     this.unmappedLoader = false;
                 }).catch((error) => {
-                    // console.log("getUnmappedMovies error ", error);
                     if (error.Code === 500) {
                         this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
                         this.location.back();
@@ -104,13 +100,10 @@ export class MovieDetailsComponent implements OnInit {
                 then((mappedMovies) => {
                     this.mappedMovies = mappedMovies.Data.ProviderMovies;
                     this.filteredMappedMovies = this.mappedMovies;
-                    // console.log("this.mappedMovies ", this.mappedMovies);
                     this.mappedLoader = false;
                 }).catch((error) => {
-                    // console.log("geAlreadyMappedMovies error ", error);
                     if (error.Code === 500) {
                         this.location.back();
-                        // this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
                     }
                     this.mappedLoader = false;
                 });
@@ -205,7 +198,6 @@ export class MovieDetailsComponent implements OnInit {
         };
         this.movieManagementService.mapMovies(movieInfo).
             then((successFullyMapped) => {
-                // console.log("successFullyMapped ", successFullyMapped);
                 this.toastr.success('Movie Successfully Mapped!', 'Success!', { toastLife: 3000 });
                 this.getUnMappedMovies();
                 this.getAlreadyMappedMovies();
@@ -214,7 +206,6 @@ export class MovieDetailsComponent implements OnInit {
                 this.selectAllCheckboxMapped = false;
                 this.mapMovieLoader = false;
             }).catch((errorInMapping) => {
-                // console.log("mapMovies errorInMapping ", errorInMapping);
                 this.mapMovieLoader = false;
                 this.toastr.error('Movie can not be mapped!', 'Error!', { toastLife: 2000 });
                 this.showMappingbuttons.map = false;
@@ -240,19 +231,17 @@ export class MovieDetailsComponent implements OnInit {
         if (moviesToMap.length > 0) {
             this.movieManagementService.mapMovies(movieInfo).
                 then((successFullyMapped) => {
-                // console.log("successFullyMapped ", successFullyMapped);
-                this.toastr.success('Movie Successfully Mapped!', 'Success!', { toastLife: 3000 });
-                this.getUnMappedMovies();
-                this.getAlreadyMappedMovies();
-                this.showMappingbuttons.map = false;
-                this.selectAllCheckboxUnMap = false;
-                this.mapMovieLoader = false;
+                    this.toastr.success('Movie Successfully Mapped!', 'Success!', { toastLife: 3000 });
+                    this.getUnMappedMovies();
+                    this.getAlreadyMappedMovies();
+                    this.showMappingbuttons.map = false;
+                    this.selectAllCheckboxUnMap = false;
+                    this.mapMovieLoader = false;
                 }).catch((errorInMapping) => {
-                // console.log("mapMovies errorInMapping ", errorInMapping);
-                this.mapMovieLoader = false;
-                this.toastr.error('Movie can not be mapped!', 'Error!', { toastLife: 2000 });
-                this.showMappingbuttons.map = false;
-                this.selectAllCheckboxUnMap = false;
+                    this.mapMovieLoader = false;
+                    this.toastr.error('Movie can not be mapped!', 'Error!', { toastLife: 2000 });
+                    this.showMappingbuttons.map = false;
+                    this.selectAllCheckboxUnMap = false;
                 });
         }
     }
@@ -274,7 +263,6 @@ export class MovieDetailsComponent implements OnInit {
         };
         this.movieManagementService.mapMovies(movieInfo).
             then((successFullyMapped) => {
-                // console.log("successFullyMapped ", successFullyMapped);
                 this.toastr.success('Movie Successfully Unmapped!', 'Success!', { toastLife: 3000 });
                 this.getUnMappedMovies();
                 this.getAlreadyMappedMovies();
@@ -283,7 +271,6 @@ export class MovieDetailsComponent implements OnInit {
                 this.selectAllCheckboxMapped = false;
                 this.mapMovieLoader = false;
             }).catch((errorInMapping) => {
-                // console.log("mapMovies errorInMapping ", errorInMapping);
                 this.mapMovieLoader = false;
                 this.toastr.error('Movie can not be mapped!', 'Error!', { toastLife: 2000 });
                 this.showMappingbuttons.map = false;
@@ -321,24 +308,22 @@ export class MovieDetailsComponent implements OnInit {
     }
 
     searchMovie(searchTerm) {
-        this.unmappedLoader = true;
-        // if (condition) {
-            
-        // }
-        if (this.movieId) {
-            this.movieManagementService.getUnmappedMovies(searchTerm).
-                then((unmappedMovies) => {
-                    this.unmappedMovies = unmappedMovies.Data.Records;
-                    this.filteredUnmappedMovies = this.unmappedMovies;
-                    this.unmappedLoader = false;
-                }).catch((error) => {
-                    // console.log("getUnmappedMovies error ", error);
-                    if (error.Code === 500) {
-                        this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
-                        this.location.back();
-                    }
-                    this.unmappedLoader = false;
-                });
+        if (searchTerm) {
+            this.unmappedLoader = true;
+            if (this.movieId) {
+                this.movieManagementService.getUnmappedMovies(searchTerm).
+                    then((unmappedMovies) => {
+                        this.unmappedMovies = unmappedMovies.Data.Records;
+                        this.filteredUnmappedMovies = this.unmappedMovies;
+                        this.unmappedLoader = false;
+                    }).catch((error) => {
+                        if (error.Code === 500) {
+                            this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
+                            this.location.back();
+                        }
+                        this.unmappedLoader = false;
+                    });
+            }
         }
     }
 

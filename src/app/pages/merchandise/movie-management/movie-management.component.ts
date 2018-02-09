@@ -44,15 +44,13 @@ export class MovieManagementComponent implements OnInit {
 
     getAllMovies() {
         this.bigLoader = true;
-        this.movieManagementService.getMovies(1).
+        this.movieManagementService.getMovies('', 1).
             then((moviesInfo) => {
-                console.log("movies ", moviesInfo);
-                this.movies = moviesInfo.Data.Records;
-                this.totalRecords = moviesInfo.Data.TotalRecords;
+                this.movies = moviesInfo.Data ? moviesInfo.Data.Records : [];
+                this.totalRecords = moviesInfo.Data ? moviesInfo.Data.TotalRecords : 1;
                 this.filteredMovies = this.movies;
                 this.bigLoader = false;
             }).catch((error) => {
-                console.log("error ", error);
                 if (error.Code === 500) {
                     this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
                 }
@@ -63,31 +61,38 @@ export class MovieManagementComponent implements OnInit {
     pageChanged($event) {
         this.bigLoader = true;
         this.p = $event;
-        this.movieManagementService.getMovies(this.p).
+        this.movieManagementService.getMovies('', this.p).
             then((moviesInfo) => {
-                console.log("movies ", moviesInfo);
-                this.movies = moviesInfo.Data.Records;
-                this.totalRecords = moviesInfo.Data.TotalRecords;
+                this.movies = moviesInfo.Data ? moviesInfo.Data.Records: [];
+                this.totalRecords = moviesInfo.Data ? moviesInfo.Data.TotalRecords : 1;
                 this.filteredMovies = this.movies;
                 this.bigLoader = false;
             }).catch((error) => {
                 this.bigLoader = false;
-                console.log("error ", error);
             })
     }
 
     searchMovie(searchTerm) {
-        this.filteredMovies = this.movies.filter((item) => {
-            const caseInsensitiveSearch = new RegExp(`${searchTerm.trim()}`, "i");
-            return caseInsensitiveSearch.test(item.Title) || caseInsensitiveSearch.test(item.Language) || caseInsensitiveSearch.test(item.Type);
-        });
+        if (searchTerm) {
+            this.bigLoader = true;
+            this.movieManagementService.getMovies(searchTerm, 1).
+                then((moviesInfo) => {
+                    this.movies = moviesInfo.Data ? moviesInfo.Data.Records : [];
+                    this.totalRecords = moviesInfo.Data ? moviesInfo.Data.TotalRecords : 1;
+                    this.filteredMovies = this.movies;
+                    this.bigLoader = false;
+                }).catch((error) => {
+                    if (error.Code === 500) {
+                        this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
+                    }
+                });
+        }
     }
 
     bulkUpload() {
         const activeModal = this.modalService.open(MovieBulkUploadComponent, { size: 'sm' });
 
         activeModal.result.then((status) => {
-            console.log("status ", status);
             if (status) {
                 this.getAllMovies();
             }
@@ -161,7 +166,6 @@ export class MovieManagementComponent implements OnInit {
                     item.isChecked = false;
                 }
             });
-            console.log("moviesToDelete ", moviesToDelete);
         }
         activeModal.result.then((status) => {
             this.showSelectedAction = false;

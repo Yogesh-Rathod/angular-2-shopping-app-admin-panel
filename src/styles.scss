@@ -222,12 +222,16 @@ fieldset[disabled] {
         li {
             position: relative;
             display: block;
-            padding: .5rem .75rem;
+            padding: 0 !important;
             margin-left: -1px;
             line-height: 1.25;
             color: #d6d6d6;
             background-color: #fff;
             border: 1px solid #ddd;
+
+            &.current {
+                padding: 0;
+            }
 
             &:hover {
                 background-color: #d6d6d6;
@@ -235,9 +239,21 @@ fieldset[disabled] {
                 cursor: pointer;
             }
 
+            span {
+                display: inline-block;
+                padding: .5rem .75rem;
+                span {
+                    display: inline-block;
+                    padding: 0;
+                }
+            }
+
             a {
+                padding: .5rem .75rem;
                 color: #666;
-                padding: 0;
+                span {
+                    padding: 0;
+                }
                 &:hover {
                     color: #666;
                     background-color: transparent;

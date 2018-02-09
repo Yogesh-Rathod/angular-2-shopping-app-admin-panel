@@ -75,8 +75,8 @@ export class SellerProductsComponent implements OnInit {
         this.bigLoader = true;
         this.productsService.getProducts(null, 1, 10).
             then((products) => {
-                this.products = products.Data.Products;
-                this.totalRecords = products.Data.TotalRecords;
+                this.products = products.Data ? products.Data.Products : [];
+                this.totalRecords = products.Data ? products.Data.TotalRecords : 1;
                 this.bigLoader = false;
             }).catch((error) => {
                 this.bigLoader = false;

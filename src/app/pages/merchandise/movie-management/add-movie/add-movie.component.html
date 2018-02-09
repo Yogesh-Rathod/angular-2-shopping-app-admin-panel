@@ -210,11 +210,11 @@
                 </div>
 
                 <div class="col-3" *ngIf="uploadType.value === 'url'">
-                    <label for="Square">( Square Image Url)</label>
+                    <label for="Square">( Image Url)</label>
                     <input formControlName="ImageUrl" type="text" id="Square" class="form-control">
                 </div>
                 <div class="col-3" *ngIf="uploadType.value === 'url'">
-                    <label for="Portrait">( Portrait Image Url)</label>
+                    <label for="Portrait">( Poster Image Url)</label>
                     <input formControlName="PosterUrl" type="text" id="Portrait" class="form-control">
                 </div>
                 <div class="col-3" *ngIf="uploadType.value === 'url'">
@@ -228,11 +228,11 @@
 
 
                 <div class="col-3" *ngIf="uploadType.value === 'image'">
-                    <label for="Square">( Square Image )</label>
+                    <label for="Square">( Image )</label>
                     <input type="file" id="Square" class="form-control" (change)="handleFile($event, 'Image')">
                 </div>
                 <div class="col-3" *ngIf="uploadType.value === 'image'">
-                    <label for="Portrait">( Portrait Image )</label>
+                    <label for="Portrait">( Poster Image )</label>
                     <input type="file" id="Portrait" class="form-control" (change)="handleFile($event, 'Poster')">
                 </div>
                 <div class="col-3" *ngIf="uploadType.value === 'image'">

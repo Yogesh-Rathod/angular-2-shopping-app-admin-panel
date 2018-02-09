@@ -24,8 +24,8 @@ export class MovieManagementService {
         private responseHandingService: ResponseHandingService) {
     }
 
-    getMovies(page) {
-        const url = `${environment.moviesApiUrl}Event?page=${page}&pageSize=50`;
+    getMovies(query?, page?) {
+        const url = `${environment.moviesApiUrl}Event?q=${query}&page=${page}&pageSize=50`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)

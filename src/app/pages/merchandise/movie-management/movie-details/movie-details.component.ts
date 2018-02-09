@@ -308,22 +308,20 @@ export class MovieDetailsComponent implements OnInit {
     }
 
     searchMovie(searchTerm) {
-        if (searchTerm) {
-            this.unmappedLoader = true;
-            if (this.movieId) {
-                this.movieManagementService.getUnmappedMovies(searchTerm).
-                    then((unmappedMovies) => {
-                        this.unmappedMovies = unmappedMovies.Data.Records;
-                        this.filteredUnmappedMovies = this.unmappedMovies;
-                        this.unmappedLoader = false;
-                    }).catch((error) => {
-                        if (error.Code === 500) {
-                            this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
-                            this.location.back();
-                        }
-                        this.unmappedLoader = false;
-                    });
-            }
+        this.unmappedLoader = true;
+        if (this.movieId) {
+            this.movieManagementService.getUnmappedMovies(searchTerm).
+                then((unmappedMovies) => {
+                    this.unmappedMovies = unmappedMovies.Data.Records;
+                    this.filteredUnmappedMovies = this.unmappedMovies;
+                    this.unmappedLoader = false;
+                }).catch((error) => {
+                    if (error.Code === 500) {
+                        this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
+                        this.location.back();
+                    }
+                    this.unmappedLoader = false;
+                });
         }
     }
 

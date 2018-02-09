@@ -63,7 +63,7 @@ export class MovieManagementComponent implements OnInit {
         this.p = $event;
         this.movieManagementService.getMovies('', this.p).
             then((moviesInfo) => {
-                this.movies = moviesInfo.Data ? moviesInfo.Data.Records: [];
+                this.movies = moviesInfo.Data ? moviesInfo.Data.Records : [];
                 this.totalRecords = moviesInfo.Data ? moviesInfo.Data.TotalRecords : 1;
                 this.filteredMovies = this.movies;
                 this.bigLoader = false;
@@ -73,20 +73,18 @@ export class MovieManagementComponent implements OnInit {
     }
 
     searchMovie(searchTerm) {
-        if (searchTerm) {
-            this.bigLoader = true;
-            this.movieManagementService.getMovies(searchTerm, 1).
-                then((moviesInfo) => {
-                    this.movies = moviesInfo.Data ? moviesInfo.Data.Records : [];
-                    this.totalRecords = moviesInfo.Data ? moviesInfo.Data.TotalRecords : 1;
-                    this.filteredMovies = this.movies;
-                    this.bigLoader = false;
-                }).catch((error) => {
-                    if (error.Code === 500) {
-                        this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
-                    }
-                });
-        }
+        this.bigLoader = true;
+        this.movieManagementService.getMovies(searchTerm, 1).
+            then((moviesInfo) => {
+                this.movies = moviesInfo.Data ? moviesInfo.Data.Records : [];
+                this.totalRecords = moviesInfo.Data ? moviesInfo.Data.TotalRecords : 1;
+                this.filteredMovies = this.movies;
+                this.bigLoader = false;
+            }).catch((error) => {
+                if (error.Code === 500) {
+                    this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
+                }
+            });
     }
 
     bulkUpload() {

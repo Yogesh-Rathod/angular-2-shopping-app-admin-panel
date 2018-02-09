@@ -214,7 +214,8 @@ export class AddMovieComponent implements OnInit {
                 ])
             ],
             'CreatedOn': [new Date().toISOString()],
-            'CreatedBy': ['']
+            'CreatedBy': [''],
+            'IsActive': [true]
         });
         if (!this.movieId) {
             this.uploadTypeSelected('image');
@@ -276,6 +277,7 @@ export class AddMovieComponent implements OnInit {
 
             reader.onload = () => {
                 this.addMovieForm.controls[Image].setValue(`${reader.result.split(',')[1]}`);
+                this.addMovieForm.controls[`${Image}Url`].setValue('');
             };
         } else {
             this.addMovieForm.controls[Image].setValue('');

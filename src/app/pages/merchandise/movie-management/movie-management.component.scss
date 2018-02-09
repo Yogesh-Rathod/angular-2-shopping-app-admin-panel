@@ -67,7 +67,9 @@
 
 .table-container {
 	padding-bottom: 15px;
-	min-height: 150px;
+    min-height: 150px;
+    max-height: 1200px;
+    overflow-y: scroll;
 }
 
 .name {
@@ -76,13 +78,19 @@
 .language {
     max-width: 150px;
 }
+
 .deleteSelectedButton {
     margin-bottom: 15px;
 }
 
-.tableLoader .loader-container img {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+.tableLoader {
+    table {
+        margin: 0;
+    }
+    .loader-container img {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
 }

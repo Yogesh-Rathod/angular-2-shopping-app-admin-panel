@@ -39,3 +39,18 @@
     overflow: hidden;
     overflow-y: scroll;
 }
+
+.vertically-scroll {
+    max-height: 750px;
+    overflow-y: scroll;
+    table {
+        margin: 0;
+    }
+}
+
+.tableLoader .loader-container img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

@@ -19,6 +19,7 @@ export class MovieManagementComponent implements OnInit {
 
     p: number = 1;
     totalRecords: any = 1;
+    showRecords: any = 25;
     searchTerm: any;
     movies: any;
     filteredMovies: any;
@@ -39,12 +40,12 @@ export class MovieManagementComponent implements OnInit {
         $(document).ready(() => {
             $('[data-toggle="tooltip"]').tooltip();
         });
-        this.getAllMovies();
+        this.getAllMovies(this.showRecords);
     }
 
-    getAllMovies() {
+    getAllMovies(showRecords) {
         this.bigLoader = true;
-        this.movieManagementService.getMovies('', 1).
+        this.movieManagementService.getMovies('', 1, showRecords).
             then((moviesInfo) => {
                 this.movies = moviesInfo.Data ? moviesInfo.Data.Records : [];
                 this.totalRecords = moviesInfo.Data ? moviesInfo.Data.TotalRecords : 1;
@@ -58,10 +59,15 @@ export class MovieManagementComponent implements OnInit {
             });
     }
 
+    showEntries(value) {
+        this.showRecords = value;
+        this.getAllMovies(this.showRecords);
+    }
+
     pageChanged($event) {
         this.bigLoader = true;
         this.p = $event;
-        this.movieManagementService.getMovies('', this.p).
+        this.movieManagementService.getMovies('', this.p, this.showRecords).
             then((moviesInfo) => {
                 this.movies = moviesInfo.Data ? moviesInfo.Data.Records : [];
                 this.totalRecords = moviesInfo.Data ? moviesInfo.Data.TotalRecords : 1;
@@ -74,7 +80,7 @@ export class MovieManagementComponent implements OnInit {
 
     searchMovie(searchTerm) {
         this.bigLoader = true;
-        this.movieManagementService.getMovies(searchTerm, 1).
+        this.movieManagementService.getMovies(searchTerm, 1, this.showRecords).
             then((moviesInfo) => {
                 this.movies = moviesInfo.Data ? moviesInfo.Data.Records : [];
                 this.totalRecords = moviesInfo.Data ? moviesInfo.Data.TotalRecords : 1;
@@ -92,7 +98,7 @@ export class MovieManagementComponent implements OnInit {
 
         activeModal.result.then((status) => {
             if (status) {
-                this.getAllMovies();
+                this.getAllMovies(this.showRecords);
             }
         });
     }
@@ -182,7 +188,7 @@ export class MovieManagementComponent implements OnInit {
             then((success) => {
                 if (success.Success) {
                     this.toastr.success('Movies successfully deleted.', 'Success!');
-                    this.getAllMovies();
+                    this.getAllMovies(this.showRecords);
                 }
             }).catch((error) => {
                 this.toastr.error('Could not delete movies.', 'Error!');

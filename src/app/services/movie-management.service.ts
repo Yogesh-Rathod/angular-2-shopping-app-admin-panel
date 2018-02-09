@@ -24,8 +24,8 @@ export class MovieManagementService {
         private responseHandingService: ResponseHandingService) {
     }
 
-    getMovies(query?, page?) {
-        const url = `${environment.moviesApiUrl}Event?q=${query}&page=${page}&pageSize=50`;
+    getMovies(query?, page?, pageSize?) {
+        const url = `${environment.moviesApiUrl}Event?q=${query}&page=${page}&pageSize=${pageSize}`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
@@ -44,11 +44,8 @@ export class MovieManagementService {
             .catch(reason => this.responseHandingService.handleError(reason));
     }
 
-    getUnmappedMovies(query?) {
-        let url = `${environment.moviesApiUrl}Movie/Unmapped?q=${query}&pageSize=150`;
-        if (query) {
-            // url = `${url}&q=${query}`;
-        }
+    getUnmappedMovies(query?, page?) {
+        let url = `${environment.moviesApiUrl}Movie/Unmapped?q=${query}&page=${page}&pageSize=25`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)

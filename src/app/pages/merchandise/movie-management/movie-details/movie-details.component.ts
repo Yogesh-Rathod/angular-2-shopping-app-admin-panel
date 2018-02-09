@@ -14,6 +14,8 @@ import { MovieManagementService } from 'app/services';
 })
 export class MovieDetailsComponent implements OnInit {
 
+    p: number = 1;
+    totalRecords: any = 1;
     bigLoader = false;
     movieId: any;
     movies: any;
@@ -75,12 +77,31 @@ export class MovieDetailsComponent implements OnInit {
         }
     }
 
+    pageChanged($event) {
+        this.unmappedLoader = true;
+        this.p = $event;
+        this.movieManagementService.getUnmappedMovies('', this.p).
+            then((unmappedMovies) => {
+                this.unmappedMovies = unmappedMovies.Data ? unmappedMovies.Data.Records : [];
+                this.totalRecords = unmappedMovies.Data ? unmappedMovies.Data.TotalRecords : 1;
+                this.filteredUnmappedMovies = this.unmappedMovies;
+                this.unmappedLoader = false;
+            }).catch((error) => {
+                if (error.Code === 500) {
+                    this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
+                    this.location.back();
+                }
+                this.unmappedLoader = false;
+            });
+    }
+
     getUnMappedMovies() {
         this.unmappedLoader = true;
         if (this.movieId) {
-            this.movieManagementService.getUnmappedMovies('').
+            this.movieManagementService.getUnmappedMovies('', 1).
                 then((unmappedMovies) => {
                     this.unmappedMovies = unmappedMovies.Data.Records;
+                    this.totalRecords = unmappedMovies.Data ? unmappedMovies.Data.TotalRecords : 1;
                     this.filteredUnmappedMovies = this.unmappedMovies;
                     this.unmappedLoader = false;
                 }).catch((error) => {
@@ -313,6 +334,7 @@ export class MovieDetailsComponent implements OnInit {
             this.movieManagementService.getUnmappedMovies(searchTerm).
                 then((unmappedMovies) => {
                     this.unmappedMovies = unmappedMovies.Data.Records;
+                    this.totalRecords = unmappedMovies.Data ? unmappedMovies.Data.TotalRecords : 1;
                     this.filteredUnmappedMovies = this.unmappedMovies;
                     this.unmappedLoader = false;
                 }).catch((error) => {

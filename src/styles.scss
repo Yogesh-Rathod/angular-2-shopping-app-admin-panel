@@ -233,6 +233,13 @@ fieldset[disabled] {
                 padding: 0;
             }
 
+            &.pagination-previous {
+                &::before {
+                    margin: 0;
+                    margin-left: 10px;
+                }
+            }
+
             &:hover {
                 background-color: #d6d6d6;
                 color: #fff;

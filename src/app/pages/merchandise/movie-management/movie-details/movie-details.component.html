@@ -92,8 +92,8 @@
         <h2 class="card-title">Map Movies</h2>
     </div>
 
-    <div class="card-body movie-maps row">
-        <div class="col-5 pos_relative">
+    <div class="card-body movie-maps row ">
+        <div class="col-5 pos_relative tableLoader">
             <div class="loader-container pos_absolute" *ngIf="unmappedLoader">
                 <img src="assets/img/ajax-loader.gif" alt="Loader Image">
             </div>
@@ -110,60 +110,62 @@
                 </div>
             </form>
 
-            <table class="table table-bordered table-responsive" [mfData]="filteredUnmappedMovies" #first="mfDataTable" [mfRowsOnPage]="10">
-                <thead class="black-muted-bg">
-                    <tr>
-                        <th class="text-center">
-                            <input type="checkbox" [ngModel]='selectAllCheckboxUnMap' (change)="selectAll($event)">
-                        </th>
-                        <th class="text-left">
-                            <mfDefaultSorter by="ProviderMovieName">
-                                <strong>Title</strong>
-                            </mfDefaultSorter>
-                        </th>
-                        <th class="text-center">
-                            <strong>Type</strong>
-                        </th>
-                        <th class="text-center">
-                            <mfDefaultSorter by="language">
-                                <strong>language</strong>
-                            </mfDefaultSorter>
-                        </th>
-                        <th class="text-center">
-                            <strong>Provider</strong>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody *ngIf=" filteredUnmappedMovies && filteredUnmappedMovies.length > 0 ">
-                    <tr *ngFor=" let item of first.data; let i = index ">
-                        <td class="text-center">
-                            <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
-                        </td>
-                        <td class="text-left">
-                            {{ item.ProviderMovieName }}
-                        </td>
-                        <td class="text-center">{{ item.Type }}</td>
-                        <td class="text-center">
-                            {{ item.Language }}
-                        </td>
-                        <td class="text-center">{{ item.ProviderName }}</td>
-                    </tr>
-                </tbody>
-                <tbody *ngIf=" filteredUnmappedMovies && filteredUnmappedMovies.length === 0 ">
-                    <tr>
-                        <td colspan="5">
-                            <strong>There are no unmapped movies!</strong>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot *ngIf=" filteredUnmappedMovies && filteredUnmappedMovies.length > 10 ">
-                    <tr>
-                        <td colspan="5">
-                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
+            <div class="vertically-scroll">
+                <table class="table table-bordered table-responsive" [mfData]="filteredUnmappedMovies" #first="mfDataTable" [mfRowsOnPage]="25">
+                    <thead class="black-muted-bg">
+                        <tr>
+                            <th class="text-center">
+                                <input type="checkbox" [ngModel]='selectAllCheckboxUnMap' (change)="selectAll($event)">
+                            </th>
+                            <th class="text-left">
+                                <mfDefaultSorter by="ProviderMovieName">
+                                    <strong>Title</strong>
+                                </mfDefaultSorter>
+                            </th>
+                            <th class="text-center">
+                                <strong>Type</strong>
+                            </th>
+                            <th class="text-center">
+                                <mfDefaultSorter by="language">
+                                    <strong>language</strong>
+                                </mfDefaultSorter>
+                            </th>
+                            <th class="text-center">
+                                <strong>Provider</strong>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf=" filteredUnmappedMovies && filteredUnmappedMovies.length > 0 ">
+                        <tr *ngFor=" let item of first.data | paginate: { itemsPerPage: 25, currentPage: p, totalItems: totalRecords }; let i = index ">
+                            <td class="text-center">
+                                <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                            </td>
+                            <td class="text-left">
+                                {{ item.ProviderMovieName }}
+                            </td>
+                            <td class="text-center">{{ item.Type }}</td>
+                            <td class="text-center">
+                                {{ item.Language }}
+                            </td>
+                            <td class="text-center">{{ item.ProviderName }}</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf=" filteredUnmappedMovies && filteredUnmappedMovies.length === 0 ">
+                        <tr>
+                            <td colspan="5">
+                                <strong>There are no unmapped movies!</strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot *ngIf=" filteredUnmappedMovies && totalRecords > 25 ">
+                        <tr>
+                            <td colspan="5">
+                                <pagination-controls class="my-pagination" (pageChange)="pageChanged($event)"></pagination-controls>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
 
         <div class="col-2 map-buttons text-center">

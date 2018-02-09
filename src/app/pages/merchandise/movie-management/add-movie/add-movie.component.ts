@@ -218,7 +218,7 @@ export class AddMovieComponent implements OnInit {
             'IsActive': [true]
         });
         if (!this.movieId) {
-            this.uploadTypeSelected('image');
+            this.uploadTypeSelected('url');
         }
     }
 

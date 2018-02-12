@@ -331,7 +331,7 @@ export class MovieDetailsComponent implements OnInit {
     searchMovie(searchTerm) {
         this.unmappedLoader = true;
         if (this.movieId) {
-            this.movieManagementService.getUnmappedMovies(searchTerm).
+            this.movieManagementService.getUnmappedMovies(searchTerm, 1).
                 then((unmappedMovies) => {
                     this.unmappedMovies = unmappedMovies.Data.Records;
                     this.totalRecords = unmappedMovies.Data ? unmappedMovies.Data.TotalRecords : 1;

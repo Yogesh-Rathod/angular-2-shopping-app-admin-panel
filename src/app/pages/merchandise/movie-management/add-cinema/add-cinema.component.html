@@ -9,7 +9,7 @@
       <img *ngIf=" deleteLoader " class="float-right deleteLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35"
         height="35">
 
-      <button *ngIf=" cinemaId " class="btn btn-danger float-right" (click)="deleteCinema()" [disabled]="deleteLoader">
+      <button *ngIf=" cinemaId " class="btn btn-danger float-right" [disabled]="deleteLoader">
         <i class="fa fa-trash-o" aria-hidden="true"></i>
         Delete
       </button>

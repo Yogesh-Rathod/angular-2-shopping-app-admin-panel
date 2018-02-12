@@ -67,16 +67,13 @@ export class ReportsComponent implements OnInit {
         this.searchOrdersForm = this.fb.group({
             SellerId: [[]],
             OrderFromDate: [''],
-            OrderTillDate: [''],
-            // poNumber: ['']
+            OrderTillDate: ['']
         });
     }
 
     getAllVendors() {
-        // this.bigLoader = true;
         this.vendorsService.getVendors().
             then((vendors) => {
-                console.log("vendors ", vendors);
                 if (vendors.Code === 200) {
                     this.vendorsList = vendors.Data;
                     this.vendorsList = this.vendorsList.map((item) => {
@@ -87,7 +84,6 @@ export class ReportsComponent implements OnInit {
                 }
                 this.bigLoader = false;
             }).catch((error) => {
-                console.log("error ", error);
             })
     }
 
@@ -114,7 +110,6 @@ export class ReportsComponent implements OnInit {
         });
         this.ordersService.getReports(searchOrdersForm).
             then((orders) => {
-                console.log(orders)
                 if (orders.Code == 200) {
                     this.orders = orders.Data;
                     this.searchLoader = false;
@@ -123,7 +118,6 @@ export class ReportsComponent implements OnInit {
                 this.searchLoader = false;
             }).catch((error) => {
                 this.searchLoader = false;
-                console.log("error ", error);
             });
     }
     downloadReport() {

@@ -123,14 +123,12 @@ export class BankDetailsComponent implements OnInit {
     getAllProgram() {
        this.catalogManagementService.getAllProgramList().then(res =>{
             if(res.Success){
-                console.log("Program List res == >",res);
                 this.programList =res.Data;
             }
        })
     }
     getAllMappedProgram(_catalogId){
         this.catalogManagementService.getAllMappedProgramList(_catalogId).then(res =>{
-            console.log("res ", res);
             if(res.Success){
                 this.programMappedList = res.Data;
             }
@@ -141,7 +139,6 @@ export class BankDetailsComponent implements OnInit {
     }
 
     unMapProgram(_program) {
-        console.log("_program ", _program);
     }
 
     mapProgram(_program){
@@ -161,7 +158,6 @@ export class BankDetailsComponent implements OnInit {
                     "Error!"
                 );
             }
-            console.log("Post res ==>",res);
         })
     }
     //GET
@@ -260,7 +256,6 @@ export class BankDetailsComponent implements OnInit {
         this.catalogManagementService
             .approveProductPostCatalog(approveObj)
             .then(res => {
-                console.log(res);
                 if (res.Success) {
                     this.toastr.success(
                         "Catalog product map approved.",

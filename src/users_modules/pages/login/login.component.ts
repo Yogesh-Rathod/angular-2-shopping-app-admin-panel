@@ -105,7 +105,6 @@ export class LoginComponent implements OnInit {
 
         this.loginService.userLogin({ UserName: loginForm.value.email, Password: loginForm.value.password })
           .then((res) => {
-            console.log("Login res ", res);
             this.isHidden = true;
             if (res.Code === 500) {
               this.toastr.error('Login failed! Please recheck username & password.');
@@ -124,7 +123,6 @@ export class LoginComponent implements OnInit {
           });
       }
     } catch (ex) {
-      console.log(ex);
     }
   }
 
@@ -159,7 +157,6 @@ export class LoginComponent implements OnInit {
 
       default:
         this.somethingWentWrong();
-        console.log(environment.appName);
         break;
     }
   }
@@ -180,7 +177,6 @@ export class LoginComponent implements OnInit {
     })
       .catch((ex) => {
         this.isHidden = true;
-        console.log(ex);
       });
   }
 

@@ -276,7 +276,6 @@ export class AddSellerProductComponent implements OnInit {
         ]
 
         if (!approval) {
-            console.log(this.productId);
             if (this.productId) {
                 this.productsService.updateProduct(res).then(res => {
                     if (res.Code != 500) {
@@ -321,7 +320,6 @@ export class AddSellerProductComponent implements OnInit {
                 });
                 this.bigLoader = false;
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 
@@ -373,7 +371,6 @@ export class AddSellerProductComponent implements OnInit {
                     }
                 });
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 
@@ -392,7 +389,6 @@ export class AddSellerProductComponent implements OnInit {
                             return category;
                         }
                     });
-                    console.log("selectedCategory ", selectedCategory);
                     if (selectedCategory && selectedCategory.length > 0) {
                         this.addProductForm.controls['SubSubCategories'].setValue(selectedCategory);
                     }
@@ -405,7 +401,6 @@ export class AddSellerProductComponent implements OnInit {
                     }
                 });
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 
@@ -417,7 +412,6 @@ export class AddSellerProductComponent implements OnInit {
     }
 
     uploadProductImage(addProductForm) {
-        console.log("addProductForm ", addProductForm);
     }
 
     productImageSelected(image) {

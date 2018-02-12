@@ -32,8 +32,6 @@ export class ProductsBulkUploadComponent implements OnInit {
     ngOnInit() {}
 
     handleFile(event) {
-        // this.validationError = null;
-        // this.blankFileError = false;
         let file = event.target.files[0];
         if (file) {
             this.showLoader = true;
@@ -42,7 +40,6 @@ export class ProductsBulkUploadComponent implements OnInit {
                 if (data['sheets']) {
                     const sheetKey = Object.keys(data['sheets']);
                     this.result = data['sheets'][sheetKey[0]];
-                    console.log("this.result ", this.result);
                     if (this.result && this.result.length > 0) {
                         this.productsInfo = this.result;
                         this.showLoader = false;
@@ -66,7 +63,6 @@ export class ProductsBulkUploadComponent implements OnInit {
             if (action === 'save') {
                 this.productsService.editOperationProduct(this.productsInfo, 'Operations').
                     then((success) => {
-                        console.log("addProduct success ", success);
                         if (success.Code === 200) {
                             this.toastr.success('Product sucessfully saved in draft', 'Success!');
                             this.closeModal(true);
@@ -76,7 +72,6 @@ export class ProductsBulkUploadComponent implements OnInit {
                         }
                         this.showLoader = false;
                     }).catch((error) => {
-                        console.log("error ", error);
                         if (error.Code === 500) {
                             this.toastr.error('Oops! Could not upload products.', 'Error!');
                         } else if (error.Code === 400) {
@@ -87,7 +82,6 @@ export class ProductsBulkUploadComponent implements OnInit {
             } else if (action === 'submit') {
                 this.productsService.confirmOperationProduct(this.productsInfo, 'Operations').
                     then((success) => {
-                        console.log("sendproductForApproval success ", success);
                         if (success.Code === 200) {
                             this.toastr.success('Product sucessfully sent for approval!', 'Success!');
                             this.closeModal(true);
@@ -97,7 +91,6 @@ export class ProductsBulkUploadComponent implements OnInit {
                         }
                         this.showLoader = false;
                     }).catch((error) => {
-                        console.log("error ", error);
                         if (error.Code === 500) {
                             this.toastr.error('Oops! Could not upload products.', 'Error!');
                         } else if (error.Code === 400) {

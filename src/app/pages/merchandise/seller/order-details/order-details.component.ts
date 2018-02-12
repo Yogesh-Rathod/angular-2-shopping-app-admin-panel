@@ -93,11 +93,9 @@ export class OrderDetailsComponent implements OnInit {
 
     markRTO(rtoForm) {
         this.cancelLoader = true;
-        console.log("rtoForm ", rtoForm);
         let ordersToRTO = [];
         ordersToRTO.push(rtoForm);
         rtoForm.PurchaseOrderNumber = 'LVB-TL-8-10000088';
-        console.log("rtoForm ", rtoForm);
         this.ordersService.markOrderRTO(ordersToRTO).
             then((success) => {
                 if (success.Code === 200 && success.Data[0].Status !== 'Failed') {
@@ -119,7 +117,6 @@ export class OrderDetailsComponent implements OnInit {
         if (this.orderId) {
             this.ordersService.getOrdersByPONumber(this.orderId, null).
                 then((order) => {
-                    console.log("orders ", order.Data);
                     this.orderInfo = order.Data;
                     if (order.Data.Status) {
                         if (order.Data.Status.match(/cancel/i)) {
@@ -132,7 +129,6 @@ export class OrderDetailsComponent implements OnInit {
                     this.bigLoader = false;
                     this.createForm();
                 }).catch((error) => {
-                    console.log("error ", error);
                     if (error) {
                         this.toastr.error('Something went wrong.', 'Error!');
                         this.goBack();

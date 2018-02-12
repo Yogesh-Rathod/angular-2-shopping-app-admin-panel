@@ -27,14 +27,6 @@ export class BaPageTop {
   }
 
   changePassword(){
-
-    // const activeModal = this.modalService.open(ChangePasswordComponent, { size: 'sm'});
-    //     activeModal.componentInstance.modalHeader = "Change Password";
-    //     activeModal.result.then((status) => {
-    //       if (status) {
-    //         console.log("Called Popup");
-    //       }
-    //     });
   }
   public toggleMenu() {
     this.isMenuCollapsed = !this.isMenuCollapsed;
@@ -47,7 +39,6 @@ export class BaPageTop {
   }
 
     signOut() {
-      console.log("signOut ");
       this.cookieService.removeAll();
       this.router.navigate(['/login']);
     }

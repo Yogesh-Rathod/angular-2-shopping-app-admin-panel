@@ -46,12 +46,9 @@ export class OrderDetailsComponent implements OnInit {
                         this.orderInfo = order.Data;
                     } else {
                         this.orderInfo = 'not-present';
-                        console.log("this.orderInfo ", this.orderInfo);
                     }
                     this.bigLoader = false;
-                    console.log("order ", order);
                 }).catch((error) => {
-                    console.log("getOrderDetails error ", error);
                     if (error) {
                         this.toastr.error('Something went wrong.', 'Error!');
                         this.goBack();
@@ -59,10 +56,6 @@ export class OrderDetailsComponent implements OnInit {
                 })
         }
     }
-
-    // ngOnChanges(changes) {
-    //     this.getOrderDetails();
-    // }
 
     childStatusChanged(finished: boolean) {
         this.getOrderDetails();

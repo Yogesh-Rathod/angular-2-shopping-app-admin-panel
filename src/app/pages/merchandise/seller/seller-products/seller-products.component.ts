@@ -67,7 +67,6 @@ export class SellerProductsComponent implements OnInit {
             then((categories) => {
                 this.categories = categories.Data;
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 
@@ -81,7 +80,6 @@ export class SellerProductsComponent implements OnInit {
             }).catch((error) => {
                 this.bigLoader = false;
                 this.toastr.error('Could not get products', 'Error');
-                console.log("error ", error);
             });
     }
 
@@ -104,7 +102,6 @@ export class SellerProductsComponent implements OnInit {
         this.atLeastOneFieldRequires(searchProductForm);
         this.p = 1;
         if (!this.atLeastOnePresent) {
-            console.log('searchProductForm', searchProductForm);
             this.products = [];
             this.searchLoader = true;
             this.bigLoader = true;
@@ -123,11 +120,9 @@ export class SellerProductsComponent implements OnInit {
 
             searchProductForm = JSON.stringify(searchProductForm);
             searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
-            console.log("searchProductForm ", searchProductForm);
 
             this.productsService.getProducts(searchProductForm, 1, 10).
                 then((products) => {
-                    console.log("products ", products);
                     this.products = products.Data.Products;
                     this.totalRecords = products.Data.TotalRecords;
                     this.bigLoader = false;
@@ -135,7 +130,6 @@ export class SellerProductsComponent implements OnInit {
                 }).catch((error) => {
                     this.toastr.error('Could not get products', 'Error');
                     this.bigLoader = false;
-                    console.log("error ", error);
                 })
 
         }
@@ -144,42 +138,18 @@ export class SellerProductsComponent implements OnInit {
     pageChanged($event) {
         this.bigLoader = true;
         this.p = $event;
-        console.log("this.p ", this.p);
         this.productsService.getProducts(null, this.p, 10).
             then((products) => {
-                console.log("products ", products);
                 this.products = products.Data.Products;
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
             }).catch((error) => {
                 this.toastr.error('Could not get products', 'Error');
                 this.bigLoader = false;
-                console.log("error ", error);
             });
     }
 
     exportProducts() {
-        // let products = [];
-        // if (this.selectAllCheckbox) {
-        //     this.productsService.getProducts(null, null, this.totalRecords).
-        //         then((products) => {
-        //             if (products.Data && products.Data.Products.length > 0) {
-        //                 this.jsonToExcelService.exportAsExcelFile(products.Data.Products, 'products');
-        //                 this.selectAllCheckbox = false;
-        //             }
-        //         }).catch((error) => {
-        //             this.toastr.error('Could not get products for export', 'Error');
-        //             console.log("error ", error);
-        //             this.selectAllCheckbox = false;
-        //         });
-        // } else {
-        //     _.forEach(this.products, (item) => {
-        //         if (item.isChecked) {
-        //             products.push(item);
-        //         }
-        //     });
-        //     this.jsonToExcelService.exportAsExcelFile(products, 'products');
-        // }
         let products = [];
         if (this.selectAllCheckbox) {
             products = this.products;
@@ -251,7 +221,6 @@ export class SellerProductsComponent implements OnInit {
 
     checkBoxSelected(e, item) {
         this.selectAllCheckbox = false;
-        console.log(e.target.checked);
         if (e.target.checked) {
             item.isChecked = true;
             this.productSelected = false
@@ -269,7 +238,6 @@ export class SellerProductsComponent implements OnInit {
     }
 
     dropDownActionFunction(dropDownActionValue) {
-        console.log("dropDownActionValue ", dropDownActionValue);
         switch (dropDownActionValue) {
             case 'Approve Selected':
                 this.approveAll();

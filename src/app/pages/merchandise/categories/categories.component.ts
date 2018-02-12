@@ -57,7 +57,6 @@ export class CategoriesComponent implements OnInit {
                 this.categoriesFiltered = this.generateTreeStructure(this.categories);
                 this.showLoader = false;
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 
@@ -65,11 +64,9 @@ export class CategoriesComponent implements OnInit {
         this.showLoader = true;
         this.categories = this.merchandiseService.getUnApprovedCategories().
             then((categories) => {
-                console.log("this.unApprovedCategories ", categories );
                 this.unApprovedCategories = categories.Data;
                 this.showLoader = false;
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 
@@ -123,7 +120,6 @@ export class CategoriesComponent implements OnInit {
         category.approvalLoader = true;
         this.merchandiseService.approveCategory(approvalForm).
             then((response) => {
-                console.log("response ", response);
                 if (response.Code === 200) {
                     this.toastr.success('Category approved successfully.', 'Sucess!');
                     category.approvalLoader = false;
@@ -135,7 +131,6 @@ export class CategoriesComponent implements OnInit {
                     category.approvalLoader = false;
                 }
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 

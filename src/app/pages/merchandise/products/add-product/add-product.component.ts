@@ -227,7 +227,6 @@ export class AddProductComponent implements OnInit {
                         this.addProductForm.controls['ModelNumber'].setValue(this.products[0].ModelNumber);
                         this.addProductForm.controls['ManufacturerPartNumber'].setValue(this.products[0].ManufacturerPartNumber);
                         this.addProductForm.controls['Gtin'].setValue(this.products[0].Gtin);
-                        console.log("this.products ", this.products);
                         this.addProductForm.controls['Name'].setValue(this.products[0].Name);
                         this.addProductForm.controls['Comments'].setValue(this.products[0].Comments);
                         this.addProductForm.controls['ShortDescription'].setValue(this.products[0].ShortDescription);
@@ -250,7 +249,6 @@ export class AddProductComponent implements OnInit {
                         this.checkFormValidation();
                     }
                 }).catch((error) => {
-                    console.log("error ", error);
                 })
         }
     }
@@ -398,7 +396,6 @@ export class AddProductComponent implements OnInit {
                 });
                 this.bigLoader = false;
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 
@@ -431,7 +428,6 @@ export class AddProductComponent implements OnInit {
                     }
                 });
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 
@@ -450,7 +446,6 @@ export class AddProductComponent implements OnInit {
                             return category;
                         }
                     });
-                    console.log("selectedCategory ", selectedCategory);
                     if (selectedCategory && selectedCategory.length > 0) {
                         this.addProductForm.controls['SubSubCategories'].setValue(selectedCategory);
                     }
@@ -463,7 +458,6 @@ export class AddProductComponent implements OnInit {
                     }
                 });
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 
@@ -474,7 +468,6 @@ export class AddProductComponent implements OnInit {
 
 
     uploadProductImage(addProductForm) {
-        console.log("addProductForm ", addProductForm);
     }
 
     productImageSelected(image) {

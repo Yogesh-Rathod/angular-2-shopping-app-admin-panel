@@ -75,7 +75,6 @@ export class Pages {
                 PAGES_MENU_NEW[0].children = updatedMenuItems;
                 this._menuService.updateMenuByRoutes(<Routes>PAGES_MENU_NEW);
             }).catch(rej => {
-                console.log("Error: ",rej);
                 let homeMenu = PAGES_MENU[0].children[0];
                 var PAGES_MENU_NEW = JSON.parse(JSON.stringify(PAGES_MENU));
                 PAGES_MENU_NEW[0].children = [homeMenu];

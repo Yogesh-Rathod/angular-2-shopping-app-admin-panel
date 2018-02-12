@@ -102,10 +102,8 @@ export class FreshComponent implements OnInit {
                 }
             });
         }
-        console.log("productsToApprove ", productsToApprove);
         this.ordersService.sendToProcessed(productsToApprove).
             then((success) => {
-                console.log("success ", success);
                 if (success.Code === 200) {
                     this.getAllOrders();
                     this.showLoader = false;
@@ -119,7 +117,6 @@ export class FreshComponent implements OnInit {
             }).catch((error) => {
                 this.showLoader = false;
                 this.toastr.error('Oops! Could not change status.', 'Error!');
-                console.log("error ", error);
             });
         this.selectAllCheckbox = false;
         this.showSelectedAction = false;

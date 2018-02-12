@@ -106,7 +106,6 @@ export class OrdersComponent implements OnInit {
     getAllPrograms() {
         this.catalogManagementService.getAllProgramList().then(res => {
             if (res.Success) {
-                console.log("Program List res == >", res);
                 this.programName = res.Data;
                 this.programName = this.programName.map((item) => {
                     item.id = item.Id;
@@ -121,7 +120,6 @@ export class OrdersComponent implements OnInit {
         this.bigLoader = true;
         this.ordersService.getOrdersByPONumber().
             then((orders) => {
-                console.log("orders", orders);
                 this.orders = orders.Data.PurchaseOrder;
                 this.bigLoader = false;
                 if (!orders.Success) {
@@ -189,7 +187,6 @@ export class OrdersComponent implements OnInit {
         searchOrdersForm = JSON.stringify(searchOrdersForm);
         searchOrdersForm = searchOrdersForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
 
-        console.log('searchOrdersForm', searchOrdersForm);
         this.ordersService.getOrdersByPONumber(null, searchOrdersForm).
             then((orders) => {
                 if (orders.Data) {
@@ -203,7 +200,6 @@ export class OrdersComponent implements OnInit {
             }).catch((error) => {
                 this.toastr.error('Could not get orders.', 'Error');
                 this.bigLoader = false;
-                console.log("error ", error);
             })
     }
 

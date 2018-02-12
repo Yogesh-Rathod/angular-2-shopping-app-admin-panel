@@ -4,61 +4,57 @@ import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms'
 declare let $: any;
 
 @Component({
-  selector: 'app-shipping-info',
-  templateUrl: './shipping-info.component.html',
-  styleUrls: ['./shipping-info.component.scss']
+    selector: 'app-shipping-info',
+    templateUrl: './shipping-info.component.html',
+    styleUrls: ['./shipping-info.component.scss']
 })
 export class ShippingInfoComponent implements OnInit {
 
-  @Input() orderInfo: any;
-  myDatePickerOptions: IMyDpOptions = {
-    dateFormat: 'dd/mm/yyyy',
-    editableDateField: false,
-    openSelectorOnInputClick: true
-  };
-  shippingInfoForm: FormGroup;
+    @Input() orderInfo: any;
+    myDatePickerOptions: IMyDpOptions = {
+        dateFormat: 'dd/mm/yyyy',
+        editableDateField: false,
+        openSelectorOnInputClick: true
+    };
+    shippingInfoForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder
-  ) { }
+    constructor(
+        private fb: FormBuilder
+    ) { }
 
-  ngOnInit() {
-    $(document).ready(() => {
-      $('[data-toggle="tooltip"]').tooltip();
-    });
-    this.shippingForm();
-  }
+    ngOnInit() {
+        $(document).ready(() => {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        this.shippingForm();
+    }
 
-  shippingForm() {
-    this.shippingInfoForm = this.fb.group({
-      rtoReport: [''],
-      comments: [''],
-      AWBNumber: [''],
-      courierName: [''],
-      dispatchDate: [''],
-      deliveryDate: ['']
-    });
-  }
+    shippingForm() {
+        this.shippingInfoForm = this.fb.group({
+            rtoReport: [''],
+            comments: [''],
+            AWBNumber: [''],
+            courierName: [''],
+            dispatchDate: [''],
+            deliveryDate: ['']
+        });
+    }
 
-  updateShippingInfoForm(shippingInfo) {
-    console.log("shippingInfo ", shippingInfo);
-    shippingInfo['dispatchDate'] = new Date(`
+    updateShippingInfoForm(shippingInfo) {
+        shippingInfo['dispatchDate'] = new Date(`
       ${shippingInfo['dispatchDate'].date.year}-
       ${shippingInfo['dispatchDate'].date.month}-
       ${shippingInfo['dispatchDate'].date.day}`
-    ).toISOString();
-    shippingInfo['deliveryDate'] = new Date(`
+        ).toISOString();
+        shippingInfo['deliveryDate'] = new Date(`
     ${shippingInfo['deliveryDate'].date.year}-
     ${shippingInfo['deliveryDate'].date.month}-
     ${shippingInfo['deliveryDate'].date.day}`
-  ).toISOString();
-  console.log("shippingInfo['dispatchDate'] ", shippingInfo['dispatchDate']);
-  console.log("shippingInfo['deliveryDate'] ", shippingInfo['deliveryDate']);
+        ).toISOString();
+    }
 
-  }
-
-  resetForm() {
-    this.shippingForm();
-  }
+    resetForm() {
+        this.shippingForm();
+    }
 
 }

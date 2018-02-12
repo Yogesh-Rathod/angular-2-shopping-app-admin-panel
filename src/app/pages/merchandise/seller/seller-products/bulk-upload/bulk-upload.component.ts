@@ -40,9 +40,7 @@ export class SellsBulkUploadComponent implements OnInit {
                 if (data['sheets']) {
                     const sheetKey = Object.keys(data['sheets']);
                     this.result = data['sheets'][sheetKey[0]];
-                    console.log("this.result ", this.result);
                     if (this.result && this.result.length > 0) {
-                        // this.convertJSONResponse(this.result);
                         this.productsInfo = this.result;
                         this.showLoader = false;
                         this.submitDisabled = false;
@@ -79,7 +77,6 @@ export class SellsBulkUploadComponent implements OnInit {
                     }
                     this.showLoader = false;
                 }).catch((error) => {
-                    console.log("error ", error);
                     this.showLoader = false;
                     this.toastr.error('Oops! Could not upload products.', 'Error!');
                 });
@@ -103,7 +100,6 @@ export class SellsBulkUploadComponent implements OnInit {
                     }
                     this.showLoader = false;
                 }).catch((error) => {
-                    console.log("error ", error);
                     this.toastr.error('Oops! Could not upload products.', 'Error!');
                     this.showLoader = false;
                 });

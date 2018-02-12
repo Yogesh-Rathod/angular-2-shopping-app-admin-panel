@@ -36,7 +36,6 @@ export class BaMenuService {
 
   getUserRole() {
     this.userRole = localStorage.getItem('userRole');
-    // console.log("this.userRole ", this.userRole);
   }
 
   public selectMenuItem(menuItems:any[]):any[] {

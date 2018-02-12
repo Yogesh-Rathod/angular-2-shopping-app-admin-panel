@@ -104,7 +104,6 @@ export class FreshComponent implements OnInit {
         }
         this.ordersService.sendToProcessed(productsToApprove).
             then((success) => {
-                console.log("success ", success);
                 if (success.Code === 200) {
                     this.getAllOrders();
                     this.onStatusChange.emit(true);
@@ -116,7 +115,6 @@ export class FreshComponent implements OnInit {
                     this.toastr.success('Status changed successfully.', 'Success');
                 }
             }).catch((error) => {
-                console.log("error ", error);
                 this.showLoader = false;
                 this.toastr.error('Oops! Could not change status.', 'Error!');
             });

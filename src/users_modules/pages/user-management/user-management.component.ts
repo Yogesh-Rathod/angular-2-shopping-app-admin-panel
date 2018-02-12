@@ -49,13 +49,9 @@ export class UserManagementComponent implements OnInit {
             .then((res) => {
                 this.userListData = res.Data;
                 this.filteredUserListData = this.userListData;
-                console.log("this.userListData ", this.userListData);
                 this.isLoading.userList = false;
             })
             .catch(rej => {
-                    console.log("getAllUsers rej ", rej);
-        //         this.isLoading.userList = false;
-        //         this.toastr.error(rej.message);
             });
     }
 

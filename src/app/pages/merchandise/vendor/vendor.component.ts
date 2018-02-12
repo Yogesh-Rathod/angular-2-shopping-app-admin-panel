@@ -84,12 +84,10 @@ export class VendorComponent implements OnInit {
         this.bigLoader = true;
         this.vendorsService.getVendors().
             then((vendors) => {
-                console.log("vendors ", vendors);
                 this.vendorsList = vendors.Data;
                 this.filteredVendorsList = this.vendorsList;
                 this.bigLoader = false;
             }).catch((error) => {
-                console.log("error ", error);
             })
     }
 

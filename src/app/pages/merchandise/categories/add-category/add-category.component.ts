@@ -60,17 +60,14 @@ export class AddCategoryComponent implements OnInit {
                 this.BigLoader = false;
                 this.getLevel1Categories(1);
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 
     getLevel1Categories(level) {
         this.merchandiseService.getCategoriesByLevel(level).
             then((categories) => {
-                console.log("getCategoriesByLevel categories ", categories);
                 this.level1Categories = categories.Data;
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 
@@ -102,10 +99,8 @@ export class AddCategoryComponent implements OnInit {
         }
 
         if (addCategoryFormValues.Id) {
-            console.log("addCategoryFormValues ", addCategoryFormValues);
             this.merchandiseService.addCategory(addCategoryFormValues).
                 then((response) => {
-                    console.log("response ", response);
                     if (response.Code === 200) {
                         this.toastr.success('Updated Category sent for approval process.', 'Sucess!');
                         this.location.back();
@@ -115,7 +110,6 @@ export class AddCategoryComponent implements OnInit {
                         this.showLoader = false;
                     }
                 }).catch((error) => {
-                    console.log("error ", error);
                 });
         } else {
             if (addCategoryFormValues.category === 'new') {
@@ -126,10 +120,8 @@ export class AddCategoryComponent implements OnInit {
                 addCategoryFormValues.ParentCategoryId = addCategoryFormValues.subCategory;
             }
             delete addCategoryFormValues.Id;
-            console.log("addCategoryFormValues ", addCategoryFormValues);
             this.merchandiseService.addCategory(addCategoryFormValues).
                 then((response) => {
-                    console.log("response ", response);
                     if (response.Code === 200) {
                         this.toastr.success('Category sent for approval process.', 'Sucess!');
                         this.location.back();
@@ -139,10 +131,8 @@ export class AddCategoryComponent implements OnInit {
                         this.showLoader = false;
                     }
                 }).catch((error) => {
-                        console.log("error ", error);
                     });
             }
-        // this.showLoader = false;
     }
 
     imageUpload(event) {
@@ -165,7 +155,6 @@ export class AddCategoryComponent implements OnInit {
     level1Change() {
         const selectedCategory = this.addCategoryForm.controls['category'].value;
         if (selectedCategory === 'new') {
-            console.log("selectedCategory ", selectedCategory);
             this.addNewCategoryFields = true;
         } else {
             this.addNewCategoryFields = false;
@@ -176,7 +165,6 @@ export class AddCategoryComponent implements OnInit {
                         return selectedCategory == category.ParentCategoryId;
                     });
                 }).catch((error) => {
-                    console.log("error ", error);
                 });
         }
     }
@@ -187,16 +175,13 @@ export class AddCategoryComponent implements OnInit {
             this.merchandiseService.getCategories(this.categoryId).
                 then((categoryInfo) => {
                     this.categoryInfo = categoryInfo.Data;
-                    console.log("categoryInfo ", this.categoryInfo);
                     this.addCategoryForm.controls['Id'].setValue(this.categoryInfo.ApprovalCategoryId);
                     this.addCategoryForm.controls['Name'].setValue(this.categoryInfo.Name);
-                    // this.addCategoryForm.controls['Description'].setValue(this.categoryInfo.Description);
                     this.addCategoryForm.controls['DisplayOrder'].setValue(this.categoryInfo.DisplayOrder);
                     this.addCategoryForm.controls['IsActive'].setValue(this.categoryInfo.IsActive);
                     this.addCategoryForm.controls['ParentCategoryId'].setValue(this.categoryInfo.ParentCategoryId);
                     this.BigLoader = false;
                 }).catch((error) => {
-                    console.log("error ", error);
                 });
         }
     }

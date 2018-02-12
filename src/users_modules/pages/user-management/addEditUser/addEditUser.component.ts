@@ -172,7 +172,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         if (userData.Id) {
             // Edit User
             this.userService.updateUser(userData).then((res) => {
-                console.log("updateUser res ", res);
                 if (res.Code === 500) {
                     this.toastr.error(res.Message, 'Error');
                 } else if (res.Code === 200) {
@@ -188,7 +187,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
             // Add User
             delete userData.Id;
             this.userService.addUser(userData).then((res) => {
-                console.log("addUser res ", res);
                 if (res.Code === 500) {
                     this.toastr.error(res.Message, 'Error');
                 } else if (res.Code === 200) {
@@ -207,7 +205,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     changePassword(changePasswordForm) {
         this.isLoading.changePassword = false;
         this.userService.changePassword(changePasswordForm).then((res) => {
-            console.log("changePassword res ", res);
             if (res.Code === 500) {
                 this.toastr.error(res.Message, 'Error');
             } else if (res.Code === 200) {
@@ -233,7 +230,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
                     this.toastr.error(res.Message, 'Error');
                     this._location.back();
                 }
-                console.log("fetchSingleUser res ", res);
                 this.userInfoData = res.Data;
                 this.addUserForm.controls['Id'].patchValue(this.userInfoData.Id);
                 this.changePasswordForm.controls['UserId'].patchValue(this.userInfoData.Id);

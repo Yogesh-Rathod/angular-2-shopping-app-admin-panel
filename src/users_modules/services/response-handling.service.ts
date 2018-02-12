@@ -20,7 +20,6 @@ export class ResponseHandingService {
         message: 'Something went wrong.',
         status: 0
       };
-      // console.log(ex);
     }
     if (error.status === 401) {
       this.toastr.error(rejParse.message || 'Unauthorised access, please login to continue.')

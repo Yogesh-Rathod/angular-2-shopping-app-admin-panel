@@ -41,7 +41,6 @@ export class ProcessedComponent implements OnInit {
         activeModal.componentInstance.fileUrl = 'ProcessedToDispached.xlsx';
         activeModal.componentInstance.request = 'processed';
         activeModal.result.then(status => {
-            console.log("status", status);
             if (status) {
                 this.onStatusChange.emit(true);
                 this.getAllOrders();

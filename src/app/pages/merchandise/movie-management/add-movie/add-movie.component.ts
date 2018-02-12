@@ -342,12 +342,10 @@ export class AddMovieComponent implements OnInit {
         this.bigLoader = true;
         this.movieManagementService.getMoviedetails(this.movieId).
             then((moviesInfo) => {
-                console.log("moviesInfo ", moviesInfo);
                 this.movieInfo = moviesInfo.Data;
                 this.updateMovieInfo(this.movieInfo);
                 this.bigLoader = false;
             }).catch((error) => {
-                console.log("error ", error);
                 if (error.Code === 500) {
                     this.toastr.error('Oops! Something went wrong. Please try again later.', 'Error!', { toastLife: 1500 });
                     this._location.back();
@@ -358,7 +356,6 @@ export class AddMovieComponent implements OnInit {
 
     updateMovieInfo(movieInfo) {
         const releaseFullDate = new Date(movieInfo['ReleaseDate']+'.00Z');
-        console.log("releaseFullDate ", releaseFullDate);
         this.addMovieForm.controls['id'].setValue(movieInfo.EventId);
         this.addMovieForm.controls['Title'].setValue(movieInfo.Title);
         this.addMovieForm.controls['Type'].setValue(movieInfo.Type);

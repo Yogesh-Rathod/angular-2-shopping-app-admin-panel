@@ -17,7 +17,6 @@ export class AuthenticationService {
     this.appStateManagementService.clearAppStateLS()
       .then(() => this.appStateManagementService.clearAppStateCK())
       .then(value => {
-        console.log(`cookies cleared`, value)
         this.router.navigate(['/login']).then(() => {
           this._spinner.hide();
         });

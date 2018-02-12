@@ -141,7 +141,6 @@ export class AddCatalogComponent implements OnInit {
         this.catalogManagementService
             .addNewCatalogs(addCatalogForm)
             .then(res => {
-                console.log("Add res", res);
                 if ((res.Code = 200)) {
                     if (isEdit) {
                         this.toastr.success(

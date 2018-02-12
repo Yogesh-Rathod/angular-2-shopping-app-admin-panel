@@ -31,14 +31,12 @@ export class CatalogComponent implements OnInit {
 
     getCatalogsApproval() {
         this.catalogManagementService.getCatalogsApprovalList().then(res => {
-            console.log("res Approval ==>", res);
             this.filteredApproveCatalogs = res.Data;
         });
     }
 
     approveCatalog(_catalog) {
         this.catalogManagementService.approvePostCatalog(_catalog).then(res => {
-            console.log("res Approval ==>", res);
             this.getCatalogsApproval();
         });
     }

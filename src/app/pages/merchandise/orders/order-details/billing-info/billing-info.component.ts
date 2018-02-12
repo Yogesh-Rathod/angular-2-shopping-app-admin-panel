@@ -16,7 +16,6 @@ export class BillingInfoComponent implements OnInit {
     $(document).ready(() => {
       $('[data-toggle="tooltip"]').tooltip();
     });
-    console.log("this.orderInfo ", this.orderInfo);
   }
 
 }

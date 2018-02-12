@@ -53,7 +53,6 @@ export class LoginService {
     }
 
     handleError(error: any): Promise<any> {
-        console.log("Login handleError ", error);
         let rejParse;
         try {
             rejParse = JSON.parse(error._body);
@@ -62,7 +61,6 @@ export class LoginService {
                 message: 'Something went wrong.',
                 status: 0
             };
-            console.log(ex);
         }
 
         try {

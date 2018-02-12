@@ -178,7 +178,6 @@ export class AddVendorComponent implements OnInit {
                     return item;
                 });
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 
@@ -189,7 +188,6 @@ export class AddVendorComponent implements OnInit {
                 this.bigLoader = false;
                 this.citiesList = this.citiesList.sort(this.sortCities);
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 
@@ -216,7 +214,6 @@ export class AddVendorComponent implements OnInit {
         if (addVendorForm.SellerId) {
             this.vendorsService.updateVendor(addVendorForm)
                 .then((success) => {
-                    console.log("success ", success);
                     if (success.Code === 200) {
                         this.toastr.success('Sucessfully Updated Seller Info!', 'Sucess!');
                         this.showLoader = false;
@@ -228,13 +225,11 @@ export class AddVendorComponent implements OnInit {
                 }).catch((error) => {
                     this.showLoader = false;
                     this.toastr.error('Could not update seller info!', 'Error!');
-                    console.log("error ", error);
                 })
         } else {
             delete addVendorForm.SellerId;
             this.vendorsService.addVendor(addVendorForm)
                 .then((success) => {
-                    console.log("success ", success);
                     if (success.Code === 200) {
                         this.toastr.success('Sucessfully Added Seller Info!', 'Sucess!');
                         this.showLoader = false;
@@ -246,7 +241,6 @@ export class AddVendorComponent implements OnInit {
                 }).catch((error) => {
                     this.showLoader = false;
                     this.toastr.error('Could not add seller!', 'Error!');
-                    console.log("error ", error);
                 });
         }
     }
@@ -257,7 +251,6 @@ export class AddVendorComponent implements OnInit {
             this.vendorsService.getVendors(this.vendorId).
                 then((vendor) => {
                     this.vendorInfo = vendor.Data;
-                    console.log("this.vendorInfo ", this.vendorInfo);
                     this.addVendorForm.controls['SellerId'].setValue(this.vendorInfo.SellerId);
                     this.addVendorForm.controls['UserId'].setValue(this.vendorInfo.UserId);
                     this.usersName = this.vendorInfo.UserId;
@@ -279,7 +272,6 @@ export class AddVendorComponent implements OnInit {
                     this.bigLoader = false;
                 }).catch((error) => {
                     this.toastr.error('Could not get seller info!', 'Error!');
-                    console.log("error ", error);
                 });
         }
     }

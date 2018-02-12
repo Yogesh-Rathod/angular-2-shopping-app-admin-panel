@@ -65,11 +65,6 @@ export class AppStateManagementService {
                   .then(
                     valueRetrieved => {
                       if (value !== valueRetrieved) {
-                        // console.groupCollapsed(`'${key}' state changed`);
-                        // console.log('%cprev', 'font-weight: bold; color: red;', value);
-                        // console.log('%cnext', 'font-weight: bold; color: orange;', valueRetrieved);
-                        // console.groupEnd();
-
                         subscriber.next(valueRetrieved);
                         value = valueRetrieved;
                       }
@@ -174,11 +169,6 @@ export class AppStateManagementService {
                       valueRetrieved = isUndefined(valueRetrieved) ? null : valueRetrieved;
 
                       if (value !== valueRetrieved) {
-                        // console.groupCollapsed(`'${key}' state changed`);
-                        // console.log('%cprev', 'font-weight: bold; color: red;', value);
-                        // console.log('%cnext', 'font-weight: bold; color: orange;', valueRetrieved);
-                        // console.groupEnd();
-
                         subscriber.next(valueRetrieved);
                         value = valueRetrieved;
                       }

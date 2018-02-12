@@ -92,7 +92,6 @@ export class ProductsComponent implements OnInit {
             then((categories) => {
                 this.categories = categories.Data;
             }).catch((error) => {
-                console.log("error ", error);
             });
     }
 
@@ -106,19 +105,14 @@ export class ProductsComponent implements OnInit {
             }).catch((error) => {
                 this.bigLoader = false;
                 this.toastr.error('Could not get products', 'Error');
-                console.log("error ", error);
             });
     }
 
     getAllVendors() {
         this.vendorsService.getVendors().
             then((vendors) => {
-                console.log("vendors ", vendors);
                 this.vendors = vendors.Data;
-                // this.filteredVendorsList = this.vendorsList;
-                // this.bigLoader = false;
             }).catch((error) => {
-                console.log("error ", error);
             })
     }
 
@@ -138,11 +132,9 @@ export class ProductsComponent implements OnInit {
     }
 
     searchProduct(searchProductForm) {
-        console.log('searchProductForm', searchProductForm);
         this.p = 1;
         this.atLeastOneFieldRequires(searchProductForm);
         if (!this.atLeastOnePresent) {
-            console.log('searchProductForm', searchProductForm);
             this.products = [];
             this.searchLoader = true;
             this.bigLoader = true;
@@ -161,18 +153,15 @@ export class ProductsComponent implements OnInit {
 
             searchProductForm = JSON.stringify(searchProductForm);
             searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
-            console.log("searchProductForm ", searchProductForm);
 
             this.productsService.getOpsProducts(this.userRole, searchProductForm, 1, 10).
                 then((products) => {
-                    console.log("products ", products);
                     this.products = products.Data ? products.Data.Products: [];
                     this.totalRecords = products.Data.TotalRecords;
                     this.bigLoader = false;
                     this.searchLoader = false;
                 }).catch((error) => {
                     this.bigLoader = false;
-                    console.log("error ", error);
                 });
 
         }
@@ -181,16 +170,13 @@ export class ProductsComponent implements OnInit {
     pageChanged($event) {
         this.bigLoader = true;
         this.p = $event;
-        console.log("this.p ", this.p);
         this.productsService.getOpsProducts(this.userRole, null, this.p, 10).
             then((products) => {
-                console.log("products ", products);
                 this.products = products.Data.Products;
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
             }).catch((error) => {
                 this.bigLoader = false;
-                console.log("error ", error);
             })
     }
 
@@ -268,7 +254,6 @@ export class ProductsComponent implements OnInit {
     }
 
     dropDownActionFunction(dropDownActionValue) {
-        console.log("value", dropDownActionValue);
         if (!dropDownActionValue) {
             this.noActionSelected = true;
         } else {
@@ -284,7 +269,6 @@ export class ProductsComponent implements OnInit {
                     break;
             }
         }
-        console.log("dropDownActionValue ", dropDownActionValue);
     }
 
     rejectAll() {
@@ -307,13 +291,11 @@ export class ProductsComponent implements OnInit {
         }
             this.productsService.rejectProducts(productsToReject, this.userRole).
                 then((success) => {
-                    console.log("success ", success);
                     if (success.Code === 200) {
                         this.getAllProducts();
                     }
                     this.approveLoader = false;
                 }).catch((error) => {
-                    console.log("error ", error);
                     this.approveLoader = false;
                 })
         this.selectAllCheckbox = false;
@@ -342,13 +324,11 @@ export class ProductsComponent implements OnInit {
         }
         this.productsService.approveProducts(productsToApprove, this.userRole).
             then((success) => {
-                console.log("success ", success);
                 if (success.Code === 200) {
                     this.getAllProducts();
                 }
                 this.approveLoader = false;
             }).catch((error) => {
-                console.log("error ", error);
                 this.approveLoader = false;
             })
         this.selectAllCheckbox = false;

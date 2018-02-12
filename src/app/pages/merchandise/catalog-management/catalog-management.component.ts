@@ -44,15 +44,12 @@ export class CatalogManagementComponent implements OnInit {
 
     getCatalogs() {
         this.catalogManagementService.getCatalogsList().then(res => {
-            console.log("res ==>", res);
             this.catalog = res.Data;
             this.filteredCatalogs = this.catalog;
         });
-        //    this.filteredCatalogs = this.catalog;
     }
     getCatalogsApproval() {
         this.catalogManagementService.getCatalogsApprovalList().then(res => {
-            console.log("res Approval ==>", res);
             this.filteredApproveCatalogs = res.Data;
         });
     }

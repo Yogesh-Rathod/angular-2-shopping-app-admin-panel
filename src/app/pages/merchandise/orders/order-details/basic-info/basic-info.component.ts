@@ -86,7 +86,6 @@ export class BasicInfoComponent implements OnInit {
 
     markRTO(rtoForm) {
         this.cancelLoader = true;
-        console.log("rtoForm ", rtoForm);
         let ordersToRTO = [];
         ordersToRTO.push(rtoForm);
         this.ordersService.markOrderRTO(ordersToRTO).

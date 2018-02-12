@@ -43,7 +43,6 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                 if (data['sheets']) {
                     const sheetKey = Object.keys(data['sheets']);
                     this.result = data['sheets'][sheetKey[0]];
-                    console.log("this.result ", this.result);
                     if (this.result && this.result.length > 0) {
                         this.ordersInfo = this.result;
                         this.showLoader = false;
@@ -68,7 +67,6 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
             case "fresh":
               this.ordersService.sendToProcessed(this.ordersInfo).
                     then((success) => {
-                        console.log("success ", success);
                         if (success.Data.length === 0) {
                             this.toastr.success('Status changed successfully.', 'Success');
                             this.showLoader = false;
@@ -80,7 +78,6 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                             this.toastr.error('Oops! Could not change status.', 'Error!');
                         }
                     }).catch((error) => {
-                        console.log("error ", error);
                         this.toastr.error('Oops! Could not change status.', 'Error!');
                         this.showLoader = false;
                     });
@@ -89,7 +86,6 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
               case "processed":
                 this.ordersService.sendToDispatched(this.ordersInfo).
                     then((success) => {
-                        console.log("success ", success);
                         if (success.Data.length === 0) {
                             this.toastr.success('Status changed successfully.', 'Success');
                             this.showLoader = false;
@@ -101,7 +97,6 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                             this.toastr.error('Oops! Could not change status.', 'Error!');
                         }
                     }).catch((error) => {
-                        console.log("error ", error);
                         this.toastr.error('Oops! Could not change status.', 'Error!');
                         this.showLoader = false;
                     });
@@ -110,7 +105,6 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
               case "shipped":
                 this.ordersService.sendToDelivered(this.ordersInfo).
                     then((success) => {
-                        console.log("success ", success);
                         if (success.Data.length === 0) {
                             this.toastr.success('Status changed successfully.', 'Success');
                             this.showLoader = false;
@@ -122,17 +116,14 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                             this.toastr.error('Oops! Could not change status.', 'Error!');
                         }
                     }).catch((error) => {
-                        console.log("error ", error);
                         this.toastr.error('Oops! Could not change status.', 'Error!');
                         this.showLoader = false;
                     });
               break;
 
               case "cancel":
-                  console.log("this.ordersInfo ", this.ordersInfo);
                   this.ordersService.cancelOrder(this.ordersInfo).
                       then((success) => {
-                          console.log("success ", success);
                           if (success.Data.length === 0) {
                               this.toastr.success('Status changed successfully.', 'Success');
                               this.showLoader = false;
@@ -144,7 +135,6 @@ export class SellerOrdersBulkUploadComponent implements OnInit {
                               this.toastr.error('Oops! Could not change status.', 'Error!');
                           }
                       }).catch((error) => {
-                          console.log("error ", error);
                           this.toastr.error('Oops! Could not change status.', 'Error!');
                           this.showLoader = false;
                       });

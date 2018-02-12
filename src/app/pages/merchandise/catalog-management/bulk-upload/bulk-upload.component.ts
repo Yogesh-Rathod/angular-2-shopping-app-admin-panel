@@ -24,8 +24,8 @@ export class CatalogBulkUploadComponent implements OnInit {
 
   constructor(
     private toastr: ToastsManager,
-  	private activeModal: NgbActiveModal
-  	) { }
+    private activeModal: NgbActiveModal
+    ) { }
 
   ngOnInit() {
     this.uploader.onAfterAddingFile = (file) => {
@@ -39,7 +39,6 @@ export class CatalogBulkUploadComponent implements OnInit {
     };
 
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      console.log("ImageUpload:uploaded:", item, status, response);
       this.showLoader = false;
       const JSONResponse = JSON.parse(response);
       if (JSONResponse.status === 200) {
@@ -52,7 +51,6 @@ export class CatalogBulkUploadComponent implements OnInit {
   }
 
   uploadFile(event) {
-    console.log("uploadF ");
     event.preventDefault();
     this.uploader.uploadAll();
     this.submitDisabled = true;
@@ -60,7 +58,7 @@ export class CatalogBulkUploadComponent implements OnInit {
   }
 
   closeModal() {
-  	this.activeModal.close();
+    this.activeModal.close();
   }
 
 }

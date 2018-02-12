@@ -3,7 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-const uploadApiUrl = 'http://localhost:3000/upload'; 
+const uploadApiUrl = 'http://localhost:3000/upload';
 
 @Component({
   selector: 'app-bulk-upload',
@@ -40,7 +40,6 @@ export class VendorsBulkUploadComponent implements OnInit {
     };
 
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      console.log("ImageUpload:uploaded:", item, status, response);
       this.showLoader = false;
       const JSONResponse = JSON.parse(response);
       if (JSONResponse.status === 200) {
@@ -53,7 +52,6 @@ export class VendorsBulkUploadComponent implements OnInit {
   }
 
   uploadFile(event) {
-    console.log("uploadF ");
     event.preventDefault();
     this.uploader.uploadAll();
     this.submitDisabled = true;

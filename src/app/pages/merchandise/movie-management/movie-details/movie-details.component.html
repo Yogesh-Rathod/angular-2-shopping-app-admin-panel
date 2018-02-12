@@ -115,7 +115,7 @@
                     <thead class="black-muted-bg">
                         <tr>
                             <th class="text-center">
-                                <input type="checkbox" [ngModel]='selectAllCheckboxUnMap' (change)="selectAll($event)">
+                                <input type="checkbox" [ngModel]='selectAllCheckboxUnMap' (change)="selectAll($event)" [class.disabled]="filteredUnmappedMovies && filteredUnmappedMovies.length === 0">
                             </th>
                             <th class="text-left">
                                 <mfDefaultSorter by="ProviderMovieName">
@@ -217,7 +217,7 @@
                 <thead class="black-muted-bg">
                     <tr>
                         <th class="text-center">
-                            <input type="checkbox" [ngModel]='selectAllCheckboxMapped' (change)="selectAllMapped($event)">
+                            <input type="checkbox" [ngModel]='selectAllCheckboxMapped' (change)="selectAllMapped($event)" [class.disabled]="filteredMappedMovies && filteredMappedMovies.length === 0">
                         </th>
                         <th class="text-left">
                             <mfDefaultSorter by="title">

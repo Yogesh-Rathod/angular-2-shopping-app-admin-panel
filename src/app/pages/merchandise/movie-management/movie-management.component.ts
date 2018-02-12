@@ -19,7 +19,7 @@ export class MovieManagementComponent implements OnInit {
 
     p: number = 1;
     totalRecords: any = 1;
-    showRecords: any = 25;
+    showRecords: any = 50;
     searchTerm: any;
     movies: any;
     filteredMovies: any;

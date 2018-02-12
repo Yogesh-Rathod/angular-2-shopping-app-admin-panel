@@ -28,6 +28,7 @@ export class MovieManagementComponent implements OnInit {
     selectAllCheckbox = false;
     showSelectedAction = false;
     deleteMultipleLoader = false;
+    searchText: any;
 
     constructor(
         private modalService: NgbModal,
@@ -62,6 +63,7 @@ export class MovieManagementComponent implements OnInit {
     showEntries(value) {
         this.showRecords = value;
         this.getAllMovies(this.showRecords);
+        this.searchText = '';
     }
 
     pageChanged($event) {

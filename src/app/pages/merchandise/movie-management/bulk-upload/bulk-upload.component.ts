@@ -33,7 +33,6 @@ export class MovieBulkUploadComponent implements OnInit {
       then((userInfo) => {
         this.userInfo = JSON.parse(userInfo);
       }).catch((error) => {
-        console.log("error ", error);
         this.userInfo = {
           username: 'Unknown User'
         }
@@ -70,7 +69,6 @@ export class MovieBulkUploadComponent implements OnInit {
   }
 
   convertJSONResponse(result) {
-    console.log("result ", result);
     _.forEach(result, (movie) => {
       const movieInformation = {
         "Title": movie['Title*'],
@@ -105,7 +103,6 @@ export class MovieBulkUploadComponent implements OnInit {
     if (this.movieInfo && this.movieInfo.length > 0) {
       this.movieManagementService.bulkUploadMovie(this.movieInfo).
         then((success) => {
-            console.log("success ", success);
             if (success.Code === 200) {
                 this.toastr.success('Movie Sucessfully Added!', 'Success!');
                 this.showLoader = false;
@@ -115,7 +112,6 @@ export class MovieBulkUploadComponent implements OnInit {
                 this.toastr.error('Oops! Could not add movie.', 'Error!', { toastLife: 1500 });
             }
         }).catch((error) => {
-          console.log("error ", error);
           if (error.Code === 500) {
             this.toastr.error('Oops! Could not add movie.', 'Error!', { toastLife: 1500 });
           } else if (error.Code === 400) {

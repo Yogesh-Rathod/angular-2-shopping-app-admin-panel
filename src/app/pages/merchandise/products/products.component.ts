@@ -39,6 +39,10 @@ export class ProductsComponent implements OnInit {
     noActionSelected = false;
     userRole: any;
     disableSubmitButton = false;
+    selectAllCheckboxMessage = {
+        message: false,
+        clearSelection: false
+    };
 
     constructor(
         private cookieService: CookieService,
@@ -181,17 +185,22 @@ export class ProductsComponent implements OnInit {
     }
 
     exportProducts() {
-        let products = [];
-        if (this.selectAllCheckbox) {
-            products = this.products;
+        if (!this.selectAllCheckboxMessage.clearSelection) {
+            let products = [];
+            if (this.selectAllCheckbox) {
+                products = this.products;
+            } else {
+                _.forEach(this.products, (item) => {
+                    if (item.isChecked) {
+                        products.push(item);
+                    }
+                });
+            }
+            console.log("IF this.products ", this.products);
+            // this.jsonToExcelService.exportAsExcelFile(products, 'products');
         } else {
-            _.forEach(this.products, (item) => {
-                if (item.isChecked) {
-                    products.push(item);
-                }
-            });
+            console.log("ELSE this.products ", this.products);
         }
-        this.jsonToExcelService.exportAsExcelFile(products, 'products');
     }
 
     bulkUpload() {
@@ -204,14 +213,33 @@ export class ProductsComponent implements OnInit {
         }).catch(status => { })
     }
 
+    toalRecordsSelected(value) {
+        if (value) {
+            this.selectAllCheckboxMessage.clearSelection = true;
+        } else {
+            this.selectAllCheckbox = false;
+            this.selectAllCheckboxMessage.message = false;
+            this.selectAllCheckboxMessage.clearSelection = false;
+            this.selectAllCheckboxMessage.message = false;
+            this.noActionSelected = false;
+            this.selectAllCheckbox = false;
+            _.forEach(this.products, (item) => {
+                item.isChecked = false;
+            });
+            this.showSelectedAction = false;
+        }
+    }
+
     selectAll(e) {
         if (e.target.checked) {
+            this.selectAllCheckboxMessage.message = true;
             this.selectAllCheckbox = true;
             _.forEach(this.products, (item) => {
                 item.isChecked = true;
             });
             this.showSelectedAction = true;
         } else {
+            this.selectAllCheckboxMessage.message = false;
             this.noActionSelected = false;
             this.selectAllCheckbox = false;
             _.forEach(this.products, (item) => {

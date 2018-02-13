@@ -48,7 +48,7 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="#ApprovedCatalog" role="tab" data-toggle="tab">Catalogs</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" *ngIf="isAdmin">
                             <a class="nav-link " href="#PendingCatalog" role="tab" data-toggle="tab">Pending Approval</a>
                         </li>
                     </ul>
@@ -143,7 +143,7 @@
                             </tfoot>
                         </table>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade" id="PendingCatalog">
+                    <div role="tabpanel" class="tab-pane fade" id="PendingCatalog" *ngIf="isAdmin">
                         <table class="table table-bordered table-responsive" [mfData]="filteredApproveCatalogs" #mff="mfDataTable" [mfRowsOnPage]="10">
                             <thead class="black-muted-bg">
                                 <tr>

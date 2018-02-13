@@ -10,6 +10,7 @@ declare let $: any;
 
 import { MerchandiseService } from 'app/services';
 import { BulkUploadComponent } from './bulk-upload/bulk-upload.component';
+import { CookieService } from 'ngx-cookie';
 
 @Component({
     selector: 'app-categories',
@@ -24,12 +25,19 @@ export class CategoriesComponent implements OnInit {
     showLoader = true;
     deleteLoader: Number;
     approvalForm: FormGroup;
+    isAdmin = true;
 
     constructor(
+        private cookieService: CookieService,
         private modalService: NgbModal,
         public toastr: ToastsManager,
         private fb: FormBuilder,
         private merchandiseService: MerchandiseService) {
+
+        let userRoles = this.cookieService.get('userRoles');
+        if (!(userRoles.indexOf('SuperAdmin') >= 0 || userRoles.indexOf('Admin') >= 0)) {
+            this.isAdmin = false;
+        }
     }
 
     ngOnInit() {

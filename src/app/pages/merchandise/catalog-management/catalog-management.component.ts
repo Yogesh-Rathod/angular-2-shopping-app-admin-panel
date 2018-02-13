@@ -12,6 +12,7 @@ declare let $: any;
 
 import { CatalogBulkUploadComponent } from "./bulk-upload/bulk-upload.component";
 import { CatalogManagementService } from "app/services";
+import { CookieService } from "ngx-cookie";
 
 @Component({
     selector: "app-catalog-management",
@@ -26,13 +27,20 @@ export class CatalogManagementComponent implements OnInit {
     filteredApproveCatalogs: any;
     showSelectedDelete = false;
     selectAllCheckbox = false;
+    isAdmin = true;
 
     constructor(
+        private cookieService: CookieService,
         private catalogManagementService: CatalogManagementService,
         private modalService: NgbModal,
         public toastr: ToastsManager,
         private fb: FormBuilder
-    ) {}
+    ) {
+        let userRoles = this.cookieService.get('userRoles');
+        if (!(userRoles.indexOf('SuperAdmin') >= 0 || userRoles.indexOf('Admin') >= 0)) {
+            this.isAdmin = false;
+        }
+    }
 
     ngOnInit() {
         $(document).ready(() => {

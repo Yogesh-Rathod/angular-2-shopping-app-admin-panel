@@ -50,7 +50,7 @@
 						<li class="nav-item">
 							<a class="nav-link active" href="#Approved" role="tab" data-toggle="tab">Approved</a>
 						</li>
-						<li class="nav-item">
+						<li class="nav-item" *ngIf="isAdmin">
 							<a class="nav-link " href="#pending" role="tab" data-toggle="tab">Pending Approval</a>
 						</li>
 					</ul>
@@ -151,7 +151,7 @@
 						</div>
 					</div>
 
-					<div role="tabpanel" class="tab-pane fade" id="pending">
+					<div role="tabpanel" class="tab-pane fade" id="pending"  *ngIf="isAdmin">
 						<table class="table table-bordered table-responsive" >
 							<thead class="black-muted-bg">
 								<tr>

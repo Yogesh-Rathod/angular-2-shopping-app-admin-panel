@@ -87,7 +87,11 @@ export class VendorComponent implements OnInit {
                 this.vendorsList = vendors.Data;
                 this.filteredVendorsList = this.vendorsList;
                 this.bigLoader = false;
+                if (vendors.Code === 500) {
+                    this.toastr.error('Could not get sellers', 'Error');
+                }
             }).catch((error) => {
+                this.toastr.error('Could not get sellers', 'Error');
             })
     }
 

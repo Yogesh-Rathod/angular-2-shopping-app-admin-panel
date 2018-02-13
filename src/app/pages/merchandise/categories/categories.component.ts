@@ -56,7 +56,11 @@ export class CategoriesComponent implements OnInit {
                 this.categories = categories.Data;
                 this.categoriesFiltered = this.generateTreeStructure(this.categories);
                 this.showLoader = false;
+                if (categories.Code === 500) {
+                    this.toastr.error('Could not get categories', 'Error');
+                }
             }).catch((error) => {
+                this.toastr.error('Could not get categories', 'Error');
             });
     }
 

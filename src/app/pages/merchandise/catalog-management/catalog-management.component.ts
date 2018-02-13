@@ -46,11 +46,19 @@ export class CatalogManagementComponent implements OnInit {
         this.catalogManagementService.getCatalogsList().then(res => {
             this.catalog = res.Data;
             this.filteredCatalogs = this.catalog;
+            if (res.Code === 500) {
+                this.toastr.error('Could not get catalogs', 'Error');
+            }
+        }).catch((error) => {
+            console.log("error ", error);
+            this.toastr.error('Could not get catalogs', 'Error');
         });
     }
     getCatalogsApproval() {
         this.catalogManagementService.getCatalogsApprovalList().then(res => {
             this.filteredApproveCatalogs = res.Data;
+        }).catch((error) => {
+            this.toastr.error('Could not get catalogs', 'Error');
         });
     }
     approveCatalog(_catalog, _index) {

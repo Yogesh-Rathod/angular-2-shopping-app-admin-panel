@@ -185,7 +185,7 @@ export class ProductsComponent implements OnInit {
     }
 
     exportProducts() {
-        if (!this.selectAllCheckboxMessage.clearSelection) {
+        // if (!this.selectAllCheckboxMessage.clearSelection) {
             let products = [];
             if (this.selectAllCheckbox) {
                 products = this.products;
@@ -196,11 +196,10 @@ export class ProductsComponent implements OnInit {
                     }
                 });
             }
-            console.log("IF this.products ", this.products);
-            // this.jsonToExcelService.exportAsExcelFile(products, 'products');
-        } else {
-            console.log("ELSE this.products ", this.products);
-        }
+            this.jsonToExcelService.exportAsExcelFile(products, 'products');
+        // } else {
+        //     console.log("ELSE this.products ", this.products);
+        // }
     }
 
     bulkUpload() {

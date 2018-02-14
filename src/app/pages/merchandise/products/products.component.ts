@@ -333,7 +333,7 @@ export class ProductsComponent implements OnInit {
             this.productsService.rejectProducts(productsToReject, this.userRole).
                 then((success) => {
                     if (success.Code === 200) {
-                        this.getAllProducts();
+                        this.resetForm();
                     }
                     this.approveLoader = false;
                 }).catch((error) => {
@@ -366,7 +366,7 @@ export class ProductsComponent implements OnInit {
         this.productsService.approveProducts(productsToApprove, this.userRole).
             then((success) => {
                 if (success.Code === 200) {
-                    this.getAllProducts();
+                    this.resetForm();
                 }
                 this.approveLoader = false;
             }).catch((error) => {

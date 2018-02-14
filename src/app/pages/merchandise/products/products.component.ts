@@ -21,6 +21,7 @@ export class ProductsComponent implements OnInit {
 
     p: number = 1;
     totalRecords: any = 1;
+    showRecords: any = 25;
     searchProductForm: FormGroup;
     bigLoader = true;
     approveLoader = false;
@@ -101,7 +102,7 @@ export class ProductsComponent implements OnInit {
 
     getAllProducts() {
         this.bigLoader = true;
-        this.productsService.getOpsProducts(this.userRole, null, 1, 10).
+        this.productsService.getOpsProducts(this.userRole, null, 1, this.showRecords).
             then((products) => {
                 this.products = products.Data ? products.Data.Products : [] ;
                 this.totalRecords = products.Data.TotalRecords;
@@ -120,15 +121,28 @@ export class ProductsComponent implements OnInit {
             })
     }
 
-    atLeastOneFieldRequires(someObject) {
-        if (someObject) {
-            for (var key in someObject) {
-                if (someObject.hasOwnProperty(key)) {
-                    if (someObject[key]) {
-                        this.atLeastOnePresent = false;
-                        return;
+    showEntries(value, searchProductForm) {
+        this.showRecords = value;
+        if (this.atLeastOneFieldRequires(searchProductForm, true)) {
+            this.searchProduct(searchProductForm);
+        } else {
+            this.getAllProducts();
+        }
+    }
+
+    atLeastOneFieldRequires(formObject, fromShowEntries = false) {
+        if (formObject) {
+            for (var key in formObject) {
+                if (formObject.hasOwnProperty(key)) {
+                    if (formObject[key]) {
+                        if (!fromShowEntries) {
+                            this.atLeastOnePresent = false;
+                        }
+                        return true;
                     } else {
-                        this.atLeastOnePresent = true;
+                        if (!fromShowEntries) {
+                            this.atLeastOnePresent = true;
+                        }
                     }
                 }
             }
@@ -158,7 +172,7 @@ export class ProductsComponent implements OnInit {
             searchProductForm = JSON.stringify(searchProductForm);
             searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
 
-            this.productsService.getOpsProducts(this.userRole, searchProductForm, 1, 10).
+            this.productsService.getOpsProducts(this.userRole, searchProductForm, 1, this.showRecords).
                 then((products) => {
                     this.products = products.Data ? products.Data.Products: [];
                     this.totalRecords = products.Data.TotalRecords;
@@ -174,7 +188,7 @@ export class ProductsComponent implements OnInit {
     pageChanged($event) {
         this.bigLoader = true;
         this.p = $event;
-        this.productsService.getOpsProducts(this.userRole, null, this.p, 10).
+        this.productsService.getOpsProducts(this.userRole, null, this.p, this.showRecords).
             then((products) => {
                 this.products = products.Data.Products;
                 this.totalRecords = products.Data.TotalRecords;

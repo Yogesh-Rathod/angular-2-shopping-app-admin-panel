@@ -102,6 +102,20 @@
                     <img src="assets/img/ajax-loader.gif" alt="Loader Image">
                 </div>
 
+                <div class="clearfix">
+                    <form class="float-left">
+                        <label>Show</label>
+                        <select #showresults (change)="showEntries(showresults.value, searchProductForm.value)">
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="75">75</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                        </select>
+                        <label>Records</label>
+                    </form>
+                </div>
+
                 <button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 || productSelected }"
                     (click)="exportProducts()">
                     <i class="fa fa-download" aria-hidden="true"></i>
@@ -112,8 +126,8 @@
                     Confirm Products
                 </button>
 
-                <div class="table-responsive">
-                    <table class="table table-bordered" [mfData]="products" #mf="mfDataTable" [mfRowsOnPage]="10">
+                <div class="table-container table-responsive">
+                    <table class="table table-bordered" [mfData]="products" #mf="mfDataTable" [mfRowsOnPage]="showRecords">
                         <thead class="black-muted-bg">
                             <tr>
                                 <th class="text-center">
@@ -149,7 +163,7 @@
                             </tr>
                         </thead>
                         <tbody *ngIf=" products && products.length > 0 ">
-                            <tr *ngFor=" let item of mf.data | paginate: { itemsPerPage: 10, currentPage: p, totalItems: totalRecords }; let i = index; ">
+                            <tr *ngFor=" let item of mf.data | paginate: { itemsPerPage: showRecords, currentPage: p, totalItems: totalRecords }; let i = index; ">
                                 <td class="text-center">
                                     <input *ngIf="item.Status !=='Pending' && item.Status!=='Approved' && item.Status!=='APPROVED'" [ngModel]="item.isChecked" type="checkbox"
                                         (change)="checkBoxSelected($event, item)">
@@ -203,7 +217,7 @@
                             </tr>
                         </tbody>
 
-                        <tfoot *ngIf=" products && totalRecords > 10 ">
+                        <tfoot *ngIf=" products && totalRecords > showRecords ">
                             <tr>
                                 <td colspan="9">
                                     <pagination-controls class="my-pagination" (pageChange)="pageChanged($event)"></pagination-controls>

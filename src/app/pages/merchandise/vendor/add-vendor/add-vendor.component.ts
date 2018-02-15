@@ -185,7 +185,6 @@ export class AddVendorComponent implements OnInit {
         this.vendorsService.getCities().
             then((cities) => {
                 this.citiesList = cities.Data;
-                this.bigLoader = false;
                 this.citiesList = this.citiesList.sort(this.sortCities);
             }).catch((error) => {
             });

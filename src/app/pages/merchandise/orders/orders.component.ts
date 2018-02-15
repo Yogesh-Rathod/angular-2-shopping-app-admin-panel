@@ -206,7 +206,13 @@ export class OrdersComponent implements OnInit {
         if (searchOrdersForm['e.status'] && searchOrdersForm['e.status'].length > 0) {
             _.forEach(searchOrdersForm['e.status'], (item) => {
                 status.push(item.id);
+                if (item.id.match(/cancel/i)) {
+                    this.status = 'CANCEL';
+                } else {
+                    this.status = item.id;
+                }
             });
+            console.log("this.status ", this.status);
             searchOrdersForm['e.status'] = status;
         }
 

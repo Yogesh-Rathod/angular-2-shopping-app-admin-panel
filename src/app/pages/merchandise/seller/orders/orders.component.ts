@@ -30,6 +30,7 @@ export class OrdersComponent implements OnInit {
         enableSearchFilter: true,
         classes: 'col-8 no_padding'
     };
+    status = 'FRESH';
     statusList = [
         {
             id: 'FRESH',
@@ -164,7 +165,12 @@ export class OrdersComponent implements OnInit {
         let status = [];
         if (searchOrdersForm['e.status'] && searchOrdersForm['e.status'].length > 0) {
             _.forEach(searchOrdersForm['e.status'], (item) => {
-                status.push(item.itemName);
+                status.push(item.id);
+                if (item.id.match(/cancel/i)) {
+                    this.status = 'CANCEL';
+                } else {
+                    this.status = item.id;
+                }
             });
             searchOrdersForm['e.status'] = status;
         }

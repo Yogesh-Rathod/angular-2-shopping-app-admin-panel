@@ -59,15 +59,14 @@
                         </my-date-picker>
                     </div>
 
-                    <!-- <div class="form-group col-3">
-						<div class="rtoCheck">
-							<input type="checkbox" id="rtoCheck" formControlName="rtoCheck">
-							<label for="rtoCheck" class="text-right">
-								RTO Orders
-								<i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Include RTO Orders in search."></i>
-							</label>
-						</div>
-					</div> -->
+                    <div class="form-group col-3">
+                        <label for="status" class="text-right">
+                            Status
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by status"></i>
+                        </label>
+                        <angular2-multiselect id="status" [data]="statusList" formControlName="e.status" [settings]="orderStatusDropdownSettings">
+                        </angular2-multiselect>
+                    </div>
 
                     <div class="form-group col-12 searchButton">
                         <button type="submit" class="btn btn-primary">

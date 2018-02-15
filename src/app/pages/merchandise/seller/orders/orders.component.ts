@@ -22,36 +22,36 @@ export class OrdersComponent implements OnInit {
     bigLoader = true;
     searchLoader = false;
     orders: any;
-    orderStatus = [
-        {
-            id: 'Fresh',
-            itemName: 'Fresh'
-        },
-        {
-            id: 'Processed',
-            itemName: 'Processed'
-        },
-        {
-            id: 'Shipped',
-            itemName: 'Shipped'
-        },
-        {
-            id: 'Delivered',
-            itemName: 'Delivered'
-        },
-        {
-            id: 'Cancelled',
-            itemName: 'Cancelled'
-        },
-    ];
     orderStatusDropdownSettings = {
-        singleSelection: false,
+        singleSelection: true,
         text: "Select...",
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',
         enableSearchFilter: true,
         classes: 'col-8 no_padding'
     };
+    statusList = [
+        {
+            id: 'FRESH',
+            itemName: 'Fresh'
+        },
+        {
+            id: 'PROCESSED',
+            itemName: 'Processed'
+        },
+        {
+            id: 'DISPATCHED',
+            itemName: 'Dispatched'
+        },
+        {
+            id: 'DELIVERED',
+            itemName: 'Delivered'
+        },
+        {
+            id: 'Pending For Cancellation',
+            itemName: 'Cancelled'
+        }
+    ];
     programName: any;
     public myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy',

@@ -24,13 +24,35 @@ export class OrdersComponent implements OnInit {
     bigLoader = true;
     orders: any;
     orderStatusDropdownSettings = {
-        singleSelection: false,
+        singleSelection: true,
         text: "Select...",
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',
         enableSearchFilter: true,
         classes: 'col-8 no_padding'
     };
+    statusList = [
+        {
+            id: 'FRESH',
+            itemName: 'Fresh'
+        },
+        {
+            id: 'PROCESSED',
+            itemName: 'Processed'
+        },
+        {
+            id: 'DISPATCHED',
+            itemName: 'Dispatched'
+        },
+        {
+            id: 'DELIVERED',
+            itemName: 'Delivered'
+        },
+        {
+            id: 'Pending For Cancellation',
+            itemName: 'Cancelled'
+        }
+    ];
     searchLoader = false;
     programName: any;
     public myDatePickerOptions: IMyDpOptions = {
@@ -183,7 +205,7 @@ export class OrdersComponent implements OnInit {
         let status = [];
         if (searchOrdersForm['e.status'] && searchOrdersForm['e.status'].length > 0) {
             _.forEach(searchOrdersForm['e.status'], (item) => {
-                status.push(item.itemName);
+                status.push(item.id);
             });
             searchOrdersForm['e.status'] = status;
         }

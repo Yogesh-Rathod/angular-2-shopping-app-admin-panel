@@ -28,7 +28,7 @@ export class SellerProductsComponent implements OnInit {
     searchLoader = false;
     products: any;
     categories: any;
-    status = ['Draft', 'Pending', 'Approved'];
+    status = ['Draft', 'Pending', 'Approved', 'Rejected'];
     showSelectedDelete = false;
     selectAllCheckbox = false;
     atLeastOnePresent = false;

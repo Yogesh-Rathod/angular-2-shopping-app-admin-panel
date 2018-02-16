@@ -247,7 +247,7 @@
 										{{ item.Status }}
 									</span>
 								</td> -->
-                                <td class="action" *ngIf="userRole!='Admin'">
+                                <td class="action" *ngIf="userRole != 'Admin'">
                                     <button *ngIf="item.Status=='Draft' || item.Status=='Approved' || item.Status=='APPROVED' || userRole == 'Admin'" class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.Id]"
                                         title="Edit">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>

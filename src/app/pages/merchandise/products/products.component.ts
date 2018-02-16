@@ -28,7 +28,7 @@ export class ProductsComponent implements OnInit {
     searchLoader = false;
     products: any;
     categories: any;
-    status = ['Draft', 'Pending', 'Approved'];
+    status = ['Draft', 'Pending', 'Approved', 'Rejected'];
     vendors: any;
     showSelectedAction = false;
     selectAllCheckbox = false;
@@ -317,7 +317,7 @@ export class ProductsComponent implements OnInit {
         let productsToReject = [];
         if (this.selectAllCheckbox) {
             _.forEach(this.products, (item) => {
-                item.approvalStatus = 'Approved';
+                // item.approvalStatus = 'Approved';
                 productsToReject.push(item.Id);
                 item.isChecked = false;
             });

@@ -129,7 +129,7 @@
                   <input type="text" class="form-control col-9" id="name" placeholder="SKU" formControlName="sku">
                 </div> -->
 
-                <div class="form-group row">
+                <div class="form-group row" *ngIf="productId" [class.disabled]="true">
                   <label for="status" class="col-3 text-right">
                     status
                     <span class="mandatory">*</span>

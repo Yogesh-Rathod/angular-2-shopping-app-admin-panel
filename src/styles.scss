@@ -31,17 +31,20 @@ input,
     color: #e03838 !important;
 }
 
-.ng-touched.ng-invalid {
+.ng-touched.ng-invalid,
+.ng-touched.ng-dirty {
     border-color: #e03838 !important;
 }
 
-my-date-picker.ng-touched.ng-invalid {
+my-date-picker.ng-touched.ng-invalid,
+my-date-picker.ng-touched.ng-dirty {
     .mydp {
         border-color: #e03838 !important;
     }
 }
 
-angular2-multiselect.ng-dirty.ng-invalid {
+angular2-multiselect.ng-dirty.ng-invalid,
+angular2-multiselect.ng-dirty.ng-dirty {
     border: 1px solid #e03838 !important;
 }
 

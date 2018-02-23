@@ -62,8 +62,8 @@
                 </div>
 
                 <div class="form-group row">
-                  <label for="name" class="col-3 text-right">Modal Number
-                    <span class="mandatory">*</span>
+                  <label for="name" class="col-3 text-right">
+                      Modal Number
                   </label>
                   <input type="text" class="form-control col-9" id="ModelNumber" placeholder="Modal Number" formControlName="ModelNumber">
                 </div>
@@ -105,7 +105,6 @@
                 <div class="form-group row">
                   <label for="FullDescription" class="col-3 text-right">
                     Specifications
-                    <span class="mandatory">*</span>
                   </label>
                   <div class="col-9 no_padding specifications pos_relative" formArrayName="specifications">
                     <div class="col-12 row no_margin no_padding" *ngFor="let prop of specificationsFunction.controls; let i = index">
@@ -154,7 +153,7 @@
               </div>
               <div class="card-body collapse show" id="prices">
 
-                <div class="form-group row">
+                <div class="form-group row" [class.disabled]="true">
                   <label for="currency" class="col-3 text-right">
                     Choose Currency
                   </label>
@@ -168,21 +167,20 @@
                   <label for="NetPrice" class="col-3 text-right">Net Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" name="NetPrice" placeholder="Net Price" formControlName="NetPrice" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" name="NetPrice" placeholder="Net Price" formControlName="NetPrice">
                 </div>
                 <div class="form-group row">
                   <label for="netShipping" class="col-3 text-right">Net Shipping
                     <br>Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="netShipping" name="NetShippingPrice" placeholder="Shipping Price" formControlName="NetShippingPrice"
-                    (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="netShipping" name="NetShippingPrice" placeholder="Shipping Price" formControlName="NetShippingPrice">
                 </div>
                 <div class="form-group row">
                   <label for="Price" class="col-3 text-right">MRP Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="Price" name="Mrp" placeholder="MRP Price" formControlName="Mrp" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="Price" name="Mrp" placeholder="MRP Price" formControlName="Mrp">
                 </div>
               </div>
             </div>
@@ -329,9 +327,9 @@
 
       <div class="form-group row col-12">
         <label class="col-3 text-right"></label>
-        <input type="submit" class="btn btn-primary" value="Save" [disabled]=" !addProductForm.valid || showLoader">
+        <input type="submit" class="btn btn-primary" value="Save Draft" [disabled]=" !addProductForm.valid || showLoader">
         <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-        <input type="button" class="btn btn-success" value="Approve" (click)="addProduct(addProductForm.value, true)" [disabled]=" !addProductForm.valid || showLoader ">
+        <input type="button" class="btn btn-success" value="Send for approval" (click)="addProduct(addProductForm.value, true)" [disabled]=" !addProductForm.valid || showLoader ">
         <span class="btn btn-warning" *ngIf=" !productId " (click)="resetForm()">Reset</span>
         <!-- <span class="btn btn-secondary" [routerLink]="['/merchandise/products']">Cancel</span> -->
       </div>

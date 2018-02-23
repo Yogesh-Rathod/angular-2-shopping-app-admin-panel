@@ -122,15 +122,18 @@ export class AddSellerProductComponent implements OnInit {
             'CurrencyId': ['₹ (INR)'],
             'NetPrice': [
                 '',
-                Validators.required
+                Validators.required,
+                Validators.pattern(RegEx.onlyNumber)
             ],
             'NetShippingPrice': [
                 '',
-                Validators.required
+                Validators.required,
+                Validators.pattern(RegEx.onlyNumber)
             ],
             'Mrp': [
                 '',
-                Validators.required
+                Validators.required,
+                Validators.pattern(RegEx.onlyNumber)
             ],
             'CategoryId': [
                 [],
@@ -167,8 +170,8 @@ export class AddSellerProductComponent implements OnInit {
 
     createControl() {
         return this.fb.group({
-            key: ['', Validators.required],
-            value: ['', Validators.required]
+            key: [''],
+            value: ['']
         });
     }
 
@@ -320,6 +323,7 @@ export class AddSellerProductComponent implements OnInit {
                 });
                 this.bigLoader = false;
             }).catch((error) => {
+                this.bigLoader = false;
             });
     }
 

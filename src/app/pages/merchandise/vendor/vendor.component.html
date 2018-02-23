@@ -41,12 +41,26 @@
                     <img src="assets/img/ajax-loader.gif" alt="Loader Image">
                 </div>
 
+                <div class="clearfix">
+                    <form class="float-left">
+                        <label>Show</label>
+                        <select #showresults (change)="showEntries(showresults.value)">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="75">75</option>
+                            <option value="100">100</option>
+                        </select>
+                        <label>Records</label>
+                    </form>
+                </div>
+
                 <!-- <button class="btn btn-info float-right deleteSelectedButton" [ngClass]="{'disabled': !showSelectedDelete }" (click)="deactivateAll()">
                     Deactivate Selected
                 </button> -->
 
 
-                <table class="table table-bordered table-responsive" [mfData]="filteredVendorsList" #mf="mfDataTable" [mfRowsOnPage]="10">
+                <table class="table table-bordered table-responsive" [mfData]="filteredVendorsList" #mf="mfDataTable" [mfRowsOnPage]="totalRecords">
                     <thead class="black-muted-bg">
                         <tr>
                             <!-- <th class="text-center">
@@ -54,7 +68,7 @@
                             </th> -->
                             <th class="text-left">
                                 <mfDefaultSorter by="FirstName">
-                                    <strong>Name</strong>
+                                    <strong>Seller Name</strong>
                                 </mfDefaultSorter>
                             </th>
                             <th class="text-left">
@@ -65,7 +79,9 @@
                             <th>
                                 <strong>Contact Number</strong>
                             </th>
-
+                            <th>
+                                <strong>Company</strong>
+                            </th>
                             <th>
                                 <strong>Email</strong>
                             </th>
@@ -91,6 +107,7 @@
                             <td class="text-left no-text-transform">
                                 {{ item.ContactNumber }}
                             </td>
+                            <td class="no-text-transform">{{ item.Company }}</td>
                             <td class="no-text-transform">{{ item.EmailAddress }}</td>
                             <td class="text-center">
                                 <i *ngIf=" item.IsActive " class="fa fa-check" aria-hidden="true"></i>
@@ -115,7 +132,7 @@
                         </tr>
                     </tbody>
 
-                    <tfoot *ngIf=" filteredVendorsList && filteredVendorsList.length > 10 ">
+                    <tfoot *ngIf=" filteredVendorsList && filteredVendorsList.length > totalRecords ">
                         <tr>
                             <td colspan="7">
                                 <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>

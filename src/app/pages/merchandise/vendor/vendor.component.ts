@@ -15,6 +15,7 @@ import { VendorsBulkUploadComponent } from './bulk-upload/bulk-upload.component'
 })
 export class VendorComponent implements OnInit {
 
+    totalRecords = 10;
     vendorsList: any;
     filteredVendorsList: any;
     searchTerm: any;
@@ -93,6 +94,11 @@ export class VendorComponent implements OnInit {
             }).catch((error) => {
                 this.toastr.error('Could not get sellers', 'Error');
             })
+    }
+
+    showEntries(showresults) {
+        console.log("showresults ", showresults);
+        this.totalRecords = showresults;
     }
 
     searchVendor(searchText) {

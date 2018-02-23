@@ -164,15 +164,15 @@ const menus = [
                     }
                 }
             },
-            {
-                path: 'order-reports',
-                data: {
-                    menu: {
-                        title: 'Order Reports',
-                        pathMatch: 'partial'
-                    }
-                }
-            }
+            // {
+            //     path: 'order-reports',
+            //     data: {
+            //         menu: {
+            //             title: 'Order Reports',
+            //             pathMatch: 'partial'
+            //         }
+            //     }
+            // }
         ]
     },
     {

@@ -159,7 +159,16 @@ const menus = [
                 path: 'reports',
                 data: {
                     menu: {
-                        title: 'Reports',
+                        title: 'SLA Reports',
+                        pathMatch: 'partial'
+                    }
+                }
+            },
+            {
+                path: 'order-reports',
+                data: {
+                    menu: {
+                        title: 'Order Reports',
                         pathMatch: 'partial'
                     }
                 }

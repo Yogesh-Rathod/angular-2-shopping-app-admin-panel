@@ -84,6 +84,48 @@ export class SellerProductsComponent implements OnInit {
             });
     }
 
+    exportAllProducts(searchProductForm) {
+        this.searchLoader = true;
+        if (this.atLeastOneFieldRequires(searchProductForm, true)) {
+
+            for (let key in searchProductForm) {
+                if (searchProductForm.hasOwnProperty(key)) {
+                    let value = searchProductForm[key];
+                    if (!value || value.length === 0) {
+                        delete searchProductForm[key];
+                    }
+                    if (typeof searchProductForm[key] === 'string') {
+                        searchProductForm[key] = searchProductForm[key].trim();
+                    }
+                }
+            }
+
+            searchProductForm = JSON.stringify(searchProductForm);
+            searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
+
+            this.productsService.getProducts(searchProductForm, 1, this.totalRecords).
+                then((products) => {
+                    products = products.Data ? products.Data.Products : [];
+                    this.jsonToExcelService.exportAsExcelFile(products, 'products');
+                    this.searchLoader = false;
+                }).catch((error) => {
+                    this.toastr.error('Could not get products for export.', 'Error');
+                    this.searchLoader = false;
+                })
+
+        } else {
+            this.productsService.getProducts(null, 1, this.totalRecords).
+                then((products) => {
+                    products = products.Data ? products.Data.Products : [];
+                    this.jsonToExcelService.exportAsExcelFile(products, 'products');
+                    this.searchLoader = false;
+                }).catch((error) => {
+                    this.searchLoader = false;
+                    this.toastr.error('Could not get products for export.', 'Error');
+                });
+        }
+    }
+
     showEntries(value, searchProductForm) {
         this.showRecords = value;
         if (this.atLeastOneFieldRequires(searchProductForm, true)) {

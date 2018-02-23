@@ -82,9 +82,13 @@
                             Search
                         </button>
                         <img width="35" height="35" *ngIf="searchLoader" src="assets/img/ajax-loader.gif" alt="Loader Image">
-                        <button type="button" class="btn btn-info searchButton" (click)="resetForm()">
+                        <button type="button" class="btn btn-secondary searchButton" (click)="resetForm()">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                             Reset
+                        </button>
+                        <button type="button" class="btn btn-info searchButton" (click)="exportAllProducts(searchProductForm.value)">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                            Export All Products
                         </button>
                     </div>
 

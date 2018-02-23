@@ -136,15 +136,24 @@ export class AddProductComponent implements OnInit {
             'CurrencyId': ['₹ (INR)'],
             'NetPrice': [
                 '',
-                Validators.required
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.onlyNumber)
+                ])
             ],
             'NetShippingPrice': [
                 '',
-                Validators.required
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.onlyNumber)
+                ])
             ],
             'Mrp': [
                 '',
-                Validators.required
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.onlyNumber)
+                ])
             ],
             'netTaxes': [''],
             'netTaxes2': [''],
@@ -156,9 +165,24 @@ export class AddProductComponent implements OnInit {
             //     '',
             //     Validators.required
             // ],
-            'RetailPrice': ['', Validators.required],
-            'RetailShippingPrice': ['', Validators.required],
-            'RetailPriceInclusive': ['', Validators.required],
+            'RetailPrice': [
+                '',
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.onlyNumber)
+                ])],
+            'RetailShippingPrice': [
+                '',
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.onlyNumber)
+                ])],
+            'RetailPriceInclusive': [
+                '',
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.onlyNumber)
+                ])],
             'pictureName': [''],
             'pictureAlt': [''],
             'pictureTitle': [''],

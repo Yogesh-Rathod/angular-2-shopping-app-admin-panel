@@ -141,41 +141,38 @@
                   <label for="netPrice" class="col-3 text-right">Net Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Net Price" formControlName="NetPrice" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Net Price" formControlName="NetPrice">
                 </div>
                 <div class="form-group row">
                   <label for="netShipping" class="col-3 text-right">Net Shipping
                     <br>Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="netShipping" placeholder="Shipping Price" formControlName="NetShippingPrice"
-                    (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="netShipping" placeholder="Shipping Price" formControlName="NetShippingPrice">
                 </div>
                 <div class="form-group row">
                   <label for="Price" class="col-3 text-right">MRP Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="Price" placeholder="MRP Price" formControlName="Mrp" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="Price" placeholder="MRP Price" formControlName="Mrp">
                 </div>
                 <div class="form-group row">
                   <label for="netPrice" class="col-3 text-right">Retail Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Retail Price" formControlName="RetailPrice" (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Retail Price" formControlName="RetailPrice">
                 </div>
                 <div class="form-group row">
                   <label for="netPrice" class="col-3 text-right">Retail Shipping Price
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Retail Shipping Price" formControlName="RetailShippingPrice"
-                    (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Retail Shipping Price" formControlName="RetailShippingPrice">
                 </div>
                 <div class="form-group row">
                   <label for="netPrice" class="col-3 text-right">Retail Price Inclusive
                     <span class="mandatory">*</span>
                   </label>
-                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Retail Price Inclusive" formControlName="RetailPriceInclusive"
-                    (keydown)='validatenumber($event)'>
+                  <input type="text" class="form-control col-9" id="netPrice" placeholder="Retail Price Inclusive" formControlName="RetailPriceInclusive">
                 </div>
                 <!-- <div class="form-group row" *ngIf=" productId ">
                   <label for="applicableDate" class="col-3 text-right">
@@ -397,7 +394,7 @@
       <div class="form-group row col-12">
         <label class="col-3 text-right"></label>
         <input *ngIf=" !productId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addProductForm.valid || showLoader ">
-        <input *ngIf=" productId " type="submit" class="btn btn-primary" value="Update" [disabled]=" !addProductForm.valid || showLoader ">
+        <input *ngIf=" productId " type="submit" class="btn btn-primary" value="Update in Draft" [disabled]=" !addProductForm.valid || showLoader ">
         <input *ngIf=" productId" type="button" (click)="sendApproval(addProductForm.value)" class="btn btn-primary" value="Send for approval"
           style="margin-left:20px" [disabled]=" !addProductForm.valid || showLoader ">
         <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">

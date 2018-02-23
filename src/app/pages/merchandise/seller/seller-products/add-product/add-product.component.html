@@ -327,7 +327,7 @@
 
       <div class="form-group row col-12">
         <label class="col-3 text-right"></label>
-        <input type="submit" class="btn btn-primary" value="Save Draft" [disabled]=" !addProductForm.valid || showLoader">
+        <input type="submit" class="btn btn-primary" value="Save in Draft" [disabled]=" !addProductForm.valid || showLoader">
         <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
         <input type="button" class="btn btn-success" value="Send for approval" (click)="addProduct(addProductForm.value, true)" [disabled]=" !addProductForm.valid || showLoader ">
         <span class="btn btn-warning" *ngIf=" !productId " (click)="resetForm()">Reset</span>

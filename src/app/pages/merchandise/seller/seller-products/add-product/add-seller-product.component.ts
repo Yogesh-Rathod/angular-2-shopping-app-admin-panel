@@ -122,18 +122,24 @@ export class AddSellerProductComponent implements OnInit {
             'CurrencyId': ['₹ (INR)'],
             'NetPrice': [
                 '',
-                Validators.required,
-                Validators.pattern(RegEx.onlyNumber)
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.onlyNumber)
+                ])
             ],
             'NetShippingPrice': [
                 '',
-                Validators.required,
-                Validators.pattern(RegEx.onlyNumber)
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.onlyNumber)
+                ])
             ],
             'Mrp': [
                 '',
-                Validators.required,
-                Validators.pattern(RegEx.onlyNumber)
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern(RegEx.onlyNumber)
+                ])
             ],
             'CategoryId': [
                 [],

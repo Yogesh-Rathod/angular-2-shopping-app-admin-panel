@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { routing } from './pages.routing';
 import { NgaModule } from '../theme/nga.module';
 import { AppTranslationModule } from '../app.translation.module';
 import { FileUploadModule } from 'ng2-file-upload';
+import { MyDatePickerModule } from 'mydatepicker';
 
 import { Pages } from './pages.component';
 
@@ -22,6 +23,7 @@ import { XlsxToJsonService, OrdersService } from 'app/services';
 import { HomeComponent } from './home/home.component';
 import { SellsBulkUploadComponent } from 'app/pages/merchandise/seller/seller-products/bulk-upload/bulk-upload.component';
 import { SellerOrdersAdminBulkUploadComponent } from './merchandise/orders/bulk-upload/bulk-upload.component';
+import { StatusUpdateComponent } from './merchandise/orders/status-update/status-update.component';
 import { DeleteMoviePopupComponent } from './merchandise/movie-management/delete-popup/delete-popup.component';
 
 @NgModule({
@@ -31,6 +33,9 @@ import { DeleteMoviePopupComponent } from './merchandise/movie-management/delete
         NgaModule,
         routing,
         FileUploadModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MyDatePickerModule
     ],
     declarations: [
         Pages,
@@ -43,6 +48,7 @@ import { DeleteMoviePopupComponent } from './merchandise/movie-management/delete
         HomeComponent,
         SellerOrdersBulkUploadComponent,
         SellerOrdersAdminBulkUploadComponent,
+        StatusUpdateComponent,
         DeleteMoviePopupComponent
     ],
     providers: [
@@ -62,6 +68,7 @@ import { DeleteMoviePopupComponent } from './merchandise/movie-management/delete
         SellsBulkUploadComponent,
         SellerOrdersBulkUploadComponent,
         SellerOrdersAdminBulkUploadComponent,
+        StatusUpdateComponent,
         DeleteMoviePopupComponent
     ],
 })

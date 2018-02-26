@@ -144,7 +144,7 @@ export class OrdersComponent implements OnInit {
     // For Creating Add Category Form
     searchForm() {
         this.searchProductForm = this.fb.group({
-            'e.programName': [[]],
+            'e.programId': [[]],
             'e.sellerId': [[]],
             'e.fromDate': [''],
             'e.toDate': [''],
@@ -223,12 +223,12 @@ export class OrdersComponent implements OnInit {
             searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].join(',')
         }
 
-        let programName = [];
-        if (searchOrdersForm['e.programName'] && searchOrdersForm['e.programName'].length > 0) {
-            _.forEach(searchOrdersForm['e.programName'], (item) => {
-                programName.push(item.itemName);
+        let programId = [];
+        if (searchOrdersForm['e.programId'] && searchOrdersForm['e.programId'].length > 0) {
+            _.forEach(searchOrdersForm['e.programId'], (item) => {
+                programId.push(item.id);
             });
-            searchOrdersForm['e.programName'] = programName;
+            searchOrdersForm['e.programId'] = programId;
         }
 
         searchOrdersForm = JSON.stringify(searchOrdersForm);

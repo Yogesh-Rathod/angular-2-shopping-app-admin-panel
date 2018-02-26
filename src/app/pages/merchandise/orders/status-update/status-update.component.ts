@@ -52,6 +52,23 @@ export class StatusUpdateComponent implements OnInit {
         this.showLoader = true;
         const orderInfo = [];
         switch (this.request) {
+            case "fresh":
+                orderInfo.push(updateStatusForm);
+                this.ordersService.sendToProcessed(orderInfo).
+                    then((success) => {
+                        if (success.Data.length === 0) {
+                            this.toastr.success('Status changed successfully.', 'Success!');
+                            this.showLoader = false;
+                            this.closeModal(true);
+                        } else if (success.Data.length > 0) {
+                            this.showLoader = false;
+                            this.toastr.error('Oops! Could not change status.', 'Error!');
+                        }
+                    }).catch((error) => {
+                        this.toastr.error('Oops! Could not change status.', 'Error!');
+                        this.showLoader = false;
+                    });
+                break;
             case "processed":
                 updateStatusForm.DispatchDate = updateStatusForm.DispatchDate.formatted;
                 orderInfo.push(updateStatusForm);

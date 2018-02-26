@@ -22,8 +22,8 @@ export class OrdersService {
     options = new RequestOptions({ headers: this.headers });
 
 
-    getOrdersByPONumber(poNumber?, queryParams?) {
-        let url = poNumber ? `${environment.merchandiseUrl}Orders/${poNumber}?e.pageSize=150` : `${environment.merchandiseUrl}Orders?e.pageSize=150`;
+    getOrdersByPONumber(poNumber?, queryParams?, pageSize : any = 150) {
+        let url = poNumber ? `${environment.merchandiseUrl}Orders/${poNumber}?e.pageSize=${pageSize}` : `${environment.merchandiseUrl}Orders?e.pageSize=${pageSize}`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         if (queryParams) {
             url = `${url}&${queryParams}`

@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 import { IMyDpOptions } from 'mydatepicker';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ProductsService, OrdersService, CatalogManagementService } from 'app/services';
+import { ProductsService, OrdersService, CatalogManagementService, JsonToExcelService } from 'app/services';
 import { SellerOrdersBulkUploadComponent } from './bulk-upload/bulk-upload.component';
 import { ToastsManager } from 'ng2-toastr';
 
@@ -65,6 +65,7 @@ export class OrdersComponent implements OnInit {
         public toastr: ToastsManager,
         private modalService: NgbModal,
         private fb: FormBuilder,
+        private jsonToExcelService: JsonToExcelService,
         private productsService: ProductsService,
         private catalogManagementService: CatalogManagementService,
         private ordersService: OrdersService,
@@ -95,7 +96,7 @@ export class OrdersComponent implements OnInit {
     // For Creating Add Category Form
     searchForm() {
         this.searchProductForm = this.fb.group({
-            'e.programName': [[]],
+            'e.programId': [[]],
             'e.fromDate': [''],
             'e.toDate': [''],
             'e.status': [[]],
@@ -136,6 +137,87 @@ export class OrdersComponent implements OnInit {
         this.getAllOrders();
     }
 
+    exportAllOrders(searchOrdersForm) {
+
+        this.searchLoader = true;
+
+        for (let key in searchOrdersForm) {
+            if (searchOrdersForm.hasOwnProperty(key)) {
+                let value = searchOrdersForm[key];
+                if (!value || value.length === 0) {
+                    delete searchOrdersForm[key];
+                }
+                if (typeof searchOrdersForm[key] === 'string') {
+                    searchOrdersForm[key] = searchOrdersForm[key].trim();
+                }
+            }
+        }
+
+        if (searchOrdersForm['e.fromDate'] && typeof searchOrdersForm['e.fromDate'] == 'object') {
+            searchOrdersForm['e.fromDate'] = `${searchOrdersForm['e.fromDate'].date.month}/${searchOrdersForm['e.fromDate'].date.day}/${searchOrdersForm['e.fromDate'].date.year}`;
+            searchOrdersForm['e.fromDate'] = encodeURIComponent(searchOrdersForm['e.fromDate']);
+        }
+
+        if (searchOrdersForm['e.toDate'] && typeof searchOrdersForm['e.toDate'] === 'object') {
+            searchOrdersForm['e.toDate'] = `${searchOrdersForm['e.toDate'].date.month}/${searchOrdersForm['e.toDate'].date.day}/${searchOrdersForm['e.toDate'].date.year}`;
+            searchOrdersForm['e.toDate'] = encodeURIComponent(searchOrdersForm['e.toDate']);
+        }
+
+        let status = [];
+        if (searchOrdersForm['e.status'] && searchOrdersForm['e.status'].length > 0) {
+            _.forEach(searchOrdersForm['e.status'], (item) => {
+                if (item.id) {
+                    status.push(item.id);
+                    if (item.id.match(/cancel/i)) {
+                        this.status = 'CANCEL';
+                    } else {
+                        this.status = item.id;
+                    }
+                } else {
+                    status.push(item);
+                }
+            });
+            searchOrdersForm['e.status'] = status;
+        }
+
+
+        if (searchOrdersForm['e.sellerId'] && searchOrdersForm['e.sellerId'].length > 0) {
+            if (typeof searchOrdersForm['e.sellerId'][0] === 'object') {
+                searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].map(item => {
+                    return item.SellerId;
+                });
+                searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].join(',');
+            }
+        }
+
+        let programId = [];
+        if (searchOrdersForm['e.programId'] && searchOrdersForm['e.programId'].length > 0) {
+            if (typeof searchOrdersForm['e.programId'][0] === 'object') {
+                _.forEach(searchOrdersForm['e.programId'], (item) => {
+                    programId.push(item.id);
+                });
+                searchOrdersForm['e.programId'] = programId;
+            }
+        }
+
+        searchOrdersForm = JSON.stringify(searchOrdersForm);
+        searchOrdersForm = searchOrdersForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
+
+        this.ordersService.getOrdersByPONumber(null, searchOrdersForm, '').
+            then((orders) => {
+                if (orders.Data) {
+                    this.jsonToExcelService.exportAsExcelFile(orders.Data.PurchaseOrder, 'orders');
+                }
+                this.searchLoader = false;
+                if (!orders.Success) {
+                    this.toastr.error('Could not get orders for export.', 'Error');
+                }
+            }).catch((error) => {
+                this.toastr.error('Could not get orders for export.', 'Error');
+                this.searchLoader = false;
+            })
+    }
+
     searchProduct(searchOrdersForm) {
         this.orders = [];
         this.searchLoader = true;
@@ -162,32 +244,41 @@ export class OrdersComponent implements OnInit {
             searchOrdersForm['e.toDate'] = `${searchOrdersForm['e.toDate'].date.month}/${searchOrdersForm['e.toDate'].date.day}/${searchOrdersForm['e.toDate'].date.year}`;
             searchOrdersForm['e.toDate'] = encodeURIComponent(searchOrdersForm['e.toDate']);
         }
+
         let status = [];
         if (searchOrdersForm['e.status'] && searchOrdersForm['e.status'].length > 0) {
             _.forEach(searchOrdersForm['e.status'], (item) => {
-                status.push(item.id);
-                if (item.id.match(/cancel/i)) {
-                    this.status = 'CANCEL';
+                if (item.id) {
+                    status.push(item.id);
+                    if (item.id.match(/cancel/i)) {
+                        this.status = 'CANCEL';
+                    } else {
+                        this.status = item.id;
+                    }
                 } else {
-                    this.status = item.id;
+                    status.push(item);
                 }
             });
             searchOrdersForm['e.status'] = status;
         }
 
         if (searchOrdersForm['e.sellerId'] && searchOrdersForm['e.sellerId'].length > 0) {
-            searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].map(item => {
-                return item.SellerId;
-            });
-            searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].join(',')
+            if (typeof searchOrdersForm['e.sellerId'][0] === 'object') {
+                searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].map(item => {
+                    return item.SellerId;
+                });
+                searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].join(',');
+            }
         }
 
-        let programName = [];
-        if (searchOrdersForm['e.programName'] && searchOrdersForm['e.programName'].length > 0) {
-            _.forEach(searchOrdersForm['e.programName'], (item) => {
-                programName.push(item.itemName);
-            });
-            searchOrdersForm['e.programName'] = programName;
+        let programId = [];
+        if (searchOrdersForm['e.programId'] && searchOrdersForm['e.programId'].length > 0) {
+            if (typeof searchOrdersForm['e.programId'][0] === 'object') {
+                _.forEach(searchOrdersForm['e.programId'], (item) => {
+                    programId.push(item.id);
+                });
+                searchOrdersForm['e.programId'] = programId;
+            }
         }
 
         searchOrdersForm = JSON.stringify(searchOrdersForm);

@@ -28,7 +28,7 @@
                             Program Name
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A program name."></i>
                         </label>
-                        <angular2-multiselect id="programName" [data]="programName" formControlName="e.programName" [settings]="orderStatusDropdownSettings">
+                        <angular2-multiselect id="programName" [data]="programName" formControlName="e.programId" [settings]="orderStatusDropdownSettings">
                         </angular2-multiselect>
                     </div>
 
@@ -79,6 +79,10 @@
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                             Reset
                         </span>
+                        <button type="button" class="btn btn-info searchButton" (click)="exportAllOrders(searchProductForm.value)">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                            Export All Orders
+                        </button>
                     </div>
 
                 </form>

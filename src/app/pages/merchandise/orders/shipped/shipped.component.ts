@@ -4,6 +4,7 @@ import { ProductsService, OrdersService, JsonToExcelService } from 'app/services
 import * as _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SellerOrdersAdminBulkUploadComponent } from '../bulk-upload/bulk-upload.component';
+import { StatusUpdateComponent } from '../status-update/status-update.component';
 
 @Component({
     selector: 'app-shipped',
@@ -34,6 +35,18 @@ export class ShippedComponent implements OnInit {
 
     ngOnChanges(changes) {
         this.getAllOrders();
+    }
+
+    updateStatus(PurchaseOrderNumber) {
+        const activeModal = this.modalService.open(StatusUpdateComponent, { size: 'sm' });
+        activeModal.componentInstance.request = 'dispatched';
+        activeModal.componentInstance.PurchaseOrderNumber = PurchaseOrderNumber;
+        activeModal.result.then(status => {
+            if (status) {
+                this.onStatusChange.emit(true);
+                this.getAllOrders();
+            }
+        }).catch(status => { })
     }
 
     importOrders() {

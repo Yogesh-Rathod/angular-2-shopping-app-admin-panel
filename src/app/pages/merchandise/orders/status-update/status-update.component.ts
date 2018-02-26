@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { IMyDpOptions } from 'mydatepicker';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+
+import { OrdersService } from 'app/services';
 
 @Component({
     selector: 'app-status-update',
@@ -21,6 +24,8 @@ export class StatusUpdateComponent implements OnInit {
     showLoader = false;
 
     constructor(
+        private toastr: ToastsManager,
+        private ordersService: OrdersService,
         private fb: FormBuilder,
         private activeModal: NgbActiveModal
     ) { }
@@ -32,14 +37,58 @@ export class StatusUpdateComponent implements OnInit {
     createForm() {
         this.updateStatusForm = this.fb.group({
             'PurchaseOrderNumber': [this.PurchaseOrderNumber],
-            'DispatchDate': ['', Validators.compose([Validators.required])],
-            'TrackingNo': ['', Validators.compose([Validators.required])],
-            'CourierName': ['', Validators.compose([Validators.required])],
         });
+
+        if (this.request === 'processed') {
+            this.updateStatusForm.addControl('DispatchDate', new FormControl('', Validators.compose([Validators.required]) ) );
+            this.updateStatusForm.addControl('TrackingNo', new FormControl('', Validators.compose([Validators.required]) ) );
+            this.updateStatusForm.addControl('CourierName', new FormControl('', Validators.compose([Validators.required]) ) );
+        } else if (this.request === 'dispatched') {
+            this.updateStatusForm.addControl('DeliveryDate', new FormControl('', Validators.compose([Validators.required]) ) );
+        }
     }
 
     updateStatus(updateStatusForm) {
-        console.log("updateStatusForm ", updateStatusForm);
+        this.showLoader = true;
+        const orderInfo = [];
+        switch (this.request) {
+            case "processed":
+                updateStatusForm.DispatchDate = updateStatusForm.DispatchDate.formatted;
+                orderInfo.push(updateStatusForm);
+                this.ordersService.sendToDispatched(orderInfo).
+                    then((success) => {
+                        if (success.Data.length === 0) {
+                            this.toastr.success('Status changed successfully.', 'Success!');
+                            this.showLoader = false;
+                            this.closeModal(true);
+                        } else if (success.Data.length > 0) {
+                            this.showLoader = false;
+                            this.toastr.error('Oops! Could not change status.', 'Error!');
+                        }
+                    }).catch((error) => {
+                        this.toastr.error('Oops! Could not change status.', 'Error!');
+                        this.showLoader = false;
+                    });
+            break;
+            case "dispatched":
+                updateStatusForm.DeliveryDate = updateStatusForm.DeliveryDate.formatted;
+                orderInfo.push(updateStatusForm);
+                this.ordersService.sendToDelivered(orderInfo).
+                    then((success) => {
+                        if (success.Data.length === 0) {
+                            this.toastr.success('Status changed successfully.', 'Success!');
+                            this.showLoader = false;
+                            this.closeModal(true);
+                        } else if (success.Data.length > 0) {
+                            this.showLoader = false;
+                            this.toastr.error('Oops! Could not change status.', 'Error!');
+                        }
+                    }).catch((error) => {
+                        this.toastr.error('Oops! Could not change status.', 'Error!');
+                        this.showLoader = false;
+                    });
+                break;
+        }
 
     }
 

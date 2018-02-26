@@ -14,25 +14,35 @@
                 </label>
                 <input type="text" class="form-control col-9" id="name" placeholder="PurchaseOrderNumber" formControlName="PurchaseOrderNumber">
             </div>
-            <div class="form-group row">
+            <div *ngIf="request === 'processed'" class="form-group row">
                 <label for="DispatchDate" class="col-3 text-right">Dispatch Date
                     <span class="mandatory">*</span>
                 </label>
                 <my-date-picker id="DispatchDate" class="col-9 no_padding" name="DispatchDate" [options]="myDatePickerOptions" formControlName="DispatchDate">
                 </my-date-picker>
             </div>
-            <div class="form-group row">
+            <div *ngIf="request === 'processed'" class="form-group row">
                 <label for="TrackingNo" class="col-3 text-right">Tracking No
                     <span class="mandatory">*</span>
                 </label>
                 <input type="text" class="form-control col-9" id="TrackingNo" placeholder="Tracking No" formControlName="TrackingNo">
             </div>
-            <div class="form-group row">
+            <div *ngIf="request === 'processed'" class="form-group row">
                 <label for="CourierName" class="col-3 text-right">Courier Name
                     <span class="mandatory">*</span>
                 </label>
                 <input type="text" class="form-control col-9" id="CourierName" placeholder="Courier Name" formControlName="CourierName">
             </div>
+
+            <div *ngIf="request === 'dispatched'" class="form-group row">
+                <label for="DeliveryDate" class="col-3 text-right">
+                     Delivery Date
+                    <span class="mandatory">*</span>
+                </label>
+                <my-date-picker id="DeliveryDate" class="col-9 no_padding" name="DeliveryDate" [options]="myDatePickerOptions" formControlName="DeliveryDate">
+                </my-date-picker>
+            </div>
+
             <div class="form-group">
                 <button class="btn btn-primary" [disabled]=" !showLoader " [disabled]=" !updateStatusForm.valid || showLoader ">Submit</button>
                 <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">

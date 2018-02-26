@@ -49,6 +49,9 @@ export class BankDetailsComponent implements OnInit {
         enableSearchFilter: true,
         classes: "col-9 no_padding"
     };
+    searchLoader = false;
+    saveChangesLoader = false;
+    approveProductsLoader = false;
 
     constructor(
         private location: Location,
@@ -94,6 +97,7 @@ export class BankDetailsComponent implements OnInit {
             Vendors: [[]]
         });
     }
+
     searchProductFormFunc(_searchData) {
         this.getAllProduct(_searchData);
     }
@@ -113,10 +117,12 @@ export class BankDetailsComponent implements OnInit {
 
     //GET products , TODO: API need to changed with filter
     getAllProduct(_searchObj) {
+        this.searchLoader = true;
         this.productsService.getMasterProducts(_searchObj).then(res => {
             if (res.Success) {
                 this.allProducts = res.Data.Products?res.Data.Products:[];
                 this.allProductsFiltered = this.allProducts;
+                this.searchLoader = false;
             }
         });
     }
@@ -227,6 +233,7 @@ export class BankDetailsComponent implements OnInit {
 
     //POST
     mapProductWithCatalog() {
+        this.saveChangesLoader = true;
         let productsToMap = JSON.stringify(this.allMapTempProducts);
         this.catalogManagementService
             .mapProductToCatalog(this.catalogId, productsToMap)
@@ -238,7 +245,9 @@ export class BankDetailsComponent implements OnInit {
                     );
                     this.getMapProductForApproveFunc(this.catalogId);
                     this.allMapTempProducts = [];
+                    this.saveChangesLoader = false;
                 } else {
+                    this.saveChangesLoader = false;
                     this.toastr.error(
                         "Something went wrong.",
                         "Error!"
@@ -249,6 +258,7 @@ export class BankDetailsComponent implements OnInit {
 
     //POST Approve Map
     approveProductMap(_reason) {
+        this.approveProductsLoader = true;
         var approveObj = {
             Reason:_reason,
             CatalogId: this.catalogId
@@ -263,7 +273,9 @@ export class BankDetailsComponent implements OnInit {
                     );
                     this.allMapProductsApprove=[];
                     this.getMapProductListByCatalog(this.catalogId);
+                    this.approveProductsLoader = false;
                 } else {
+                    this.approveProductsLoader = false;
                     this.toastr.error(
                         "Something went wrong.",
                         "Error!",

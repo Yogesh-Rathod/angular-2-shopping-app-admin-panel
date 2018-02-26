@@ -15,11 +15,10 @@ import { CatalogManagementService } from "app/services";
     styleUrls: ["./add-catalog.component.scss"]
 })
 export class AddCatalogComponent implements OnInit {
-    forApprove: any;
 
+    forApprove: any;
     catalogId: any;
     catalogInfo: any;
-    deleteLoader = false;
     showLoader = false;
     addCatalogForm: FormGroup;
     multiDropdownSettings = {
@@ -50,6 +49,7 @@ export class AddCatalogComponent implements OnInit {
             itemName: "Program 2"
         }
     ];
+    bigLoader = false;
 
     constructor(
         private location: Location,
@@ -75,6 +75,7 @@ export class AddCatalogComponent implements OnInit {
     }
 
     getCatalogDetails(_catalogId, _for) {
+        this.bigLoader = true;
         this.catalogManagementService
             .getCatalogsById(_catalogId, _for)
             .then(res => {
@@ -102,18 +103,8 @@ export class AddCatalogComponent implements OnInit {
                 this.addCatalogForm.controls["EnableAutoProductSync"].setValue(
                     this.catalogInfo.EnableAutoProductSync
                 );
+                this.bigLoader = false;
             });
-    }
-
-    genarateRandomID(_length = 32) {
-        var text = "";
-        var possible =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (var i = 0; i < _length; i++)
-            text += possible.charAt(
-                Math.floor(Math.random() * possible.length)
-            );
-        return text;
     }
 
     createForm() {
@@ -137,6 +128,7 @@ export class AddCatalogComponent implements OnInit {
     }
 
     addCatalog(addCatalogForm) {
+        this.showLoader = true;
         var isEdit = addCatalogForm.Id ? true : false;
         this.catalogManagementService
             .addNewCatalogs(addCatalogForm)
@@ -152,8 +144,10 @@ export class AddCatalogComponent implements OnInit {
                             "Sucess!"
                         );
                     }
+                    this.showLoader = false;
                     this.location.back();
                 } else {
+                    this.showLoader = false;
                     this.toastr.error("Something went wrong.", "Error!");
                 }
             });

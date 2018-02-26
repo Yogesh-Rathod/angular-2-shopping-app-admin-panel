@@ -20,8 +20,11 @@ import { CookieService } from "ngx-cookie";
     styleUrls: ["./catalog-management.component.scss"]
 })
 export class CatalogManagementComponent implements OnInit {
+
+    totalRecords = 10;
     searchTerm: any;
     showLoader = false;
+    bigLoader = false;
     catalog: any;
     filteredCatalogs: any;
     filteredApproveCatalogs: any;
@@ -51,17 +54,24 @@ export class CatalogManagementComponent implements OnInit {
     }
 
     getCatalogs() {
+        this.bigLoader = true;
         this.catalogManagementService.getCatalogsList().then(res => {
             this.catalog = res.Data;
             this.filteredCatalogs = this.catalog;
             if (res.Code === 500) {
                 this.toastr.error('Could not get catalogs', 'Error');
             }
+            this.bigLoader = false;
         }).catch((error) => {
-            console.log("error ", error);
+            this.bigLoader = false;
             this.toastr.error('Could not get catalogs', 'Error');
         });
     }
+
+    showEntries(showresults) {
+        this.totalRecords = showresults;
+    }
+
     getCatalogsApproval() {
         this.catalogManagementService.getCatalogsApprovalList().then(res => {
             this.filteredApproveCatalogs = res.Data;

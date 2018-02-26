@@ -97,7 +97,6 @@ export class VendorComponent implements OnInit {
     }
 
     showEntries(showresults) {
-        console.log("showresults ", showresults);
         this.totalRecords = showresults;
     }
 

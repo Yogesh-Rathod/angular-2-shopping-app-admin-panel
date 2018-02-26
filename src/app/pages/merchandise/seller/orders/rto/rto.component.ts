@@ -1,6 +1,9 @@
 import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { ProductsService, OrdersService, JsonToExcelService, VendorsService } from 'app/services';
 import * as _ from 'lodash';
+import { SellerOrderStatusUpdateComponent } from '../status-update/status-update.component';
 
 @Component({
     selector: 'app-rto',
@@ -12,6 +15,7 @@ export class RtoComponent implements OnInit {
     @Output() onStatusChange = new EventEmitter<any>();
 
     constructor(
+        private modalService: NgbModal,
         private jsonToExcelService: JsonToExcelService,
         private ordersService: OrdersService
     ) { }
@@ -30,6 +34,24 @@ export class RtoComponent implements OnInit {
 
     ngOnChanges(changes) {
         this.getAllOrders();
+    }
+
+    updateStatus(item) {
+        const activeModal = this.modalService.open(SellerOrderStatusUpdateComponent, { size: 'sm' });
+        if (item.Status.match(/processed/i)) {
+            activeModal.componentInstance.request = 'processed';
+        } else if (item.Status.match(/fresh/i)) {
+            activeModal.componentInstance.request = 'fresh';
+        } else if (item.Status.match(/dispatch/i)) {
+            activeModal.componentInstance.request = 'dispatched';
+        }
+        activeModal.componentInstance.PurchaseOrderNumber = item.PurchaseOrderNumber;
+        activeModal.result.then(status => {
+            if (status) {
+                this.onStatusChange.emit(true);
+                this.getAllOrders();
+            }
+        }).catch(status => { })
     }
 
     exportProducts() {

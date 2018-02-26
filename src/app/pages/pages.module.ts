@@ -24,6 +24,7 @@ import { HomeComponent } from './home/home.component';
 import { SellsBulkUploadComponent } from 'app/pages/merchandise/seller/seller-products/bulk-upload/bulk-upload.component';
 import { SellerOrdersAdminBulkUploadComponent } from './merchandise/orders/bulk-upload/bulk-upload.component';
 import { StatusUpdateComponent } from './merchandise/orders/status-update/status-update.component';
+import { SellerOrderStatusUpdateComponent } from './merchandise/seller/orders/status-update/status-update.component';
 import { DeleteMoviePopupComponent } from './merchandise/movie-management/delete-popup/delete-popup.component';
 
 @NgModule({
@@ -49,7 +50,8 @@ import { DeleteMoviePopupComponent } from './merchandise/movie-management/delete
         SellerOrdersBulkUploadComponent,
         SellerOrdersAdminBulkUploadComponent,
         StatusUpdateComponent,
-        DeleteMoviePopupComponent
+        DeleteMoviePopupComponent,
+        SellerOrderStatusUpdateComponent
     ],
     providers: [
         MerchandiseService,
@@ -69,7 +71,8 @@ import { DeleteMoviePopupComponent } from './merchandise/movie-management/delete
         SellerOrdersBulkUploadComponent,
         SellerOrdersAdminBulkUploadComponent,
         StatusUpdateComponent,
-        DeleteMoviePopupComponent
+        DeleteMoviePopupComponent,
+        SellerOrderStatusUpdateComponent
     ],
 })
 export class PagesModule {

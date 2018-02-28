@@ -6,6 +6,7 @@ import { environment } from './../../environments';
 import { AppState } from 'app/app.service';
 import { CommonAppService } from 'app/services/common.services';
 import { ResponseHandingService } from 'users_modules/services';
+import * as utf8 from 'utf8';
 
 @Injectable()
 export class MovieManagementService {
@@ -82,7 +83,7 @@ export class MovieManagementService {
         const url = `${environment.moviesApiUrl}Events`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, movieInfo));
-        return this.http.post(url, JSON.stringify(movieInfo), this.options)
+        return this.http.post(url, utf8.encode(JSON.stringify(movieInfo)), this.options)
             .toPromise()
             .then(response => this.responseHandingService.handleResponse(response))
             .catch(reason => this.responseHandingService.handleError(reason));

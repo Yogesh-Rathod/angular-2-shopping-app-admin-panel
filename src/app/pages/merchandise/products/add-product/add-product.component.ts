@@ -130,8 +130,7 @@ export class AddProductComponent implements OnInit {
             ],
             'specifications': this.fb.array([this.createControl()]),
             'Status': [
-                '',
-                Validators.required
+                ''
             ],
             'CurrencyId': ['₹ (INR)'],
             'NetPrice': [

@@ -29,9 +29,9 @@
                 <a target="_blank" *ngIf="errorData.length>0" href="javascript:void(0)" (click)="downloadFile()" class="error text-decoration btn-link">Download Error Report</a>
             </div>
             <div class="form-group">
-                <button class="btn btn-success" [disabled]=" submitDisabled " (click)="uploadFile($event, 'save')">Save</button>
+                <button class="btn btn-success" [disabled]=" submitDisabled " (click)="uploadFile($event, 'save')">Save in Draft</button>
                 <button class="btn btn-primary" [disabled]=" submitDisabled " (click)="uploadFile($event, 'submit')">
-                    Submit
+                     Send for approval
                 </button>
                 <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
             </div>

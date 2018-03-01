@@ -1,13 +1,16 @@
-<div class="animated fadeIn card orderDetails" *ngIf="catalogInfo">
+<div class="animated fadeIn card orderDetails">
 
     <div class="card-header clearfix">
         <h2 class="card-title">
-            Name: {{catalogInfo.Name}}
+            Name:
+            <span *ngIf="catalogInfo">
+                 {{catalogInfo.Name}}
+            </span>
             <span class="goBack float-right" (click)="goBackFunc()">
                 <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to Catalog list</span>
         </h2>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12" *ngIf="catalogInfo">
         <div class="row">
             <div class="col-md-12 catalog-description">
                 <h5>Description</h5>
@@ -61,7 +64,10 @@
                     </div>
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade in active" id="productList">
-                            <div class="row">
+                            <div class="row pos_relative">
+                                <div class="loader-container pos_absolute" *ngIf="productsLoader">
+                                    <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+                                </div>
                                 <div class="col-md-12">
                                     <table class="table table-bordered table-responsive" [mfData]="allMapProducts" #mfMapProList="mfDataTable" [mfRowsOnPage]="10">
                                         <thead class="black-muted-bg">

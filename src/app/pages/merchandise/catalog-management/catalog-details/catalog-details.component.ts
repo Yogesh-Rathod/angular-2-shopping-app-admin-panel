@@ -52,6 +52,7 @@ export class BankDetailsComponent implements OnInit {
     searchLoader = false;
     saveChangesLoader = false;
     approveProductsLoader = false;
+    productsLoader = false;
 
     constructor(
         private location: Location,
@@ -179,11 +180,13 @@ export class BankDetailsComponent implements OnInit {
 
     //GET
     getMapProductListByCatalog(_catalogId) {
+        this.productsLoader = true;
         this.catalogManagementService
             .getMapProductList(_catalogId)
             .then(res => {
                 if (res.Code == 200) {
                     this.allMapProducts = res.Data;
+                    this.productsLoader = false;
                 }
             });
     }

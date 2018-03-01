@@ -393,7 +393,7 @@
 
       <div class="form-group row col-12">
         <label class="col-3 text-right"></label>
-        <input *ngIf=" !productId " type="submit" class="btn btn-primary" value="Save" [disabled]=" !addProductForm.valid || showLoader ">
+        <input *ngIf=" !productId " type="submit" class="btn btn-primary" value="Save in Draft" [disabled]=" !addProductForm.valid || showLoader ">
         <input *ngIf=" productId " type="submit" class="btn btn-primary" value="Update in Draft" [disabled]=" !addProductForm.valid || showLoader ">
         <input *ngIf=" productId" type="button" (click)="sendApproval(addProductForm.value)" class="btn btn-primary" value="Send for approval"
           style="margin-left:20px" [disabled]=" !addProductForm.valid || showLoader ">

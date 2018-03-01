@@ -19,9 +19,9 @@ import { MerchandiseService, ProductsService, VendorsService } from 'app/service
     styleUrls: ['./add-product.component.scss']
 })
 export class AddProductComponent implements OnInit {
+
     subCategories = [];
     subSubCategory = [];
-
     addProductForm: FormGroup;
     config = {
         uiColor: '#F0F3F4',
@@ -45,7 +45,7 @@ export class AddProductComponent implements OnInit {
     };
     currencyOptions = ['₹ (INR)', '$ (US)'];
     statusOptions = ['Draft', 'Pending', 'Approved'];
-    bigLoader = true;
+    bigLoader = false;
     productImageName;
     public myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy',
@@ -129,9 +129,7 @@ export class AddProductComponent implements OnInit {
                 ])
             ],
             'specifications': this.fb.array([this.createControl()]),
-            'Status': [
-                ''
-            ],
+            'Status': [''],
             'CurrencyId': ['₹ (INR)'],
             'NetPrice': [
                 '',
@@ -207,8 +205,8 @@ export class AddProductComponent implements OnInit {
 
     createControl() {
         return this.fb.group({
-            key: ['', Validators.required],
-            value: ['', Validators.required]
+            key: [''],
+            value: ['']
         });
     }
 
@@ -264,10 +262,11 @@ export class AddProductComponent implements OnInit {
                         this.addProductForm.controls['RetailPriceInclusive'].setValue(this.products[0].RetailPriceInclusive);
                         this.addProductForm.controls['CurrencyId'].setValue('₹ (INR)');
                         this.setCategoriesInEditMode();
-                        this.bigLoader = false;
                         this.checkFormValidation();
+                        this.bigLoader = false;
                     }
                 }).catch((error) => {
+                    this.bigLoader = false;
                 })
         }
     }
@@ -413,7 +412,6 @@ export class AddProductComponent implements OnInit {
                     category.itemName = category.Name;
                     return category;
                 });
-                this.bigLoader = false;
             }).catch((error) => {
             });
     }

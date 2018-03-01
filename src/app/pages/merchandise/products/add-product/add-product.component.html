@@ -90,7 +90,6 @@
                 <div class="form-group row">
                   <label for="FullDescription" class="col-3 text-right">
                     Specifications
-                    <span class="mandatory">*</span>
                   </label>
                   <div class="col-9 no_padding specifications pos_relative" formArrayName="specifications">
                     <div class="col-12 row no_margin no_padding" *ngFor="let prop of specificationsFunction.controls; let i = index">
@@ -108,7 +107,6 @@
                 <div class="form-group row" *ngIf="productId" [class.disabled]="true">
                   <label for="status" class="col-3 text-right">
                     status
-                    <span class="mandatory">*</span>
                   </label>
                   <select id="status" formControlName="Status" class="form-control col-9">
                     <option *ngFor="let item of statusOptions" value="{{ item }}">{{ item }}</option>
@@ -128,7 +126,7 @@
                 </h3>
               </div>
               <div class="card-body collapse show" id="prices">
-                <div class="form-group row">
+                <div class="form-group row disabled">
                   <label for="currency" class="col-3 text-right">
                     Choose Currency
                   </label>
@@ -174,37 +172,8 @@
                   </label>
                   <input type="text" class="form-control col-9" id="netPrice" placeholder="Retail Price Inclusive" formControlName="RetailPriceInclusive">
                 </div>
-                <!-- <div class="form-group row" *ngIf=" productId ">
-                  <label for="applicableDate" class="col-3 text-right">
-                    Apply From
-                    <span class="mandatory">*</span>
-                  </label>
-                  <my-date-picker id="applicableDate" class="col-5 no_padding" name="applicableDate" [options]="myDatePickerOptions" formControlName="applicableDate">
-                  </my-date-picker>
-                  <owl-date-time class="col-4" [type]="'timer'" [placeHolder]="'hh:mm'" [dateFormat]="'hh:mm'">
-                  </owl-date-time>
-                </div> -->
-                <!-- <div class="form-group row" *ngIf=" productId ">
-                  <label for="oldPrice" class="col-3 text-right">Old MRP Price
-                  </label>
-                  <input type="text" class="form-control col-9" id="oldPrice" placeholder="Old MRP Price" formControlName="oldPrice" (keydown)='validatenumber($event)' [ngClass]="{ 'disabled': productId }" tabindex="-1">
-                </div> -->
 
                 <hr>
-
-                <!-- <div class="form-group row">
-                  <label for="Price" class="col-3 text-right">Net Taxes
-                    <span class="mandatory">*</span>
-                  </label>
-                  <input type="text" class="form-control col-9" id="Price" placeholder="Net Taxes" formControlName="netTaxes">
-                </div> -->
-                <!-- <div class="form-group row">
-                  <label for="retailShipping" class="col-3 text-right">
-                     Net Taxes 2
-                    <span class="mandatory">*</span>
-                  </label>
-                  <input type="text" class="form-control col-9" id="retailShipping" placeholder="Net Taxes 2" formControlName="netTaxes2">
-                </div> -->
               </div>
             </div>
           </div>
@@ -395,7 +364,7 @@
         <label class="col-3 text-right"></label>
         <input *ngIf=" !productId " type="submit" class="btn btn-primary" value="Save in Draft" [disabled]=" !addProductForm.valid || showLoader ">
         <input *ngIf=" productId " type="submit" class="btn btn-primary" value="Update in Draft" [disabled]=" !addProductForm.valid || showLoader ">
-        <input *ngIf=" productId" type="button" (click)="sendApproval(addProductForm.value)" class="btn btn-primary" value="Send for approval"
+        <input *ngIf=" productId " type="button" (click)="sendApproval(addProductForm.value)" class="btn btn-primary" value="Send for approval"
           style="margin-left:20px" [disabled]=" !addProductForm.valid || showLoader ">
         <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
         <span class="btn btn-warning" *ngIf=" !productId " (click)="resetForm()">Reset</span>

@@ -115,10 +115,7 @@ export class AddSellerProductComponent implements OnInit {
                 ])
             ],
             'specifications': this.fb.array([this.createControl()]),
-            'status': [
-                '',
-                Validators.required
-            ],
+            'status': [''],
             'CurrencyId': ['₹ (INR)'],
             'NetPrice': [
                 '',
@@ -141,11 +138,8 @@ export class AddSellerProductComponent implements OnInit {
                     Validators.pattern(RegEx.onlyNumber)
                 ])
             ],
-            'CategoryId': [
-                [],
-                Validators.required
-            ],
             'Type': [[]],
+            'CategoryId': [[], Validators.required],
             'SubCategories': [[], Validators.required],
             'SubSubCategories': [[], Validators.required],
             'pictureName': [''],

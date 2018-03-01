@@ -160,10 +160,6 @@ export class AddProductComponent implements OnInit {
                 [],
                 Validators.required
             ],
-            // 'SellerId': [
-            //     '',
-            //     Validators.required
-            // ],
             'RetailPrice': [
                 '',
                 Validators.compose([

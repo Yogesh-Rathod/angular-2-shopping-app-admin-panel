@@ -137,9 +137,9 @@
                                 <th class="text-center">
                                     <input [class.disabled]="products && products.length === 0" type="checkbox" *ngIf="products && products.length > 0 " [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
                                 </th>
-                                <th class="text-left">
+                                <!-- <th class="text-left">
                                     <strong>Product Image</strong>
-                                </th>
+                                </th> -->
                                 <th>
                                     <mfDefaultSorter by="Name">
                                         <strong>Product name</strong>
@@ -149,7 +149,7 @@
                                     <strong>SKU</strong>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="price">
+                                    <mfDefaultSorter by="NetPrice">
                                         <strong>MRP </strong>
                                     </mfDefaultSorter>
                                 </th>
@@ -173,11 +173,11 @@
                                         (change)="checkBoxSelected($event, item)">
                                 </td>
 
-                                <td class="text-left">
+                                <!-- <td class="text-left">
                                     <div class="product-image" *ngIf="item.picture">
                                         <img class="img-fluid" src="{{ item.picture[0].url ? item.picture[0].url : 'assets/images/products/Placeholder.png' }}" alt="{{ item.picture[0].alt ? item.picture[0].alt : 'Product Image' }}">
                                     </div>
-                                </td>
+                                </td> -->
                                 <td>
                                     <span>{{ item.Name }}</span>
                                 </td>

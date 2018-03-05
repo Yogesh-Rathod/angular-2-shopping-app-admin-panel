@@ -119,8 +119,11 @@ export class CategoriesComponent implements OnInit {
     searchCategory(searchTerm) {
         if (searchTerm) {
             this.categoriesFiltered = this.categories.filter((item) => {
-                const caseInsensitiveSearch = new RegExp(`${searchTerm.trim()}`, "i");
-                return caseInsensitiveSearch.test(item.Name);
+                if (item.Name.toUpperCase() === searchTerm.toUpperCase().trim()) {
+                    return item;
+                }
+                // const caseInsensitiveSearch = new RegExp(`${searchTerm.trim()}`, "i");
+                // return caseInsensitiveSearch.test(item.Name);
             });
         } else {
             this.categoriesFiltered = this.generateTreeStructure(this.categories);

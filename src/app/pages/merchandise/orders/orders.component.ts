@@ -24,7 +24,7 @@ export class OrdersComponent implements OnInit {
     bigLoader = true;
     orders: any;
     orderStatusDropdownSettings = {
-        singleSelection: true,
+        singleSelection: false,
         text: "Select...",
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',
@@ -137,6 +137,7 @@ export class OrdersComponent implements OnInit {
                     item.itemName = `${item.FirstName} ${item.LastName}`;
                     return item;
                 });
+                console.log("this.vendorsList ", this.vendorsList);
             }).catch((error) => {
             })
     }
@@ -234,6 +235,7 @@ export class OrdersComponent implements OnInit {
                     programId.push(item.id);
                 });
                 searchOrdersForm['e.programId'] = programId;
+                searchOrdersForm['e.programId'] = searchOrdersForm['e.programId'].join(',');
             }
         }
 
@@ -311,6 +313,7 @@ export class OrdersComponent implements OnInit {
                     programId.push(item.id);
                 });
                 searchOrdersForm['e.programId'] = programId;
+                searchOrdersForm['e.programId'] = searchOrdersForm['e.programId'].join(',');
             }
         }
 

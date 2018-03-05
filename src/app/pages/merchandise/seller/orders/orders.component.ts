@@ -23,7 +23,7 @@ export class OrdersComponent implements OnInit {
     searchLoader = false;
     orders: any;
     orderStatusDropdownSettings = {
-        singleSelection: true,
+        singleSelection: false,
         text: "Select...",
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',
@@ -197,6 +197,7 @@ export class OrdersComponent implements OnInit {
                     programId.push(item.id);
                 });
                 searchOrdersForm['e.programId'] = programId;
+                searchOrdersForm['e.programId'] = searchOrdersForm['e.programId'].join(',');
             }
         }
 
@@ -278,12 +279,14 @@ export class OrdersComponent implements OnInit {
                     programId.push(item.id);
                 });
                 searchOrdersForm['e.programId'] = programId;
+                searchOrdersForm['e.programId'] = searchOrdersForm['e.programId'].join(',');
             }
         }
 
         searchOrdersForm = JSON.stringify(searchOrdersForm);
         searchOrdersForm = searchOrdersForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
 
+        console.log("searchOrdersForm ", searchOrdersForm);
         this.ordersService.getOrdersByPONumber(null, searchOrdersForm).
             then((orders) => {
                 if (orders.Data) {

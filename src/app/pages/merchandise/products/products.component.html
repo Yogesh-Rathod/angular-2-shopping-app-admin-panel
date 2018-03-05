@@ -129,6 +129,15 @@
                     </form>
                 </div>
 
+                <!-- <div class="clearfix">
+                    <div class="form-group">
+                        <label>
+                            <input [class.disabled]="products && products.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+                            Check All
+                        </label>
+                    </div>
+                </div> -->
+
                 <button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 || !showSelectedAction }"
                     (click)="exportProducts()">
                     <i class="fa fa-download" aria-hidden="true"></i>

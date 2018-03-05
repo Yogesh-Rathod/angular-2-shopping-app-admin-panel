@@ -58,7 +58,7 @@ export class ProductsComponent implements OnInit {
             this.vendorId = params['vendorId'];
         });
         let userRoles = this.cookieService.get('userRoles');
-        if (userRoles.indexOf('SuperAdmin') > -1) {
+        if (userRoles.indexOf('SuperAdmin') > -1 || userRoles.indexOf('Admin') > -1) {
             this.userRole = 'Admin';
         } else {
             this.userRole = 'Operations';

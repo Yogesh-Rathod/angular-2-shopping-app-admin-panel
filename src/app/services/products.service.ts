@@ -210,24 +210,10 @@ export class ProductsService {
             .catch(err => this.responseHandler.handleError(err));
     }
 
-    getMasterProducts(_filterData) {
-        var VendorsList = '';
-        if (_filterData) {
-            var Ids = _filterData.Vendors.map(function (item) {
-                return item["SellerId"];
-            });
-            VendorsList = Ids.join();
-        } else {
-            _filterData = {
-                searchText: ""
-            };
-        }
-
+    getMasterProducts(filterData) {
         const url = `${
             environment.merchandiseUrl
-            }Merchandise/Products?e.name=${
-            _filterData.searchText
-            }&e.sellerId=${VendorsList}`;
+            }Merchandise/Products?${filterData}`;
         this.headers.set(
             "Authorization",
             this.commonAppSer.crateAuthorization()

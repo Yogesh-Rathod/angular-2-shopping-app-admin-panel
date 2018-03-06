@@ -20,14 +20,12 @@ import * as _ from "lodash";
     styleUrls: ["./catalog-details.component.scss"]
 })
 export class BankDetailsComponent implements OnInit {
+
     programList: any = [];
     curentSelectedProgram: any = null;
     showMapprogram:boolean =false;
     programMappedList: any = [{ ProgramName:"LVB Bank" }];
     allMapProductsApprove: any = [];
-    vendorsList: any = [];
-    allMapTempProducts: any = [];
-    showSelectedDelete: boolean;
     catalogInfo: any;
     for: any;
     catalogId: any;
@@ -36,21 +34,8 @@ export class BankDetailsComponent implements OnInit {
     bankInfo: any;
     banks: any;
     bigLoader: false;
-    allProducts: any = [];
-    allProductsFiltered: any = [];
     allMapProducts: any = [];
-    selectAllCheckbox = false;
     searchProductForm: FormGroup;
-    multiDropdownSettings = {
-        singleSelection: false,
-        text: "Select",
-        selectAllText: "Select All",
-        unSelectAllText: "UnSelect All",
-        enableSearchFilter: true,
-        classes: "col-9 no_padding"
-    };
-    searchLoader = false;
-    saveChangesLoader = false;
     approveProductsLoader = false;
     productsLoader = false;
 
@@ -87,46 +72,8 @@ export class BankDetailsComponent implements OnInit {
             }
         }
         this.getAllProgram();
-        this.createSearchForm();
-        this.getSellerList();
     }
 
-    // Create Search Form
-    createSearchForm() {
-        this.searchProductForm = this.fb.group({
-            searchText: [""],
-            Vendors: [[]]
-        });
-    }
-
-    searchProductFormFunc(_searchData) {
-        this.getAllProduct(_searchData);
-    }
-
-    // GET Seller List
-    getSellerList() {
-        this.vendorsService.getVendors().then(res => {
-            if (res.Code == 200) {
-                this.vendorsList = res.Data ? res.Data : [];
-                this.vendorsList.map(function(i) {
-                    i.itemName = i.FirstName;
-                    i.id = i.SellerId;
-                });
-            }
-        });
-    }
-
-    //GET products , TODO: API need to changed with filter
-    getAllProduct(_searchObj) {
-        this.searchLoader = true;
-        this.productsService.getMasterProducts(_searchObj).then(res => {
-            if (res.Success) {
-                this.allProducts = res.Data.Products?res.Data.Products:[];
-                this.allProductsFiltered = this.allProducts;
-                this.searchLoader = false;
-            }
-        });
-    }
     getAllProgram() {
        this.catalogManagementService.getAllProgramList().then(res =>{
             if(res.Success){
@@ -134,6 +81,7 @@ export class BankDetailsComponent implements OnInit {
             }
        })
     }
+
     getAllMappedProgram(_catalogId){
         this.catalogManagementService.getAllMappedProgramList(_catalogId).then(res =>{
             if(res.Success){
@@ -167,6 +115,7 @@ export class BankDetailsComponent implements OnInit {
             }
         })
     }
+
     //GET
     getCatalogDetails(_catalogId, _for) {
         this.catalogManagementService
@@ -190,6 +139,7 @@ export class BankDetailsComponent implements OnInit {
                 }
             });
     }
+
     getMapProductForApproveFunc(_catalogId) {
         this.catalogManagementService
             .getMapProductForApprove(_catalogId)
@@ -202,61 +152,6 @@ export class BankDetailsComponent implements OnInit {
 
     goBackFunc() {
         this.location.back();
-    }
-
-    //UI ADD
-    mapProductToCatalog(_product) {
-        _.forEach(_product, item => {
-            if (item.isChecked) {
-                for (var i = 0; i < this.allMapTempProducts.length; i++) {
-                    if (this.allMapTempProducts[i].ProductId == item.Id) {
-                        return;
-                    }
-                }
-                let tempObj = {
-                    CatalogId: this.catalogId,
-                    ProductId: item.Id,
-                    Name: item.Name,
-                    RetailPrice: item.RetailPrice,
-                    RetailShippingPrice: item.RetailShippingPrice,
-                    RetailPriceInclusive: item.RetailPriceInclusive,
-                    DiscountType: item.DiscountType,
-                    Discount: item.Discount,
-          //          CatalogProductMappingIsActive:item.CatalogProductMappingIsActive,
-                    CatalogProductMappingIsActive:true,
-                    IsFeaturedProduct: item.IsFeaturedProduct,
-                    FeaturedProductDisplayOrder: 0,
-                    IsHomePageProduct: item.IsHomePageProduct,
-                    HomePageProductDisplayOrde: 0
-                };
-                this.allMapTempProducts.push(tempObj);
-            }
-        });
-    }
-
-    //POST
-    mapProductWithCatalog() {
-        this.saveChangesLoader = true;
-        let productsToMap = JSON.stringify(this.allMapTempProducts);
-        this.catalogManagementService
-            .mapProductToCatalog(this.catalogId, productsToMap)
-            .then(res => {
-                if (res.Success) {
-                    this.toastr.success(
-                        "Product mapped successfully.",
-                        "Sucess!"
-                    );
-                    this.getMapProductForApproveFunc(this.catalogId);
-                    this.allMapTempProducts = [];
-                    this.saveChangesLoader = false;
-                } else {
-                    this.saveChangesLoader = false;
-                    this.toastr.error(
-                        "Something went wrong.",
-                        "Error!"
-                    );
-                }
-            });
     }
 
     //POST Approve Map
@@ -288,41 +183,4 @@ export class BankDetailsComponent implements OnInit {
             });
     }
 
-    selectAll(e) {
-        if (e.target.checked) {
-            this.selectAllCheckbox = true;
-            _.forEach(this.allProducts, item => {
-                item.isChecked = true;
-            });
-            this.showSelectedDelete = true;
-        } else {
-            this.selectAllCheckbox = false;
-            _.forEach(this.allProducts, item => {
-                item.isChecked = false;
-            });
-            this.showSelectedDelete = false;
-        }
-    }
-
-    checkBoxSelected(e, item) {
-        this.selectAllCheckbox = false;
-        if (e.target.checked) {
-            item.isChecked = true;
-        } else {
-            item.isChecked = false;
-        }
-
-        let isCheckedArray = [];
-
-        _.forEach(this.allProducts, item => {
-            if (item.isChecked) {
-                this.showSelectedDelete = true;
-                isCheckedArray.push(item);
-            }
-        });
-
-        if (isCheckedArray.length === 0) {
-            this.showSelectedDelete = false;
-        }
-    }
 }

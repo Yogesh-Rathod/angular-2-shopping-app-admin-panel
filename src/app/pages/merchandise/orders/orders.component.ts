@@ -134,7 +134,7 @@ export class OrdersComponent implements OnInit {
                 this.vendorsList = vendors.Data;
                 this.vendorsList = this.vendorsList.map((item) => {
                     item.id = item.SellerId;
-                    item.itemName = `${item.FirstName} ${item.LastName}`;
+                    item.itemName = item.Company;
                     return item;
                 });
                 console.log("this.vendorsList ", this.vendorsList);

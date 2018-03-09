@@ -103,7 +103,7 @@ export class VendorComponent implements OnInit {
     searchVendor(searchText) {
         this.filteredVendorsList = this.vendorsList.filter((item) => {
             const caseInsensitiveSearch = new RegExp(`${searchText.trim()}`, "i");
-            return caseInsensitiveSearch.test(item.FirstName) || caseInsensitiveSearch.test(item.LastName) || caseInsensitiveSearch.test(item.EmailAddress) || caseInsensitiveSearch.test(item.SellerCode);
+            return caseInsensitiveSearch.test(item.FirstName) || caseInsensitiveSearch.test(item.LastName) || caseInsensitiveSearch.test(item.EmailAddress) || caseInsensitiveSearch.test(item.SellerCode) || caseInsensitiveSearch.test(item.Company);
         });
     }
 

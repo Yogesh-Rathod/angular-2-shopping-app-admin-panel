@@ -76,7 +76,7 @@ export class ProductsInfoComponent implements OnInit {
             if (res.Code == 200) {
                 this.vendorsList = res.Data ? res.Data : [];
                 this.vendorsList.map((i) => {
-                    i.itemName = i.FirstName;
+                    i.itemName = i.Company;
                     i.id = i.SellerId;
                 });
             }

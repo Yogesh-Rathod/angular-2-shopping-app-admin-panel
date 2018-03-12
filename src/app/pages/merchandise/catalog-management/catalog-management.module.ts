@@ -16,6 +16,7 @@ import { ProductsInfoComponent } from './catalog-details/add-products/products-i
 import { VendorsInfoComponent } from './catalog-details/approve-pending/vendors-info.component';
 import { CatalogManagementService, VendorsService } from 'app/services';
 import { AddCatalogComponent } from './add-catalog/add-catalog.component';
+import { ProgramMapComponent } from './catalog-details/program-map/program-map.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { AddCatalogComponent } from './add-catalog/add-catalog.component';
     BasicInfoComponent,
     ProductsInfoComponent,
     VendorsInfoComponent,
-    AddCatalogComponent
+    AddCatalogComponent,
+    ProgramMapComponent
   ],
   providers: [
     CatalogManagementService,

@@ -10,8 +10,12 @@
                 <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back to Catalog list</span>
         </h2>
     </div>
-    <div class="col-md-12" *ngIf="catalogInfo">
-        <div class="row">
+    <div class="col-md-12 pos_relative">
+        <div class="loader-container pos_absolute " *ngIf="bigLoader">
+            <img src="assets/img/ajax-loader.gif" alt="Loader Image">
+        </div>
+
+        <div class="row" *ngIf="catalogInfo">
             <div class="col-md-12 catalog-description">
                 <h5>Description</h5>
                 <div class="row">
@@ -40,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="catalogInfo">
             <div class="col-12 no_padding">
                 <div class="card-body pos_relative">
                     <div class="loader-container pos_absolute" *ngIf="false">
@@ -58,7 +62,7 @@
                                 <a class="nav-link " href="#mappedProductApprove" role="tab" data-toggle="tab">Approve Pending</a>
                             </li>
                             <!-- <li class="nav-item">
-                                <a class="nav-link " href="#mappedBank" role="tab" data-toggle="tab">Program</a>
+                                <a class="nav-link " href="#programMap" role="tab" data-toggle="tab">Program</a>
                             </li> -->
                         </ul>
                     </div>
@@ -75,38 +79,8 @@
                             <app-vendors-info [notifier]="notifier" (onStatusChange)="childStatusChanged($event)"></app-vendors-info>
                         </div>
 
-                        <div role="tabpanel" class="tab-pane fade in" id="mappedBank">
-                            <h4 *ngIf="programMappedList.length > 0">Mapped Programs</h4>
-                            <h4 *ngIf="programMappedList.length < 1">
-                                There are no mapped programs
-                            </h4>
-                            <div class="row">
-                                <div class="col-12">
-                                    <ul class="list-group">
-                                        <li *ngFor="let program of programMappedList" class="list-group-item">
-                                            Program Id: {{program.ProgramId}}
-                                            <span (click)="unMapProgram(program.ProgramId)">
-                                                <i class="fa fa-times"></i>
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="col-12" style="padding:15px;">
-                                    <button type="button" (click)="showMapprogram = !showMapprogram" class="btn btn-primary">Map New Program </button>
-                                </div>
-                                <div class="col-sm-12" *ngIf="showMapprogram"  style="padding:25px 15px;">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <select class="form-control" [(ngModel)]="curentSelectedProgram">
-                                                <option *ngFor="let program of programList" [ngValue]="program">{{program.ProgramName}}</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <button class="btn btn-primary" [class.disabled]="!curentSelectedProgram" (click)="mapProgram(curentSelectedProgram)" type="button">Map Program</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div role="tabpanel" class="tab-pane fade in" id="programMap">
+                            <app-program-map [notifier]="notifier" (onStatusChange)="childStatusChanged($event)"></app-program-map>
                         </div>
                     </div>
                 </div>
@@ -118,3 +92,5 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>

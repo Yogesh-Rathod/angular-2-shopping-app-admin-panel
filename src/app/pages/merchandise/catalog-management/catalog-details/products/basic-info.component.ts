@@ -1,17 +1,7 @@
 import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
-import {
-    CatalogManagementService,
-    MerchandiseService,
-    ProductsService,
-    VendorsService
-} from "app/services";
-import { Location } from "@angular/common";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { CatalogManagementService } from "app/services";
 import { ToastsManager } from "ng2-toastr";
 import { ActivatedRoute, Router } from "@angular/router";
-import * as _ from "lodash";
-declare let $: any;
 
 @Component({
     selector: 'app-basic-info',
@@ -28,16 +18,10 @@ export class BasicInfoComponent implements OnInit {
     allMapProducts: any = [];
 
     constructor(
-        private location: Location,
-        private modalService: NgbModal,
-        private fb: FormBuilder,
-        private merchandiseService: MerchandiseService,
         private toastr: ToastsManager,
         private route: ActivatedRoute,
         private router: Router,
-        private catalogManagementService: CatalogManagementService,
-        private productsService: ProductsService,
-        private vendorsService: VendorsService
+        private catalogManagementService: CatalogManagementService
     ) {
         this.route.params.subscribe(params => {
             this.catalogId = params["catalogId"];

@@ -11,12 +11,12 @@
             <table class="table table-bordered table-responsive" [mfData]="allMapProductsApprove" #mfListApprove="mfDataTable" [mfRowsOnPage]="10">
                 <thead class="black-muted-bg">
                     <tr>
-                        <th class="text-left">Sr. No.</th>
-                        <th class="text-left">Name</th>
-                        <th class="text-left">Retail Price</th>
-                        <th class="text-left">Retail Price Inclusive</th>
-                        <th class="text-left">Retail Shipping Price</th>
-                        <th class="text-left">Discount</th>
+                        <th class="text-left"><strong>Sr. No.</strong></th>
+                        <th class="text-left"><strong>Name</strong> </th>
+                        <th class="text-left"><strong>Retail Price</strong> </th>
+                        <th class="text-left"><strong>Retail Price Inclusive</strong></th>
+                        <th class="text-left"><strong>Retail Shipping Price</strong></th>
+                        <th class="text-left"><strong>Discount</strong></th>
                     </tr>
                 </thead>
                 <tbody *ngIf=" allMapProductsApprove && allMapProductsApprove.length > 0 ">
@@ -31,7 +31,7 @@
                 </tbody>
                 <tfoot *ngIf="allMapProductsApprove.length < 1 ">
                     <tr>
-                        <td class="text-center" colspan="6">No Product Found for Approve</td>
+                        <td class="text-center" colspan="6">No Products Found for Approval</td>
                     </tr>
                 </tfoot>
                 <tfoot *ngIf=" allMapProductsApprove && allMapProductsApprove.length > 10 ">

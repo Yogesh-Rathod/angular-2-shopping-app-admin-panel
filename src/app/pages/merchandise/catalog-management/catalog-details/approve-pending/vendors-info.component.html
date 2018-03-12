@@ -1,10 +1,10 @@
 <!-- <div role="tabpanel" *ngIf="catalogMapOpen" class="tab-pane fade in" id="mappedProductApprove"> -->
     <div class="row">
         <div class="col-sm-6">
-            <input placeholder="Reason" class="form-control" #commentDec type="text">
+            <input placeholder="Reason" class="form-control" [(ngModel)]="commentDesc" type="text">
         </div>
         <div class="col-sm-6">
-            <button (click)="approveProductMap(commentDec.value)" [disabled]="allMapProductsApprove.length < 1 || approveProductsLoader" type="button" class="btn btn-primary">Approve</button>
+            <button (click)="approveProductMap(commentDesc.value)" [disabled]="allMapProductsApprove.length < 1 || approveProductsLoader" type="button" class="btn btn-primary">Approve</button>
             <img *ngIf=" approveProductsLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
         </div>
         <div class="col-sm-12">

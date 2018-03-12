@@ -29,6 +29,7 @@ export class VendorsInfoComponent implements OnInit {
     catalogId: any;
     allMapProductsApprove: any = [];
     productsLoader = false;
+    commentDesc: any = '';
 
     constructor(
         private location: Location,
@@ -85,6 +86,7 @@ export class VendorsInfoComponent implements OnInit {
                     this.onStatusChange.emit(true);
                     this.allMapProductsApprove = [];
                     this.approveProductsLoader = false;
+                    this.commentDesc = '';
                 } else {
                     this.approveProductsLoader = false;
                     this.toastr.error(

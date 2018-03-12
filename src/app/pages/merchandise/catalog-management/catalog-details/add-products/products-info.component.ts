@@ -97,10 +97,6 @@ export class ProductsInfoComponent implements OnInit {
         this.productsService.getMasterProducts(_searchObj).then(res => {
             if (res.Success) {
                 this.allProducts = res.Data.Products ? res.Data.Products : [];
-                // this.allProductsFiltered = this.allProducts;
-                if (this.atLeastOnePresent && this.allProducts.length === 0 ) {
-                    this.atLeastOnePresent = false;
-                }
                 this.searchLoader = false;
             }
         });

@@ -25,19 +25,11 @@ export class BankDetailsComponent implements OnInit {
     curentSelectedProgram: any = null;
     showMapprogram:boolean =false;
     programMappedList: any = [{ ProgramName:"LVB Bank" }];
-    allMapProductsApprove: any = [];
     catalogInfo: any;
     for: any;
     catalogId: any;
     catalogMapOpen: boolean = false;
-    bankId = 12233;
-    bankInfo: any;
-    banks: any;
-    bigLoader: false;
-    allMapProducts: any = [];
-    searchProductForm: FormGroup;
-    approveProductsLoader = false;
-    productsLoader = false;
+    notifier = 1;
 
     constructor(
         private location: Location,
@@ -64,11 +56,9 @@ export class BankDetailsComponent implements OnInit {
 
         if (this.catalogId) {
             this.getCatalogDetails(this.catalogId, this.for);
-            this.getMapProductListByCatalog(this.catalogId);
             this.getAllMappedProgram(this.catalogId);
             if (this.for == "map") {
                 this.catalogMapOpen = true;
-                this.getMapProductForApproveFunc(this.catalogId);
             }
         }
         this.getAllProgram();
@@ -127,60 +117,13 @@ export class BankDetailsComponent implements OnInit {
             });
     }
 
-    //GET
-    getMapProductListByCatalog(_catalogId) {
-        this.productsLoader = true;
-        this.catalogManagementService
-            .getMapProductList(_catalogId)
-            .then(res => {
-                if (res.Code == 200) {
-                    this.allMapProducts = res.Data;
-                    this.productsLoader = false;
-                }
-            });
-    }
-
-    getMapProductForApproveFunc(_catalogId) {
-        this.catalogManagementService
-            .getMapProductForApprove(_catalogId)
-            .then(res => {
-                if (res.Code == 200) {
-                    this.allMapProductsApprove = res.Data?res.Data:[];
-                }
-            });
+    childStatusChanged(finished: boolean) {
+        console.log("finished ", finished);
+        ++this.notifier;
     }
 
     goBackFunc() {
         this.location.back();
-    }
-
-    //POST Approve Map
-    approveProductMap(_reason) {
-        this.approveProductsLoader = true;
-        var approveObj = {
-            Reason:_reason,
-            CatalogId: this.catalogId
-        }
-        this.catalogManagementService
-            .approveProductPostCatalog(approveObj)
-            .then(res => {
-                if (res.Success) {
-                    this.toastr.success(
-                        "Catalog product map approved.",
-                        "Sucess!"
-                    );
-                    this.allMapProductsApprove=[];
-                    this.getMapProductListByCatalog(this.catalogId);
-                    this.approveProductsLoader = false;
-                } else {
-                    this.approveProductsLoader = false;
-                    this.toastr.error(
-                        "Something went wrong.",
-                        "Error!",
-                        "Error!"
-                    );
-                }
-            });
     }
 
 }

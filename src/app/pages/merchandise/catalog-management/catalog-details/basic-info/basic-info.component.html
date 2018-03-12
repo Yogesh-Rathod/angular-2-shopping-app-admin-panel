@@ -1,63 +1,63 @@
-<div class="card" *ngIf="bankInfo">
-  <div class="card-body">
-
-    <div class="info-record row">
-      <div class="col-3 text-right bold">
-        Name
-        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Bank Name"></i>
-      </div>
-      <div class="col-9">
-        <span *ngIf="bankInfo.name">{{ bankInfo.name }}</span>
-      </div>
+<div class="row pos_relative">
+    <div class="loader-container pos_absolute" *ngIf="productsLoader">
+        <img src="assets/img/ajax-loader.gif" alt="Loader Image">
     </div>
-
-    <div class="info-record row">
-      <div class="col-3 text-right bold">
-        Creation Date
-        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Bank Bank Creation Date"></i>
-      </div>
-      <div class="col-9">
-        <span *ngIf="bankInfo.createdOn">
-          {{ bankInfo.createdOn }}
-        </span>
-      </div>
+    <div class="col-md-12">
+        <table class="table table-bordered table-responsive" [mfData]="allMapProducts" #mfMapProList="mfDataTable" [mfRowsOnPage]="10">
+            <thead class="black-muted-bg">
+                <tr>
+                    <th class="text-left">
+                        <mfDefaultSorter by="Name">
+                            <strong>Name</strong>
+                        </mfDefaultSorter>
+                    </th>
+                    <th class="text-left">
+                        <strong>Retail Price</strong>
+                    </th>
+                    <th class="text-left">
+                        <strong>Retail Shipping Price</strong>
+                    </th>
+                    <th class="text-left">
+                        <strong>Discount Type</strong>
+                    </th>
+                    <th class="text-left">
+                        <strong>Discount</strong>
+                    </th>
+                </tr>
+            </thead>
+            <tbody *ngIf=" allMapProducts && allMapProducts.length > 0 ">
+                <tr *ngFor=" let item of mfMapProList.data; let i = index ">
+                    <td class="text-left">
+                        {{ item.ProductName }}
+                    </td>
+                    <td>
+                        {{item.RetailPrice}}
+                    </td>
+                    <td>
+                        {{item.RetailShippingPrice}}
+                    </td>
+                    <td>
+                        {{item.DiscountType}}
+                    </td>
+                    <td>
+                        {{item.Discount}}
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="allMapProducts && allMapProducts.length < 1 ">
+                <tr>
+                    <td colspan="5" class="text-center">
+                        <strong>No Products Added</strong>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot *ngIf="allMapProducts && allMapProducts.length > 10 ">
+                <tr>
+                    <td colspan="5">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
-
-    <div class="info-record row">
-      <div class="col-3 text-right bold">
-        No. of vendors
-        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="No. of vendors"></i>
-      </div>
-      <div class="col-9">
-        <span *ngIf="bankInfo.vendorCount">
-          {{ bankInfo.vendorCount }}
-        </span>
-      </div>
-    </div>
-
-    <div class="info-record row">
-      <div class="col-3 text-right bold">
-        No. of products
-        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="No. of products"></i>
-      </div>
-      <div class="col-9">
-        <span *ngIf="bankInfo.productsCount">
-          {{ bankInfo.productsCount }}
-        </span>
-      </div>
-    </div>
-
-    <div class="info-record row">
-      <div class="col-3 text-right bold">
-        Total purchases
-        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Total purchases"></i>
-      </div>
-      <div class="col-9">
-        <span *ngIf="bankInfo.purchasesCount">
-          {{ bankInfo.purchasesCount }}
-        </span>
-      </div>
-    </div>
-
-  </div>
 </div>

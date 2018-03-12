@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-
+import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
 import {
     CatalogManagementService,
     MerchandiseService,
@@ -20,6 +19,9 @@ declare let $: any;
     styleUrls: ['./products-info.component.scss']
 })
 export class ProductsInfoComponent implements OnInit {
+
+    @Input() notifier;
+    @Output() onStatusChange = new EventEmitter<any>();
 
     catalogMapOpen = false;
     searchLoader = false;
@@ -148,6 +150,9 @@ export class ProductsInfoComponent implements OnInit {
         });
     }
 
+    ngOnChanges(changes) {
+    }
+
     mapProductWithCatalog() {
         this.saveChangesLoader = true;
         let productsToMap = JSON.stringify(this.allMapTempProducts);
@@ -159,6 +164,7 @@ export class ProductsInfoComponent implements OnInit {
                         "Product mapped successfully.",
                         "Sucess!"
                     );
+                    this.onStatusChange.emit(true);
                     // this.getMapProductForApproveFunc(this.catalogId);
                     this.allMapTempProducts = [];
                     this.saveChangesLoader = false;

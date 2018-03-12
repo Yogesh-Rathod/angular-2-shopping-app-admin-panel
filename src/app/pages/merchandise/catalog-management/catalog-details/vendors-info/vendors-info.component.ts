@@ -1,100 +1,99 @@
-import { Component, OnInit, Input } from '@angular/core';
-import * as _ from 'lodash';
+import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
+declare let $: any;
+
+import {
+    CatalogManagementService,
+    MerchandiseService,
+    ProductsService,
+    VendorsService
+} from "app/services";
+import { Location } from "@angular/common";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { ToastsManager } from "ng2-toastr";
+import { ActivatedRoute, Router } from "@angular/router";
+import * as _ from "lodash";
 
 @Component({
-  selector: 'app-vendors-info',
-  templateUrl: './vendors-info.component.html',
-  styleUrls: ['./vendors-info.component.scss']
+    selector: 'app-vendors-info',
+    templateUrl: './vendors-info.component.html',
+    styleUrls: ['./vendors-info.component.scss']
 })
 export class VendorsInfoComponent implements OnInit {
 
-  @Input() bankInfo: any;
-  showSelectedDelete = false;
-  selectAllCheckbox = false;
-  addNewVendor = false;
-  selectedvendors = [];
-  vendorsDropdownSettings = {
-    singleSelection: false,
-    text: "Select Vendors",
-    selectAllText: 'Select All',
-    unSelectAllText: 'UnSelect All',
-    enableSearchFilter: true
-  };
-  vendors = [
-    {
-      id: 'vendor 1',
-      itemName: 'vendor 1'
-    },
-    {
-      id: 'vendor 2',
-      itemName: 'vendor 2'
-    },
-    {
-      id: 'vendor 3',
-      itemName: 'vendor 3'
-    }
-  ];
+    @Input() notifier;
+    @Output() onStatusChange = new EventEmitter<any>();
 
-  constructor() { }
+    catalogMapOpen = false;
+    approveProductsLoader = false;
+    catalogId: any;
+    allMapProductsApprove: any = [];
+    productsLoader = false;
 
-  ngOnInit() {
-  }
-
-  selectAll(e) {
-    if (e.target.checked) {
-      this.selectAllCheckbox = true;
-      _.forEach(this.bankInfo.vendors, (item) => {
-        item.isChecked = true;
-      });
-      this.showSelectedDelete = true;
-    } else {
-      this.selectAllCheckbox = false;
-      _.forEach(this.bankInfo.vendors, (item) => {
-        item.isChecked = false;
-      });
-      this.showSelectedDelete = false;
-    }
-  }
-
-  checkBoxSelected(e, item) {
-    this.selectAllCheckbox = false;
-    if (e.target.checked) {
-      item.isChecked = true;
-    } else {
-      item.isChecked = false;
+    constructor(
+        private location: Location,
+        private modalService: NgbModal,
+        private fb: FormBuilder,
+        private merchandiseService: MerchandiseService,
+        private toastr: ToastsManager,
+        private route: ActivatedRoute,
+        private router: Router,
+        private catalogManagementService: CatalogManagementService,
+        private productsService: ProductsService,
+        private vendorsService: VendorsService
+    ) {
+        this.route.params.subscribe(params => {
+            this.catalogId = params["catalogId"];
+        });
     }
 
-    let isCheckedArray = [];
-
-    _.forEach(this.bankInfo.vendors, (item) => {
-      if (item.isChecked) {
-        this.showSelectedDelete = true;
-        isCheckedArray.push(item);
-      }
-    });
-
-    if (isCheckedArray.length === 0) {
-      this.showSelectedDelete = false;
-    }
-
-  }
-
-  deactivateAll() {
-    if (this.selectAllCheckbox) {
-      _.forEach(this.bankInfo.vendors, (item) => {
-        item.status = false;
-        item.isChecked = false;
-      });
-    } else {
-      _.forEach(this.bankInfo.vendors, (item) => {
-        if (item.isChecked) {
-          item.status = false;
-          item.isChecked = false;
+    ngOnInit() {
+        if (this.catalogId) {
+            this.getMapProductForApproveFunc(this.catalogId);
         }
-      });
     }
-    this.showSelectedDelete = false;
-    this.selectAllCheckbox = false;
-  }
+
+    ngOnChanges(changes) {
+        this.getMapProductForApproveFunc(this.catalogId);
+    }
+
+    getMapProductForApproveFunc(_catalogId) {
+        this.catalogManagementService
+            .getMapProductForApprove(_catalogId)
+            .then(res => {
+                if (res.Code == 200) {
+                    this.allMapProductsApprove = res.Data ? res.Data : [];
+                }
+            });
+    }
+
+    //POST Approve Map
+    approveProductMap(_reason) {
+        this.approveProductsLoader = true;
+        var approveObj = {
+            Reason: _reason,
+            CatalogId: this.catalogId
+        }
+        this.catalogManagementService
+            .approveProductPostCatalog(approveObj)
+            .then(res => {
+                if (res.Success) {
+                    this.toastr.success(
+                        "Catalog product map approved.",
+                        "Sucess!"
+                    );
+                    this.onStatusChange.emit(true);
+                    this.allMapProductsApprove = [];
+                    this.approveProductsLoader = false;
+                } else {
+                    this.approveProductsLoader = false;
+                    this.toastr.error(
+                        "Something went wrong.",
+                        "Error!",
+                        "Error!"
+                    );
+                }
+            });
+    }
 
 }

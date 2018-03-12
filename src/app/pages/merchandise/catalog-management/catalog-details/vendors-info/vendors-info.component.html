@@ -1,106 +1,48 @@
+<!-- <div role="tabpanel" *ngIf="catalogMapOpen" class="tab-pane fade in" id="mappedProductApprove"> -->
+    <div class="row">
+        <div class="col-sm-6">
+            <input placeholder="Reason" class="form-control" #commentDec type="text">
+        </div>
+        <div class="col-sm-6">
+            <button (click)="approveProductMap(commentDec.value)" [disabled]="allMapProductsApprove.length < 1 || approveProductsLoader" type="button" class="btn btn-primary">Approve</button>
+            <img *ngIf=" approveProductsLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+        </div>
+        <div class="col-sm-12">
+            <table class="table table-bordered table-responsive" [mfData]="allMapProductsApprove" #mfListApprove="mfDataTable" [mfRowsOnPage]="10">
+                <thead class="black-muted-bg">
+                    <tr>
+                        <th class="text-left">Sr. No.</th>
+                        <th class="text-left">Name</th>
+                        <th class="text-left">Retail Price</th>
+                        <th class="text-left">Retail Price Inclusive</th>
+                        <th class="text-left">Retail Shipping Price</th>
+                        <th class="text-left">Discount</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf=" allMapProductsApprove && allMapProductsApprove.length > 0 ">
+                    <tr *ngFor="let item of mfListApprove.data; let i = index ">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ item.ProductName }}</td>
+                        <td>{{ item.RetailPrice }}</td>
+                        <td>{{ item.RetailPriceInclusive }}</td>
+                        <td>{{ item.RetailShippingPrice }}</td>
+                        <td>{{ item.Discount }}</td>
+                    </tr>
+                </tbody>
+                <tfoot *ngIf="allMapProductsApprove.length < 1 ">
+                    <tr>
+                        <td class="text-center" colspan="6">No Product Found for Approve</td>
+                    </tr>
+                </tfoot>
+                <tfoot *ngIf=" allMapProductsApprove && allMapProductsApprove.length > 10 ">
+                    <tr>
+                        <td colspan="6">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
 
-<!-- <div class="card"> -->
-  <!-- <div class="card-body"> -->
-    <button class="btn btn-primary newVendorBtn" (click)="addNewVendor = !addNewVendor">
-      Add / Sync vendor
-      <i *ngIf="!addNewVendor" class="fa fa-plus-square" aria-hidden="true"></i>
-      <i *ngIf="addNewVendor" class="fa fa-minus-square" aria-hidden="true"></i>
-    </button>
-    <button class="btn btn-primary newVendorBtn">
-      <i class="fa fa-refresh" aria-hidden="true"></i>
-      Sync all vendors
-    </button>
-    <div class="row no_padding no_margin" *ngIf="addNewVendor">
-      <div class="col-4 no_padding">
-        <angular2-multiselect id="vendors" [data]="vendors" [(ngModel)]="selectedvendors" [settings]="vendorsDropdownSettings">
-        </angular2-multiselect>
-      </div>
-      <div class="col-4">
-        <button class="btn btn-info sync-button">
-          <i class="fa fa-refresh" aria-hidden="true"></i>
-           Sync Products
-        </button>
-      </div>
     </div>
-
-  <!-- </div> -->
 <!-- </div> -->
-
-<div class="card marginAbove" *ngIf="bankInfo">
-  <div class="card-body">
-    <h3>Filters</h3>
-    <form class="form-inline">
-      <label class="vendorName sr-only" for="vendorName">Vendor Name</label>
-      <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="vendorName" placeholder="Vendor Name">
-
-      <label class="vendorEmail sr-only" for="vendorEmail">Vendor Email</label>
-      <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="vendorEmail" placeholder="Vendor Email">
-
-      <button type="submit" class="btn btn-primary">
-        <i class="fa fa-search" aria-hidden="true"></i>
-        Search
-      </button>
-    </form>
-  </div>
-</div>
-
-<div class="card">
-  <div class="card-body">
-
-    <button class="btn btn-info float-right deleteSelectedButton" [ngClass]="{'disabled': !showSelectedDelete }" (click)="deactivateAll()">
-      Deactivate Selected
-    </button>
-
-
-    <table class="table table-bordered table-responsive" [mfData]="bankInfo.vendors" #mf="mfDataTable" [mfRowsOnPage]="10">
-      <thead class="black-muted-bg">
-        <tr>
-          <th class="text-center">
-            <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
-          </th>
-          <th class="text-left">
-            <strong>Name</strong>
-          </th>
-          <th>
-            <strong>Email</strong>
-          </th>
-          <th class="text-center">
-            <strong>Status</strong>
-          </th>
-        </tr>
-      </thead>
-      <tbody *ngIf=" bankInfo.vendors && bankInfo.vendors.length > 0 ">
-        <tr *ngFor=" let item of mf.data; let i = index;">
-          <td class="text-center">
-            <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
-          </td>
-          <td class="text-left">
-            {{ item.first_name }} {{ item.last_name }}
-          </td>
-          <td>{{ item.email }}</td>
-          <td class="text-center">
-            <i *ngIf=" item.status " class="fa fa-check" aria-hidden="true"></i>
-            <i *ngIf=" !item.status " class="fa fa-times" aria-hidden="true"></i>
-          </td>
-        </tr>
-      </tbody>
-
-      <tbody *ngIf=" bankInfo.vendors && bankInfo.vendors.length === 0 ">
-        <tr>
-          <td colspan="5">
-            <strong>There are no vendors!</strong>
-          </td>
-        </tr>
-      </tbody>
-
-      <tfoot *ngIf=" bankInfo.vendors && bankInfo.vendors.length > 10 ">
-        <tr>
-          <td colspan="5">
-            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
-
-</div>

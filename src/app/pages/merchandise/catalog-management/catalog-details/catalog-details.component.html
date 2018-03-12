@@ -64,123 +64,17 @@
                     </div>
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade in active" id="productList">
-                            <div class="row pos_relative">
-                                <div class="loader-container pos_absolute" *ngIf="productsLoader">
-                                    <img src="assets/img/ajax-loader.gif" alt="Loader Image">
-                                </div>
-                                <div class="col-md-12">
-                                    <table class="table table-bordered table-responsive" [mfData]="allMapProducts" #mfMapProList="mfDataTable" [mfRowsOnPage]="10">
-                                        <thead class="black-muted-bg">
-                                            <tr>
-                                                <th class="text-left">
-                                                    <mfDefaultSorter by="Name">
-                                                        <strong>Name</strong>
-                                                    </mfDefaultSorter>
-                                                </th>
-                                                <th class="text-left">
-                                                    <strong>Retail Price</strong>
-                                                </th>
-                                                <th class="text-left">
-                                                    <strong>Retail Shipping Price</strong>
-                                                </th>
-                                                <th class="text-left">
-                                                    <strong>Discount Type</strong>
-                                                </th>
-                                                <th class="text-left">
-                                                    <strong>Discount</strong>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody *ngIf=" allMapProducts && allMapProducts.length > 0 ">
-                                            <tr *ngFor=" let item of mfMapProList.data; let i = index ">
-                                                <td class="text-left">
-                                                    {{ item.ProductName }}
-                                                </td>
-                                                <td>
-                                                    {{item.RetailPrice}}
-                                                </td>
-                                                <td>
-                                                    {{item.RetailShippingPrice}}
-                                                </td>
-                                                <td>
-                                                    {{item.DiscountType}}
-                                                </td>
-                                                <td>
-                                                    {{item.Discount}}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        <tbody *ngIf="allMapProducts && allMapProducts.length < 1 ">
-                                            <tr>
-                                                <td colspan="5" class="text-center">
-                                                    <strong>No Products Added</strong>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot *ngIf="allMapProducts && allMapProducts.length > 10 ">
-                                            <tr>
-                                                <td colspan="5">
-                                                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-                                                </td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
+                            <app-basic-info [notifier]="notifier" (onStatusChange)="childStatusChanged($event)"></app-basic-info>
                         </div>
 
                         <div role="tabpanel" *ngIf="catalogMapOpen" class="tab-pane fade in" id="mappedProduct">
-                            <app-products-info></app-products-info>
+                            <app-products-info [notifier]="notifier" (onStatusChange)="childStatusChanged($event)"></app-products-info>
                         </div>
 
                         <div role="tabpanel" *ngIf="catalogMapOpen" class="tab-pane fade in" id="mappedProductApprove">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <input placeholder="Reason" class="form-control" #commentDec type="text">
-                                </div>
-                                <div class="col-sm-6">
-                                    <button (click)="approveProductMap(commentDec.value)" [disabled]="allMapProductsApprove.length < 1" type="button" class="btn btn-primary">Approve</button>
-                                    <img *ngIf=" approveProductsLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-                                </div>
-                                <div class="col-sm-12">
-                                    <table class="table table-bordered table-responsive" [mfData]="allMapProductsApprove" #mfListApprove="mfDataTable" [mfRowsOnPage]="10">
-                                        <thead class="black-muted-bg">
-                                            <tr>
-                                                <th class="text-left">Sr. No.</th>
-                                                <th class="text-left">Name</th>
-                                                <th class="text-left">Retail Price</th>
-                                                <th class="text-left">Retail Price Inclusive</th>
-                                                <th class="text-left">Retail Shipping Price</th>
-                                                <th class="text-left">Discount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody *ngIf=" allMapProductsApprove && allMapProductsApprove.length > 0 ">
-                                            <tr *ngFor="let item of mfListApprove.data; let i = index ">
-                                                <td>{{ i+1 }}</td>
-                                                <td>{{ item.ProductName }}</td>
-                                                <td>{{ item.RetailPrice }}</td>
-                                                <td>{{ item.RetailPriceInclusive }}</td>
-                                                <td>{{ item.RetailShippingPrice }}</td>
-                                                <td>{{ item.Discount }}</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot *ngIf="allMapProductsApprove.length < 1 ">
-                                            <tr>
-                                                <td class="text-center" colspan="6">No Product Found for Approve</td>
-                                            </tr>
-                                        </tfoot>
-                                        <tfoot *ngIf=" allMapProductsApprove && allMapProductsApprove.length > 10 ">
-                                            <tr>
-                                                <td colspan="6">
-                                                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-                                                </td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-
-                            </div>
+                            <app-vendors-info [notifier]="notifier" (onStatusChange)="childStatusChanged($event)"></app-vendors-info>
                         </div>
+
                         <div role="tabpanel" class="tab-pane fade in" id="mappedBank">
                             <h4 *ngIf="programMappedList.length > 0">Mapped Programs</h4>
                             <h4 *ngIf="programMappedList.length < 1">

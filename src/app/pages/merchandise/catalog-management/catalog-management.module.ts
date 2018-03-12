@@ -11,9 +11,9 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
 import { routing } from './catalog-management.routes';
 import { CatalogManagementComponent } from './catalog-management.component';
 import { BankDetailsComponent } from './catalog-details/catalog-details.component';
-import { BasicInfoComponent } from "./catalog-details/basic-info/basic-info.component";
-import { ProductsInfoComponent } from './catalog-details/products-info/products-info.component';
-import { VendorsInfoComponent } from './catalog-details/vendors-info/vendors-info.component';
+import { BasicInfoComponent } from "./catalog-details/products/basic-info.component";
+import { ProductsInfoComponent } from './catalog-details/add-products/products-info.component';
+import { VendorsInfoComponent } from './catalog-details/approve-pending/vendors-info.component';
 import { CatalogManagementService, VendorsService } from 'app/services';
 import { AddCatalogComponent } from './add-catalog/add-catalog.component';
 

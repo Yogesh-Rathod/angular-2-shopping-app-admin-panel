@@ -6,7 +6,11 @@
 	}
 
 	.btn {
-		margin-left: 20px;
+        margin-left: 20px;
+
+        @media (max-width: 767px) {
+            margin-left: 0;
+        }
 
 		&.btn-danger {
 			margin-top: -6px;

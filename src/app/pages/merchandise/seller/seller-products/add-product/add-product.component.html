@@ -34,9 +34,9 @@
 
       <!-- Tab panes -->
       <div class="tab-content col-12">
-        <div role="tabpanel" class="tab-pane fade in active" id="Productinfo">
+        <div role="tabpanel" class="row tab-pane fade in active" id="Productinfo">
 
-          <div class="col-7 no_left_padding">
+          <div class="col-md-7 no_left_padding">
             <div class="card fadeIn animated">
               <div class="card-header" data-toggle="collapse" href="#collapseExample" aria-expanded="true" aria-controls="collapseExample">
                 <h3 class="card-title">
@@ -186,7 +186,7 @@
             </div>
           </div>
 
-          <div class="col-5 no_left_padding no_right_padding">
+          <div class="col-md-5 no_left_padding no_right_padding">
             <div class="card fadeIn animated">
               <div class="card-header" data-toggle="collapse" href="#mappings" aria-expanded="true" aria-controls="mappings">
                 <h3 class="card-title">
@@ -198,10 +198,10 @@
               </div>
               <div class="card-body collapse show" id="mappings">
                 <div class="form-group row">
-                  <label for="Categories" class="col-md-4 text-right">Type
+                  <label for="Categories" class="col-4 text-right">Type
                     <span class="mandatory">*</span>
                   </label>
-                  <select class="form-control selectpicker col-md-8" [disabled]="true">
+                  <select class="form-control selectpicker col-8" [disabled]="true">
                     <option value="Merchandise">Merchandise</option>
                     <option value="Gift Card">Gift Card</option>
                   </select>
@@ -326,7 +326,7 @@
       </div>
 
       <div class="form-group row col-12">
-        <label class="col-3 text-right"></label>
+        <label class="col-3 text-right hidden-sm-down"></label>
         <input type="submit" class="btn btn-primary" value="Save in Draft" [disabled]=" !addProductForm.valid || showLoader">
         <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
         <input type="button" class="btn btn-success" value="Send for approval" (click)="addProduct(addProductForm.value, true)" [disabled]=" !addProductForm.valid || showLoader ">

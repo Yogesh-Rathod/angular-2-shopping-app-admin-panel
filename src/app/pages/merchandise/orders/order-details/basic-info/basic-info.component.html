@@ -117,7 +117,7 @@
                 <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The customer email who placed this order."></i>
             </div>
             <div class="col-9">
-                <span *ngIf="orderInfo.ContactDetails">
+                <span *ngIf="orderInfo.ContactDetails" class="no-text-transform">
                     {{ orderInfo.ContactDetails.Email }}
                 </span>
             </div>
@@ -142,7 +142,7 @@
                 <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The customer's address who placed this order."></i>
             </div>
             <div class="col-9">
-                <span *ngIf="orderInfo.ShippingDetails">
+                <span *ngIf="orderInfo.ShippingDetails" class="no-text-transform">
                     {{ orderInfo.ShippingDetails.Address1 }}
                     {{ orderInfo.ShippingDetails.Address2 }},
                     {{ orderInfo.ShippingDetails.City }},

@@ -4,6 +4,14 @@
     margin: auto;
     border: 1px solid #9a8888;
     border-radius: 5px;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+    @media (max-width: 767px) {
+        width: 100%;
+    }
+
 }
 
 .card-body {

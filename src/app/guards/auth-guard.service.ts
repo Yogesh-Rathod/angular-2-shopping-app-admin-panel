@@ -9,60 +9,62 @@ import { Location } from '@angular/common';
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
 
-  isToasterPresent = false;
+    isToasterPresent = false;
 
-  constructor(
-    private _cookieService: CookieService,
-    private router: Router,
-    private route: ActivatedRoute,
-    public toastr: ToastsManager,
-    private _location: Location
-  ) { }
+    constructor(
+        private _cookieService: CookieService,
+        private router: Router,
+        private route: ActivatedRoute,
+        public toastr: ToastsManager,
+        private _location: Location
+    ) { }
 
-  canActivate() {
-    let userInfo = this._cookieService.get('MERCHANDISE.userData');
-    if (userInfo) {
-      this.router.navigate(['/']);
-    }
-    return true;
-  }
-
-  canActivateChild(route: ActivatedRouteSnapshot) {
-    let userInfo = this._cookieService.get('MERCHANDISE.userData');
-    let userAuthorization: any = this._cookieService.get('MenuListAllowed');
-    if (userAuthorization) {
-      userAuthorization = userAuthorization.split(',');
-    }
-    const hasAuthority = _.includes(userAuthorization, route.data.MenuCode);
-    if (userInfo && !hasAuthority) {
-      if (route.data.MenuCode !== 'HOM') {
-        if (!this.isToasterPresent) {
-          this.toastr.error("You don't have authority to access this page!", 'Sorry!');
-          this.isToasterPresent = true;
-          setTimeout(() => {
-            this.isToasterPresent = false;
-          }, 1000);
+    canActivate() {
+        let userInfo = this._cookieService.get('MERCHANDISE.userData');
+        if (userInfo) {
+            this.router.navigate(['/']);
         }
-        this.goBackHome();
-      }
+        return true;
     }
 
-    if (!userInfo) {
-        if (!this.isToasterPresent) {
-        this.toastr.error('Something went wrong! You need to Login!', 'Error!');
-        this.isToasterPresent = true;
-      }
-      setTimeout(() => {
-        this.router.navigate(['/login']);
-      }, 1000);
-    }
-    return true;
-  }
+    canActivateChild(route: ActivatedRouteSnapshot) {
+        let userInfo = this._cookieService.get('MERCHANDISE.userData');
+        let userAuthorization: any = this._cookieService.get('MenuListAllowed');
+        if (userAuthorization) {
+            userAuthorization = userAuthorization.split(',');
+        }
+        const hasAuthority = _.includes(userAuthorization, route.data.MenuCode);
+        if (userInfo && !hasAuthority) {
+            if (route.data.MenuCode !== 'HOM') {
+                if (!this.isToasterPresent) {
+                    this.toastr.error("You don't have authority to access this page!", 'Sorry!');
+                    this.isToasterPresent = true;
+                    setTimeout(() => {
+                        this.isToasterPresent = false;
+                    }, 1000);
+                }
+                this.goBackHome();
+            }
+        }
 
-  goBackHome() {
-    this.router.navigate(['/home']);
-    return;
-  }
+        if (!userInfo) {
+            if (window.location.pathname != '/') {
+                if (!this.isToasterPresent) {
+                    this.toastr.error('Something went wrong! You need to Login!', 'Error!');
+                    this.isToasterPresent = true;
+                }
+            }
+            setTimeout(() => {
+                this.router.navigate(['/login']);
+            }, 500);
+        }
+        return true;
+    }
+
+    goBackHome() {
+        this.router.navigate(['/home']);
+        return;
+    }
 
 
 }

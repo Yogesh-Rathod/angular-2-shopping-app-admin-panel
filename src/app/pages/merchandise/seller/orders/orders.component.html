@@ -15,7 +15,7 @@
             <div class="card-body no_top_padding">
                 <form class="row order-search-form" [formGroup]="searchProductForm" (ngSubmit)=" searchProduct(searchProductForm.value) ">
 
-                    <div class="form-group col-3">
+                    <div class="form-group col-6 col-lg-3">
                         <label for="poNumber" class="text-right">
                             PO Number
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by PO Number."></i>
@@ -23,7 +23,7 @@
                         <input type="text" id="poNumber" class="form-control" formControlName="e.purchaseOrderNumber">
                     </div>
 
-                    <div class="form-group col-3" *ngIf="programName">
+                    <div class="form-group col-6 col-lg-3" *ngIf="programName">
                         <label for="programName" class="text-right">
                             Program Name
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A program name."></i>
@@ -32,7 +32,7 @@
                         </angular2-multiselect>
                     </div>
 
-                    <div class="form-group col-3">
+                    <div class="form-group col-6 col-lg-3">
                         <label for="startDate" class="text-right">
                             Start Date
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select Start Date for search."></i>
@@ -41,7 +41,7 @@
                         </my-date-picker>
                     </div>
 
-                    <div class="form-group col-3">
+                    <div class="form-group col-6 col-lg-3">
                         <label for="endDate" class="text-right">
                             End Date
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select End Date for search."></i>
@@ -50,7 +50,7 @@
                         </my-date-picker>
                     </div>
 
-                    <!-- <div class="form-group col-3">
+                    <!-- <div class="form-group col-6 col-lg-3">
                         <div class="rtoCheck">
                             <input type="checkbox" id="rtoCheck" formControlName="rtoCheck">
                             <label for="rtoCheck" class="text-right">
@@ -60,7 +60,7 @@
                         </div>
                     </div> -->
 
-                    <div class="form-group col-3">
+                    <div class="form-group col-6 col-lg-3">
                         <label for="status" class="text-right">
                             Status
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by status"></i>
@@ -92,13 +92,13 @@
         <div class="spacer col-12"></div>
 
         <div class="filters card col-12">
-            <div class="card-body pos_relative no_left_padding no_right_padding">
+            <div class="table-responsive card-body pos_relative no_left_padding no_right_padding">
 
                 <div class="loader-container pos_absolute" *ngIf="bigLoader">
                     <img src="assets/img/ajax-loader.gif" alt="Loader Image">
                 </div>
 
-                <div class="tabs-section">
+                <div class="row no_margin tabs-section">
                     <!-- Tabs Top UI -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
@@ -122,7 +122,7 @@
                     </ul>
                 </div>
 
-                <div class="tab-content col-12 no_left_padding no_right_padding" *ngIf="orders && orders.length > 0">
+                <div class="tab-content no_left_padding no_right_padding" *ngIf="orders && orders.length > 0">
                     <div [class.active]="status === 'FRESH'" role="tabpanel" class="tab-pane fade in" id="Fresh">
                         <app-fresh  [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-fresh>
                     </div>

@@ -286,7 +286,6 @@ export class OrdersComponent implements OnInit {
         searchOrdersForm = JSON.stringify(searchOrdersForm);
         searchOrdersForm = searchOrdersForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
 
-        console.log("searchOrdersForm ", searchOrdersForm);
         this.ordersService.getOrdersByPONumber(null, searchOrdersForm).
             then((orders) => {
                 if (orders.Data) {

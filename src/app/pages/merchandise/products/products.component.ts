@@ -240,21 +240,17 @@ export class ProductsComponent implements OnInit {
     }
 
     exportProducts() {
-        // if (!this.selectAllCheckboxMessage.clearSelection) {
-            let products = [];
-            if (this.selectAllCheckbox) {
-                products = this.products;
-            } else {
-                _.forEach(this.products, (item) => {
-                    if (item.isChecked) {
-                        products.push(item);
-                    }
-                });
-            }
-            this.jsonToExcelService.exportAsExcelFile(products, 'products');
-        // } else {
-        //     console.log("ELSE this.products ", this.products);
-        // }
+        let products = [];
+        if (this.selectAllCheckbox) {
+            products = this.products;
+        } else {
+            _.forEach(this.products, (item) => {
+                if (item.isChecked) {
+                    products.push(item);
+                }
+            });
+        }
+        this.jsonToExcelService.exportAsExcelFile(products, 'products');
     }
 
     bulkUpload() {

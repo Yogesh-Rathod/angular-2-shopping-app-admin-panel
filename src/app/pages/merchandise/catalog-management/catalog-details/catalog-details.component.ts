@@ -60,7 +60,6 @@ export class BankDetailsComponent implements OnInit {
     }
 
     childStatusChanged(finished: boolean) {
-        console.log("finished ", finished);
         ++this.notifier;
     }
 

@@ -137,7 +137,6 @@ export class OrdersComponent implements OnInit {
                     item.itemName = item.Company;
                     return item;
                 });
-                console.log("this.vendorsList ", this.vendorsList);
             }).catch((error) => {
             })
     }

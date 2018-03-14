@@ -212,9 +212,6 @@ export class SellerProductsComponent implements OnInit {
             });
             this.recordsToSkip = this.p > 1 ? ((this.p -1) * this.showRecords) + 1 : 1;
             this.recordsDisplayed = this.p * this.showRecords;
-            console.log("this.showRecords ", this.showRecords);
-            console.log("this.p ", this.p);
-            console.log("this.recordsToSkip ", this.recordsToSkip);
     }
 
     exportProducts() {

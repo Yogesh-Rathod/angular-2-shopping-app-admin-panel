@@ -21,6 +21,6 @@ export class AuthenticationService {
           this._spinner.hide();
         });
       })
-      .catch(reason => console.log(reason));
+      .catch(reason => '');
   }
 }

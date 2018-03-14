@@ -84,7 +84,6 @@ export class MovieManagementComponent implements OnInit {
         this.bigLoader = true;
         this.movieManagementService.getMovies(searchTerm, 1, this.showRecords).
             then((moviesInfo) => {
-                // console.log("moviesInfo ", moviesInfo);
                 this.movies = moviesInfo.Data ? moviesInfo.Data.Records : [];
                 this.totalRecords = moviesInfo.Data ? moviesInfo.Data.TotalRecords : 1;
                 this.filteredMovies = this.movies;

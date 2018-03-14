@@ -20,6 +20,8 @@ export class SellerProductsComponent implements OnInit {
     p: number = 1;
     totalRecords: any = 1;
     showRecords: any = 25;
+    recordsDisplayed: any = 25;
+    recordsToSkip: any = 1;
     isCheckedArray = [];
     searchProductForm: FormGroup;
     bigLoader = true;
@@ -128,6 +130,9 @@ export class SellerProductsComponent implements OnInit {
 
     showEntries(value, searchProductForm) {
         this.showRecords = value;
+        this.p = 1;
+        this.recordsToSkip = 1;
+        this.recordsDisplayed = this.showRecords;
         if (this.atLeastOneFieldRequires(searchProductForm, true)) {
             this.searchProduct(searchProductForm);
         } else {
@@ -157,6 +162,8 @@ export class SellerProductsComponent implements OnInit {
     searchProduct(searchProductForm) {
         this.atLeastOneFieldRequires(searchProductForm);
         this.p = 1;
+        this.recordsToSkip = 1;
+        this.recordsDisplayed = this.showRecords;
         if (!this.atLeastOnePresent) {
             this.products = [];
             this.searchLoader = true;
@@ -203,6 +210,11 @@ export class SellerProductsComponent implements OnInit {
                 this.toastr.error('Could not get products', 'Error');
                 this.bigLoader = false;
             });
+            this.recordsToSkip = this.p > 1 ? ((this.p -1) * this.showRecords) + 1 : 1;
+            this.recordsDisplayed = this.p * this.showRecords;
+            console.log("this.showRecords ", this.showRecords);
+            console.log("this.p ", this.p);
+            console.log("this.recordsToSkip ", this.recordsToSkip);
     }
 
     exportProducts() {

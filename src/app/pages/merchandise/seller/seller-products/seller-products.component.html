@@ -5,9 +5,9 @@
             <h2 class="card-title ">
                 <span class="hidden-sm-down">Manage Products</span>
                 <button class="btn btn-primary float-right" (click)=" bulkUpload() ">
-					<i class="fa fa-download" aria-hidden="true"></i>
-					Bulk Import
-				</button>
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    Bulk Import
+                </button>
                 <button class="btn btn-primary float-right" [routerLink]="['/seller/add-seller-product']">
                     <i class="fa fa-plus-square" aria-hidden="true"></i>
                     Add New Product
@@ -135,7 +135,8 @@
                         <thead class="black-muted-bg">
                             <tr>
                                 <th class="text-center">
-                                    <input [class.disabled]="products && products.length === 0" type="checkbox" *ngIf="products && products.length > 0 " [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+                                    <input [class.disabled]="products && products.length === 0" type="checkbox" *ngIf="products && products.length > 0 " [ngModel]='selectAllCheckbox'
+                                        (change)="selectAll($event)">
                                 </th>
                                 <!-- <th class="text-left">
                                     <strong>Product Image</strong>
@@ -169,8 +170,8 @@
                         <tbody *ngIf=" products && products.length > 0 ">
                             <tr *ngFor=" let item of mf.data | paginate: { itemsPerPage: showRecords, currentPage: p, totalItems: totalRecords }; let i = index; ">
                                 <td class="text-center">
-                                    <input *ngIf="item.Status !=='Pending' && item.Status!=='Approved' && item.Status!=='Rejected'" [ngModel]="item.isChecked" type="checkbox"
-                                        (change)="checkBoxSelected($event, item)">
+                                    <input *ngIf="item.Status !=='Pending' && item.Status!=='Approved' && item.Status!=='Rejected'" [ngModel]="item.isChecked"
+                                        type="checkbox" (change)="checkBoxSelected($event, item)">
                                 </td>
 
                                 <!-- <td class="text-left">
@@ -192,7 +193,8 @@
                                     {{ item.Status }}
                                 </td>
                                 <td class="action">
-                                    <button class="btn btn-secondary" *ngIf="item.Status == 'Draft'" [routerLink]="['/seller/edit-seller-product', item.Id]" title="Edit">
+                                    <button class="btn btn-secondary" *ngIf="item.Status == 'Draft'" [routerLink]="['/seller/edit-seller-product', item.Id]"
+                                        title="Edit">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </button>
                                     <span *ngIf="item.Status!=='Draft'">---</span>
@@ -202,11 +204,33 @@
                                     <!-- <img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35"> -->
                                 </td>
                             </tr>
+                            <!-- <tr *ngIf=" products && products.length > 0 ">
+                                <td colspan="6">
+                                    showing
+                                    <span class="bold">
+                                        {{ recordsToSkip }}
+                                    </span>
+                                    -
+                                    <span class="bold" *ngIf="recordsDisplayed <= totalRecords; else elseBlock">
+                                         {{ recordsDisplayed }}
+                                    </span>
+                                    <ng-template #elseBlock>
+                                        <span class="bold">
+                                             {{ totalRecords }}
+                                        </span>
+                                    </ng-template>
+                                    of
+                                    <span class="bold">
+                                         {{ totalRecords }}
+                                    </span>
+                                    records
+                                </td>
+                            </tr> -->
                         </tbody>
 
                         <tbody *ngIf=" !products || products.length === 0 ">
                             <tr>
-                                <td colspan="9">
+                                <td colspan="6">
                                     <strong>There are no products!</strong>
                                 </td>
                             </tr>
@@ -216,7 +240,6 @@
                             <tr>
                                 <td colspan="9">
                                     <pagination-controls class="my-pagination" (pageChange)="pageChanged($event)"></pagination-controls>
-                                    <!-- <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator> -->
                                 </td>
                             </tr>
                         </tfoot>

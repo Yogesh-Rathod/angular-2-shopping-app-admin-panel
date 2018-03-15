@@ -105,9 +105,11 @@ export class ReportsComponent implements OnInit {
             `).toISOString();
         }
 
-        searchOrdersForm['SellerId'] = searchOrdersForm['SellerId'].map((item) => {
-            return item.SellerId;
-        });
+        if (typeof searchOrdersForm['SellerId'][0] === 'object') {
+            searchOrdersForm['SellerId'] = searchOrdersForm['SellerId'].map((item) => {
+                return item.SellerId;
+            });
+        }
         this.ordersService.getReports(searchOrdersForm).
             then((orders) => {
                 if (orders.Code == 200) {

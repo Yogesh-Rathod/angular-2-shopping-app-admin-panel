@@ -52,16 +52,7 @@ const menus = [
                         pathMatch: 'partial'
                     }
                 }
-            },
-            // {
-            //     path: 'returns',
-            //     data: {
-            //         menu: {
-            //             title: 'Returns',
-            //             pathMatch: 'partial'
-            //         }
-            //     }
-            // }
+            }
         ]
     },
     {
@@ -146,15 +137,6 @@ const menus = [
                     }
                 }
             },
-            // {
-            //     path: 'rto',
-            //     data: {
-            //         menu: {
-            //             title: 'RTO',
-            //             pathMatch: 'partial'
-            //         }
-            //     }
-            // },
             {
                 path: 'reports',
                 data: {
@@ -164,15 +146,6 @@ const menus = [
                     }
                 }
             },
-            // {
-            //     path: 'order-reports',
-            //     data: {
-            //         menu: {
-            //             title: 'Order Reports',
-            //             pathMatch: 'partial'
-            //         }
-            //     }
-            // }
         ]
     },
     {

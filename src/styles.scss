@@ -1,5 +1,6 @@
 @import 'assets/css/ng2-toaster.css';
 @import 'assets/css/angular2-datatable.scss';
+
 * {
     box-sizing: border-box !important;
     text-transform: capitalize;
@@ -134,42 +135,49 @@ i.fa {
     bottom: 0;
     z-index: 1;
     text-align: center;
+
     img {
         margin: 10px auto;
         display: block; // transform: rotateX(180deg);
     }
-    &+.card-body {
+
+    & + .card-body {
         min-height: 100px;
     }
 }
 
 // Tabs UI
 .tabs-section {
+
     .nav-tabs {
         background: transparent !important;
         border-bottom: 1px solid #ddd !important;
+
         a {
             color: #464a4c !important;
         }
+
         .nav-link {
             border-top: 3px solid transparent;
             border-top-left-radius: 0 !important;
             padding: 12px 15px;
             font-size: 15px;
+
             &:hover {
                 border-top: 3px solid transparent;
             }
+
             &.active {
                 border-top-color: #3c8dbc;
-                border-right: 1px solid #ddd!important;
-                border-left: 1px solid #ddd!important;
+                border-right: 1px solid #ddd !important;
+                border-left: 1px solid #ddd !important;
             }
         }
     }
 }
 
-.tab-content>.active,
-.pill-content>.active {
+.tab-content > .active,
+.pill-content > .active {
     display: flex;
 }
 
@@ -213,6 +221,7 @@ fieldset[disabled] {
 
 // Ngx Pagination
 .my-pagination /deep/ {
+
     .ngx-pagination {
         border-radius: .25rem;
         display: flex;
@@ -249,6 +258,7 @@ fieldset[disabled] {
             span {
                 display: inline-block;
                 padding: .5rem .75rem;
+
                 span {
                     display: inline-block;
                     padding: 0;
@@ -258,9 +268,11 @@ fieldset[disabled] {
             a {
                 padding: .5rem .75rem;
                 color: #666;
+
                 span {
                     padding: 0;
                 }
+
                 &:hover {
                     color: #666;
                     background-color: transparent;
@@ -277,12 +289,8 @@ fieldset[disabled] {
                 pointer-events: none;
             }
         }
-
-
-
     }
 }
-
 
 // Media Queries
 @media (min-width: 576px) {

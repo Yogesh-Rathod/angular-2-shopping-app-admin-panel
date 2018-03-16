@@ -118,6 +118,9 @@
                         </select>
                         <label>Records</label>
                     </form>
+                    <p class="error float-right no-text-transform" *ngIf="errorMessage.status">
+                        {{ errorMessage.message }}
+                    </p>
                 </div>
 
                 <button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 || productSelected }"
@@ -125,9 +128,16 @@
                     <i class="fa fa-download" aria-hidden="true"></i>
                     Export Products
                 </button>
-                <img *ngIf="approveLoader" class="pull-right" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-                <button class="btn btn-primary pull-right" title="Select products and approve them." [disabled]="productSelected" (click)="approve()">
+                <button class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="top" title="Select products and send for approval (Only Draft Products)."
+                    [disabled]="productSelected || approveLoader" (click)="sendForApproval()">
                     Send for approval
+                </button>
+                <img *ngIf="approveLoader" class="pull-right" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+                <button data-toggle="tooltip" data-placement="top" class="btn btn-primary pull-right" title="Mark out of stock (Only approved products)" [disabled]="productSelected || approveLoader" (click)="toggleOutOfStock(1)">
+                    Mark out of stock
+                </button>
+                <button data-toggle="tooltip" data-placement="top" class="btn btn-primary pull-right" title="Mark out of stock (Only approved products)" [disabled]="productSelected || approveLoader" (click)="toggleOutOfStock(0)">
+                    Mark in stock
                 </button>
 
                 <div class="table-container table-responsive">
@@ -170,8 +180,8 @@
                         <tbody *ngIf=" products && products.length > 0 ">
                             <tr *ngFor=" let item of mf.data | paginate: { itemsPerPage: showRecords, currentPage: p, totalItems: totalRecords }; let i = index; ">
                                 <td class="text-center">
-                                    <input *ngIf="item.Status !=='Pending' && item.Status!=='Approved' && item.Status!=='Rejected'" [ngModel]="item.isChecked"
-                                        type="checkbox" (change)="checkBoxSelected($event, item)">
+                                    <!-- *ngIf="item.Status !=='Pending' && item.Status!=='Approved' && item.Status!=='Rejected'" -->
+                                    <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
                                 </td>
 
                                 <!-- <td class="text-left">
@@ -189,8 +199,11 @@
 									'approved': item.Status == 'Approved',
 									'pending': item.Status == 'Pending',
 									'rejected': item.Status == 'Rejected'
-								}">
-                                    {{ item.Status }}
+                                }">
+                                    <span *ngIf="item.Status ==='Pending'; else elseBlock">Pending for approval</span>
+                                    <ng-template #elseBlock>
+                                        {{ item.Status }}
+                                    </ng-template>
                                 </td>
                                 <td class="action">
                                     <button class="btn btn-secondary" *ngIf="item.Status == 'Draft'" [routerLink]="['/seller/edit-seller-product', item.Id]"

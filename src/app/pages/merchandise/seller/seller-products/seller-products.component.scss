@@ -121,6 +121,14 @@ button.searchButton {
 	}
 }
 
+.tableLoader {
+    button {
+        & + button {
+            margin-left: 15px;
+        }
+    }
+}
+
 .table-container {
     padding-bottom: 15px;
     min-height: 150px;

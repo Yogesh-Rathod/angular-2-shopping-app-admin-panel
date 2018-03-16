@@ -95,6 +95,22 @@ export class ProductsService {
             .catch(err => this.responseHandler.handleError(err));
     }
 
+    toggleProductsOutofStock(products, status) {
+        const url = `${
+            environment.merchandiseUrl
+            }Merchandise/Seller/Products/OutOfStock/${status}`;
+        this.headers.set(
+            "Authorization",
+            this.commonAppSer.crateAuthorization()
+        );
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, products));
+        return this.http
+            .post(url, JSON.stringify(products), this.options)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch(err => this.responseHandler.handleError(err));
+    }
+
     addProduct(product) {
         const url = `${environment.merchandiseUrl}Merchandise/Seller/Products`;
         this.headers.set(

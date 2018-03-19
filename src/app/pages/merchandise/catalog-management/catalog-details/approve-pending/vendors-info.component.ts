@@ -57,9 +57,10 @@ export class VendorsInfoComponent implements OnInit {
     approveProductMap(_reason) {
         this.approveProductsLoader = true;
         var approveObj = {
+            Id: this.catalogId,
             Reason: _reason,
-            CatalogId: this.catalogId
-        }
+            IsApproved: true
+        };
         this.catalogManagementService
             .approveProductPostCatalog(approveObj)
             .then(res => {

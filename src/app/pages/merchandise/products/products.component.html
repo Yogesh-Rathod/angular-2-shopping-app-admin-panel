@@ -197,6 +197,9 @@
                                 <th>
                                     <strong>Product Status</strong>
                                 </th>
+                                <th>
+                                    <strong>Stock</strong>
+                                </th>
                                 <th class="action" *ngIf="userRole!='Admin'">
                                     <strong>Action</strong>
                                 </th>
@@ -224,15 +227,14 @@
                                         {{ item.Status }}
                                     </ng-template>
                                 </td>
-                                <!-- <td class="text-center order-status">
-									<span [ngClass]="{
-										'approved': item.Status == 'Draft',
-										'pending': item.Status == 'Pending',
-										'rejected': item.Status == 'Rejected'
-									}">
-										{{ item.Status }}
-									</span>
-								</td> -->
+                                <td>
+                                    <span *ngIf="item.IsOutOfStock; else elseStockBlock">
+                                        In stock
+                                    </span>
+                                    <ng-template #elseStockBlock>
+                                        Out of stock
+                                    </ng-template>
+                                </td>
                                 <td class="action" *ngIf="userRole != 'Admin'">
                                     <button *ngIf="item.Status=='Draft' || item.Status=='Approved' || item.Status=='APPROVED' || userRole == 'Admin'" class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.Id]"
                                         title="Edit">

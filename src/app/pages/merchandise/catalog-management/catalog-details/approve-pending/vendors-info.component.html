@@ -4,7 +4,7 @@
             <input placeholder="Reason" class="form-control" [(ngModel)]="commentDesc" type="text">
         </div>
         <div class="col-sm-6">
-            <button (click)="approveProductMap(commentDesc.value)" [disabled]="allMapProductsApprove.length < 1 || approveProductsLoader" type="button" class="btn btn-primary">Approve</button>
+            <button (click)="approveProductMap(commentDesc)" [disabled]="allMapProductsApprove.length < 1 || approveProductsLoader || !commentDesc" type="button" class="btn btn-primary">Approve</button>
             <img *ngIf=" approveProductsLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
         </div>
         <div class="col-sm-12">

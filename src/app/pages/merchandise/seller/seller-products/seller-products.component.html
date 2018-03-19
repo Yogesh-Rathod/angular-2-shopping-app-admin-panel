@@ -123,6 +123,15 @@
                     </p>
                 </div>
 
+                <div class="clearfix" *ngIf="totalRecords && totalRecords > 0">
+                    <form>
+                        <label>
+                            <input type="checkbox" name="someName" (change)="checkAllProductsCheckboxChange($event)">
+                            Check all {{ totalRecords }} records
+                        </label>
+                    </form>
+                </div>
+
                 <button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 || productSelected }"
                     (click)="exportProducts()">
                     <i class="fa fa-download" aria-hidden="true"></i>
@@ -169,9 +178,9 @@
                                         <strong>Product Status</strong>
                                     </mfDefaultSorter>
                                 </th>
-                                <!-- <th>
-                                    <strong>Approval Status</strong>
-                                </th> -->
+                                <th>
+                                    <strong>Stock</strong>
+                                </th>
                                 <th class="action">
                                     <strong>Action</strong>
                                 </th>
@@ -203,6 +212,14 @@
                                     <span *ngIf="item.Status ==='Pending'; else elseBlock">Pending for approval</span>
                                     <ng-template #elseBlock>
                                         {{ item.Status }}
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <span *ngIf="item.IsOutOfStock; else elseStockBlock">
+                                        In stock
+                                    </span>
+                                    <ng-template #elseStockBlock>
+                                        Out of stock
                                     </ng-template>
                                 </td>
                                 <td class="action">

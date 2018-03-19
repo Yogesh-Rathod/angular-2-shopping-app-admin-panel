@@ -24,7 +24,8 @@
                 </select>
             </div>
             <div class="col-sm-4">
-                <button class="btn btn-primary" [class.disabled]="!curentSelectedProgram" (click)="mapProgram(curentSelectedProgram)" type="button">Map Program</button>
+                <button class="btn btn-primary" [class.disabled]="!curentSelectedProgram || mapProgramLoader" (click)="mapProgram(curentSelectedProgram)" type="button">Map Program</button>
+                <img *ngIf=" mapProgramLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
             </div>
         </div>
     </div>

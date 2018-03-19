@@ -31,7 +31,6 @@ export class SellerProductsComponent implements OnInit {
     products: any;
     categories: any;
     status = ['Draft', 'Pending', 'Approved', 'Rejected'];
-    showSelectedDelete = false;
     selectAllCheckbox = false;
     atLeastOnePresent = false;
     errorMessage = {
@@ -289,9 +288,15 @@ export class SellerProductsComponent implements OnInit {
         let products = [];
         if (this.selectAllCheckbox) {
             products = this.products;
+            _.forEach(products, (item) => {
+                delete item.Id; delete item.SellerId; delete item.TypeId; delete item.CategoryId;
+                delete item.SubCategoryId; delete item.SubSubCategoryId; delete item.ProcessingStatus; delete item.Errors; delete item.isChecked; delete item.DiscountType;
+            });
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
+                    delete item.Id; delete item.SellerId; delete item.TypeId; delete item.CategoryId;
+                    delete item.SubCategoryId; delete item.SubSubCategoryId; delete item.ProcessingStatus; delete item.Errors; delete item.isChecked; delete item.DiscountType;
                     products.push(item);
                 }
             });
@@ -308,6 +313,13 @@ export class SellerProductsComponent implements OnInit {
         }).catch(status => { })
     }
 
+    checkAllProductsCheckboxChange(e) {
+        if (e.target.checked) {
+            this.productSelected = false;
+        } else {
+            this.productSelected = true;
+        }
+    }
 
     sendForApproval() {
         this.approveLoader = true;
@@ -354,14 +366,12 @@ export class SellerProductsComponent implements OnInit {
             _.forEach(this.products, (item) => {
                 item.isChecked = true;
             });
-            this.showSelectedDelete = true;
         } else {
             this.productSelected = true;
             this.selectAllCheckbox = false;
             _.forEach(this.products, (item) => {
                 item.isChecked = false;
             });
-            this.showSelectedDelete = false;
         }
     }
 
@@ -402,37 +412,31 @@ export class SellerProductsComponent implements OnInit {
     rejectAll() {
         if (this.selectAllCheckbox) {
             _.forEach(this.products, (item) => {
-                item.approvalStatus = 'Rejected';
                 item.isChecked = false;
             });
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
-                    item.approvalStatus = 'Rejected';
                     item.isChecked = false;
                 }
             });
         }
         this.selectAllCheckbox = false;
-        this.showSelectedDelete = false;
     }
 
     approveAll() {
         if (this.selectAllCheckbox) {
             _.forEach(this.products, (item) => {
-                item.approvalStatus = 'Approved';
                 item.isChecked = false;
             });
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
-                    item.approvalStatus = 'Approved';
                     item.isChecked = false;
                 }
             });
         }
         this.selectAllCheckbox = false;
-        this.showSelectedDelete = false;
     }
 
     resetForm() {

@@ -228,7 +228,7 @@
                                     </ng-template>
                                 </td>
                                 <td>
-                                    <span *ngIf="item.IsOutOfStock; else elseStockBlock">
+                                    <span *ngIf="!item.IsOutOfStock; else elseStockBlock">
                                         In stock
                                     </span>
                                     <ng-template #elseStockBlock>

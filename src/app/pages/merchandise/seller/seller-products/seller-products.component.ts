@@ -37,6 +37,7 @@ export class SellerProductsComponent implements OnInit {
         message: '',
         status: false
     };
+    checkAllCheckboxChange = false;
 
     constructor(
         private jsonToExcelService: JsonToExcelService,
@@ -316,8 +317,20 @@ export class SellerProductsComponent implements OnInit {
     checkAllProductsCheckboxChange(e) {
         if (e.target.checked) {
             this.productSelected = false;
+            this.checkAllCheckboxChange = true;
         } else {
-            this.productSelected = true;
+            this.checkAllCheckboxChange = false;
+            this.isCheckedArray = [];
+            _.forEach(this.products, (item) => {
+                if (item.isChecked) {
+                    this.isCheckedArray.push(item);
+                }
+            });
+            if (this.isCheckedArray.length === 0 && !this.checkAllCheckboxChange) {
+                this.productSelected = true;
+            } else {
+                this.productSelected = false;
+            }
         }
     }
 
@@ -388,10 +401,10 @@ export class SellerProductsComponent implements OnInit {
                 this.isCheckedArray.push(item);
             }
         });
-        if (this.isCheckedArray.length > 0) {
-            this.productSelected = false;
-        } else {
+        if (this.isCheckedArray.length === 0 && !this.checkAllCheckboxChange) {
             this.productSelected = true;
+        } else {
+            this.productSelected = false;
         }
 
     }

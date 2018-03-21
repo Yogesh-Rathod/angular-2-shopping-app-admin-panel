@@ -63,7 +63,6 @@ export class ProgramMapComponent implements OnInit {
             CatalougeId: this.catalogId,
             ProgramId: _program.Id
         };
-        console.log("bodyObj ", bodyObj);
         this.catalogManagementService.mapCatalogProgram(bodyObj).then(res => {
             if (res.Success) {
                 this.toastr.success(

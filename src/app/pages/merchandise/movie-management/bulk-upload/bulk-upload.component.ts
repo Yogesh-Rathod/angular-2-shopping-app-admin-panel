@@ -72,27 +72,27 @@ export class MovieBulkUploadComponent implements OnInit {
     convertJSONResponse(result) {
         _.forEach(result, (movie) => {
             const movieInformation = {
-                "Title": encodeURIComponent(movie['Title*']),
-                "Type": encodeURIComponent(movie['Type*']),
-                "Language": encodeURIComponent(movie['Language*']),
-                "CensorRating": encodeURIComponent(movie['Censor Rating*']),
+                "Title": movie['Title*'] ? encodeURIComponent(movie['Title*']) : '',
+                "Type": movie['Type*'] ? encodeURIComponent(movie['Type*']) : '',
+                "Language": movie['Language*'] ? encodeURIComponent(movie['Language*']) : '',
+                "CensorRating": movie['Censor Rating*'] ? encodeURIComponent(movie['Censor Rating*']) : '',
                 "StarRating": movie['Star Rating (1-5)'],
                 "Duration": parseInt(movie['Duration* (in minutes)']),
-                "Genre": encodeURIComponent(movie['Genre*']),
-                "Writer": encodeURIComponent(movie['Writer*']),
-                "Music": encodeURIComponent(movie['Music']),
-                "Starring": encodeURIComponent(movie['Starring*']),
-                "Director": encodeURIComponent(movie['Director*']),
-                "Synopsis": encodeURIComponent(movie['Synopsis*']),
+                "Genre": movie['Genre*'] ? encodeURIComponent(movie['Genre*']) : '',
+                "Writer": movie['Writer*'] ? encodeURIComponent(movie['Writer*']) : '',
+                "Music": movie['Music'] ? encodeURIComponent(movie['Music']) : '',
+                "Starring": movie['Starring*'] ? encodeURIComponent(movie['Starring*']) : '',
+                "Director": movie['Director*'] ? encodeURIComponent(movie['Director*']) : '',
+                "Synopsis": movie['Synopsis*'] ? encodeURIComponent(movie['Synopsis*']) : '',
                 "ReleaseDate": movie['Release Date* (dd/MM/yyyy)'],
-                "ImageUrl": encodeURIComponent(movie['Thumb Image Link*']),
-                "PosterUrl": encodeURIComponent(movie['Poster Image Link']),
-                "LandscapeUrl": encodeURIComponent(movie['Landscape Image Link']),
-                "TrailerUrl": encodeURIComponent(movie['Trailer Link']),
-                "Sequence": encodeURIComponent(movie['Sequence*']),
+                "ImageUrl": movie['Thumb Image Link*'] ? encodeURIComponent(movie['Thumb Image Link*']) : '',
+                "PosterUrl": movie['Poster Image Link'] ? encodeURIComponent(movie['Poster Image Link']) : '',
+                "LandscapeUrl": movie['Landscape Image Link'] ? encodeURIComponent(movie['Landscape Image Link']) : '',
+                "TrailerUrl": movie['Trailer Link'] ? encodeURIComponent(movie['Trailer Link']) : '',
+                "Sequence": movie['Sequence*'] ? encodeURIComponent(movie['Sequence*']) : '',
                 "CreatedOn": new Date().toISOString(),
                 "CreatedBy": this.userInfo.username,
-                'RBCNimageUrl': movie['Land scape Image Link_RBCN*']
+                'RBCNimageUrl': movie['Land scape Image Link_RBCN*'] ? encodeURIComponent(movie['Land scape Image Link_RBCN*']) : ''
             };
             this.movieInfo.push(movieInformation);
         });

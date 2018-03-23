@@ -83,7 +83,7 @@ export class MovieManagementService {
         const url = `${environment.moviesApiUrl}Events`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, movieInfo));
-        return this.http.post(url, utf8.encode(JSON.stringify(movieInfo)), this.options)
+        return this.http.post(url, JSON.stringify(movieInfo), this.options)
             .toPromise()
             .then(response => this.responseHandingService.handleResponse(response))
             .catch(reason => this.responseHandingService.handleError(reason));

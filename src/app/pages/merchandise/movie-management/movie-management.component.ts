@@ -186,13 +186,16 @@ export class MovieManagementComponent implements OnInit {
     }
 
     deleteMovies(moviesToDelete) {
+        this.deleteMultipleLoader = true;
         this.movieManagementService.deleteMovies(moviesToDelete).
-            then((success) => {
-                if (success.Success) {
-                    this.toastr.success('Movies successfully deleted.', 'Success!');
-                    this.getAllMovies(this.showRecords);
-                }
-            }).catch((error) => {
+        then((success) => {
+            if (success.Success) {
+                this.toastr.success('Movies successfully deleted.', 'Success!');
+                this.getAllMovies(this.showRecords);
+            }
+            this.deleteMultipleLoader = false;
+        }).catch((error) => {
+            this.deleteMultipleLoader = false;
                 this.toastr.error('Could not delete movies.', 'Error!');
             });
     }

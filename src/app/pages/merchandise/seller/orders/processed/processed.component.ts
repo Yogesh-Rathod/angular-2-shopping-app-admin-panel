@@ -62,6 +62,9 @@ export class ProcessedComponent implements OnInit {
     }
 
     exportProducts() {
+        _.forEach(this.orders, (item) => {
+            delete item.CancellationReason; delete item.RTOBy; delete item.RTODate; delete item.RTOComments; delete item.isChecked;
+        });
         this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }
 

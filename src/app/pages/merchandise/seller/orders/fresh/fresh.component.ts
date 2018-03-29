@@ -135,7 +135,19 @@ export class FreshComponent implements OnInit {
     }
 
     exportProducts() {
-        this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
+        let isCheckedArray = [];
+
+        _.forEach(this.orders, (item) => {
+            if (item.isChecked) {
+                delete item.CancellationReason; delete item.RTOBy; delete item.RTODate; delete item.RTOComments; delete item.isChecked;
+                isCheckedArray.push(item);
+            }
+        });
+        if (isCheckedArray.length === 0) {
+            this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
+        } else {
+            this.jsonToExcelService.exportAsExcelFile(isCheckedArray, 'orders');
+        }
     }
 
 }

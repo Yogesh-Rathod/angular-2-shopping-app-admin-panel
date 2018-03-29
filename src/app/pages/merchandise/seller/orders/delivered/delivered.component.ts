@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
+import * as _ from 'lodash';
 
 import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
 
@@ -32,6 +33,9 @@ export class DeliveredComponent implements OnInit {
     }
 
     exportProducts() {
+        _.forEach(this.orders, (item) => {
+            delete item.CancellationReason; delete item.RTOBy; delete item.RTODate; delete item.RTOComments; delete item.isChecked;
+        });
         this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }
 

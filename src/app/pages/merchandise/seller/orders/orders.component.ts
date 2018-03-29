@@ -207,6 +207,10 @@ export class OrdersComponent implements OnInit {
         this.ordersService.getOrdersByPONumber(null, searchOrdersForm, '').
             then((orders) => {
                 if (orders.Data) {
+                    _.forEach(orders.Data.PurchaseOrder, (item) => {
+                        delete item.CancellationReason; delete item.RTOBy; delete item.RTODate; delete item.RTOComments; delete item.isChecked;
+                    });
+                    console.log("orders.Data.PurchaseOrder ", orders.Data.PurchaseOrder);
                     this.jsonToExcelService.exportAsExcelFile(orders.Data.PurchaseOrder, 'orders');
                 }
                 this.searchLoader = false;

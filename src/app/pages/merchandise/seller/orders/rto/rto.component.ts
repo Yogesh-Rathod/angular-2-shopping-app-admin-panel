@@ -55,6 +55,9 @@ export class RtoComponent implements OnInit {
     }
 
     exportProducts() {
+        _.forEach(this.orders, (item) => {
+            delete item.CancellationReason; delete item.isChecked;
+        });
         this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }
 

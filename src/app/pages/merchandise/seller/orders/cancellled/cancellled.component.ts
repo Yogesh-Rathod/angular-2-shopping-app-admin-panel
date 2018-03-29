@@ -6,9 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SellerOrdersBulkUploadComponent } from '../bulk-upload/bulk-upload.component';
 
 @Component({
-  selector: 'app-cancellled',
-  templateUrl: './cancellled.component.html',
-  styleUrls: ['./cancellled.component.scss']
+    selector: 'app-cancellled',
+    templateUrl: './cancellled.component.html',
+    styleUrls: ['./cancellled.component.scss']
 })
 export class CancellledComponent implements OnInit {
 
@@ -52,6 +52,9 @@ export class CancellledComponent implements OnInit {
     }
 
     exportProducts() {
+        _.forEach(this.orders, (item) => {
+            delete item.RTOBy; delete item.RTODate; delete item.RTOComments; delete item.isChecked;
+        });
         this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }
 

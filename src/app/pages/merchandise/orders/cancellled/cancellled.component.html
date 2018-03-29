@@ -28,6 +28,9 @@
                 <th>
                     <strong>Status</strong>
                 </th>
+                <th>
+                    <strong>Cancellation Reason</strong>
+                </th>
                 <th class="createDate">
                     <strong>PO Date</strong>
                 </th>
@@ -42,13 +45,14 @@
                     {{ item.PurchaseOrderNumber }}
                 </td>
                 <td class="customer">
-                    {{ item.ContactDetails.FirstName }} {{ item.ContactDetails.LastName }}
+                    {{ item.FirstName }} {{ item.LastName }}
                 </td>
-                <td class="no-text-transform">{{ item.ContactDetails.Email }}</td>
-                <td>{{ item.ContactDetails.Mobile }}</td>
+                <td class="no-text-transform">{{ item.Email }}</td>
+                <td>{{ item.Mobile }}</td>
                 <td>{{ item.SellerName }}</td>
                 <td>{{ item.ItemCode }}</td>
                 <td>{{ item.Status }}</td>
+                <td>{{ item.CancellationReason }}</td>
                 <td>
                     {{ item.OrderDate | date: 'medium' }}
                 </td>

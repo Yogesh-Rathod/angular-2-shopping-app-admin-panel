@@ -124,7 +124,6 @@
 
                 <div class="tab-content col-12 no_left_padding no_right_padding" *ngIf="orders && orders.length > 0">
                     <div [class.active]="status === 'FRESH'" role="tabpanel" class="tab-pane fade in" id="Fresh">
-
                         <app-fresh [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-fresh>
                     </div>
                     <div [class.active]="status === 'PROCESSED'" role="tabpanel" class="tab-pane fade in" id="Processed">

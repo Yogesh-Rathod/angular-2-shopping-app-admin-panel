@@ -5,75 +5,81 @@
 </button>
 
 <table class="table table-bordered table-responsive" [mfData]="orders" #mf="mfDataTable" [mfRowsOnPage]="10">
-  <thead class="black-muted-bg">
-    <tr>
-      <th class="text-left orderno">
-        <strong>PO No.</strong>
-      </th>
-      <!-- <th class="customer">
-        <strong>Member Name</strong>
-      </th>
-      <th>
-        <strong>Mobile</strong>
-      </th>
-      <th>
-        <strong>Email</strong>
-      </th>-->
-      <th>
-        <strong>Status</strong>
-      </th>
-      <th>
-        <strong>RTO By</strong>
-      </th>
-      <th>
-        <strong>RTO Comments</strong>
-      </th>
-      <th class="createDate">
-        <strong>PO Date</strong>
-      </th>
-      <th><strong>Action</strong></th>
-    </tr>
-  </thead>
-  <tbody *ngIf=" orders && orders.length > 0 ">
-    <tr *ngFor=" let item of mf.data; let i = index; ">
-      <td class="text-left">
-        {{ item.PurchaseOrderNumber }}
-      </td>
-      <!-- <td class="customer">{{ item.customerInfo.name }}</td> -->
-      <!-- <td>{{ item.customerInfo.phone }}</td> -->
-      <!-- <td class="no-text-transform">
-        {{ item.customerInfo.email }}
-      </td>-->
-      <td>{{ item.Status }}</td>
-      <td>{{ item.RTOBy }}</td>
-      <td>{{ item.RTOComments }}</td>
-      <td>
-        {{ item.OrderDate | date: 'medium' }}
-      </td>
-    <td>
-        <button class="btn btn-secondary" [routerLink]="['./order-details/', item.PurchaseOrderNumber]" title="Edit">
-            <i class="fa fa-eye" aria-hidden="true"></i>
-        </button>
-        <button *ngIf="item.Status !== 'RTO-DELIVERED'" (click)="updateStatus(item)" class="btn btn-secondary" title="Update Status">
-            <i class="fa fa-pencil" aria-hidden="true"></i>
-        </button>
-    </td>
-    </tr>
-  </tbody>
+    <thead class="black-muted-bg">
+        <tr>
+            <th class="text-left orderno">
+                <strong>PO No.</strong>
+            </th>
+            <th class="customer">
+                <strong>Member Name</strong>
+            </th>
+            <th class="customer">
+                <strong>Email</strong>
+            </th>
+            <th class="customer">
+                <strong>Mobile</strong>
+            </th>
+            <th>
+                <strong>Item Code</strong>
+            </th>
+            <th>
+                <strong>Status</strong>
+            </th>
+            <th>
+                <strong>RTO By</strong>
+            </th>
+            <th>
+                <strong>RTO Comments</strong>
+            </th>
+            <th class="createDate">
+                <strong>PO Date</strong>
+            </th>
+            <th>
+                <strong>Action</strong>
+            </th>
+        </tr>
+    </thead>
+    <tbody *ngIf=" orders && orders.length > 0 ">
+        <tr *ngFor=" let item of mf.data; let i = index; ">
+            <td class="text-left">
+                {{ item.PurchaseOrderNumber }}
+            </td>
+            <td class="customer">
+                {{ item.ContactDetails.FirstName }} {{ item.ContactDetails.LastName }}
+            </td>
+            <td class="no-text-transform">{{ item.ContactDetails.Email }}</td>
+            <td>{{ item.ContactDetails.Mobile }}</td>
+            <td>{{ item.ItemCode }}</td>
+            <td>{{ item.Status }}</td>
+            <td>{{ item.RTOBy }}</td>
+            <td>{{ item.RTOComments }}</td>
+            <td>
+                {{ item.OrderDate | date: 'medium' }}
+            </td>
+            <td>
+                <button class="btn btn-secondary" [routerLink]="['./order-details/', item.PurchaseOrderNumber]" title="Edit">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                </button>
+                <button *ngIf="item.Status !== 'RTO-DELIVERED'" (click)="updateStatus(item)" class="btn btn-secondary" title="Update Status">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
 
-  <tbody *ngIf=" !orders || orders.length === 0 ">
-    <tr>
-      <td colspan="6">
-        <strong>There are no orders!</strong>
-      </td>
-    </tr>
-  </tbody>
+    <tbody *ngIf=" !orders || orders.length === 0 ">
+        <tr>
+            <td colspan="10">
+                <strong>There are no orders!</strong>
+            </td>
+        </tr>
+    </tbody>
 
-  <tfoot *ngIf=" orders && orders.length > 10 ">
-    <tr>
-      <td colspan="6">
-        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-      </td>
-    </tr>
-  </tfoot>
+    <tfoot *ngIf=" orders && orders.length > 10 ">
+        <tr>
+            <td colspan="10">
+                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+            </td>
+        </tr>
+    </tfoot>
 </table>

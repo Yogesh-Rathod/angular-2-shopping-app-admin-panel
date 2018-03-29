@@ -127,6 +127,9 @@
                         </select>
                         <label>Records</label>
                     </form>
+                    <p class="error float-right no-text-transform" *ngIf="errorMessage.status">
+                        {{ errorMessage.message }}
+                    </p>
                 </div>
 
                 <!-- <div class="clearfix">
@@ -154,9 +157,10 @@
                             </label>
                             <select id="action" class="form-control col-6" #dropDownActionSelect (change)="actionDropDownSelected(dropDownActionSelect.value)">
                                 <option value="">Select Action</option>
-                                <option *ngFor="let item of dropDownAction;" value="{{ item }}">
-                                    {{ item }}
-                                </option>
+                                <option value="Approve">Approve</option>
+                                <option value="Reject">Reject</option>
+                                <option *ngIf="userRole!='Admin'" value="Mark out of stock">Mark out of stock</option>
+                                <option *ngIf="userRole!='Admin'" value="Mark in stock">Mark in stock</option>
                             </select>
                             <button
                                 class="btn btn-success"
@@ -177,9 +181,6 @@
                                 <th class="text-center">
                                     <input [class.disabled]="products && products.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
                                 </th>
-                                <!-- <th class="text-left">
-                                    <strong>Product Image</strong>
-                                </th> -->
                                 <th>
                                     <mfDefaultSorter by="Name">
                                         <strong>Product name</strong>
@@ -193,55 +194,27 @@
                                         <strong>MRP</strong>
                                     </mfDefaultSorter>
                                 </th>
-                                <!-- <th>
-									<strong>Type</strong>
-								</th> -->
                                 <th>
                                     <strong>Product Status</strong>
                                 </th>
-                                <!-- <th>
-									<strong>Approval Status</strong>
-								</th> -->
+                                <th>
+                                    <strong>Stock</strong>
+                                </th>
                                 <th class="action" *ngIf="userRole!='Admin'">
                                     <strong>Action</strong>
                                 </th>
                             </tr>
                         </thead>
                         <tbody *ngIf=" products && products.length > 0 ">
-                            <!-- <tr *ngIf="selectAllCheckboxMessage.message">
-                                <td colspan="9">
-                                    <em *ngIf="!selectAllCheckboxMessage.clearSelection" class="no-text-transform">
-                                         All <span class="bold">10</span> products on this page are selected.
-                                         <span (click)="toalRecordsSelected(true)" class="selectAll no-text-transform">
-                                             Select all <span class="bold">
-                                                 {{totalRecords}}
-                                             </span> products
-                                         </span>.
-                                    </em>
-                                    <em *ngIf="selectAllCheckboxMessage.clearSelection" class="no-text-transform">
-                                        All <span class="bold">{{totalRecords}}</span> products selected.
-                                        <span (click)="toalRecordsSelected(false)" class="selectAll no-text-transform">
-                                            Clear selection.
-                                        </span>
-                                    </em>
-                                </td>
-                            </tr> -->
                             <tr *ngFor=" let item of mf.data | paginate: { itemsPerPage: showRecords, currentPage: p, totalItems: totalRecords }; let i = index; ">
                                 <td class="text-center">
-                                    <input *ngIf="item.Status!=='Approved' && item.Status!=='APPROVED'" [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                                    <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
                                 </td>
-
-                                <!-- <td class="text-left">
-                                    <div class="product-image" *ngIf="item.picture">
-                                        <img class="img-fluid" src="{{ item.picture[0].url ? item.picture[0].url : 'assets/images/products/Placeholder.png' }}" alt="{{ item.picture[0].alt ? item.picture[0].alt : 'Product Image' }}">
-                                    </div>
-                                </td> -->
                                 <td>
                                     <span>{{ item.Name }}</span>
                                 </td>
                                 <td>{{ item.Sku }}</td>
                                 <td>{{ item.Mrp | currency: 'INR': true }}</td>
-                                <!-- <td>{{ item.productType }}</td> -->
                                 <td class="text-center" [ngClass]="{
 									'Draft': item.Status == 'Draft',
 									'APPROVED': item.Status === 'APPROVED',
@@ -249,17 +222,19 @@
 									'pending': item.Status == 'Pending',
 									'rejected': item.Status == 'Rejected'
 								}">
-                                    {{ item.Status }}
+                                    <span *ngIf="item.Status ==='Pending'; else elseBlock">Pending for approval</span>
+                                    <ng-template #elseBlock>
+                                        {{ item.Status }}
+                                    </ng-template>
                                 </td>
-                                <!-- <td class="text-center order-status">
-									<span [ngClass]="{
-										'approved': item.Status == 'Draft',
-										'pending': item.Status == 'Pending',
-										'rejected': item.Status == 'Rejected'
-									}">
-										{{ item.Status }}
-									</span>
-								</td> -->
+                                <td>
+                                    <span *ngIf="!item.IsOutOfStock; else elseStockBlock">
+                                        In stock
+                                    </span>
+                                    <ng-template #elseStockBlock>
+                                        Out of stock
+                                    </ng-template>
+                                </td>
                                 <td class="action" *ngIf="userRole != 'Admin'">
                                     <button *ngIf="item.Status=='Draft' || item.Status=='Approved' || item.Status=='APPROVED' || userRole == 'Admin'" class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.Id]"
                                         title="Edit">

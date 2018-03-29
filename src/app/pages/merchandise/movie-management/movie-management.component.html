@@ -54,6 +54,7 @@
                     </select>
                     <label>Records</label>
                 </form>
+                <img width="35" height="35" *ngIf="deleteMultipleLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" class="pull-right">
                 <button class="float-right btn btn-danger deleteSelectedButton" [class.disabled]="!showSelectedAction || deleteMultipleLoader"
                     (click)="deleteMovie()">
                     <i class="fa fa-trash" aria-hidden="true"></i>
@@ -61,10 +62,6 @@
                 </button>
             </div>
             <div class="table-container">
-
-
-                <img width="35" height="35" *ngIf="deleteMultipleLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" class="pull-right">
-
 
                 <table class="table table-bordered table-responsive" [mfData]="filteredMovies" #mf="mfDataTable" [mfRowsOnPage]="showRecords">
                     <thead class="black-muted-bg">

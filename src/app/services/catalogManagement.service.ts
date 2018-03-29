@@ -83,6 +83,7 @@ export class CatalogManagementService {
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
     }
+
     approvePostCatalog(_catalog) {
         var bodyObj = {
             Id: _catalog.Id,
@@ -154,31 +155,22 @@ export class CatalogManagementService {
     }
 
     approveProductPostCatalog(_reqObj) {
-        var bodyObj = {
-            Id: _reqObj.CatalogId,
-            Reason: _reqObj.Reason ? _reqObj.Reason : "Dummy hardcoded",
-            IsApproved: true
-        };
-        let bodyObjPlain = JSON.stringify(bodyObj);
-        let url = `${environment.merchandiseUrl}Merchandise/CatalogProductMap/${
-            _reqObj.CatalogId
-        }/Approve`;
+        let url = `${environment.merchandiseUrl}Merchandise/CatalogProductMap/${_reqObj.CatalogId}/Approve`;
         this.headers.set(
             "Authorization",
             this.commonAppSer.crateAuthorization()
         );
         return this.http
-            .post(url, bodyObjPlain, this.options)
+            .post(url, JSON.stringify(_reqObj), this.options)
             .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
     }
 
-    getAllProgramList(){
+    getAllProgramList() {
         let url = `${environment.programAPIUrl}` ;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
-        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
             .timeout(environment.timeOut)
             .toPromise()
@@ -186,16 +178,11 @@ export class CatalogManagementService {
             .catch((err) => this.responseHandler.handleError(err));
     }
 
-    mapCatalogProgram(bodyObj){
-        let bodyObjPlain = JSON.stringify(bodyObj);
+    mapCatalogProgram(bodyObj) {
         let url = `${environment.merchandiseUrl}Merchandise/CatalogProgramMap`;
-        this.headers.set('Authorization',this.commonAppSer.crateAuthorization());
-        this.headers.set(
-            "LRSignAuth",
-            this.commonAppSer.createHMACSignature("POST", url, bodyObjPlain)
-        );
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http
-            .post(url, bodyObjPlain, this.options)
+            .post(url, JSON.stringify(bodyObj), this.options)
             .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
@@ -205,7 +192,6 @@ export class CatalogManagementService {
     getAllMappedProgramList(_catalogId){
         let url = `${environment.merchandiseUrl}Merchandise/CatalogProgramMap/${_catalogId}` ;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
-        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
             .timeout(environment.timeOut)
             .toPromise()

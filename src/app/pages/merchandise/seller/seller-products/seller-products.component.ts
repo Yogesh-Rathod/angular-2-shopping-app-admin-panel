@@ -31,9 +31,13 @@ export class SellerProductsComponent implements OnInit {
     products: any;
     categories: any;
     status = ['Draft', 'Pending', 'Approved', 'Rejected'];
-    showSelectedDelete = false;
     selectAllCheckbox = false;
     atLeastOnePresent = false;
+    errorMessage = {
+        message: '',
+        status: false
+    };
+    checkAllCheckboxChange = false;
 
     constructor(
         private jsonToExcelService: JsonToExcelService,
@@ -128,6 +132,73 @@ export class SellerProductsComponent implements OnInit {
         }
     }
 
+    toggleOutOfStock(status) {
+        this.approveLoader = true;
+        let productsToChange = [];
+        this.errorMessage.status = false;
+        _.forEach(this.products, (item) => {
+            if (item.isChecked) {
+                if (item.Status === 'Approved') {
+                    productsToChange.push(item.Id);
+                } else {
+                    this.errorMessage.status = true;
+                    this.errorMessage.message = 'In order to mark out of stock product status should be Approved.';
+                    this.approveLoader = false;
+                    $('[data-toggle="tooltip"]').tooltip('hide');
+                    return;
+                }
+            }
+        });
+        if (!this.errorMessage.status) {
+            this.productsService.toggleProductsOutofStock(productsToChange, status)
+                .then(res => {
+                    if (res.Code === 200) {
+                        this.getAllProducts();
+                        switch (status) {
+                            case 0:
+                            this.toastr.success('Successfully marked in stock.', 'Success');
+                                break;
+                            case 1:
+                                this.toastr.success('Successfully marked out of stock.', 'Success');
+                                break;
+                            default:
+                                break;
+                        }
+                    } else if (res.Code === 500) {
+                        switch (status) {
+                            case 0:
+                                this.toastr.error('Could not mark in stock.', 'Error');
+                                break;
+                            case 1:
+                                this.toastr.error('Could not mark out of stock.', 'Error');
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    this.selectAllCheckbox = false;
+                    this.productSelected = true;
+                    this.approveLoader = false;
+                    $('[data-toggle="tooltip"]').tooltip('hide');
+                }).catch(err => {
+                    this.selectAllCheckbox = false;
+                    this.productSelected = true;
+                    this.approveLoader = false;
+                    switch (status) {
+                        case 0:
+                            this.toastr.error('Could not mark in stock.', 'Error');
+                            break;
+                        case 1:
+                            this.toastr.error('Could not mark out of stock.', 'Error');
+                            break;
+                        default:
+                            break;
+                    }
+                    $('[data-toggle="tooltip"]').tooltip('hide');
+                });
+            }
+    }
+
     showEntries(value, searchProductForm) {
         this.showRecords = value;
         this.p = 1;
@@ -218,9 +289,15 @@ export class SellerProductsComponent implements OnInit {
         let products = [];
         if (this.selectAllCheckbox) {
             products = this.products;
+            _.forEach(products, (item) => {
+                delete item.Id; delete item.SellerId; delete item.TypeId; delete item.CategoryId;
+                delete item.SubCategoryId; delete item.SubSubCategoryId; delete item.ProcessingStatus; delete item.Errors; delete item.isChecked; delete item.DiscountType;
+            });
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
+                    delete item.Id; delete item.SellerId; delete item.TypeId; delete item.CategoryId;
+                    delete item.SubCategoryId; delete item.SubSubCategoryId; delete item.ProcessingStatus; delete item.Errors; delete item.isChecked; delete item.DiscountType;
                     products.push(item);
                 }
             });
@@ -237,33 +314,62 @@ export class SellerProductsComponent implements OnInit {
         }).catch(status => { })
     }
 
+    checkAllProductsCheckboxChange(e) {
+        if (e.target.checked) {
+            this.productSelected = false;
+            this.checkAllCheckboxChange = true;
+        } else {
+            this.checkAllCheckboxChange = false;
+            this.isCheckedArray = [];
+            _.forEach(this.products, (item) => {
+                if (item.isChecked) {
+                    this.isCheckedArray.push(item);
+                }
+            });
+            if (this.isCheckedArray.length === 0 && !this.checkAllCheckboxChange) {
+                this.productSelected = true;
+            } else {
+                this.productSelected = false;
+            }
+        }
+    }
 
-    approve() {
+    sendForApproval() {
         this.approveLoader = true;
+        this.errorMessage.status = false;
         let productsToConfirm = [];
         _.forEach(this.products, (item) => {
             if (item.isChecked) {
-                productsToConfirm.push(item);
-                item.isChecked = false;
+                if (item.Status === 'Draft') {
+                    productsToConfirm.push(item);
+                } else {
+                    this.errorMessage.status = true;
+                    this.errorMessage.message = 'In order to send for approval product status should be draft.';
+                    this.approveLoader = false;
+                    $('[data-toggle="tooltip"]').tooltip('hide');
+                    return;
+                }
             }
         });
-        this.productsService.sendproductForApproval(productsToConfirm)
-            .then(res => {
-                if (res.Code === 200) {
-                    this.getAllProducts();
-                    this.toastr.success('Successfully sent for approval.', 'Success');
-                } else if (res.Code === 500) {
+        if (!this.errorMessage.status) {
+            this.productsService.sendproductForApproval(productsToConfirm)
+                .then(res => {
+                    if (res.Code === 200) {
+                        this.getAllProducts();
+                        this.toastr.success('Successfully sent for approval.', 'Success');
+                    } else if (res.Code === 500) {
+                        this.toastr.error('Could not send for approval.', 'Error');
+                    }
+                    this.selectAllCheckbox = false;
+                    this.productSelected = true;
+                    this.approveLoader = false;
+                }).catch(err => {
+                    this.selectAllCheckbox = false;
+                    this.productSelected = true;
+                    this.approveLoader = false;
                     this.toastr.error('Could not send for approval.', 'Error');
-                }
-                this.selectAllCheckbox = false;
-                this.productSelected = true;
-                this.approveLoader = false;
-            }).catch(err => {
-                this.selectAllCheckbox = false;
-                this.productSelected = true;
-                this.approveLoader = false;
-                this.toastr.error('Could not send for approval.', 'Error');
-            })
+                });
+        }
     }
 
     selectAll(e) {
@@ -273,14 +379,12 @@ export class SellerProductsComponent implements OnInit {
             _.forEach(this.products, (item) => {
                 item.isChecked = true;
             });
-            this.showSelectedDelete = true;
         } else {
             this.productSelected = true;
             this.selectAllCheckbox = false;
             _.forEach(this.products, (item) => {
                 item.isChecked = false;
             });
-            this.showSelectedDelete = false;
         }
     }
 
@@ -288,17 +392,20 @@ export class SellerProductsComponent implements OnInit {
         this.selectAllCheckbox = false;
         if (e.target.checked) {
             item.isChecked = true;
-            this.productSelected = false
         } else {
             item.isChecked = false;
-            this.productSelected = true;
         }
-
+        this.isCheckedArray = [];
         _.forEach(this.products, (item) => {
             if (item.isChecked) {
                 this.isCheckedArray.push(item);
             }
         });
+        if (this.isCheckedArray.length === 0 && !this.checkAllCheckboxChange) {
+            this.productSelected = true;
+        } else {
+            this.productSelected = false;
+        }
 
     }
 
@@ -318,37 +425,31 @@ export class SellerProductsComponent implements OnInit {
     rejectAll() {
         if (this.selectAllCheckbox) {
             _.forEach(this.products, (item) => {
-                item.approvalStatus = 'Rejected';
                 item.isChecked = false;
             });
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
-                    item.approvalStatus = 'Rejected';
                     item.isChecked = false;
                 }
             });
         }
         this.selectAllCheckbox = false;
-        this.showSelectedDelete = false;
     }
 
     approveAll() {
         if (this.selectAllCheckbox) {
             _.forEach(this.products, (item) => {
-                item.approvalStatus = 'Approved';
                 item.isChecked = false;
             });
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
-                    item.approvalStatus = 'Approved';
                     item.isChecked = false;
                 }
             });
         }
         this.selectAllCheckbox = false;
-        this.showSelectedDelete = false;
     }
 
     resetForm() {

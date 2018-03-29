@@ -35,14 +35,16 @@ export class ProductsComponent implements OnInit {
     atLeastOnePresent = false;
     vendorId: any;
     vendorInfo: any;
-    dropDownAction = ['Approve', 'Reject'];
-    approvalStatus = ['Pending', 'Approved', 'Rejected'];
     noActionSelected = false;
     userRole: any;
     disableSubmitButton = false;
     selectAllCheckboxMessage = {
         message: false,
         clearSelection: false
+    };
+    errorMessage = {
+        message: '',
+        status: false
     };
 
     constructor(
@@ -339,14 +341,96 @@ export class ProductsComponent implements OnInit {
             switch (dropDownActionValue) {
                 case 'Approve':
                     this.approveAll();
-                    break;
+                break;
                 case 'Reject':
                     this.rejectAll();
-                    break;
+                break;
+                case 'Send for approval':
+                    this.sendForApproval();
+                break;
+                case 'Mark out of stock':
+                    this.toggleOutOfStock(1);
+                break;
+                case 'Mark in stock':
+                    this.toggleOutOfStock(0);
+                break;
                 default:
                     break;
             }
         }
+    }
+
+    toggleOutOfStock(status) {
+        console.log("status ", status);
+        this.approveLoader = true;
+        let productsToChange = [];
+        this.errorMessage.status = false;
+        _.forEach(this.products, (item) => {
+            if (item.isChecked) {
+                if (item.Status === 'Approved') {
+                    productsToChange.push(item.Id);
+                } else {
+                    this.errorMessage.status = true;
+                    this.errorMessage.message = 'In order to mark out of stock product status should be Approved.';
+                    this.approveLoader = false;
+                    $('[data-toggle="tooltip"]').tooltip('hide');
+                    return;
+                }
+            }
+        });
+        if (!this.errorMessage.status) {
+            this.productsService.toggleProductsOutofStock(productsToChange, status)
+                .then(res => {
+                    if (res.Code === 200) {
+                        this.getAllProducts();
+                        switch (status) {
+                            case 0:
+                                this.toastr.success('Successfully marked in stock.', 'Success');
+                                break;
+                            case 1:
+                                this.toastr.success('Successfully marked out of stock.', 'Success');
+                                break;
+                            default:
+                                break;
+                        }
+                    } else if (res.Code === 500) {
+                        switch (status) {
+                            case 0:
+                                this.toastr.error('Could not mark in stock.', 'Error');
+                                break;
+                            case 1:
+                                this.toastr.error('Could not mark out of stock.', 'Error');
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    this.selectAllCheckbox = false;
+                    this.showSelectedAction = true;
+                    this.approveLoader = false;
+                }).catch(err => {
+                    this.selectAllCheckbox = false;
+                    this.showSelectedAction = true;
+                    this.approveLoader = false;
+                    switch (status) {
+                        case 0:
+                            this.toastr.error('Could not mark in stock.', 'Error');
+                            break;
+                        case 1:
+                            this.toastr.error('Could not mark out of stock.', 'Error');
+                            break;
+                        default:
+                            break;
+                    }
+                });
+        }
+    }
+
+    sendForApproval() {
+        console.log("sendForApproval ");
+        // this.productsService.confirmOperationProduct({}}, this.userRole).then(res => {
+        //     this.toastr.success('Sucessfully Done!', 'Sucess!');
+        // }).catch(err => { })
     }
 
     rejectAll() {
@@ -354,19 +438,33 @@ export class ProductsComponent implements OnInit {
         let productsToReject = [];
         if (this.selectAllCheckbox) {
             _.forEach(this.products, (item) => {
-                // item.approvalStatus = 'Approved';
-                productsToReject.push(item.Id);
-                item.isChecked = false;
+                if (item.Status === 'Pending') {
+                    productsToReject.push(item.Id);
+                    item.isChecked = false;
+                } else {
+                    this.errorMessage.status = true;
+                    this.errorMessage.message = 'In order to reject status should be Pending for approval.';
+                    this.approveLoader = false;
+                    return;
+                }
             });
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
-                    productsToReject.push(item.Id);
-                    // item.approvalStatus = 'Approved';
-                    item.isChecked = false;
+                    if (item.isChecked) {
+                        if (item.Status === 'Pending') {
+                            productsToReject.push(item.Id);
+                        } else {
+                            this.errorMessage.status = true;
+                            this.errorMessage.message = 'In order to reject status should be Pending for approval.';
+                            this.approveLoader = false;
+                            return;
+                        }
+                    }
                 }
             });
         }
+        if (!this.errorMessage.status) {
             this.productsService.rejectProducts(productsToReject, this.userRole).
                 then((success) => {
                     if (success.Code === 200) {
@@ -375,42 +473,56 @@ export class ProductsComponent implements OnInit {
                     this.approveLoader = false;
                 }).catch((error) => {
                     this.approveLoader = false;
-                })
-        this.selectAllCheckbox = false;
-        this.showSelectedAction = false;
+                });
+            this.selectAllCheckbox = false;
+            this.showSelectedAction = false;
+        }
     }
 
     approveAll() {
         this.approveLoader = true;
+        this.errorMessage.status = false;
         let productsToApprove = [];
         if (this.selectAllCheckbox) {
             productsToApprove = [];
             _.forEach(this.products, (item) => {
-                // item.approvalStatus = 'Approved';
-                productsToApprove.push(item.Id);
-                item.isChecked = false;
+                if (item.Status === 'Pending') {
+                    productsToApprove.push(item.Id);
+                } else {
+                    this.errorMessage.status = true;
+                    this.errorMessage.message = 'In order to approve status should be Pending for approval.';
+                    this.approveLoader = false;
+                    return;
+                }
             });
         } else {
             productsToApprove = [];
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
-                    productsToApprove.push(item.Id);
-                    // item.approvalStatus = 'Approved';
-                    item.isChecked = false;
+                    if (item.Status === 'Pending') {
+                        productsToApprove.push(item.Id);
+                    } else {
+                        this.errorMessage.status = true;
+                        this.errorMessage.message = 'In order to approve status should be Pending for Approval.';
+                        this.approveLoader = false;
+                        return;
+                    }
                 }
             });
         }
-        this.productsService.approveProducts(productsToApprove, this.userRole).
-            then((success) => {
-                if (success.Code === 200) {
-                    this.resetForm();
-                }
-                this.approveLoader = false;
-            }).catch((error) => {
-                this.approveLoader = false;
-            })
-        this.selectAllCheckbox = false;
-        this.showSelectedAction = false;
+        if (!this.errorMessage.status) {
+            this.productsService.approveProducts(productsToApprove, this.userRole).
+                then((success) => {
+                    if (success.Code === 200) {
+                        this.resetForm();
+                    }
+                    this.approveLoader = false;
+                }).catch((error) => {
+                    this.approveLoader = false;
+                })
+                this.selectAllCheckbox = false;
+                this.showSelectedAction = false;
+        }
     }
 
     resetForm() {

@@ -18,6 +18,7 @@ export class ProgramMapComponent implements OnInit {
     showMapprogram: boolean = false;
     curentSelectedProgram: any = null;
     programList: any = [];
+    mapProgramLoader = false;
 
     constructor(
         private toastr: ToastsManager,
@@ -57,6 +58,7 @@ export class ProgramMapComponent implements OnInit {
     }
 
     mapProgram(_program) {
+        this.mapProgramLoader = true;
         let bodyObj = {
             CatalougeId: this.catalogId,
             ProgramId: _program.Id
@@ -73,6 +75,9 @@ export class ProgramMapComponent implements OnInit {
                     "Error!"
                 );
             }
+            this.mapProgramLoader = false;
+        }).catch((error) => {
+            this.mapProgramLoader = false;
         })
     }
 

@@ -104,6 +104,7 @@ export class ProductsComponent implements OnInit {
 
     getAllProducts() {
         this.bigLoader = true;
+        this.errorMessage.status = false;
         this.productsService.getOpsProducts(this.userRole, null, 1, this.showRecords).
             then((products) => {
                 this.products = products.Data ? products.Data.Products : [] ;
@@ -154,6 +155,7 @@ export class ProductsComponent implements OnInit {
     searchProduct(searchProductForm) {
         this.p = 1;
         this.atLeastOneFieldRequires(searchProductForm);
+        this.errorMessage.status = false;
         if (!this.atLeastOnePresent) {
             this.products = [];
             this.searchLoader = true;
@@ -202,6 +204,7 @@ export class ProductsComponent implements OnInit {
 
     exportAllProducts(searchProductForm) {
         this.searchLoader = true;
+        this.errorMessage.status = false;
         if (this.atLeastOneFieldRequires(searchProductForm, true)) {
 
             for (let key in searchProductForm) {
@@ -222,7 +225,12 @@ export class ProductsComponent implements OnInit {
             this.productsService.getOpsProducts(this.userRole, searchProductForm, 1, this.totalRecords).
                 then((products) => {
                     products = products.Data ? products.Data.Products : [];
-                    this.jsonToExcelService.exportAsExcelFile(products, 'products');
+                    if (products.length > 0) {
+                        this.jsonToExcelService.exportAsExcelFile(products, 'products');
+                    } else {
+                        this.errorMessage.message = 'There are no products to export.';
+                        this.errorMessage.status = true;
+                    }
                     this.searchLoader = false;
                 }).catch((error) => {
                     this.searchLoader = false;
@@ -232,7 +240,12 @@ export class ProductsComponent implements OnInit {
             this.productsService.getOpsProducts(this.userRole, null, 1, this.totalRecords).
                 then((products) => {
                     products = products.Data ? products.Data.Products : [];
-                    this.jsonToExcelService.exportAsExcelFile(products, 'products');
+                    if (products.length > 0) {
+                        this.jsonToExcelService.exportAsExcelFile(products, 'products');
+                    } else {
+                        this.errorMessage.message = 'There are no products to export.';
+                        this.errorMessage.status = true;
+                    }
                     this.searchLoader = false;
                 }).catch((error) => {
                     this.searchLoader = false;

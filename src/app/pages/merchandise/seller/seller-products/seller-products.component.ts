@@ -79,6 +79,7 @@ export class SellerProductsComponent implements OnInit {
 
     getAllProducts() {
         this.bigLoader = true;
+        this.errorMessage.status = false;
         this.productsService.getProducts(null, 1, this.showRecords).
             then((products) => {
                 this.products = products.Data ? products.Data.Products : [];
@@ -92,6 +93,7 @@ export class SellerProductsComponent implements OnInit {
 
     exportAllProducts(searchProductForm) {
         this.searchLoader = true;
+        this.errorMessage.status = false;
         if (this.atLeastOneFieldRequires(searchProductForm, true)) {
 
             for (let key in searchProductForm) {
@@ -109,10 +111,15 @@ export class SellerProductsComponent implements OnInit {
             searchProductForm = JSON.stringify(searchProductForm);
             searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
 
-            this.productsService.getProducts(searchProductForm, 1, this.totalRecords).
+            this.productsService.getProductsForExport(searchProductForm, 1, this.totalRecords).
                 then((products) => {
                     products = products.Data ? products.Data.Products : [];
-                    this.jsonToExcelService.exportAsExcelFile(products, 'products');
+                    if (products.length > 0) {
+                        this.jsonToExcelService.exportAsExcelFile(products, 'products');
+                    } else {
+                        this.errorMessage.message = 'There are no products to export.';
+                        this.errorMessage.status = true;
+                    }
                     this.searchLoader = false;
                 }).catch((error) => {
                     this.toastr.error('Could not get products for export.', 'Error');
@@ -120,10 +127,15 @@ export class SellerProductsComponent implements OnInit {
                 })
 
         } else {
-            this.productsService.getProducts(null, 1, this.totalRecords).
+            this.productsService.getProductsForExport(null, 1, this.totalRecords).
                 then((products) => {
                     products = products.Data ? products.Data.Products : [];
-                    this.jsonToExcelService.exportAsExcelFile(products, 'products');
+                    if (products.length > 0) {
+                        this.jsonToExcelService.exportAsExcelFile(products, 'products');
+                    } else {
+                        this.errorMessage.message = 'There are no products to export.';
+                        this.errorMessage.status = true;
+                    }
                     this.searchLoader = false;
                 }).catch((error) => {
                     this.searchLoader = false;
@@ -235,6 +247,7 @@ export class SellerProductsComponent implements OnInit {
         this.p = 1;
         this.recordsToSkip = 1;
         this.recordsDisplayed = this.showRecords;
+        this.errorMessage.status = false;
         if (!this.atLeastOnePresent) {
             this.products = [];
             this.searchLoader = true;
@@ -290,14 +303,12 @@ export class SellerProductsComponent implements OnInit {
         if (this.selectAllCheckbox) {
             products = this.products;
             _.forEach(products, (item) => {
-                delete item.Id; delete item.SellerId; delete item.TypeId; delete item.CategoryId;
-                delete item.SubCategoryId; delete item.SubSubCategoryId; delete item.ProcessingStatus; delete item.Errors; delete item.isChecked; delete item.DiscountType;
+                delete item.ImageNumber; delete item.CurrencyId; delete item.RetailPrice; delete item.RetailShippingPrice; delete item.RetailPriceInclusive; delete item.Discount; delete item.Id; delete item.SellerId; delete item.TypeId; delete item.CategoryId; delete item.SubCategoryId; delete item.SubSubCategoryId; delete item.ProcessingStatus; delete item.Errors; delete item.isChecked; delete item.DiscountType;
             });
         } else {
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
-                    delete item.Id; delete item.SellerId; delete item.TypeId; delete item.CategoryId;
-                    delete item.SubCategoryId; delete item.SubSubCategoryId; delete item.ProcessingStatus; delete item.Errors; delete item.isChecked; delete item.DiscountType;
+                    delete item.ImageNumber; delete item.CurrencyId; delete item.RetailPrice; delete item.RetailShippingPrice; delete item.RetailPriceInclusive; delete item.Discount; delete item.Id; delete item.SellerId; delete item.TypeId; delete item.CategoryId; delete item.SubCategoryId; delete item.SubSubCategoryId; delete item.ProcessingStatus; delete item.Errors; delete item.isChecked; delete item.DiscountType;
                     products.push(item);
                 }
             });

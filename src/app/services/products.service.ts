@@ -46,6 +46,23 @@ export class ProductsService {
             .catch(err => this.responseHandler.handleError(err));
     }
 
+    getProductsForExport(queryParams?, pageIndex?, pageSize?) {
+        let url = `${environment.merchandiseUrl}Merchandise/Seller/Products/Export?e.pageIndex=${pageIndex}&e.pageSize=${pageSize}`;
+        this.headers.set(
+            "Authorization",
+            this.commonAppSer.crateAuthorization()
+        );
+        //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        if (queryParams) {
+            url = `${url}&${queryParams}`
+        }
+        return this.http
+            .get(url, this.options)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
+            .catch(err => this.responseHandler.handleError(err));
+    }
+
     getOpsProducts(role, queryParams?, pageIndex?, pageSize?) {
         let url = `${environment.merchandiseUrl}Merchandise/${role}/Products?e.pageIndex=${pageIndex}&e.pageSize=${pageSize}`;
         this.headers.set(

@@ -84,7 +84,6 @@ export class AppStateManagementService {
             );
 
             this.appStateManagementLSObservables[key] = observable;
-
             return observable;
         }
     }
@@ -192,7 +191,6 @@ export class AppStateManagementService {
             );
 
             this.appStateManagementCKObservables[key] = observable;
-
             return observable;
         }
     }

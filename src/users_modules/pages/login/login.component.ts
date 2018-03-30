@@ -66,7 +66,6 @@ export class LoginComponent implements OnInit {
             then((userCredential) => {
                 if (userCredential) {
                     const userCred = JSON.parse(userCredential);
-                    console.log("userCred ", userCred);
                     this.loginForm.controls['email'].patchValue(userCred.username);
                     this.loginForm.controls['password'].patchValue(userCred.password);
                     this.loginForm.controls['rememberMe'].patchValue('true');

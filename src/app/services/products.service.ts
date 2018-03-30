@@ -184,7 +184,7 @@ export class ProductsService {
     sendproductForApproval(product, searchForm?) {
         const url = `${
             environment.merchandiseUrl
-            }Merchandise/Seller/Products/Confirm?e.pageIndex=${searchForm}`;
+            }Merchandise/Seller/Products/Confirm?e.pageIndex=&${searchForm}`;
         this.headers.set(
             "Authorization",
             this.commonAppSer.crateAuthorization()

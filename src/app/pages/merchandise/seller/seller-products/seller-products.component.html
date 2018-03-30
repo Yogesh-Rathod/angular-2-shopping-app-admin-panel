@@ -126,7 +126,7 @@
                 <div class="clearfix" *ngIf="totalRecords && totalRecords > 0">
                     <form>
                         <label>
-                            <input type="checkbox" name="someName" (change)="checkAllProductsCheckboxChange($event)">
+                            <input [(ngModel)]="checkAllCheckboxChange" type="checkbox" name="someName" (change)="checkAllProductsCheckboxChange($event)">
                             Check all {{ totalRecords }} records
                         </label>
                     </form>

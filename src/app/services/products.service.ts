@@ -181,10 +181,10 @@ export class ProductsService {
             .catch(err => this.responseHandler.handleError(err));
     }
 
-    sendproductForApproval(product) {
+    sendproductForApproval(product, searchForm?) {
         const url = `${
             environment.merchandiseUrl
-            }Merchandise/Seller/Products/Confirm`;
+            }Merchandise/Seller/Products/Confirm?e.pageIndex=${searchForm}`;
         this.headers.set(
             "Authorization",
             this.commonAppSer.crateAuthorization()

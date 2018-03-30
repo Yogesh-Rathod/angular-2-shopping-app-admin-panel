@@ -328,9 +328,7 @@ export class SellerProductsComponent implements OnInit {
     checkAllProductsCheckboxChange(e) {
         if (e.target.checked) {
             this.productSelected = false;
-            this.checkAllCheckboxChange = true;
         } else {
-            this.checkAllCheckboxChange = false;
             this.isCheckedArray = [];
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
@@ -362,8 +360,30 @@ export class SellerProductsComponent implements OnInit {
                 }
             }
         });
+        let searchProductForm: any = {};
+        console.log("this.checkAllCheckboxChange ", this.checkAllCheckboxChange);
+        if (this.checkAllCheckboxChange) {
+            searchProductForm = this.searchProductForm.value;
+            searchProductForm['e.isCheckAll'] = "true";
+
+            for (let key in searchProductForm) {
+                if (searchProductForm.hasOwnProperty(key)) {
+                    let value = searchProductForm[key];
+                    if (!value || value.length === 0) {
+                        delete searchProductForm[key];
+                    }
+                    if (typeof searchProductForm[key] === 'string') {
+                        searchProductForm[key] = searchProductForm[key].trim();
+                    }
+                }
+            }
+        }
+        searchProductForm = JSON.stringify(searchProductForm);
+        searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
+        console.log("searchProductForm ", searchProductForm);
+        console.log("productsToConfirm ", productsToConfirm);
         if (!this.errorMessage.status) {
-            this.productsService.sendproductForApproval(productsToConfirm)
+            this.productsService.sendproductForApproval(productsToConfirm, searchProductForm)
                 .then(res => {
                     if (res.Code === 200) {
                         this.getAllProducts();
@@ -375,6 +395,7 @@ export class SellerProductsComponent implements OnInit {
                     this.productSelected = true;
                     this.approveLoader = false;
                 }).catch(err => {
+                    this.checkAllCheckboxChange = false;
                     this.selectAllCheckbox = false;
                     this.productSelected = true;
                     this.approveLoader = false;

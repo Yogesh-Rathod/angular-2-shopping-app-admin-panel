@@ -6,69 +6,78 @@
 @desc [description]
 -->
 <div class="login-container">
-  <div class="login-box">
-    <div class="login-logo">
-      <a>
-      <img src="assets/images/logo.png" alt="logo" height="100px">
-    </a>
-    </div>
-    <div class="login-box-body" *ngIf="!forgotPassword">
-      <p class="login-box-msg">Sign in to start your session</p>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
-        <div class="form-group row">
-          <div class="col-md-2 input-label">Username</div>
-          <input class="form-control col-md-10" [formControl]="email" type="text" placeholder="Username" [ngClass]="{
+    <div class="login-box">
+        <div class="login-logo">
+            <a>
+                <img src="assets/images/logo.png" alt="logo" height="100px">
+            </a>
+        </div>
+        <div class="login-box-body" *ngIf="!forgotPassword">
+            <p class="login-box-msg">Sign in to start your session</p>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
+                <div class="form-group row">
+                    <div class="col-md-2 input-label">Username</div>
+                    <input class="form-control col-md-10" [formControl]="email" type="text" placeholder="Username" [ngClass]="{
           'has-error': loginForm.get('email').invalid && ( loginForm.get('email').dirty ||  loginForm.get('email').touched)
         }">
-          <div class="col-md-2"></div>
-          <em *ngIf="(loginForm.get('email').invalid && ( loginForm.get('email').dirty ||  loginForm.get('email').touched))" class="text-danger col-md-10 padding5">Please enter proper username</em>
-        </div>
-        <div class="form-group row">
-          <div class="col-md-2 input-label">Password</div>
-          <input class="form-control col-md-10" type="password" [formControl]="password" type="password" placeholder="Password" [ngClass]="{'has-error': (loginForm.get('password').invalid && ( loginForm.get('password').dirty ||  loginForm.get('password').touched))}">
-          <div class="col-md-2"></div>
-          <em *ngIf="(loginForm.get('password').invalid && ( loginForm.get('password').dirty ||  loginForm.get('password').touched))" class="text-danger col-md-10 padding5">Please enter proper password</em>
-        </div>
-        <div class="form-group row">
-          <div class="col-md-2"></div>
-          <div class="col-md-10 padding0">
-            <button [disabled]="loginForm.invalid || !isHidden" type="submit" class="btn btn-default">
-                  Sign In
-                  <img [hidden]="isHidden" src="assets/images/loader-white.gif" style="width:15px;">
-                </button>
+                    <div class="col-md-2"></div>
+                    <em *ngIf="(loginForm.get('email').invalid && ( loginForm.get('email').dirty ||  loginForm.get('email').touched))" class="text-danger col-md-10 padding5">Please enter proper username</em>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-2 input-label">Password</div>
+                    <input class="form-control col-md-10" type="password" [formControl]="password" type="password" placeholder="Password" [ngClass]="{'has-error': (loginForm.get('password').invalid && ( loginForm.get('password').dirty ||  loginForm.get('password').touched))}">
+                    <div class="col-md-2"></div>
+                    <em *ngIf="(loginForm.get('password').invalid && ( loginForm.get('password').dirty ||  loginForm.get('password').touched))"
+                        class="text-danger col-md-10 padding5">Please enter proper password</em>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10 padding0">
+                        <input type="checkbox" id="rememberMe" [formControl]="rememberMe" name="rememberMe">
+                        <label class="input-label rememberlabel" for="rememberMe">Remember Me</label>
+                    </div>
+                </div>
 
-            <!-- <span class="btn-link float-right" (click)="forgotPassword = true">Reset Password</span> -->
-          </div>
+                <div class="form-group row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10 padding0">
+                        <button [disabled]="loginForm.invalid || !isHidden" type="submit" class="btn btn-default">
+                            Sign In
+                            <img [hidden]="isHidden" src="assets/images/loader-white.gif" style="width:15px;">
+                        </button>
+
+                        <!-- <span class="btn-link float-right" (click)="forgotPassword = true">Reset Password</span> -->
+                    </div>
+                </div>
+
+            </form>
         </div>
 
-      </form>
-    </div>
-
-    <div class="forget-password-box login-box-body" *ngIf="forgotPassword">
-      <p class="login-box-msg">Enter username to reset password</p>
-      <form [formGroup]="forgotPasswordForm" (ngSubmit)="onForgotFormSubmit(forgotPasswordForm.value)">
-        <div class="form-group row">
-          <div class="col-md-2 input-label">Username</div>
-          <input class="form-control col-md-10" [formControl]="forgotPasswordEmail" type="text" placeholder="Username" [ngClass]="{
+        <div class="forget-password-box login-box-body" *ngIf="forgotPassword">
+            <p class="login-box-msg">Enter username to reset password</p>
+            <form [formGroup]="forgotPasswordForm" (ngSubmit)="onForgotFormSubmit(forgotPasswordForm.value)">
+                <div class="form-group row">
+                    <div class="col-md-2 input-label">Username</div>
+                    <input class="form-control col-md-10" [formControl]="forgotPasswordEmail" type="text" placeholder="Username" [ngClass]="{
           'has-error': forgotPasswordForm.get('forgotPasswordEmail').invalid && ( forgotPasswordForm.get('forgotPasswordEmail').dirty ||  forgotPasswordForm.get('forgotPasswordEmail').touched)
         }">
-          <div class="col-md-2"></div>
-          <em *ngIf="(forgotPasswordForm.get('forgotPasswordEmail').invalid && ( forgotPasswordForm.get('forgotPasswordEmail').dirty ||  forgotPasswordForm.get('forgotPasswordEmail').touched))"
-            class="text-danger col-md-10 padding5">Please enter proper username</em>
-        </div>
-        <div class="form-group row">
-          <div class="col-md-2"></div>
-          <div class="col-md-10 padding0">
-            <button [disabled]="forgotPasswordForm.invalid || !isHiddenForgot" type="submit" class="btn btn-default">
-                Send
-                    <img [hidden]="isHiddenForgot" src="assets/images/loader-white.gif" style="width:15px;">
-                  </button>
+                    <div class="col-md-2"></div>
+                    <em *ngIf="(forgotPasswordForm.get('forgotPasswordEmail').invalid && ( forgotPasswordForm.get('forgotPasswordEmail').dirty ||  forgotPasswordForm.get('forgotPasswordEmail').touched))"
+                        class="text-danger col-md-10 padding5">Please enter proper username</em>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10 padding0">
+                        <button [disabled]="forgotPasswordForm.invalid || !isHiddenForgot" type="submit" class="btn btn-default">
+                            Send
+                            <img [hidden]="isHiddenForgot" src="assets/images/loader-white.gif" style="width:15px;">
+                        </button>
 
-            <span class="btn-link float-right" (click)="backToLogin()">Back to login</span>
-          </div>
+                        <span class="btn-link float-right" (click)="backToLogin()">Back to login</span>
+                    </div>
+                </div>
+            </form>
         </div>
-      </form>
     </div>
-  </div>
 
 </div>

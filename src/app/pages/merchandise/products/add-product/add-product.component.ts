@@ -343,11 +343,15 @@ export class AddProductComponent implements OnInit {
                 this.toastr.success('Sucessfully Done!', 'Sucess!');
                 this.showLoader = false;
                 this.goBack();
-            }).catch(err => { })
+            }).catch(err => {
+                this.showLoader = false;
+                this.toastr.error('Sorry! Could not update product.', 'Error');
+            })
         }
         if (addProductForm.id) {
         }
     }
+
     sendApproval(addProductForm){
         let value = '';
         addProductForm.specifications = addProductForm.specifications.map((data, index) => {
@@ -399,7 +403,10 @@ export class AddProductComponent implements OnInit {
                 this.toastr.success('Sucessfully Done!', 'Sucess!');
                 this.showLoader = false;
                 this.goBack();
-            }).catch(err => { })
+            }).catch(err => {
+                this.showLoader = false;
+                this.toastr.error('Sorry! Could not send product for approval.', 'Error');
+            })
     }
     getAllCategories() {
         this.subSubCategory = [];

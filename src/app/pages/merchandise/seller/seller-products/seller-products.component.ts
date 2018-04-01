@@ -30,7 +30,24 @@ export class SellerProductsComponent implements OnInit {
     searchLoader = false;
     products: any;
     categories: any;
-    status = ['Draft', 'Pending', 'Approved', 'Rejected'];
+    status = [
+        {
+            id: 'Draft',
+            itemName: 'Draft'
+        },
+        {
+            id: 'Pending',
+            itemName: 'Pending for Approval'
+        },
+        {
+            id: 'Approved',
+            itemName: 'Approved'
+        },
+        {
+            id: 'Rejected',
+            itemName: 'Rejected'
+        },
+    ];
     selectAllCheckbox = false;
     atLeastOnePresent = false;
     errorMessage = {

@@ -79,8 +79,8 @@
                         </label>
                         <select id="Status" class="form-control col-12" formControlName="e.status">
                             <option value="">All</option>
-                            <option *ngFor="let item of status" value="{{ item }}">
-                                {{ item }}
+                            <option *ngFor="let item of status" value="{{ item.id }}">
+                                {{ item.itemName }}
                             </option>
                         </select>
                     </div>

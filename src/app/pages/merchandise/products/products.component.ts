@@ -28,7 +28,24 @@ export class ProductsComponent implements OnInit {
     searchLoader = false;
     products: any;
     categories: any;
-    status = ['Draft', 'Pending', 'Approved', 'Rejected'];
+    status = [
+        {
+            id: 'Draft',
+            itemName: 'Draft'
+        },
+        {
+            id: 'Pending',
+            itemName: 'Pending for Approval'
+        },
+        {
+            id: 'Approved',
+            itemName: 'Approved'
+        },
+        {
+            id: 'Rejected',
+            itemName: 'Rejected'
+        },
+    ];
     vendors: any;
     showSelectedAction = false;
     selectAllCheckbox = false;

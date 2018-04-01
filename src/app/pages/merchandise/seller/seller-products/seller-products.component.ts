@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import * as _ from 'lodash';
 declare let $: any;
 
@@ -112,22 +111,7 @@ export class SellerProductsComponent implements OnInit {
         this.searchLoader = true;
         this.errorMessage.status = false;
         if (this.atLeastOneFieldRequires(searchProductForm, true)) {
-
-            for (let key in searchProductForm) {
-                if (searchProductForm.hasOwnProperty(key)) {
-                    let value = searchProductForm[key];
-                    if (!value || value.length === 0) {
-                        delete searchProductForm[key];
-                    }
-                    if (typeof searchProductForm[key] === 'string') {
-                        searchProductForm[key] = searchProductForm[key].trim();
-                    }
-                }
-            }
-
-            searchProductForm = JSON.stringify(searchProductForm);
-            searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
-
+            searchProductForm = this.removeBlankFieldsFromForm(searchProductForm);
             this.productsService.getProductsForExport(searchProductForm, 1, this.totalRecords).
                 then((products) => {
                     products = products.Data ? products.Data.Products : [];
@@ -165,6 +149,12 @@ export class SellerProductsComponent implements OnInit {
         this.approveLoader = true;
         let productsToChange = [];
         this.errorMessage.status = false;
+        let searchProductForm: any = {};
+        if (this.checkAllCheckboxChange) {
+            searchProductForm = this.searchProductForm.value;
+            searchProductForm['e.isCheckAll'] = "true";
+            searchProductForm = this.removeBlankFieldsFromForm(searchProductForm);
+        }
         _.forEach(this.products, (item) => {
             if (item.isChecked) {
                 if (item.Status === 'Approved') {
@@ -208,11 +198,13 @@ export class SellerProductsComponent implements OnInit {
                     this.selectAllCheckbox = false;
                     this.productSelected = true;
                     this.approveLoader = false;
+                    this.checkAllCheckboxChange = false;
                     $('[data-toggle="tooltip"]').tooltip('hide');
                 }).catch(err => {
                     this.selectAllCheckbox = false;
                     this.productSelected = true;
                     this.approveLoader = false;
+                    this.checkAllCheckboxChange = false;
                     switch (status) {
                         case 0:
                             this.toastr.error('Could not mark in stock.', 'Error');
@@ -259,6 +251,23 @@ export class SellerProductsComponent implements OnInit {
         }
     }
 
+    removeBlankFieldsFromForm(FormObject) {
+        for (let key in FormObject) {
+            if (FormObject.hasOwnProperty(key)) {
+                let value = FormObject[key];
+                if (!value || value.length === 0) {
+                    delete FormObject[key];
+                }
+                if (typeof FormObject[key] === 'string') {
+                    FormObject[key] = FormObject[key].trim();
+                }
+            }
+        }
+        FormObject = JSON.stringify(FormObject);
+        FormObject = FormObject.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
+        return FormObject;
+    }
+
     searchProduct(searchProductForm) {
         this.atLeastOneFieldRequires(searchProductForm);
         this.p = 1;
@@ -269,21 +278,7 @@ export class SellerProductsComponent implements OnInit {
             this.products = [];
             this.searchLoader = true;
             this.bigLoader = true;
-
-            for (let key in searchProductForm) {
-                if (searchProductForm.hasOwnProperty(key)) {
-                    let value = searchProductForm[key];
-                    if (!value || value.length === 0) {
-                        delete searchProductForm[key];
-                    }
-                    if (typeof searchProductForm[key] === 'string') {
-                        searchProductForm[key] = searchProductForm[key].trim();
-                    }
-                }
-            }
-
-            searchProductForm = JSON.stringify(searchProductForm);
-            searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
+            searchProductForm = this.removeBlankFieldsFromForm(searchProductForm);
 
             this.productsService.getProducts(searchProductForm, 1, this.showRecords).
                 then((products) => {
@@ -378,27 +373,11 @@ export class SellerProductsComponent implements OnInit {
             }
         });
         let searchProductForm: any = {};
-        console.log("this.checkAllCheckboxChange ", this.checkAllCheckboxChange);
         if (this.checkAllCheckboxChange) {
             searchProductForm = this.searchProductForm.value;
             searchProductForm['e.isCheckAll'] = "true";
-
-            for (let key in searchProductForm) {
-                if (searchProductForm.hasOwnProperty(key)) {
-                    let value = searchProductForm[key];
-                    if (!value || value.length === 0) {
-                        delete searchProductForm[key];
-                    }
-                    if (typeof searchProductForm[key] === 'string') {
-                        searchProductForm[key] = searchProductForm[key].trim();
-                    }
-                }
-            }
+            searchProductForm = this.removeBlankFieldsFromForm(searchProductForm);
         }
-        searchProductForm = JSON.stringify(searchProductForm);
-        searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
-        console.log("searchProductForm ", searchProductForm);
-        console.log("productsToConfirm ", productsToConfirm);
         if (!this.errorMessage.status) {
             this.productsService.sendproductForApproval(productsToConfirm, searchProductForm)
                 .then(res => {
@@ -411,6 +390,7 @@ export class SellerProductsComponent implements OnInit {
                     this.selectAllCheckbox = false;
                     this.productSelected = true;
                     this.approveLoader = false;
+                    this.checkAllCheckboxChange = false;
                 }).catch(err => {
                     this.checkAllCheckboxChange = false;
                     this.selectAllCheckbox = false;
@@ -456,49 +436,6 @@ export class SellerProductsComponent implements OnInit {
             this.productSelected = false;
         }
 
-    }
-
-    dropDownActionFunction(dropDownActionValue) {
-        switch (dropDownActionValue) {
-            case 'Approve Selected':
-                this.approveAll();
-                break;
-            case 'Reject Selected':
-                this.rejectAll();
-                break;
-            default:
-                break;
-        }
-    }
-
-    rejectAll() {
-        if (this.selectAllCheckbox) {
-            _.forEach(this.products, (item) => {
-                item.isChecked = false;
-            });
-        } else {
-            _.forEach(this.products, (item) => {
-                if (item.isChecked) {
-                    item.isChecked = false;
-                }
-            });
-        }
-        this.selectAllCheckbox = false;
-    }
-
-    approveAll() {
-        if (this.selectAllCheckbox) {
-            _.forEach(this.products, (item) => {
-                item.isChecked = false;
-            });
-        } else {
-            _.forEach(this.products, (item) => {
-                if (item.isChecked) {
-                    item.isChecked = false;
-                }
-            });
-        }
-        this.selectAllCheckbox = false;
     }
 
     resetForm() {

@@ -132,14 +132,13 @@
                     </p>
                 </div>
 
-                <!-- <div class="clearfix">
-                    <div class="form-group">
+                <div class="clearfix" *ngIf="totalRecords && totalRecords > 0">
+                    <form>
                         <label>
-                            <input [class.disabled]="products && products.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
-                            Check All
+                            <input [(ngModel)]="checkAllCheckboxChange" type="checkbox" name="someName" (change)="checkAllProductsCheckboxChange($event)"> Check all {{ totalRecords }} records
                         </label>
-                    </div>
-                </div> -->
+                    </form>
+                </div>
 
                 <button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 || !showSelectedAction }"
                     (click)="exportProducts()">

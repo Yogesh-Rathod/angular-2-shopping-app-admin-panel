@@ -5,7 +5,6 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CsvService } from "angular2-json2csv";
 import { CookieService } from 'ngx-cookie';
-
 import * as _ from 'lodash';
 declare let $: any;
 
@@ -63,6 +62,8 @@ export class ProductsComponent implements OnInit {
         message: '',
         status: false
     };
+    isCheckedArray: any;
+    checkAllCheckboxChange = false;
 
     constructor(
         private cookieService: CookieService,
@@ -177,21 +178,7 @@ export class ProductsComponent implements OnInit {
             this.products = [];
             this.searchLoader = true;
             this.bigLoader = true;
-
-            for (let key in searchProductForm) {
-                if (searchProductForm.hasOwnProperty(key)) {
-                    let value = searchProductForm[key];
-                    if (!value || value.length === 0) {
-                        delete searchProductForm[key];
-                    }
-                    if (typeof searchProductForm[key] === 'string') {
-                        searchProductForm[key] = searchProductForm[key].trim();
-                    }
-                }
-            }
-
-            searchProductForm = JSON.stringify(searchProductForm);
-            searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
+            searchProductForm = this.removeBlankFieldsFromForm(searchProductForm);
 
             this.productsService.getOpsProducts(this.userRole, searchProductForm, 1, this.showRecords).
                 then((products) => {
@@ -223,21 +210,7 @@ export class ProductsComponent implements OnInit {
         this.searchLoader = true;
         this.errorMessage.status = false;
         if (this.atLeastOneFieldRequires(searchProductForm, true)) {
-
-            for (let key in searchProductForm) {
-                if (searchProductForm.hasOwnProperty(key)) {
-                    let value = searchProductForm[key];
-                    if (!value || value.length === 0) {
-                        delete searchProductForm[key];
-                    }
-                    if (typeof searchProductForm[key] === 'string') {
-                        searchProductForm[key] = searchProductForm[key].trim();
-                    }
-                }
-            }
-
-            searchProductForm = JSON.stringify(searchProductForm);
-            searchProductForm = searchProductForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
+            searchProductForm = this.removeBlankFieldsFromForm(searchProductForm);
 
             this.productsService.getOpsProducts(this.userRole, searchProductForm, 1, this.totalRecords).
                 then((products) => {
@@ -295,20 +268,21 @@ export class ProductsComponent implements OnInit {
         }).catch(status => { })
     }
 
-    toalRecordsSelected(value) {
-        if (value) {
-            this.selectAllCheckboxMessage.clearSelection = true;
+    checkAllProductsCheckboxChange(e) {
+        if (e.target.checked) {
+            this.showSelectedAction = true;
         } else {
-            this.selectAllCheckbox = false;
-            this.selectAllCheckboxMessage.message = false;
-            this.selectAllCheckboxMessage.clearSelection = false;
-            this.selectAllCheckboxMessage.message = false;
-            this.noActionSelected = false;
-            this.selectAllCheckbox = false;
+            this.isCheckedArray = [];
             _.forEach(this.products, (item) => {
-                item.isChecked = false;
+                if (item.isChecked) {
+                    this.isCheckedArray.push(item);
+                }
             });
-            this.showSelectedAction = false;
+            if (this.isCheckedArray.length === 0 && !this.checkAllCheckboxChange) {
+                this.showSelectedAction = false;
+            } else {
+                this.showSelectedAction = true;
+            }
         }
     }
 
@@ -340,17 +314,19 @@ export class ProductsComponent implements OnInit {
             item.isChecked = false;
         }
 
-        let isCheckedArray = [];
+        this.isCheckedArray = [];
 
         _.forEach(this.products, (item) => {
             if (item.isChecked) {
                 this.showSelectedAction = true;
-                isCheckedArray.push(item);
+                this.isCheckedArray.push(item);
             }
         });
 
-        if (isCheckedArray.length === 0) {
+        if (this.isCheckedArray.length === 0 && !this.checkAllCheckboxChange) {
             this.showSelectedAction = false;
+        } else {
+            this.showSelectedAction = true;
         }
 
     }
@@ -391,10 +367,15 @@ export class ProductsComponent implements OnInit {
     }
 
     toggleOutOfStock(status) {
-        console.log("status ", status);
         this.approveLoader = true;
         let productsToChange = [];
         this.errorMessage.status = false;
+        let searchProductForm: any = {};
+        if (this.checkAllCheckboxChange) {
+            searchProductForm = this.searchProductForm.value;
+            searchProductForm['e.isCheckAll'] = "true";
+            searchProductForm = this.removeBlankFieldsFromForm(searchProductForm);
+        }
         _.forEach(this.products, (item) => {
             if (item.isChecked) {
                 if (item.Status === 'Approved') {
@@ -409,7 +390,7 @@ export class ProductsComponent implements OnInit {
             }
         });
         if (!this.errorMessage.status) {
-            this.productsService.toggleProductsOutofStock(productsToChange, status)
+            this.productsService.toggleProductsOutofStock(productsToChange, status, searchProductForm)
                 .then(res => {
                     if (res.Code === 200) {
                         this.getAllProducts();
@@ -438,9 +419,11 @@ export class ProductsComponent implements OnInit {
                     this.selectAllCheckbox = false;
                     this.showSelectedAction = true;
                     this.approveLoader = false;
+                    this.checkAllCheckboxChange = false;
                 }).catch(err => {
                     this.selectAllCheckbox = false;
                     this.showSelectedAction = true;
+                    this.checkAllCheckboxChange = false;
                     this.approveLoader = false;
                     switch (status) {
                         case 0:
@@ -463,9 +446,33 @@ export class ProductsComponent implements OnInit {
         // }).catch(err => { })
     }
 
+    removeBlankFieldsFromForm(FormObject) {
+        for (let key in FormObject) {
+            if (FormObject.hasOwnProperty(key)) {
+                let value = FormObject[key];
+                if (!value || value.length === 0) {
+                    delete FormObject[key];
+                }
+                if (typeof FormObject[key] === 'string') {
+                    FormObject[key] = FormObject[key].trim();
+                }
+            }
+        }
+        FormObject = JSON.stringify(FormObject);
+        FormObject = FormObject.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
+        return FormObject;
+    }
+
     rejectAll() {
         this.approveLoader = true;
         let productsToReject = [];
+        let searchProductForm: any = {};
+        if (this.checkAllCheckboxChange) {
+            searchProductForm = this.searchProductForm.value;
+            searchProductForm['e.isCheckAll'] = "true";
+            searchProductForm = this.removeBlankFieldsFromForm(searchProductForm);
+        }
+
         if (this.selectAllCheckbox) {
             _.forEach(this.products, (item) => {
                 if (item.Status === 'Pending') {
@@ -495,7 +502,7 @@ export class ProductsComponent implements OnInit {
             });
         }
         if (!this.errorMessage.status) {
-            this.productsService.rejectProducts(productsToReject, this.userRole).
+            this.productsService.rejectProducts(productsToReject, this.userRole, searchProductForm).
                 then((success) => {
                     if (success.Code === 200) {
                         this.resetForm();
@@ -506,6 +513,7 @@ export class ProductsComponent implements OnInit {
                 });
             this.selectAllCheckbox = false;
             this.showSelectedAction = false;
+            this.checkAllCheckboxChange = false;
         }
     }
 
@@ -513,6 +521,13 @@ export class ProductsComponent implements OnInit {
         this.approveLoader = true;
         this.errorMessage.status = false;
         let productsToApprove = [];
+        let searchProductForm: any = {};
+        if (this.checkAllCheckboxChange) {
+            searchProductForm = this.searchProductForm.value;
+            searchProductForm['e.isCheckAll'] = "true";
+            searchProductForm = this.removeBlankFieldsFromForm(searchProductForm);
+        }
+        
         if (this.selectAllCheckbox) {
             productsToApprove = [];
             _.forEach(this.products, (item) => {
@@ -541,7 +556,7 @@ export class ProductsComponent implements OnInit {
             });
         }
         if (!this.errorMessage.status) {
-            this.productsService.approveProducts(productsToApprove, this.userRole).
+            this.productsService.approveProducts(productsToApprove, this.userRole, searchProductForm).
                 then((success) => {
                     if (success.Code === 200) {
                         this.resetForm();
@@ -552,6 +567,7 @@ export class ProductsComponent implements OnInit {
                 })
                 this.selectAllCheckbox = false;
                 this.showSelectedAction = false;
+                this.checkAllCheckboxChange = false;
         }
     }
 

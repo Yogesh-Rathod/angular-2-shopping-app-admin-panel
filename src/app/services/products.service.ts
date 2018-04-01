@@ -80,10 +80,10 @@ export class ProductsService {
             .catch(err => this.responseHandler.handleError(err));
     }
 
-    approveProducts(products, role) {
+    approveProducts(products, role, searchForm?) {
         const url = `${
             environment.merchandiseUrl
-            }Merchandise/${role}/Products/Approve`;
+            }Merchandise/${role}/Products/Approve?e.pageIndex=&${searchForm}`;
         this.headers.set(
             "Authorization",
             this.commonAppSer.crateAuthorization()
@@ -96,10 +96,10 @@ export class ProductsService {
             .catch(err => this.responseHandler.handleError(err));
     }
 
-    rejectProducts(products, role) {
+    rejectProducts(products, role, searchForm?) {
         const url = `${
             environment.merchandiseUrl
-            }Merchandise/${role}/Products/Reject`;
+            }Merchandise/${role}/Products/Reject?e.pageIndex=&${searchForm}`;
         this.headers.set(
             "Authorization",
             this.commonAppSer.crateAuthorization()
@@ -112,10 +112,10 @@ export class ProductsService {
             .catch(err => this.responseHandler.handleError(err));
     }
 
-    toggleProductsOutofStock(products, status) {
+    toggleProductsOutofStock(products, status, searchForm?) {
         const url = `${
             environment.merchandiseUrl
-            }Merchandise/Seller/Products/OutOfStock/${status}`;
+            }Merchandise/Seller/Products/OutOfStock/${status}?e.pageIndex=&${searchForm}`;
         this.headers.set(
             "Authorization",
             this.commonAppSer.crateAuthorization()

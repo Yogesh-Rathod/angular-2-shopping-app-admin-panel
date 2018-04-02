@@ -527,7 +527,7 @@ export class ProductsComponent implements OnInit {
             searchProductForm['e.isCheckAll'] = "true";
             searchProductForm = this.removeBlankFieldsFromForm(searchProductForm);
         }
-        
+
         if (this.selectAllCheckbox) {
             productsToApprove = [];
             _.forEach(this.products, (item) => {

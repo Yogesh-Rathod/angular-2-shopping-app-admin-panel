@@ -379,6 +379,7 @@ export class SellerProductsComponent implements OnInit {
             searchProductForm = this.removeBlankFieldsFromForm(searchProductForm);
         }
         if (!this.errorMessage.status) {
+            $('[data-toggle="tooltip"]').tooltip('hide');
             this.productsService.sendproductForApproval(productsToConfirm, searchProductForm)
                 .then(res => {
                     if (res.Code === 200) {

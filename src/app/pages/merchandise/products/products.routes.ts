@@ -17,13 +17,6 @@ const routes: Routes = [
     }
   },
   {
-    path: 'vendorproducts/add-product/:vendorId',
-    component: AddProductComponent,
-    data: {
-      MenuCode: 'PRD'
-    }
-  },
-  {
     path: 'add-product',
     component: AddProductComponent,
     data: {
@@ -32,13 +25,6 @@ const routes: Routes = [
   },
   {
     path: 'edit-product/:productId',
-    component: AddProductComponent,
-    data: {
-      MenuCode: 'PRD'
-    }
-  },
-  {
-    path: 'edit-product/:productId/:bankId',
     component: AddProductComponent,
     data: {
       MenuCode: 'PRD'

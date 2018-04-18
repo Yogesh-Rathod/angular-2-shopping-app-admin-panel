@@ -14,8 +14,7 @@ export class AuthenticationService {
 
   initiateLogout() {
     this._spinner.show();
-    this.appStateManagementService.clearAppStateLS()
-      .then(() => this.appStateManagementService.clearAppStateCK())
+      this.appStateManagementService.clearAppStateCK()
       .then(value => {
         this.router.navigate(['/login']).then(() => {
           this._spinner.hide();

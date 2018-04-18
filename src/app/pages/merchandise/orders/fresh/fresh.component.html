@@ -6,8 +6,11 @@
 <button class="btn btn-primary deleteSelectedButton" [class.disabled]="!showSelectedAction" (click)="updateToProcessed()">
     Update to processed
 </button>
+<button class="btn btn-secondary deleteSelectedButton" [class.disabled]="!showSelectedAction" (click)="downloadPDF()">
+    <i class="fa fa-file-pdf-o"></i> Generate PO
+</button>
 
-<button class="btn btn-info deleteSelectedButton pull-right" (click)="importOrders()">
+<button class="btn btn-info deleteSelectedButton pull-right" [class.disabled]="!showSelectedAction" (click)="importOrders()">
     <i class="fa fa-download" aria-hidden="true"></i>
     Bulk Update to Processed
 </button>
@@ -70,6 +73,9 @@
                 <td>
                     <button class="btn btn-secondary" [routerLink]="['./order-details/', item.PurchaseOrderNumber]" title="Edit">
                         <i class="fa fa-eye" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-secondary" (click)="downloadPDF(item.PurchaseOrderNumber)" title="Generate PO">
+                        <i class="fa fa-file-pdf-o"></i>
                     </button>
                 </td>
             </tr>

@@ -149,4 +149,47 @@ export class FreshComponent implements OnInit {
         }
     }
 
+    downloadPDF(purchaseordernumber?) {
+        let productsToDownload = [];
+        if (purchaseordernumber) {
+            productsToDownload.push(purchaseordernumber);
+            let resquestBody = {
+                purchaseOrderNumbersList: productsToDownload
+            };
+            console.log("resquestBody ", resquestBody);
+            this.ordersService.downloadPOPdf(resquestBody).
+                then((success) => {
+                    console.log("success ", success);
+                }).catch((error) => {
+                    console.log("error ", error);
+                });
+        } else {
+            if (this.selectAllCheckbox) {
+                _.forEach(this.orders, (item) => {
+                    productsToDownload.push(item.PurchaseOrderNumber);
+                    item.isChecked = false;
+                });
+            } else {
+                _.forEach(this.orders, (item) => {
+                    if (item.isChecked) {
+                        productsToDownload.push(item.PurchaseOrderNumber);
+                        item.isChecked = false;
+                    }
+                });
+            }
+            let resquestBody = {
+                purchaseOrderNumbersList: productsToDownload
+            };
+            console.log("resquestBody ", resquestBody);
+            this.ordersService.downloadPOPdf(resquestBody).
+                then((success) => {
+                    console.log("success ", success);
+                }).catch((error) => {
+                    console.log("error ", error);
+                });
+            this.selectAllCheckbox = false;
+            this.showSelectedAction = false;
+        }
+    }
+
 }

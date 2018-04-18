@@ -39,9 +39,7 @@ export class OrdersService {
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.post(url, JSON.stringify(data), this.options)
             .toPromise()
-            .then(
-            this.responseHandler.handleResponse
-            )
+            .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
 
@@ -50,9 +48,7 @@ export class OrdersService {
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.post(url, JSON.stringify(data), this.options)
             .toPromise()
-            .then(
-            this.responseHandler.handleResponse
-            )
+            .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
 
@@ -61,9 +57,7 @@ export class OrdersService {
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.post(url, JSON.stringify(data), this.options)
             .toPromise()
-            .then(
-            this.responseHandler.handleResponse
-            )
+            .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
 
@@ -72,9 +66,7 @@ export class OrdersService {
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.put(url, JSON.stringify(orders), this.options)
             .toPromise()
-            .then(
-            this.responseHandler.handleResponse
-            )
+            .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
 
@@ -83,9 +75,7 @@ export class OrdersService {
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.put(url, JSON.stringify(orders), this.options)
             .toPromise()
-            .then(
-            this.responseHandler.handleResponse
-            )
+            .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
 
@@ -94,9 +84,19 @@ export class OrdersService {
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.put(url, JSON.stringify(orders), this.options)
             .toPromise()
-            .then(
-            this.responseHandler.handleResponse
-            )
+            .then(this.responseHandler.handleResponse)
+            .catch((err) => this.responseHandler.handleError(err));
+    }
+
+    downloadPOPdf(data, queryParams?) {
+        let url = `${environment.merchandiseUrl}Orders/Download/pdf?e.pageSize''`;
+        if (queryParams) {
+            url = `${url}&${queryParams}`
+        }
+        this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        return this.http.post(url, JSON.stringify(data), this.options)
+            .toPromise()
+            .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
     }
 

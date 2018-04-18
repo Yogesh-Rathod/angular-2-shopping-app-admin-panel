@@ -82,6 +82,9 @@
                             <i class="fa fa-download" aria-hidden="true"></i>
                             Export All Orders
                         </button>
+                        <button type="button" class="btn btn-secondary deleteSelectedButton" (click)="downloadPDF(searchProductForm.value)">
+                            <i class="fa fa-file-pdf-o"></i> Generate PO for all
+                        </button>
                     </div>
 
                 </form>

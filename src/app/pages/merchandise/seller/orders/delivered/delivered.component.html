@@ -2,7 +2,9 @@
     <i class="fa fa-download" aria-hidden="true"></i>
     Export
 </button>
-
+<button class="btn btn-secondary deleteSelectedButton" [class.disabled]=" !orders || orders.length === 0 " (click)="downloadPDF()">
+    <i class="fa fa-file-pdf-o"></i> Generate PO
+</button>
 <div class="table-responsive">
 <table class="table table-bordered " [mfData]="orders" #mf="mfDataTable" [mfRowsOnPage]="10">
     <thead class="black-muted-bg">

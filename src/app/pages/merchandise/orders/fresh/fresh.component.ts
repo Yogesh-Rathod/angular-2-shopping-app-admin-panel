@@ -156,7 +156,6 @@ export class FreshComponent implements OnInit {
             let resquestBody = {
                 Ids: productsToDownload
             };
-            console.log("resquestBody ", resquestBody);
             this.ordersService.downloadPOPdf(resquestBody).
                 then((success) => {
                     console.log("success ", success);
@@ -180,7 +179,6 @@ export class FreshComponent implements OnInit {
             let resquestBody = {
                 Ids: productsToDownload
             };
-            console.log("resquestBody ", resquestBody);
             this.ordersService.downloadPOPdf(resquestBody).
                 then((success) => {
                     console.log("success ", success);

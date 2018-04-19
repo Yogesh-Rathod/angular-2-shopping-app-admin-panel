@@ -2,7 +2,9 @@
   <i class="fa fa-download" aria-hidden="true"></i>
   Export
 </button>
-
+<button class="btn btn-secondary deleteSelectedButton" [class.disabled]=" !orders || orders.length === 0 " (click)="downloadPDF()">
+    <i class="fa fa-file-pdf-o"></i> Generate PO
+</button>
 <button class="btn btn-info deleteSelectedButton pull-right" (click)="importOrders()">
   <i class="fa fa-download" aria-hidden="true"></i>
   Bulk Update to Delivered

@@ -210,9 +210,9 @@ export class OrdersComponent implements OnInit {
 
         this.ordersService.downloadPOPdf('', searchOrdersForm).
             then((orders) => {
-
+                this.searchLoader = false;
             }).catch((error) => {
-
+                this.searchLoader = false;
             })
     }
 

@@ -248,15 +248,8 @@ export class OrdersComponent implements OnInit {
 
         this.ordersService.downloadPOPdf('', searchOrdersForm).
             then((orders) => {
-                if (orders.Data) {
-                    this.jsonToExcelService.exportAsExcelFile(orders.Data.PurchaseOrder, 'orders');
-                }
                 this.searchLoader = false;
-                if (!orders.Success) {
-                    this.toastr.error('Could not get orders for export.', 'Error');
-                }
             }).catch((error) => {
-                this.toastr.error('Could not get orders for export.', 'Error');
                 this.searchLoader = false;
             })
     }
@@ -266,7 +259,7 @@ export class OrdersComponent implements OnInit {
         this.searchLoader = true;
         searchOrdersForm = this.generateSearchFilters(searchOrdersForm);
 
-        this.ordersService.downloadPOPdf(searchOrdersForm).
+        this.ordersService.getOrdersByPONumber(searchOrdersForm).
             then((orders) => {
                 if (orders.Data) {
                     this.jsonToExcelService.exportAsExcelFile(orders.Data.PurchaseOrder, 'orders');

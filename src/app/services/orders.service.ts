@@ -90,7 +90,7 @@ export class OrdersService {
     }
 
     downloadPOPdf(data, queryParams?) {
-        let url = `${environment.merchandiseUrl}Orders/Download/pdf?e.purchaseOrderNumber=LVB-TL-1-10000447`;
+        let url = `${environment.merchandiseUrl}Orders/Download/pdf?e.pageSize`;
         if (queryParams) {
             url = `${url}&${queryParams}`
         }
@@ -100,11 +100,10 @@ export class OrdersService {
         });
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.post(url, JSON.stringify(data), this.options)
-            .toPromise()
-            .then((response) => {
-                FileSaver.saveAs(response.blob(), 'documetn.zip');
-            })
-            .catch((err) => this.responseHandler.handleError(err));
+        .toPromise()
+        .then((response) => {
+            FileSaver.saveAs(response.blob(), 'PurchaseOrders.zip');
+        });
     }
 
 

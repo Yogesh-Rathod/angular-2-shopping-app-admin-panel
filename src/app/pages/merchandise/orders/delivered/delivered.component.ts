@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
 
 import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-delivered',
@@ -33,6 +34,22 @@ export class DeliveredComponent implements OnInit {
 
     exportProducts() {
         this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
+    }
+
+    downloadPDF() {
+        let productsToDownload = [];
+        _.forEach(this.orders, (order) => {
+            productsToDownload.push(order.PurchaseOrderNumber);
+        });
+        let resquestBody = {
+            Ids: productsToDownload
+        };
+        this.ordersService.downloadPOPdf(resquestBody).
+            then((success) => {
+                // console.log("success ", success);
+            }).catch((error) => {
+                // console.log("error ", error);
+            });
     }
 
 }

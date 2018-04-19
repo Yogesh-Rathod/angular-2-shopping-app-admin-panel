@@ -149,12 +149,12 @@ export class FreshComponent implements OnInit {
         }
     }
 
-    downloadPDF(purchaseordernumber?) {
+    downloadPDF(purchaseordernumber) {
         let productsToDownload = [];
         if (purchaseordernumber) {
             productsToDownload.push(purchaseordernumber);
             let resquestBody = {
-                purchaseOrderNumbersList: productsToDownload
+                Ids: productsToDownload
             };
             console.log("resquestBody ", resquestBody);
             this.ordersService.downloadPOPdf(resquestBody).
@@ -178,7 +178,7 @@ export class FreshComponent implements OnInit {
                 });
             }
             let resquestBody = {
-                purchaseOrderNumbersList: productsToDownload
+                Ids: productsToDownload
             };
             console.log("resquestBody ", resquestBody);
             this.ordersService.downloadPOPdf(resquestBody).

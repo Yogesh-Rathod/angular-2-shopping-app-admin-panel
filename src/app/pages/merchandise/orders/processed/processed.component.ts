@@ -65,4 +65,20 @@ export class ProcessedComponent implements OnInit {
         this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }
 
+    downloadPDF() {
+        let productsToDownload = [];
+        _.forEach(this.orders, (order) => {
+            productsToDownload.push(order.PurchaseOrderNumber);
+        });
+        let resquestBody = {
+            Ids: productsToDownload
+        };
+        this.ordersService.downloadPOPdf(resquestBody).
+            then((success) => {
+                // console.log("success ", success);
+            }).catch((error) => {
+                // console.log("error ", error);
+            });
+    }
+
 }

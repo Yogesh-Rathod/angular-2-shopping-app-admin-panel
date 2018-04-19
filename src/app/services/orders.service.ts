@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { RequestOptions, Http, Headers } from '@angular/http';
+import { RequestOptions, Http, Headers, ResponseContentType } from '@angular/http';
 import { ResponseHandingService } from 'users_modules/services';
 import { CommonAppService } from 'app/services/common.services';
 import { environment } from 'environments';
+import * as FileSaver from 'file-saver';
 
 @Injectable()
 export class OrdersService {
@@ -89,14 +90,20 @@ export class OrdersService {
     }
 
     downloadPOPdf(data, queryParams?) {
-        let url = `${environment.merchandiseUrl}Orders/Download/pdf?e.pageSize''`;
+        let url = `${environment.merchandiseUrl}Orders/Download/pdf?e.purchaseOrderNumber=LVB-TL-1-10000447`;
         if (queryParams) {
             url = `${url}&${queryParams}`
         }
+        this.options = new RequestOptions({
+            headers: this.headers,
+            responseType: ResponseContentType.Blob
+        });
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         return this.http.post(url, JSON.stringify(data), this.options)
             .toPromise()
-            .then(this.responseHandler.handleResponse)
+            .then((response) => {
+                FileSaver.saveAs(response.blob(), 'documetn.zip');
+            })
             .catch((err) => this.responseHandler.handleError(err));
     }
 

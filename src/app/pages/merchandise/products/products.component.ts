@@ -440,7 +440,7 @@ export class ProductsComponent implements OnInit {
     }
 
     sendForApproval() {
-        console.log("sendForApproval ");
+        // console.log("sendForApproval ");
         // this.productsService.confirmOperationProduct({}}, this.userRole).then(res => {
         //     this.toastr.success('Sucessfully Done!', 'Sucess!');
         // }).catch(err => { })

@@ -82,7 +82,7 @@ export class FreshComponent implements OnInit {
 
     }
 
-    downloadPDF(purchaseordernumber) {
+    downloadPDF(purchaseordernumber?) {
         this.showLoader = true;
         let productsToDownload = [];
         if (purchaseordernumber) {

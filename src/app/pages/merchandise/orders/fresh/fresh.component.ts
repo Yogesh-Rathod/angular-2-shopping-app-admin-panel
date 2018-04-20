@@ -150,6 +150,7 @@ export class FreshComponent implements OnInit {
     }
 
     downloadPDF(purchaseordernumber) {
+        this.showLoader = true;
         let productsToDownload = [];
         if (purchaseordernumber) {
             productsToDownload.push(purchaseordernumber);
@@ -162,6 +163,7 @@ export class FreshComponent implements OnInit {
                 }).catch((error) => {
                     console.log("error ", error);
                 });
+            this.showLoader = false;
         } else {
             if (this.selectAllCheckbox) {
                 _.forEach(this.orders, (item) => {
@@ -185,6 +187,7 @@ export class FreshComponent implements OnInit {
                 }).catch((error) => {
                     console.log("error ", error);
                 });
+            this.showLoader = false;
             this.selectAllCheckbox = false;
             this.showSelectedAction = false;
         }

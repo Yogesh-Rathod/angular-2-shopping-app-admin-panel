@@ -7,5 +7,6 @@ export const RegEx = {
     latLong: /^[+-]?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,6}/,
     starRating: /^[0-5]{0,1}$/,
     onlyNumber: /^\d+$/,
-    gstIn: /\d{2}[A-Z]{5}\d{4}[A-Z]{1}\d[Z]{1}[A-Z\d]{1}/
+    gstIn: /\d{2}[A-Z]{5}\d{4}[A-Z]{1}\d[Z]{1}[A-Z\d]{1}/,
+    price: /^\d+(.\d{1,2})?$/
 };

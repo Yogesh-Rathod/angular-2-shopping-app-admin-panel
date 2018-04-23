@@ -121,21 +121,21 @@ export class AddSellerProductComponent implements OnInit {
                 '',
                 Validators.compose([
                     Validators.required,
-                    Validators.pattern(RegEx.onlyNumber)
+                    Validators.pattern(RegEx.price)
                 ])
             ],
             'NetShippingPrice': [
                 '',
                 Validators.compose([
                     Validators.required,
-                    Validators.pattern(RegEx.onlyNumber)
+                    Validators.pattern(RegEx.price)
                 ])
             ],
             'Mrp': [
                 '',
                 Validators.compose([
                     Validators.required,
-                    Validators.pattern(RegEx.onlyNumber)
+                    Validators.pattern(RegEx.price)
                 ])
             ],
             'Type': [[]],

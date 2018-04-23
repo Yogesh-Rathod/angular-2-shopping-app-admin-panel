@@ -135,21 +135,21 @@ export class AddProductComponent implements OnInit {
                 '',
                 Validators.compose([
                     Validators.required,
-                    Validators.pattern(RegEx.onlyNumber)
+                    Validators.pattern(RegEx.price)
                 ])
             ],
             'NetShippingPrice': [
                 '',
                 Validators.compose([
                     Validators.required,
-                    Validators.pattern(RegEx.onlyNumber)
+                    Validators.pattern(RegEx.price)
                 ])
             ],
             'Mrp': [
                 '',
                 Validators.compose([
                     Validators.required,
-                    Validators.pattern(RegEx.onlyNumber)
+                    Validators.pattern(RegEx.price)
                 ])
             ],
             'netTaxes': [''],
@@ -162,19 +162,19 @@ export class AddProductComponent implements OnInit {
                 '',
                 Validators.compose([
                     Validators.required,
-                    Validators.pattern(RegEx.onlyNumber)
+                    Validators.pattern(RegEx.price)
                 ])],
             'RetailShippingPrice': [
                 '',
                 Validators.compose([
                     Validators.required,
-                    Validators.pattern(RegEx.onlyNumber)
+                    Validators.pattern(RegEx.price)
                 ])],
             'RetailPriceInclusive': [
                 '',
                 Validators.compose([
                     Validators.required,
-                    Validators.pattern(RegEx.onlyNumber)
+                    Validators.pattern(RegEx.price)
                 ])],
             'pictureName': [''],
             'pictureAlt': [''],

@@ -13,6 +13,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { ProductsComponent } from './products/products.component';
 import { CatalogComponent } from './catalog/catalog.component';
 import { CatalogManagementService } from "app/services";
+import { CatalogProductApprovalComponent } from './catalog-product-approval/catalog-product-approval.component';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { CatalogManagementService } from "app/services";
         ApprovalsComponent,
         CategoriesComponent,
         ProductsComponent,
-        CatalogComponent
+        CatalogComponent,
+        CatalogProductApprovalComponent
     ],
     providers: [
         CatalogManagementService

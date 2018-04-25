@@ -105,7 +105,7 @@ export class AddCategoryComponent implements OnInit {
                         this.location.back();
                         this.showLoader = false;
                     } else if (response.Code === 500) {
-                        this.toastr.error('Category could not update.', 'Error!');
+                        this.toastr.error('Category update failed.', 'Error!');
                         this.showLoader = false;
                     }
                 }).catch((error) => {
@@ -126,7 +126,7 @@ export class AddCategoryComponent implements OnInit {
                         this.location.back();
                         this.showLoader = false;
                     } else if (response.Code === 500) {
-                        this.toastr.error('Category could not add.', 'Error!');
+                        this.toastr.error('Add category failed.', 'Error!');
                         this.showLoader = false;
                     }
                 }).catch((error) => {

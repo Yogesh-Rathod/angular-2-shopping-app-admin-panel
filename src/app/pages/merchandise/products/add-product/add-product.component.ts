@@ -185,7 +185,9 @@ export class AddProductComponent implements OnInit {
             'Colour': [''],
             'Size': [''],
             'Comments': [''],
-            'ManufacturerPartNumber': ['']
+            'ManufacturerPartNumber': [''],
+            'DiscountType': [''],
+            'Discount': [''],
         });
     }
 
@@ -258,6 +260,8 @@ export class AddProductComponent implements OnInit {
                         this.addProductForm.controls['CurrencyId'].setValue(this.products[0].CurrencyId);
                         this.addProductForm.controls['Status'].setValue(this.products[0].Status);
                         this.addProductForm.controls['RetailPrice'].setValue(this.products[0].RetailPrice);
+                        this.addProductForm.controls['DiscountType'].setValue(this.products[0].DiscountType);
+                        this.addProductForm.controls['Discount'].setValue(this.products[0].Discount);
                         this.addProductForm.controls['RetailShippingPrice'].setValue(this.products[0].RetailShippingPrice);
                         this.addProductForm.controls['RetailPriceInclusive'].setValue(this.products[0].RetailPriceInclusive);
                         this.addProductForm.controls['CurrencyId'].setValue('₹ (INR)');

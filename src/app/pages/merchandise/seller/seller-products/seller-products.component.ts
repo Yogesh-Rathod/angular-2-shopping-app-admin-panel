@@ -169,7 +169,7 @@ export class SellerProductsComponent implements OnInit {
             }
         });
         if (!this.errorMessage.status) {
-            this.productsService.toggleProductsOutofStock(productsToChange, status, '')
+            this.productsService.toggleProductsOutofStock(productsToChange, status, searchProductForm)
                 .then(res => {
                     if (res.Code === 200) {
                         this.getAllProducts();

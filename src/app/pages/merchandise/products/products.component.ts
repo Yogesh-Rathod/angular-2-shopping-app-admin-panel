@@ -378,7 +378,7 @@ export class ProductsComponent implements OnInit {
         }
         _.forEach(this.products, (item) => {
             if (item.isChecked) {
-                if (item.Status === 'Approved') {
+                if (item.Status === 'Approved' || item.Status === 'APPROVED') {
                     productsToChange.push(item.Id);
                 } else {
                     this.errorMessage.status = true;
@@ -505,6 +505,7 @@ export class ProductsComponent implements OnInit {
             this.productsService.rejectProducts(productsToReject, this.userRole, searchProductForm).
                 then((success) => {
                     if (success.Code === 200) {
+                        this.toastr.success('Products Sucessfully Rejected.', 'Sucess!');
                         this.resetForm();
                     }
                     this.approveLoader = false;
@@ -559,6 +560,7 @@ export class ProductsComponent implements OnInit {
             this.productsService.approveProducts(productsToApprove, this.userRole, searchProductForm).
                 then((success) => {
                     if (success.Code === 200) {
+                        this.toastr.success('Products Sucessfully Approved!', 'Sucess!');
                         this.resetForm();
                     }
                     this.approveLoader = false;

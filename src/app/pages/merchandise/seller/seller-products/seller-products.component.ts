@@ -157,7 +157,7 @@ export class SellerProductsComponent implements OnInit {
         }
         _.forEach(this.products, (item) => {
             if (item.isChecked) {
-                if (item.Status === 'Approved') {
+                if (item.Status === 'Approved' || item.Status === 'APPROVED') {
                     productsToChange.push(item.Id);
                 } else {
                     this.errorMessage.status = true;
@@ -169,7 +169,10 @@ export class SellerProductsComponent implements OnInit {
             }
         });
         if (!this.errorMessage.status) {
-            this.productsService.toggleProductsOutofStock(productsToChange, status, searchProductForm)
+            const productsForStockChange = {
+                Ids: productsToChange
+            };
+            this.productsService.toggleProductsOutofStock(productsForStockChange, status, searchProductForm)
                 .then(res => {
                     if (res.Code === 200) {
                         this.getAllProducts();

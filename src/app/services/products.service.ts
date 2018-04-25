@@ -10,6 +10,7 @@ import { AppState } from "app/app.service";
 import { ResponseHandingService } from "users_modules/services/response-handling.service";
 import * as CryptoJS from "crypto-js";
 import * as utf8 from "utf8";
+import * as _ from 'lodash';
 
 @Injectable()
 export class ProductsService {
@@ -113,9 +114,16 @@ export class ProductsService {
     }
 
     toggleProductsOutofStock(products, status, searchForm?) {
-        const url = `${
+        let url = `${
             environment.merchandiseUrl
+            }Merchandise/Seller/Products/OutOfStock/${status}?e.pageIndex=`;
+        if (!_.isEmpty(searchForm)) {
+            url = `${
+                environment.merchandiseUrl
             }Merchandise/Seller/Products/OutOfStock/${status}?e.pageIndex=&${searchForm}`;
+        }
+        console.log("url ", url);
+
         this.headers.set(
             "Authorization",
             this.commonAppSer.crateAuthorization()

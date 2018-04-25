@@ -5,6 +5,7 @@ import { CatalogManagementService } from "app/services";
 import { Location } from "@angular/common";
 import { ToastsManager } from "ng2-toastr";
 import { ActivatedRoute, Router } from "@angular/router";
+import { CookieService } from "ngx-cookie";
 
 @Component({
     selector: "app-catalog-details",
@@ -19,8 +20,10 @@ export class BankDetailsComponent implements OnInit {
     catalogMapOpen: boolean = false;
     notifier = 1;
     bigLoader = false;
+    isAdmin = true;
 
     constructor(
+        private cookieService: CookieService,
         private location: Location,
         private toastr: ToastsManager,
         private route: ActivatedRoute,
@@ -31,6 +34,10 @@ export class BankDetailsComponent implements OnInit {
             this.catalogId = params["catalogId"];
             this.for = params["for"];
         });
+        let userRoles = this.cookieService.get('userRoles');
+        if (!(userRoles.indexOf('SuperAdmin') >= 0 || userRoles.indexOf('Admin') >= 0)) {
+            this.isAdmin = false;
+        }
     }
 
     ngOnInit() {

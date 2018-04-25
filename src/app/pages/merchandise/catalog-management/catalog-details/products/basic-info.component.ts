@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
-import { CatalogManagementService } from "app/services";
+import { CatalogManagementService, JsonToExcelService } from "app/services";
 import { ToastsManager } from "ng2-toastr";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -18,6 +18,7 @@ export class BasicInfoComponent implements OnInit {
     allMapProducts: any = [];
 
     constructor(
+        private jsonToExcelService: JsonToExcelService,
         private toastr: ToastsManager,
         private route: ActivatedRoute,
         private router: Router,
@@ -48,6 +49,10 @@ export class BasicInfoComponent implements OnInit {
                     this.productsLoader = false;
                 }
             });
+    }
+
+    exportAllProducts() {
+        this.jsonToExcelService.exportAsExcelFile(this.allMapProducts, 'catalog_products');
     }
 
 }

@@ -3,6 +3,10 @@
         <img src="assets/img/ajax-loader.gif" alt="Loader Image">
     </div>
     <div class="col-md-12">
+        <button class="btn btn-primary" (click)="exportAllProducts()" [class.disabled]="!allMapProducts || allMapProducts.length === 0">
+            <i class="fa fa-download" aria-hidden="true"></i>
+            Export
+        </button>
         <table class="table table-bordered table-responsive" [mfData]="allMapProducts" #mfMapProList="mfDataTable" [mfRowsOnPage]="10">
             <thead class="black-muted-bg">
                 <tr>

@@ -78,10 +78,9 @@ export class ProductsInfoComponent implements OnInit {
         });
     }
 
-    //GET products , TODO: API need to changed with filter
+    //GET products
     getAllProduct(_searchObj) {
-        let newObj = _searchObj.split('&');
-        _.forEach(newObj, (item) => {
+        _.forEach(_searchObj, (item) => {
             if (item) {
                 this.atLeastOnePresent = true;
             }
@@ -90,8 +89,10 @@ export class ProductsInfoComponent implements OnInit {
         this.productsService.getMasterProducts(_searchObj).then(res => {
             if (res.Success) {
                 this.allProducts = res.Data.Products ? res.Data.Products : [];
-                this.searchLoader = false;
             }
+            this.searchLoader = false;
+            this.allMapTempProducts = [];
+            this.selectAllCheckbox = false;
         });
     }
 

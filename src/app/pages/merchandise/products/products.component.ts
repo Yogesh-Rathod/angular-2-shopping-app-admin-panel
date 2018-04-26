@@ -81,6 +81,7 @@ export class ProductsComponent implements OnInit {
         let userRoles = this.cookieService.get('userRoles');
         if (userRoles.indexOf('SuperAdmin') > -1 || userRoles.indexOf('Admin') > -1) {
             this.userRole = 'Admin';
+            this.status.splice(2);
         } else {
             this.userRole = 'Operations';
         }

@@ -162,6 +162,7 @@ export class OrdersComponent implements OnInit {
                 this.bigLoader = false;
                 this.searchLoader = false;
             }).catch((error) => {
+                this.searchLoader = false;
                 this.bigLoader = false;
                 this.toastr.error('Could not get orders', 'Error');
             });

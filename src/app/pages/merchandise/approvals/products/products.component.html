@@ -51,6 +51,9 @@
             <strong>Price </strong>
           </mfDefaultSorter>
         </th>
+        <th>
+            <strong>Modified On</strong>
+        </th>
         <!-- <th>
                 <strong>Type</strong>
               </th> -->
@@ -83,6 +86,9 @@
         </td>
         <td>{{ item.Sku }}</td>
         <td>{{ item.Mrp | currency: 'INR': true }}</td>
+        <td>
+            {{ item.ModifiedOn | date}}
+        </td>
         <!-- <td>{{ item.productType }}</td> -->
         <td class="text-center" [ngClass]="{
                 'Draft': item.Status == 'Draft',

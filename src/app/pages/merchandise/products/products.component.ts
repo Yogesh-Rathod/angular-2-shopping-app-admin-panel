@@ -391,7 +391,10 @@ export class ProductsComponent implements OnInit {
             }
         });
         if (!this.errorMessage.status) {
-            this.productsService.toggleProductsOutofStock(productsToChange, status, searchProductForm)
+            const productsForStockChange = {
+                Ids: productsToChange
+            };
+            this.productsService.toggleProductsOutofStock(productsForStockChange, status, searchProductForm)
                 .then(res => {
                     if (res.Code === 200) {
                         this.getAllProducts();

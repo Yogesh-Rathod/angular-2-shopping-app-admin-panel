@@ -127,7 +127,9 @@ export class OrdersComponent implements OnInit {
                 if (!orders.Success) {
                     this.toastr.error('Could not get orders.', 'Error');
                 }
+                this.searchLoader = false;
             }).catch((error) => {
+                this.searchLoader = false;
                 this.bigLoader = false;
                 this.toastr.error('Could not get orders', 'Error');
             });
@@ -251,6 +253,7 @@ export class OrdersComponent implements OnInit {
                     this.toastr.error('Could not get orders.', 'Error');
                 }
             }).catch((error) => {
+                this.searchLoader = false;
                 this.toastr.error('Could not get orders.', 'Error');
                 this.bigLoader = false;
             })

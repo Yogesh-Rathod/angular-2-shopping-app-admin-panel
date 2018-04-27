@@ -181,6 +181,9 @@
                                 <th>
                                     <strong>Stock</strong>
                                 </th>
+                                <th>
+                                    <strong>Modified On</strong>
+                                </th>
                                 <th class="action">
                                     <strong>Action</strong>
                                 </th>
@@ -221,6 +224,9 @@
                                     <ng-template #elseStockBlock>
                                         Out of stock
                                     </ng-template>
+                                </td>
+                                <td>
+                                    {{ item.ModifiedOn | date}}
                                 </td>
                                 <td class="action">
                                     <button class="btn btn-secondary" *ngIf="item.Status == 'Draft'" [routerLink]="['/seller/edit-seller-product', item.Id]"

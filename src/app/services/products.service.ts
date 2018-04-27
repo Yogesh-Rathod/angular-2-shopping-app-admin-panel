@@ -122,7 +122,6 @@ export class ProductsService {
                 environment.merchandiseUrl
             }Merchandise/Seller/Products/OutOfStock/${status}?e.pageIndex=&${searchForm}`;
         }
-        console.log("url ", url);
 
         this.headers.set(
             "Authorization",

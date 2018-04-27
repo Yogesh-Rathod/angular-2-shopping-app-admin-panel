@@ -159,9 +159,7 @@ export class FreshComponent implements OnInit {
             };
             this.ordersService.downloadPOPdf(resquestBody).
                 then((success) => {
-                    // console.log("success ", success);
                 }).catch((error) => {
-                    // console.log("error ", error);
                 });
             this.showLoader = false;
         } else {
@@ -183,9 +181,9 @@ export class FreshComponent implements OnInit {
             };
             this.ordersService.downloadPOPdf(resquestBody).
                 then((success) => {
-                    // console.log("success ", success);
+
                 }).catch((error) => {
-                    // console.log("error ", error);
+
                 });
             this.showLoader = false;
             this.selectAllCheckbox = false;

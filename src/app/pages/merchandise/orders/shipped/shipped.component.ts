@@ -75,9 +75,9 @@ export class ShippedComponent implements OnInit {
         };
         this.ordersService.downloadPOPdf(resquestBody).
             then((success) => {
-                // console.log("success ", success);
+
             }).catch((error) => {
-                // console.log("error ", error);
+
             });
     }
 

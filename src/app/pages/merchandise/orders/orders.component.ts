@@ -239,7 +239,6 @@ export class OrdersComponent implements OnInit {
 
         searchOrdersForm = JSON.stringify(searchOrdersForm);
         searchOrdersForm = searchOrdersForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
-        console.log("searchOrdersForm ", searchOrdersForm);
         return searchOrdersForm;
     }
 
@@ -292,6 +291,7 @@ export class OrdersComponent implements OnInit {
                     this.toastr.error('Could not get orders.', 'Error');
                 }
             }).catch((error) => {
+                this.searchLoader = false;
                 this.toastr.error('Could not get orders.', 'Error');
                 this.bigLoader = false;
             })

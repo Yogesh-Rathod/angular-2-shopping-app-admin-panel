@@ -25,6 +25,10 @@ export class OrdersService {
 
     getOrdersByPONumber(poNumber?, queryParams?, pageSize : any = 150) {
         let url = poNumber ? `${environment.merchandiseUrl}Orders/${poNumber}?e.pageSize=${pageSize}` : `${environment.merchandiseUrl}Orders?e.pageSize=${pageSize}`;
+        // this.options = new RequestOptions({
+        //     headers: this.headers,
+        //     responseType: ResponseContentType.Blob
+        // });
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         if (queryParams) {
             url = `${url}&${queryParams}`
@@ -103,6 +107,10 @@ export class OrdersService {
         .toPromise()
         .then((response) => {
             FileSaver.saveAs(response.blob(), 'PurchaseOrders.zip');
+            this.options = new RequestOptions({
+                headers: this.headers,
+                responseType: null
+            });
         });
     }
 

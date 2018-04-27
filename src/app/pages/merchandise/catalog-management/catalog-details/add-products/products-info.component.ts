@@ -110,8 +110,25 @@ export class ProductsInfoComponent implements OnInit {
         this.getAllProduct(_searchData);
     }
 
+    removeFromMapProducts(item) {
+        _.forEach(this.allMapTempProducts, (product) => {
+            if (product) {
+                if (item.ProductId === product.ProductId) {
+                    _.forEach(this.allProducts, (selectedItem) => {
+                        if (selectedItem.Id === item.ProductId) {
+                            selectedItem.isChecked = !selectedItem.isChecked;
+                        }
+                    });
+                    _.remove(this.allMapTempProducts, product);
+                }
+
+            }
+        });
+    }
+
     //UI ADD
     mapProductToCatalog(_product) {
+        this.allMapTempProducts = [];
         _.forEach(_product, item => {
             if (item.isChecked) {
                 for (var i = 0; i < this.allMapTempProducts.length; i++) {

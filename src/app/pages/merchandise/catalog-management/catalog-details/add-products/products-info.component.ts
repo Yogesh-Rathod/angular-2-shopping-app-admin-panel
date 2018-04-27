@@ -61,6 +61,8 @@ export class ProductsInfoComponent implements OnInit {
     createSearchForm() {
         this.searchProductForm = this.fb.group({
             'e.name': [''],
+            'e.sKU': [''],
+            'e.parentProductCode': [''],
             'e.sellerId': [[]]
         });
     }
@@ -117,6 +119,7 @@ export class ProductsInfoComponent implements OnInit {
                     _.forEach(this.allProducts, (selectedItem) => {
                         if (selectedItem.Id === item.ProductId) {
                             selectedItem.isChecked = !selectedItem.isChecked;
+                            this.selectAllCheckbox = false;
                         }
                     });
                     _.remove(this.allMapTempProducts, product);

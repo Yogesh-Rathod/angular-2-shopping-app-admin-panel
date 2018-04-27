@@ -60,6 +60,12 @@ export class OrdersComponent implements OnInit {
         openSelectorOnInputClick: true,
         disableSince: this.disableSince()
     };
+    endDateMyDatePickerOptions: IMyDpOptions = {
+        dateFormat: 'dd/mm/yyyy',
+        editableDateField: false,
+        openSelectorOnInputClick: true,
+        disableSince: this.disableSince()
+    };
 
     constructor(
         public toastr: ToastsManager,
@@ -91,6 +97,15 @@ export class OrdersComponent implements OnInit {
             day: d.getDate() + 1
         };
         return disableSince;
+    }
+
+    disableUntil(selectedDate) {
+        this.searchProductForm.controls['e.toDate'].patchValue(null);
+        if (selectedDate) {
+            let copyOfStartDate = JSON.parse(JSON.stringify(this.endDateMyDatePickerOptions));
+            copyOfStartDate.disableUntil = selectedDate.date;
+            this.endDateMyDatePickerOptions = copyOfStartDate;
+        }
     }
 
     // For Creating Add Category Form

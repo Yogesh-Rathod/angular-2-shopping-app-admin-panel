@@ -7,8 +7,10 @@ declare let $: any;
 import { IMyDpOptions } from 'mydatepicker';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ProductsService, OrdersService, JsonToExcelService, VendorsService,
-    CatalogManagementService } from 'app/services';
+import {
+    ProductsService, OrdersService, JsonToExcelService, VendorsService,
+    CatalogManagementService
+} from 'app/services';
 import { SellerOrdersAdminBulkUploadComponent } from './bulk-upload/bulk-upload.component';
 import { ToastsManager } from 'ng2-toastr';
 
@@ -55,7 +57,13 @@ export class OrdersComponent implements OnInit {
     ];
     searchLoader = false;
     programName: any;
-    public myDatePickerOptions: IMyDpOptions = {
+    myDatePickerOptions: IMyDpOptions = {
+        dateFormat: 'dd/mm/yyyy',
+        editableDateField: false,
+        openSelectorOnInputClick: true,
+        disableSince: this.disableSince()
+    };
+    endDateMyDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy',
         editableDateField: false,
         openSelectorOnInputClick: true,
@@ -113,6 +121,15 @@ export class OrdersComponent implements OnInit {
             day: d.getDate() + 1
         };
         return disableSince;
+    }
+
+    disableUntil(selectedDate) {
+        this.searchProductForm.controls['e.toDate'].patchValue(null);
+        if (selectedDate) {
+            let copyOfStartDate = JSON.parse(JSON.stringify(this.endDateMyDatePickerOptions));
+            copyOfStartDate.disableUntil = selectedDate.date;
+            this.endDateMyDatePickerOptions = copyOfStartDate;
+        }
     }
 
     getAllPrograms() {

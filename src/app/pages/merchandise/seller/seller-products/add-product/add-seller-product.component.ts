@@ -34,8 +34,6 @@ export class AddSellerProductComponent implements OnInit {
     categoriesDropdownSettings = {
         singleSelection: true,
         text: "Select Categories",
-        selectAllText: 'Select All',
-        unSelectAllText: 'UnSelect All',
         enableSearchFilter: true,
         classes: 'col-8 no_padding'
     };

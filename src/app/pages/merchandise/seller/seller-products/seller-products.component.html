@@ -266,7 +266,7 @@
 
                         <tbody *ngIf=" !products || products.length === 0 ">
                             <tr>
-                                <td colspan="6">
+                                <td colspan="8">
                                     <strong>There are no products!</strong>
                                 </td>
                             </tr>
@@ -274,7 +274,7 @@
 
                         <tfoot *ngIf=" products && totalRecords > showRecords ">
                             <tr>
-                                <td colspan="9">
+                                <td colspan="8">
                                     <pagination-controls class="my-pagination" (pageChange)="pageChanged($event)"></pagination-controls>
                                 </td>
                             </tr>

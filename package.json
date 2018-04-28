@@ -59,7 +59,7 @@
     "angular2-cookie": "^1.2.6",
     "angular2-datatable": "^0.6.0",
     "angular2-json2csv": "^1.1.2",
-    "angular2-multiselect-dropdown": "^1.2.6",
+    "angular2-multiselect-dropdown": "^2.9.0",
     "angular2-serverpagination-datatable": "1.5.4",
     "animate.css": "3.5.2",
     "bootstrap": "4.0.0-alpha.6",

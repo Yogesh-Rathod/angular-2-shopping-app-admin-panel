@@ -63,13 +63,13 @@
                 <label for="status" class="status col-3 text-right">
                     Enable All Products
                 </label>
-                <input type="checkbox" id="CatalogIsActive" formControlName="EnableAllProducts">
+                <input type="checkbox" id="CatalogIsActive" formControlName="EnableAllProducts" (change)="enableAllCheckBoxSelected($event)">
             </div>
             <div class="form-group row">
                 <label for="status" class="status col-3 text-right">
                     Enable Auto Product Sync
                 </label>
-                <input type="checkbox" id="CatalogIsActive" formControlName="EnableAutoProductSync">
+                <input type="checkbox" id="CatalogIsActive" formControlName="EnableAutoProductSync" [class.disabled]="enableProductSyncCheckbox">
             </div>
 
             <div class="form-group row">

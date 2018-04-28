@@ -129,7 +129,6 @@ export class AddCatalogComponent implements OnInit {
     }
 
     enableAllCheckBoxSelected(event) {
-        console.log("event ", event.target.checked);
         if (event.target.checked) {
             this.enableProductSyncCheckbox = false;
         } else {

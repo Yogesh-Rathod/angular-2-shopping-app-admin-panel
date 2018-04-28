@@ -55,10 +55,10 @@
                             <li class="nav-item">
                                 <a class="nav-link active" href="#productList" role="tab" data-toggle="tab">Products</a>
                             </li>
-                            <li class="nav-item" *ngIf="catalogMapOpen">
+                            <li class="nav-item" *ngIf="catalogMapOpen && !catalogInfo.EnableAutoProductSync">
                                 <a class="nav-link" href="#mappedProduct" role="tab" data-toggle="tab">Add Products</a>
                             </li>
-                            <li class="nav-item" *ngIf="catalogMapOpen && isAdmin">
+                            <li class="nav-item" *ngIf="catalogMapOpen && isAdmin && !catalogInfo.EnableAutoProductSync">
                                 <a class="nav-link " href="#mappedProductApprove" role="tab" data-toggle="tab">Approve Pending</a>
                             </li>
                             <!-- <li class="nav-item">

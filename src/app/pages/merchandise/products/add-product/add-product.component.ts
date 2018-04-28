@@ -229,18 +229,20 @@ export class AddProductComponent implements OnInit {
                 .then((res) => {
                     this.products = res.Data.Products;
                     if (res.Code != 500) {
-                        let specification = this.products[0].ProductSpecification.split('|');
-                        let specificationData = [];
-                        _.forEach(specification, (data, index) => {
-                            let value = data.split(":");
-                            specificationData[index] = ({
-                                key: value[0],
-                                value: value[1] ? value[1] : ''
+                        if (this.products[0].ProductSpecification) {
+                            let specification = this.products[0].ProductSpecification.split('|');
+                            let specificationData = [];
+                            _.forEach(specification, (data, index) => {
+                                let value = data.split(":");
+                                specificationData[index] = ({
+                                    key: value[0],
+                                    value: value[1] ? value[1] : ''
+                                });
+                                this.addProductForm.controls['specifications'].setValue(specificationData);
+                                this.appendMore();
                             });
-                            this.addProductForm.controls['specifications'].setValue(specificationData);
-                            this.appendMore();
-                        });
-                        this.removeStructure(specificationData.length);
+                            this.removeStructure(specificationData.length);
+                        }
                         this.addProductForm.controls['Id'].setValue(this.products[0].Id);
                         this.addProductForm.controls['ParentProductCode'].setValue(this.products[0].ParentProductCode);
                         this.addProductForm.controls['ModelNumber'].setValue(this.products[0].ModelNumber);

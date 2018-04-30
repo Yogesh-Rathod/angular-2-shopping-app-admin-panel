@@ -115,6 +115,14 @@
                     <img src="assets/img/ajax-loader.gif" alt="Loader Image">
                 </div>
 
+                <div class="clearfix" *ngIf="totalRecords && totalRecords > 0">
+                    <form>
+                        <label>
+                            <input [(ngModel)]="checkAllCheckboxChange" type="checkbox" name="someName" (change)="checkAllProductsCheckboxChange($event)"> Check all {{ totalRecords }} records
+                        </label>
+                    </form>
+                </div>
+
                 <div class="clearfix">
                     <form class="float-left">
                         <label>Show</label>
@@ -130,14 +138,6 @@
                     <p class="error float-right no-text-transform" *ngIf="errorMessage.status">
                         {{ errorMessage.message }}
                     </p>
-                </div>
-
-                <div class="clearfix" *ngIf="totalRecords && totalRecords > 0">
-                    <form>
-                        <label>
-                            <input [(ngModel)]="checkAllCheckboxChange" type="checkbox" name="someName" (change)="checkAllProductsCheckboxChange($event)"> Check all {{ totalRecords }} records
-                        </label>
-                    </form>
                 </div>
 
                 <button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 || !showSelectedAction }"
@@ -189,8 +189,8 @@
                                     <strong>SKU</strong>
                                 </th>
                                 <th>
-                                    <mfDefaultSorter by="Mrp">
-                                        <strong>MRP</strong>
+                                    <mfDefaultSorter by="NetPrice">
+                                        <strong>Net Price</strong>
                                     </mfDefaultSorter>
                                 </th>
                                 <th>
@@ -216,7 +216,7 @@
                                     <span>{{ item.Name }}</span>
                                 </td>
                                 <td>{{ item.Sku }}</td>
-                                <td>{{ item.Mrp | currency: 'INR': true }}</td>
+                                <td>{{ item.NetPrice | currency: 'INR': true }}</td>
                                 <td class="text-center" [ngClass]="{
 									'Draft': item.Status == 'Draft',
 									'APPROVED': item.Status === 'APPROVED',

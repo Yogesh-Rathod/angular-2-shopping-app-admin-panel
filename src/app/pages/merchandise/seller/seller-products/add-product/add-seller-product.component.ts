@@ -34,8 +34,6 @@ export class AddSellerProductComponent implements OnInit {
     categoriesDropdownSettings = {
         singleSelection: true,
         text: "Select Categories",
-        selectAllText: 'Select All',
-        unSelectAllText: 'UnSelect All',
         enableSearchFilter: true,
         classes: 'col-8 no_padding'
     };
@@ -211,19 +209,21 @@ export class AddSellerProductComponent implements OnInit {
                     this.addProductForm.controls['CurrencyId'].setValue(this.products[0].CurrencyId);
                     this.addProductForm.controls['status'].setValue(this.products[0].Status);
                     this.addProductForm.controls['CurrencyId'].setValue('₹ (INR)');
-                    let specification = this.products[0].ProductSpecification.split('|');
-                    let specificationData = [];
-                    _.forEach(specification, (data, index) => {
-                        let value = data.split(":");
+                    if (this.products[0].ProductSpecification) {
+                        let specification = this.products[0].ProductSpecification.split('|');
+                        let specificationData = [];
+                        _.forEach(specification, (data, index) => {
+                            let value = data.split(":");
 
-                        specificationData[index] = ({
-                            key: value[0],
-                            value: value[1] ? value[1] : ''
+                            specificationData[index] = ({
+                                key: value[0],
+                                value: value[1] ? value[1] : ''
+                            });
+                            this.addProductForm.controls['specifications'].setValue(specificationData);
+                            this.appendMore();
                         });
-                        this.addProductForm.controls['specifications'].setValue(specificationData);
-                        this.appendMore();
-                    });
-                    this.removeStructure(specificationData.length);
+                        this.removeStructure(specificationData.length);
+                    }
                     this.setCategoriesInEditMode();
                     this.checkFormValidation();
                     this.bigLoader = false;

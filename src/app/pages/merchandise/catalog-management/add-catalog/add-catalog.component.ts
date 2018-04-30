@@ -50,6 +50,7 @@ export class AddCatalogComponent implements OnInit {
         }
     ];
     bigLoader = false;
+    enableProductSyncCheckbox = false;
 
     constructor(
         private location: Location,
@@ -125,6 +126,15 @@ export class AddCatalogComponent implements OnInit {
             EnableAllProducts: [true],
             EnableAutoProductSync: [true]
         });
+    }
+
+    enableAllCheckBoxSelected(event) {
+        if (event.target.checked) {
+            this.enableProductSyncCheckbox = false;
+        } else {
+            this.enableProductSyncCheckbox = true;
+            this.addCatalogForm.controls['EnableAutoProductSync'].setValue(null);
+        }
     }
 
     addCatalog(addCatalogForm) {

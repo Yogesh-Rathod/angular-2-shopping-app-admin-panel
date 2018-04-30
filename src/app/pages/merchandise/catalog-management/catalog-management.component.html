@@ -85,7 +85,7 @@
                                             <strong>Catalog Name</strong>
                                         </mfDefaultSorter>
                                     </th>
-                                    <th class="text-left">
+                                    <th class="text-left description">
                                         <strong>Catalog Description</strong>
                                     </th>
                                     <th>
@@ -114,7 +114,7 @@
                                     <td class="text-left">
                                         {{ item.Name }}
                                     </td>
-                                    <td class="text-left">
+                                    <td class="text-left description">
                                         {{item.Description}}
                                     </td>
                                     <!-- <td class="text-center">
@@ -166,7 +166,7 @@
                                             <strong>Catalog Name</strong>
                                         </mfDefaultSorter>
                                     </th>
-                                    <th class="text-left">
+                                    <th class="text-left description">
                                         <strong>Catalog Description</strong>
                                     </th>
                                     <th>
@@ -188,7 +188,7 @@
                                     <td class="text-left">
                                         {{ item.Name }}
                                     </td>
-                                    <td class="text-left">
+                                    <td class="text-left description">
                                         {{item.Description}}
                                     </td>
                                     <!-- <td class="text-center">
@@ -206,7 +206,7 @@
                                         </button>
                                     </td>
                                     <td class="text-right">
-                                        <input class="form-control" placeholder="Reason" type="text" [(ngModel)]="item.Reason">
+                                        <input class="form-control" placeholder="Comment" type="text" [(ngModel)]="item.Reason">
                                         <button type="button" class="btn btn-primary" title="Approve" (click)="approveCatalog(item, i)">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                             <span>Approve</span>

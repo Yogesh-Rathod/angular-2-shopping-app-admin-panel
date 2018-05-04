@@ -36,7 +36,7 @@ export class ProductsService {
             "Authorization",
             this.commonAppSer.crateAuthorization()
         );
-        //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         if (queryParams) {
             url = `${url}&${queryParams}`
         }
@@ -53,7 +53,7 @@ export class ProductsService {
             "Authorization",
             this.commonAppSer.crateAuthorization()
         );
-        //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         if (queryParams) {
             url = `${url}&${queryParams}`
         }
@@ -73,7 +73,7 @@ export class ProductsService {
         if (queryParams) {
             url = `${url}&${queryParams}`
         }
-        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http
             .get(url, this.options)
             .toPromise()
@@ -89,7 +89,7 @@ export class ProductsService {
             "Authorization",
             this.commonAppSer.crateAuthorization()
         );
-        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, products));
         return this.http
             .post(url, JSON.stringify(products), this.options)
             .toPromise()
@@ -105,7 +105,7 @@ export class ProductsService {
             "Authorization",
             this.commonAppSer.crateAuthorization()
         );
-        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, products));
         return this.http
             .post(url, JSON.stringify(products), this.options)
             .toPromise()
@@ -196,7 +196,7 @@ export class ProductsService {
             "Authorization",
             this.commonAppSer.crateAuthorization()
         );
-        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, product));
         return this.http
             .post(url, JSON.stringify(product), this.options)
             .toPromise()
@@ -212,7 +212,7 @@ export class ProductsService {
             "Authorization",
             this.commonAppSer.crateAuthorization()
         );
-        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http
             .get(url, this.options)
             .toPromise()
@@ -228,7 +228,7 @@ export class ProductsService {
             "Authorization",
             this.commonAppSer.crateAuthorization()
         );
-        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, product));
         return this.http
             .post(url, JSON.stringify(product), this.options)
             .toPromise()
@@ -242,7 +242,7 @@ export class ProductsService {
             "Authorization",
             this.commonAppSer.crateAuthorization()
         );
-        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, data));
         return this.http
             .put(url, data, this.options)
             .toPromise()
@@ -258,7 +258,7 @@ export class ProductsService {
             "Authorization",
             this.commonAppSer.crateAuthorization()
         );
-        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, product));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http
             .get(url, this.options)
             .toPromise()

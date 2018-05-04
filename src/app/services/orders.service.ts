@@ -25,11 +25,8 @@ export class OrdersService {
 
     getOrdersByPONumber(poNumber?, queryParams?, pageSize : any = 150) {
         let url = poNumber ? `${environment.merchandiseUrl}Orders/${poNumber}?e.pageSize=${pageSize}` : `${environment.merchandiseUrl}Orders?e.pageSize=${pageSize}`;
-        // this.options = new RequestOptions({
-        //     headers: this.headers,
-        //     responseType: ResponseContentType.Blob
-        // });
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         if (queryParams) {
             url = `${url}&${queryParams}`
         }
@@ -42,6 +39,7 @@ export class OrdersService {
     cancelOrder(data) {
         let url = `${environment.merchandiseUrl}Orders/Cancel`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, data));
         return this.http.post(url, JSON.stringify(data), this.options)
             .toPromise()
             .then(this.responseHandler.handleResponse)
@@ -51,6 +49,7 @@ export class OrdersService {
     markOrderRTO(data) {
         let url = `${environment.merchandiseUrl}Orders/RTO`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, data));
         return this.http.post(url, JSON.stringify(data), this.options)
             .toPromise()
             .then(this.responseHandler.handleResponse)
@@ -60,6 +59,7 @@ export class OrdersService {
     getReports(data) {
         let url = `${environment.merchandiseUrl}Orders/SLA`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, data));
         return this.http.post(url, JSON.stringify(data), this.options)
             .toPromise()
             .then(this.responseHandler.handleResponse)
@@ -69,6 +69,7 @@ export class OrdersService {
     sendToProcessed(orders) {
         let url = `${environment.merchandiseUrl}Orders/Processed`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, orders));
         return this.http.put(url, JSON.stringify(orders), this.options)
             .toPromise()
             .then(this.responseHandler.handleResponse)
@@ -78,6 +79,7 @@ export class OrdersService {
     sendToDispatched(orders) {
         let url = `${environment.merchandiseUrl}Orders/Dispatch`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, orders));
         return this.http.put(url, JSON.stringify(orders), this.options)
             .toPromise()
             .then(this.responseHandler.handleResponse)
@@ -87,6 +89,7 @@ export class OrdersService {
     sendToDelivered(orders) {
         let url = `${environment.merchandiseUrl}Orders/Delivery`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, orders));
         return this.http.put(url, JSON.stringify(orders), this.options)
             .toPromise()
             .then(this.responseHandler.handleResponse)
@@ -103,6 +106,7 @@ export class OrdersService {
             responseType: ResponseContentType.Blob
         });
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, data));
         return this.http.post(url, JSON.stringify(data), this.options)
         .toPromise()
         .then((response) => {

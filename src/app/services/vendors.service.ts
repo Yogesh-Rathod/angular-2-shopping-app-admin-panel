@@ -30,7 +30,7 @@ export class VendorsService {
     getVendors(sellerId?) {
         let url = sellerId ? `${environment.merchandiseUrl}Seller/${sellerId}` : `${environment.merchandiseUrl}Seller`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
-        //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
             .timeout(environment.timeOut)
             .toPromise()
@@ -52,7 +52,7 @@ export class VendorsService {
     getUsers() {
         let url = `${environment.merchandiseUrl}Seller/User`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
-        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
             .timeout(environment.timeOut)
             .toPromise()
@@ -63,7 +63,7 @@ export class VendorsService {
     getSingleUser(userId) {
         let url = `${environment.merchandiseUrl}Seller/User/${userId}`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
-        // this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
             .timeout(environment.timeOut)
             .toPromise()
@@ -74,7 +74,7 @@ export class VendorsService {
     addVendor(vendor) {
         let url = `${environment.merchandiseUrl}Seller`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
-        //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, vendor));
         return this.http.post(url, JSON.stringify(vendor), this.options)
             .timeout(environment.timeOut)
             .toPromise()
@@ -85,7 +85,7 @@ export class VendorsService {
     updateVendor(vendor) {
         let url = `${environment.merchandiseUrl}Seller`;
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
-        //this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
+        this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, vendor));
         return this.http.put(url, JSON.stringify(vendor), this.options)
             .timeout(environment.timeOut)
             .toPromise()

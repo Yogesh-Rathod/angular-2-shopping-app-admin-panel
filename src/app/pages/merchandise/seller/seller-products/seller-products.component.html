@@ -154,7 +154,7 @@
                             <tr>
                                 <th class="text-center">
                                     <input [class.disabled]="products && products.length === 0" type="checkbox" *ngIf="products && products.length > 0 " [ngModel]='selectAllCheckbox'
-                                        (change)="selectAll($event)">
+                                        (change)="selectAll($event)"  id="selectAllCheckbox">
                                 </th>
                                 <!-- <th class="text-left">
                                     <strong>Product Image</strong>

@@ -343,7 +343,15 @@ export class SellerProductsComponent implements OnInit {
     checkAllProductsCheckboxChange(e) {
         if (e.target.checked) {
             this.productSelected = false;
+            if (!this.selectAllCheckbox) {
+                const element = document.getElementById('selectAllCheckbox') as HTMLElement;
+                element.click();
+            }
         } else {
+            if (this.selectAllCheckbox) {
+                const element = document.getElementById('selectAllCheckbox') as HTMLElement;
+                element.click();
+            }
             this.isCheckedArray = [];
             _.forEach(this.products, (item) => {
                 if (item.isChecked) {
@@ -413,11 +421,13 @@ export class SellerProductsComponent implements OnInit {
                 item.isChecked = true;
             });
         } else {
-            this.productSelected = true;
             this.selectAllCheckbox = false;
             _.forEach(this.products, (item) => {
                 item.isChecked = false;
             });
+            if (!this.checkAllCheckboxChange) {
+                this.productSelected = true;
+            }
         }
     }
 

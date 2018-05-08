@@ -178,7 +178,7 @@
                         <thead class="black-muted-bg">
                             <tr>
                                 <th class="text-center">
-                                    <input [class.disabled]="products && products.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+                                    <input [class.disabled]="products && products.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)" id="selectAllCheckbox">
                                 </th>
                                 <th>
                                     <mfDefaultSorter by="Name">

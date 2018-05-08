@@ -2,7 +2,8 @@ import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angu
 import {
     CatalogManagementService,
     ProductsService,
-    VendorsService
+    VendorsService,
+    JsonToExcelService
 } from "app/services";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ToastsManager } from "ng2-toastr";
@@ -39,6 +40,7 @@ export class ProductsInfoComponent implements OnInit {
     atLeastOnePresent = false;
 
     constructor(
+        private jsonToExcelService: JsonToExcelService,
         private fb: FormBuilder,
         private toastr: ToastsManager,
         private route: ActivatedRoute,
@@ -202,6 +204,10 @@ export class ProductsInfoComponent implements OnInit {
             });
             // this.showSelectedDelete = false;
         }
+    }
+
+    exportAllProducts() {
+        this.jsonToExcelService.exportAsExcelFile(this.allProducts, 'products');
     }
 
     checkBoxSelected(e, item) {

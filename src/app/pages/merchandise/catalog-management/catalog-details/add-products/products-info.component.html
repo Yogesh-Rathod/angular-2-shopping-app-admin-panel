@@ -1,174 +1,179 @@
 <!-- <div role="tabpanel" *ngIf="catalogMapOpen" class="tab-pane fade in" id="mappedProduct"> -->
-    <form class="row" [formGroup]="searchProductForm" (ngSubmit)="searchProductFormFunc(searchProductForm.value)">
-        <div class="form-group col-md-3">
-            <label for="searchText" class="text-right">Search by name
-            </label>
-            <input type="text" class="form-control" id="searchText" placeholder="Search by name" formControlName="e.name">
+<form class="row" [formGroup]="searchProductForm" (ngSubmit)="searchProductFormFunc(searchProductForm.value)">
+    <div class="form-group col-md-3">
+        <label for="searchText" class="text-right">Search by name
+        </label>
+        <input type="text" class="form-control" id="searchText" placeholder="Search by name" formControlName="e.name">
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="vendors" class="text-right">Seller</label>
+            <angular2-multiselect id="vendors" [data]="vendorsList" formControlName="e.sellerId" [settings]="multiDropdownSettings">
+            </angular2-multiselect>
         </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="vendors" class="text-right">Seller</label>
-                <angular2-multiselect id="vendors" [data]="vendorsList" formControlName="e.sellerId" [settings]="multiDropdownSettings">
-                </angular2-multiselect>
-            </div>
-        </div>
-        <div class="form-group col-md-3">
-            <label for="searchText" class="text-right">Search by SKU
-            </label>
-            <input type="text" class="form-control" id="searchText2" placeholder="Search by SKU" formControlName="e.sKU">
-        </div>
-        <div class="form-group col-md-3">
-            <label for="searchText" class="text-right">Search by Parent Code
-            </label>
-            <input type="text" class="form-control" id="searchText3" placeholder="Search by Parent Code" formControlName="e.parentProductCode">
-        </div>
-        <div class="col-md-12">
-            <input type="submit" class="btn btn-primary" value="Search">
-            <img *ngIf=" searchLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-            <button class="btn btn-primary" (click)="mapProductToCatalog(allProducts)" type="button">Add Selected to Catalog</button>
-        </div>
-    </form>
-    <div class="row">
-        <div class="col-sm-5">
-            <table class="table table-bordered table-responsive" [mfData]="allProducts" #mfList="mfDataTable" [mfRowsOnPage]="10">
-                <thead class="black-muted-bg">
-                    <tr>
-                        <th class="text-center" style="width:50px;" [class.disabled]="allProducts.length <=0">
-                            <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
-                        </th>
-                        <th class="text-left" style="width:200px;">
-                            <mfDefaultSorter by="Name">
-                                <strong>Product Name</strong>
-                            </mfDefaultSorter>
-                        </th>
-                        <th class="text-left">
-                            <mfDefaultSorter by="Brand">
-                                <strong>Brand</strong>
-                            </mfDefaultSorter>
-                        </th>
-                        <th class="text-left">
-                            <mfDefaultSorter by="Mrp">
-                                <strong>RPI</strong>
-                            </mfDefaultSorter>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody *ngIf=" allProducts && allProducts.length > 0 ">
-                    <tr *ngFor=" let item of mfList.data; let i = index ">
-                        <td class="text-center">
-                            <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
-                        </td>
-                        <td class="text-left">
-                            {{ item.Name }}
-                        </td>
-                        <td class="text-left">
-                            {{ item.Brand }}
-                        </td>
-                        <td class="text-left">
-                            {{ item.RetailPriceInclusive }}
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot *ngIf="!atLeastOnePresent && allProducts.length === 0">
-                    <tr>
-                        <td colspan="4" class="text-center">
-                            <span class="no-product-message">Search Product OR
-                                <a href="javascript:void(0)" (click)="searchProductFormFunc({})">Get All</a>
-                            </span>
-                        </td>
-                    </tr>
-                </tfoot>
-                <tfoot *ngIf="atLeastOnePresent && allProducts.length === 0">
-                    <tr>
-                        <td colspan="4" class="text-center">
-                            <span class="no-product-message">
-                                There are no products.
-                            </span>
-                        </td>
-                    </tr>
-                </tfoot>
-                <tfoot *ngIf=" allProducts && allProducts.length > 10 ">
-                    <tr>
-                        <td colspan="4">
-                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-        <div class="col-sm-7">
-            <table class="table table-bordered table-responsive" [mfData]="allMapTempProducts" #mfMapList="mfDataTable" [mfRowsOnPage]="10">
-                <thead class="black-muted-bg">
-                    <tr>
-                        <th class="text-left">
-                            <strong>Product</strong>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody *ngIf=" allMapTempProducts && allMapTempProducts.length > 0 ">
-                    <tr *ngFor=" let item of mfMapList.data; let i = index ">
-                        <td class="text-left">
-                            <div>
-                                <strong>{{ item.Name }}</strong>
-                                <i (click)="removeFromMapProducts(item)" class="float-right fa fa-times-circle" aria-hidden="true"></i>
+    </div>
+    <div class="form-group col-md-3">
+        <label for="searchText" class="text-right">Search by SKU
+        </label>
+        <input type="text" class="form-control" id="searchText2" placeholder="Search by SKU" formControlName="e.sKU">
+    </div>
+    <div class="form-group col-md-3">
+        <label for="searchText" class="text-right">Search by Parent Code
+        </label>
+        <input type="text" class="form-control" id="searchText3" placeholder="Search by Parent Code" formControlName="e.parentProductCode">
+    </div>
+    <div class="row no_margin col-12">
+        <input type="submit" class="btn btn-primary" value="Search">
+        <img *ngIf=" searchLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+        <button class="btn btn-primary" (click)="mapProductToCatalog(allProducts)" type="button">Add Selected to Catalog</button>
+        <button *ngIf=" allProducts && allProducts.length > 0 " type="button" class="btn btn-info searchButton" (click)="exportAllProducts()">
+            <i class="fa fa-download" aria-hidden="true"></i>
+            Export
+        </button>
+        <button type="button" class="btn btn-primary">Bulk Import</button>
+    </div>
+</form>
+<div class="row">
+    <div class="col-sm-5">
+        <table class="table table-bordered table-responsive" [mfData]="allProducts" #mfList="mfDataTable" [mfRowsOnPage]="10">
+            <thead class="black-muted-bg">
+                <tr>
+                    <th class="text-center" style="width:50px;" [class.disabled]="allProducts.length <=0">
+                        <input type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+                    </th>
+                    <th class="text-left" style="width:200px;">
+                        <mfDefaultSorter by="Name">
+                            <strong>Product Name</strong>
+                        </mfDefaultSorter>
+                    </th>
+                    <th class="text-left">
+                        <mfDefaultSorter by="Brand">
+                            <strong>Brand</strong>
+                        </mfDefaultSorter>
+                    </th>
+                    <th class="text-left">
+                        <mfDefaultSorter by="Mrp">
+                            <strong>RPI</strong>
+                        </mfDefaultSorter>
+                    </th>
+                </tr>
+            </thead>
+            <tbody *ngIf=" allProducts && allProducts.length > 0 ">
+                <tr *ngFor=" let item of mfList.data; let i = index ">
+                    <td class="text-center">
+                        <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                    </td>
+                    <td class="text-left">
+                        {{ item.Name }}
+                    </td>
+                    <td class="text-left">
+                        {{ item.Brand }}
+                    </td>
+                    <td class="text-left">
+                        {{ item.RetailPriceInclusive }}
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot *ngIf="!atLeastOnePresent && allProducts.length === 0">
+                <tr>
+                    <td colspan="4" class="text-center">
+                        <span class="no-product-message">Search Product OR
+                            <a href="javascript:void(0)" (click)="searchProductFormFunc({})">Get All</a>
+                        </span>
+                    </td>
+                </tr>
+            </tfoot>
+            <tfoot *ngIf="atLeastOnePresent && allProducts.length === 0">
+                <tr>
+                    <td colspan="4" class="text-center">
+                        <span class="no-product-message">
+                            There are no products.
+                        </span>
+                    </td>
+                </tr>
+            </tfoot>
+            <tfoot *ngIf=" allProducts && allProducts.length > 10 ">
+                <tr>
+                    <td colspan="4">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="col-sm-7">
+        <table class="table table-bordered table-responsive" [mfData]="allMapTempProducts" #mfMapList="mfDataTable" [mfRowsOnPage]="10">
+            <thead class="black-muted-bg">
+                <tr>
+                    <th class="text-left">
+                        <strong>Product</strong>
+                    </th>
+                </tr>
+            </thead>
+            <tbody *ngIf=" allMapTempProducts && allMapTempProducts.length > 0 ">
+                <tr *ngFor=" let item of mfMapList.data; let i = index ">
+                    <td class="text-left">
+                        <div>
+                            <strong>{{ item.Name }}</strong>
+                            <i (click)="removeFromMapProducts(item)" class="float-right fa fa-times-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="row product-map-edit">
+                            <div class="col-md-4 form-group">
+                                <label>Retail Price</label>
+                                <input type="number" min="0" class="form-control" [(ngModel)]="item.RetailPrice">
                             </div>
-                            <div class="row product-map-edit">
-                                <div class="col-md-4 form-group">
-                                    <label>Retail Price</label>
-                                    <input type="number" min="0" class="form-control" [(ngModel)]="item.RetailPrice">
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <label>Retail Shipping Price</label>
-                                    <input type="number" min="0" class="form-control" [(ngModel)]="item.RetailShippingPrice">
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <label>Discount</label>
-                                    <input type="number" min="0" class="form-control" [(ngModel)]="item.Discount">
-                                </div>
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <label>
-                                                <input type="checkbox" [(ngModel)]="item.IsFeaturedProduct">
-                                                <span>Is Featured Product</span>
-                                            </label>
-                                            <input min="0" placeholder="Display Order" class="form-control" type="number" [(ngModel)]="item.FeaturedProductDisplayOrder">
-                                        </div>
-                                        <div class="col-6">
-                                            <label>
-                                                <input type="checkbox" [(ngModel)]="item.IsHomePageProduct">
-                                                <span>Is Home Page Product</span>
-                                            </label>
-                                            <input min="0" class="form-control" placeholder="Display Order" type="number" [(ngModel)]="item.HomePageProductDisplayOrder">
-                                        </div>
-                                        <div class="col-6">
-                                            <label>
-                                                <input type="checkbox" [(ngModel)]="item.CatalogProductMappingIsActive">
-                                                <span>Catalog Product Mapping IsActive</span>
-                                            </label>
-                                        </div>
+                            <div class="col-md-4 form-group">
+                                <label>Retail Shipping Price</label>
+                                <input type="number" min="0" class="form-control" [(ngModel)]="item.RetailShippingPrice">
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>Discount</label>
+                                <input type="number" min="0" class="form-control" [(ngModel)]="item.Discount">
+                            </div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label>
+                                            <input type="checkbox" [(ngModel)]="item.IsFeaturedProduct">
+                                            <span>Is Featured Product</span>
+                                        </label>
+                                        <input min="0" placeholder="Display Order" class="form-control" type="number" [(ngModel)]="item.FeaturedProductDisplayOrder">
+                                    </div>
+                                    <div class="col-6">
+                                        <label>
+                                            <input type="checkbox" [(ngModel)]="item.IsHomePageProduct">
+                                            <span>Is Home Page Product</span>
+                                        </label>
+                                        <input min="0" class="form-control" placeholder="Display Order" type="number" [(ngModel)]="item.HomePageProductDisplayOrder">
+                                    </div>
+                                    <div class="col-6">
+                                        <label>
+                                            <input type="checkbox" [(ngModel)]="item.CatalogProductMappingIsActive">
+                                            <span>Catalog Product Mapping IsActive</span>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot *ngIf="allMapTempProducts && allMapTempProducts.length > 10 ">
-                    <tr>
-                        <td colspan="2">
-                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot *ngIf="allMapTempProducts && allMapTempProducts.length > 10 ">
+                <tr>
+                    <td colspan="2">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
 
-        </div>
     </div>
-    <div class="row">
-        <div class="col-md-12 save-product-map-changes-btn">
-            <button [disabled]="allMapTempProducts.length < 1" (click)="mapProductWithCatalog()" class="btn btn-primary" type="button">
-                Save Changes </button>
-            <img *ngIf=" saveChangesLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-        </div>
+</div>
+<div class="row">
+    <div class="col-md-12 save-product-map-changes-btn">
+        <button [disabled]="allMapTempProducts.length < 1" (click)="mapProductWithCatalog()" class="btn btn-primary" type="button">
+            Save Changes </button>
+        <img *ngIf=" saveChangesLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
     </div>
+</div>
 <!-- </div> -->

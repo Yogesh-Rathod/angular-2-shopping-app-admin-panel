@@ -9,7 +9,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 
 import { Pages } from './pages.component';
 
-import { MerchandiseService, MovieManagementService, ProductsService, JsonToExcelService } from 'app/services';
+import { MerchandiseService, MovieManagementService, ProductsService, JsonToExcelService, CatalogManagementService } from 'app/services';
 import { BulkUploadComponent } from './merchandise/categories/bulk-upload/bulk-upload.component';
 import { ProductsBulkUploadComponent } from './merchandise/products/bulk-upload/bulk-upload.component';
 import { VendorsBulkUploadComponent } from './merchandise/vendor/bulk-upload/bulk-upload.component';
@@ -56,7 +56,8 @@ import { DeleteMoviePopupComponent } from './merchandise/movie-management/delete
         XlsxToJsonService,
         ProductsService,
         JsonToExcelService,
-        OrdersService
+        OrdersService,
+        CatalogManagementService
     ],
     entryComponents: [
         BulkUploadComponent,

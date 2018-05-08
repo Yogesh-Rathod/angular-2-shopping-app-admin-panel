@@ -9,6 +9,8 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ToastsManager } from "ng2-toastr";
 import { ActivatedRoute, Router } from "@angular/router";
 import * as _ from "lodash";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CatalogBulkUploadComponent } from 'app/pages/merchandise/catalog-management/bulk-upload/bulk-upload.component';
 
 @Component({
     selector: 'app-products-info',
@@ -44,6 +46,7 @@ export class ProductsInfoComponent implements OnInit {
         private fb: FormBuilder,
         private toastr: ToastsManager,
         private route: ActivatedRoute,
+        private modalService: NgbModal,
         private router: Router,
         private catalogManagementService: CatalogManagementService,
         private productsService: ProductsService,
@@ -230,6 +233,17 @@ export class ProductsInfoComponent implements OnInit {
         if (isCheckedArray.length === 0) {
             // this.showSelectedDelete = false;
         }
+    }
+
+    catalogBulkUpload() {
+        const activeModal = this.modalService.open(CatalogBulkUploadComponent, { size: 'sm' });
+        activeModal.componentInstance.catalogId = this.catalogId;
+
+        activeModal.result.then(status => {
+            if (status) {
+                this.onStatusChange.emit(true);
+            }
+        }).catch(status => { })
     }
 
 

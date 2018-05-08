@@ -68,11 +68,11 @@
 
         <div class="info-record row">
             <div class="col-3 text-right bold">
-                Order Code
+                Order Id
                 <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Internal reference for order."></i>
             </div>
             <div class="col-9">
-                <span *ngIf="orderInfo.PurchaseOrderId">
+                <span *ngIf="orderInfo.PurchaseOrderId" class="no-text-transform">
                     {{ orderInfo.PurchaseOrderId }}
                 </span>
             </div>
@@ -143,11 +143,8 @@
             </div>
             <div class="col-9">
                 <span *ngIf="orderInfo.ShippingDetails" class="no-text-transform">
-                    {{ orderInfo.ShippingDetails.Address1 }}
-                    {{ orderInfo.ShippingDetails.Address2 }},
-                    {{ orderInfo.ShippingDetails.City }},
-                    {{ orderInfo.ShippingDetails.State }},
-                    {{ orderInfo.ShippingDetails.Pincode }}.
+                    {{ orderInfo.ShippingDetails.Address1 }} {{ orderInfo.ShippingDetails.Address2 }}, {{ orderInfo.ShippingDetails.City }},
+                    {{ orderInfo.ShippingDetails.State }}, {{ orderInfo.ShippingDetails.Pincode }}.
                 </span>
             </div>
         </div>
@@ -171,7 +168,7 @@
             </div>
             <div class="col-9">
                 <span>
-                    {{  orderInfo.BookingDetails ? (orderInfo.BookingDetails.TotalRetailPrice | currency: 'INR': true) :'NA'  }}
+                    {{ orderInfo.BookingDetails ? (orderInfo.BookingDetails.TotalRetailPrice | currency: 'INR': true) :'NA' }}
                 </span>
             </div>
         </div>
@@ -183,7 +180,7 @@
             </div>
             <div class="col-9">
                 <span>
-                    {{  orderInfo.BookingDetails ? (orderInfo.BookingDetails.UnitNetShippingPrice | currency: 'INR': true):'NA' }}
+                    {{ orderInfo.BookingDetails ? (orderInfo.BookingDetails.UnitNetShippingPrice | currency: 'INR': true):'NA' }}
                 </span>
             </div>
         </div>

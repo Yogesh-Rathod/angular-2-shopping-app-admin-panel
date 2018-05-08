@@ -87,11 +87,11 @@
 
                 <div class="info-record row">
                     <div class="col-3 text-right bold">
-                        Order Code
+                        Order Id
                         <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Internal reference for order."></i>
                     </div>
                     <div class="col-9">
-                        <span *ngIf="orderInfo.PurchaseOrderId">
+                        <span *ngIf="orderInfo.PurchaseOrderId" class="no-text-transform">
                             {{ orderInfo.PurchaseOrderId }}
                         </span>
                     </div>

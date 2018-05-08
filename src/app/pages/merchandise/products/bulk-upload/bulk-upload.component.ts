@@ -20,6 +20,7 @@ export class ProductsBulkUploadComponent implements OnInit {
     result: any;
     blankFileError = false;
     validationError: any;
+    userRole: any;
 
     constructor(
         private toastr: ToastsManager,
@@ -60,44 +61,53 @@ export class ProductsBulkUploadComponent implements OnInit {
         event.preventDefault();
         this.showLoader = true;
         if (this.productsInfo && this.productsInfo.length > 0) {
-            if (action === 'save') {
-                this.productsService.editOperationProduct(this.productsInfo, 'Operations').
-                    then((success) => {
-                        if (success.Code === 200) {
-                            this.toastr.success('Product sucessfully saved in draft', 'Success!');
-                            this.closeModal(true);
-                        } else if (success.Code === 500) {
-                            this.errorData = success.Data;
-                            this.toastr.error('Oops! Could not upload products.', 'Error!');
-                        }
-                        this.showLoader = false;
-                    }).catch((error) => {
-                        if (error.Code === 500) {
-                            this.toastr.error('Oops! Could not upload products.', 'Error!');
-                        } else if (error.Code === 400) {
-                            this.validationError = error.FailureReasons;
-                        }
-                        this.showLoader = false;
-                    });
-            } else if (action === 'submit') {
-                this.productsService.confirmOperationProduct(this.productsInfo, 'Operations').
-                    then((success) => {
-                        if (success.Code === 200) {
-                            this.toastr.success('Product sucessfully sent for approval!', 'Success!');
-                            this.closeModal(true);
-                        } else if (success.Code === 500) {
-                            this.errorData = success.Data;
-                            this.toastr.error('Oops! Could not upload products.', 'Error!');
-                        }
-                        this.showLoader = false;
-                    }).catch((error) => {
-                        if (error.Code === 500) {
-                            this.toastr.error('Oops! Could not upload products.', 'Error!');
-                        } else if (error.Code === 400) {
-                            this.validationError = error.FailureReasons;
-                        }
-                        this.showLoader = false;
-                    });
+            switch (action) {
+                case 'save':
+                    this.productsService.editOperationProduct(this.productsInfo, 'Operations').
+                        then((success) => {
+                            if (success.Code === 200) {
+                                this.toastr.success('Product sucessfully saved in draft', 'Success!');
+                                this.closeModal(true);
+                            } else if (success.Code === 500) {
+                                this.errorData = success.Data;
+                                this.toastr.error('Oops! Could not upload products.', 'Error!');
+                            }
+                            this.showLoader = false;
+                        }).catch((error) => {
+                            if (error.Code === 500) {
+                                this.toastr.error('Oops! Could not upload products.', 'Error!');
+                            } else if (error.Code === 400) {
+                                this.validationError = error.FailureReasons;
+                            }
+                            this.showLoader = false;
+                        });
+                    break;
+                case 'submit':
+                    this.productsService.confirmOperationProduct(this.productsInfo, 'Operations').
+                        then((success) => {
+                            if (success.Code === 200) {
+                                this.toastr.success('Product sucessfully sent for approval!', 'Success!');
+                                this.closeModal(true);
+                            } else if (success.Code === 500) {
+                                this.errorData = success.Data;
+                                this.toastr.error('Oops! Could not upload products.', 'Error!');
+                            }
+                            this.showLoader = false;
+                        }).catch((error) => {
+                            if (error.Code === 500) {
+                                this.toastr.error('Oops! Could not upload products.', 'Error!');
+                            } else if (error.Code === 400) {
+                                this.validationError = error.FailureReasons;
+                            }
+                            this.showLoader = false;
+                        });
+                    break;
+                case 'approve':
+                        break;
+                case 'reject':
+                    break;
+                default:
+                    break;
             }
         }
     }

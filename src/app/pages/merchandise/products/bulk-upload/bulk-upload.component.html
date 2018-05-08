@@ -7,14 +7,6 @@
     </div>
 
     <div class="card-body">
-        <p *ngIf="validationError" class="error">Please resolve following errors in excel:</p>
-        <div *ngIf="validationError" class="alert alert-danger">
-            <ul class="no_margin">
-                <li *ngFor="let item of validationError">
-                    Row: {{ item.Error }}, Field: {{ item.Meta }}
-                </li>
-            </ul>
-        </div>
 
         <p *ngIf="blankFileError" class="error">
             <em>
@@ -29,9 +21,15 @@
                 <a target="_blank" *ngIf="errorData.length>0" href="javascript:void(0)" (click)="downloadFile()" class="error text-decoration btn-link">Download Error Report</a>
             </div>
             <div class="form-group">
-                <button class="btn btn-success" [disabled]=" submitDisabled " (click)="uploadFile($event, 'save')">Save in Draft</button>
-                <button class="btn btn-primary" [disabled]=" submitDisabled " (click)="uploadFile($event, 'submit')">
+                <button class="btn btn-success" [disabled]=" submitDisabled " (click)="uploadFile($event, 'save')" *ngIf="userRole !== 'Admin'">Save in Draft</button>
+                <button class="btn btn-primary" [disabled]=" submitDisabled " (click)="uploadFile($event, 'submit')" *ngIf="userRole !== 'Admin'">
                      Send for approval
+                </button>
+                <button class="btn btn-success" [disabled]=" submitDisabled " (click)="uploadFile($event, 'approve')" *ngIf="userRole === 'Admin'">
+                    Approve
+                </button>
+                <button class="btn btn-danger" [disabled]=" submitDisabled " (click)="uploadFile($event, 'reject')" *ngIf="userRole === 'Admin'">
+                    Reject
                 </button>
                 <img *ngIf=" showLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
             </div>

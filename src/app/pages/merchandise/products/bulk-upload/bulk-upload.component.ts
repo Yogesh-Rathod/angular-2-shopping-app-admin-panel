@@ -145,6 +145,12 @@ export class ProductsBulkUploadComponent implements OnInit {
                                 );
                                 this.closeModal(true);
                             }
+                            if (!success.Success) {
+                                this.toastr.error(
+                                    'Oops! Could not approve products.',
+                                    'Error!'
+                                );
+                            }
                             this.showLoader = false;
                         })
                         .catch(error => {
@@ -165,6 +171,12 @@ export class ProductsBulkUploadComponent implements OnInit {
                                     'Sucess!'
                                 );
                                 this.closeModal(true);
+                            }
+                            if (!success.Success) {
+                                this.toastr.error(
+                                    'Oops! Could not reject products.',
+                                    'Error!'
+                                );
                             }
                             this.showLoader = false;
                         })

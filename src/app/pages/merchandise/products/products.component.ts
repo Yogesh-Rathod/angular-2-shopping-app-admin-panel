@@ -584,7 +584,7 @@ export class ProductsComponent implements OnInit {
         if (this.selectAllCheckbox) {
             _.forEach(this.products, item => {
                 if (item.Status === 'Pending') {
-                    productsToReject.push(item.Id);
+                    productsToReject.push(item);
                     item.isChecked = false;
                 } else {
                     this.errorMessage.status = true;
@@ -599,7 +599,7 @@ export class ProductsComponent implements OnInit {
                 if (item.isChecked) {
                     if (item.isChecked) {
                         if (item.Status === 'Pending') {
-                            productsToReject.push(item.Id);
+                            productsToReject.push(item);
                         } else {
                             this.errorMessage.status = true;
                             this.errorMessage.message =
@@ -654,7 +654,7 @@ export class ProductsComponent implements OnInit {
             productsToApprove = [];
             _.forEach(this.products, item => {
                 if (item.Status === 'Pending') {
-                    productsToApprove.push(item.Id);
+                    productsToApprove.push(item);
                 } else {
                     this.errorMessage.status = true;
                     this.errorMessage.message =
@@ -668,7 +668,7 @@ export class ProductsComponent implements OnInit {
             _.forEach(this.products, item => {
                 if (item.isChecked) {
                     if (item.Status === 'Pending') {
-                        productsToApprove.push(item.Id);
+                        productsToApprove.push(item);
                     } else {
                         this.errorMessage.status = true;
                         this.errorMessage.message =

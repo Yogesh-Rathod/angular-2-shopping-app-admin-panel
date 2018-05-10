@@ -1,17 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import {
+    FormControl,
+    FormGroup,
+    Validators,
+    FormBuilder
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CsvService } from "angular2-json2csv";
+import { CsvService } from 'angular2-json2csv';
 import { CookieService } from 'ngx-cookie';
 
 import * as _ from 'lodash';
 declare let $: any;
 
-import { ProductsService, MerchandiseService, JsonToExcelService } from 'app/services';
+import {
+    ProductsService,
+    MerchandiseService,
+    JsonToExcelService,
+    VendorsService
+} from 'app/services';
 import { ProductsBulkUploadComponent } from 'app/pages/merchandise/products/bulk-upload/bulk-upload.component';
-
 
 @Component({
     selector: 'app-products',
@@ -19,20 +28,25 @@ import { ProductsBulkUploadComponent } from 'app/pages/merchandise/products/bulk
     styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent implements OnInit {
-
     p: number = 1;
     totalRecords: any = 1;
+    showRecords: any = 25;
     searchProductForm: FormGroup;
     bigLoader = true;
+    searchLoader = false;
     approveLoader = false;
     products: any;
     categories: any;
-    productTypes = [
-        'simple',
-        'grouped (product with variants)'
+    status = [
+        {
+            id: 'Draft',
+            itemName: 'Draft'
+        },
+        {
+            id: 'Pending',
+            itemName: 'Pending for Approval'
+        }
     ];
-    manufacturer = ['apple', 'lenovo', 'samsung'];
-    status = ['Active', 'Inactive', 'Banned', 'Out of stock'];
     vendors: any;
     showSelectedAction = false;
     selectAllCheckbox = false;
@@ -40,7 +54,6 @@ export class ProductsComponent implements OnInit {
     vendorId: any;
     vendorInfo: any;
     dropDownAction = ['Approve', 'Reject'];
-    approvalStatus = ['Pending', 'Approved', 'Rejected'];
     noActionSelected = false;
     disableSubmitButton = false;
     userRole: any;
@@ -53,12 +66,17 @@ export class ProductsComponent implements OnInit {
         private fb: FormBuilder,
         private productsService: ProductsService,
         private route: ActivatedRoute,
-        private merchandiseService: MerchandiseService) {
-        this.route.params.subscribe((params) => {
+        private vendorsService: VendorsService,
+        private merchandiseService: MerchandiseService
+    ) {
+        this.route.params.subscribe(params => {
             this.vendorId = params['vendorId'];
         });
         let userRoles = this.cookieService.get('userRoles');
-        if (userRoles.indexOf('SuperAdmin') > -1 || userRoles.indexOf('Admin') > -1) {
+        if (
+            userRoles.indexOf('SuperAdmin') > -1 ||
+            userRoles.indexOf('Admin') > -1
+        ) {
             this.userRole = 'Admin';
         } else {
             this.userRole = 'Operations';
@@ -69,46 +87,121 @@ export class ProductsComponent implements OnInit {
         $(document).ready(() => {
             $('[data-toggle="tooltip"]').tooltip();
         });
-        this.getAllCategories();
+        this.searchForm();
         this.getAllProducts();
+        this.getAllVendors();
     }
 
-    getAllCategories() {
-        this.merchandiseService.getCategories().
-            then((categories) => {
-                this.categories = categories.Data;
-            }).catch((error) => {
-                this.toastr.error('Could not get categories.', 'Error');
-            });
+    searchForm() {
+        this.searchProductForm = this.fb.group({
+            'e.name': [''],
+            'e.sKU': [''],
+            'e.parentProductCode': [''],
+            'e.status': [''],
+            'e.sellerId': ['']
+        });
+    }
+
+    getAllVendors() {
+        this.vendorsService
+            .getVendors()
+            .then(vendors => {
+                this.vendors = vendors.Data;
+            })
+            .catch(error => {});
     }
 
     getAllProducts() {
         this.bigLoader = true;
-        this.productsService.getOpsProducts(this.userRole, null, 1, 10).
-            then((products) => {
-                this.products = products.Data.Products;
+        this.productsService
+            .getOpsProducts(this.userRole, null, 1, this.showRecords)
+            .then(products => {
+                this.products = products.Data ? products.Data.Products : [];
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
                 if (products.Code === 500) {
                     this.toastr.error('Could not get products.', 'Error');
                 }
-            }).catch((error) => {
+            })
+            .catch(error => {
                 this.bigLoader = false;
                 this.toastr.error('Could not get products.', 'Error');
             });
     }
 
+    removeBlankFieldsFromForm(FormObject) {
+        for (let key in FormObject) {
+            if (FormObject.hasOwnProperty(key)) {
+                let value = FormObject[key];
+                if (!value || value.length === 0) {
+                    delete FormObject[key];
+                }
+                if (typeof FormObject[key] === 'string') {
+                    FormObject[key] = FormObject[key].trim();
+                }
+            }
+        }
+        FormObject = JSON.stringify(FormObject);
+        FormObject = FormObject.replace(/{|}|[\[\]]|/g, '')
+            .replace(/":"/g, '=')
+            .replace(/","/g, '&')
+            .replace(/"/g, '');
+        return FormObject;
+    }
+
+    searchProduct(searchProductForm) {
+        this.p = 1;
+        this.atLeastOneFieldRequires(searchProductForm);
+        if (!this.atLeastOnePresent) {
+            this.products = [];
+            this.bigLoader = true;
+            searchProductForm = this.removeBlankFieldsFromForm(
+                searchProductForm
+            );
+
+            this.productsService
+                .getOpsProducts(
+                    this.userRole,
+                    searchProductForm,
+                    1,
+                    this.showRecords
+                )
+                .then(products => {
+                    this.products = products.Data ? products.Data.Products : [];
+                    this.totalRecords = products.Data.TotalRecords;
+                    this.bigLoader = false;
+                })
+                .catch(error => {
+                    this.bigLoader = false;
+                });
+        }
+    }
+
     pageChanged($event) {
         this.bigLoader = true;
         this.p = $event;
-        this.productsService.getOpsProducts(this.userRole, null, this.p, 10).
-            then((products) => {
-                this.products = products.Data.Products;
+        this.atLeastOneFieldRequires(this.searchProductForm.value);
+        let searchProductForm;
+        if (!this.atLeastOnePresent) {
+            searchProductForm = this.removeBlankFieldsFromForm(
+                this.searchProductForm.value
+            );
+        }
+        this.productsService
+            .getOpsProducts(
+                this.userRole,
+                searchProductForm,
+                this.p,
+                this.showRecords
+            )
+            .then(products => {
+                this.products = products.Data ? products.Data.Products : [];
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
-            }).catch((error) => {
-                this.bigLoader = false;
             })
+            .catch(error => {
+                this.bigLoader = false;
+            });
     }
 
     atLeastOneFieldRequires(someObject) {
@@ -126,38 +219,17 @@ export class ProductsComponent implements OnInit {
         }
     }
 
-    exportProducts() {
-        let products = [];
-        if (this.selectAllCheckbox) {
-            this.productsService.getOpsProducts(this.userRole, null, null, this.totalRecords).
-                then((products) => {
-                    if (products.Data && products.Data.Products.length > 0) {
-                        this.jsonToExcelService.exportAsExcelFile(products.Data.Products, 'products');
-                    }
-                }).catch((error) => {
-                    this.toastr.error('Could not get products for export', 'Error');
-                });
-        } else {
-            _.forEach(this.products, (item) => {
-                if (item.isChecked) {
-                    products.push(item);
-                }
-            });
-            this.jsonToExcelService.exportAsExcelFile(products, 'products');
-        }
-    }
-
     selectAll(e) {
         if (e.target.checked) {
             this.selectAllCheckbox = true;
-            _.forEach(this.products, (item) => {
+            _.forEach(this.products, item => {
                 item.isChecked = true;
             });
             this.showSelectedAction = true;
         } else {
             this.noActionSelected = false;
             this.selectAllCheckbox = false;
-            _.forEach(this.products, (item) => {
+            _.forEach(this.products, item => {
                 item.isChecked = false;
             });
             this.showSelectedAction = false;
@@ -175,7 +247,7 @@ export class ProductsComponent implements OnInit {
 
         let isCheckedArray = [];
 
-        _.forEach(this.products, (item) => {
+        _.forEach(this.products, item => {
             if (item.isChecked) {
                 this.showSelectedAction = true;
                 isCheckedArray.push(item);
@@ -185,7 +257,6 @@ export class ProductsComponent implements OnInit {
         if (isCheckedArray.length === 0) {
             this.showSelectedAction = false;
         }
-
     }
 
     actionDropDownSelected(dropDownActionSelect) {
@@ -218,28 +289,29 @@ export class ProductsComponent implements OnInit {
         this.approveLoader = true;
         let productsToReject = [];
         if (this.selectAllCheckbox) {
-            _.forEach(this.products, (item) => {
-                item.approvalStatus = 'Approved';
+            _.forEach(this.products, item => {
                 productsToReject.push(item.Id);
                 item.isChecked = false;
             });
         } else {
-            _.forEach(this.products, (item) => {
+            _.forEach(this.products, item => {
                 if (item.isChecked) {
                     productsToReject.push(item.Id);
                     item.isChecked = false;
                 }
             });
         }
-        this.productsService.rejectProducts(productsToReject, this.userRole).
-            then((success) => {
+        this.productsService
+            .rejectProducts(productsToReject, this.userRole)
+            .then(success => {
                 if (success.Code === 200) {
                     this.getAllProducts();
                 }
                 this.approveLoader = false;
-            }).catch((error) => {
-                this.approveLoader = false;
             })
+            .catch(error => {
+                this.approveLoader = false;
+            });
         this.selectAllCheckbox = false;
         this.showSelectedAction = false;
     }
@@ -249,30 +321,96 @@ export class ProductsComponent implements OnInit {
         let productsToApprove = [];
         if (this.selectAllCheckbox) {
             productsToApprove = [];
-            _.forEach(this.products, (item) => {
+            _.forEach(this.products, item => {
                 productsToApprove.push(item.Id);
                 item.isChecked = false;
             });
         } else {
             productsToApprove = [];
-            _.forEach(this.products, (item) => {
+            _.forEach(this.products, item => {
                 if (item.isChecked) {
                     productsToApprove.push(item.Id);
                     item.isChecked = false;
                 }
             });
         }
-        this.productsService.approveProducts(productsToApprove, this.userRole).
-            then((success) => {
+        this.productsService
+            .approveProducts(productsToApprove, this.userRole)
+            .then(success => {
                 if (success.Code === 200) {
                     this.getAllProducts();
                 }
                 this.approveLoader = false;
-            }).catch((error) => {
-                this.approveLoader = false;
             })
+            .catch(error => {
+                this.approveLoader = false;
+            });
         this.selectAllCheckbox = false;
         this.showSelectedAction = false;
     }
 
+    exportAllProducts(searchProductForm) {
+        this.searchLoader = true;
+        // this.errorMessage.status = false;
+        if (this.atLeastOneFieldRequires(searchProductForm)) {
+            searchProductForm = this.removeBlankFieldsFromForm(
+                searchProductForm
+            );
+
+            this.productsService
+                .getOpsProducts(
+                    this.userRole,
+                    searchProductForm,
+                    1,
+                    this.totalRecords
+                )
+                .then(products => {
+                    products = products.Data ? products.Data.Products : [];
+                    if (products.length > 0) {
+                        this.jsonToExcelService.exportAsExcelFile(
+                            products,
+                            'products'
+                        );
+                    } else {
+                        // this.errorMessage.message =
+                        'There are no products to export.';
+                        // this.errorMessage.status = true;
+                    }
+                    this.searchLoader = false;
+                })
+                .catch(error => {
+                    this.searchLoader = false;
+                });
+        } else {
+            this.productsService
+                .getOpsProducts(this.userRole, null, 1, this.totalRecords)
+                .then(products => {
+                    products = products.Data ? products.Data.Products : [];
+                    if (products.length > 0) {
+                        this.jsonToExcelService.exportAsExcelFile(
+                            products,
+                            'products'
+                        );
+                    } else {
+                        // this.errorMessage.message =
+                        'There are no products to export.';
+                        // this.errorMessage.status = true;
+                    }
+                    this.searchLoader = false;
+                })
+                .catch(error => {
+                    this.searchLoader = false;
+                    this.toastr.error(
+                        'Could not get products for export.',
+                        'Error'
+                    );
+                });
+        }
+    }
+
+    resetForm() {
+        this.atLeastOnePresent = false;
+        this.searchForm();
+        this.getAllProducts();
+    }
 }

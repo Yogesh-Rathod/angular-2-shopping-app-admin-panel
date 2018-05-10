@@ -116,7 +116,6 @@ export class ProductsComponent implements OnInit {
         }
     }
 
-    // For Creating Add Category Form
     searchForm() {
         this.searchProductForm = this.fb.group({
             'e.name': [''],
@@ -224,8 +223,20 @@ export class ProductsComponent implements OnInit {
     pageChanged($event) {
         this.bigLoader = true;
         this.p = $event;
+        this.atLeastOneFieldRequires(this.searchProductForm.value);
+        let searchProductForm;
+        if (!this.atLeastOnePresent) {
+            searchProductForm = this.removeBlankFieldsFromForm(
+                this.searchProductForm.value
+            );
+        }
         this.productsService
-            .getOpsProducts(this.userRole, null, this.p, this.showRecords)
+            .getOpsProducts(
+                this.userRole,
+                searchProductForm,
+                this.p,
+                this.showRecords
+            )
             .then(products => {
                 this.products = products.Data.Products;
                 this.totalRecords = products.Data.TotalRecords;

@@ -5,23 +5,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { MerchandiseComponent } from './merchandise.component';
 import { routing } from './merchandise.routing';
-import { MerchandiseService } from 'app/services';
+import { MerchandiseService, VendorsService } from 'app/services';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    routing
-  ],
-  declarations: [
-    MerchandiseComponent,
-  ],
-  providers: [
-    MerchandiseService
-  ],
-  entryComponents: [
-  ]
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, routing],
+    declarations: [MerchandiseComponent],
+    providers: [MerchandiseService, VendorsService],
+    entryComponents: []
 })
-
 export class MerchandiseModule {}

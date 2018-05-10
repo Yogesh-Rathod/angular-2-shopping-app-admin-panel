@@ -2,11 +2,90 @@
     <img src="assets/img/ajax-loader.gif" alt="Loader Image">
 </div>
 
-<button class="btn btn-info deleteSelectedButton" [ngClass]="{ 'disabled': products && products.length === 0 || !showSelectedAction }"
-    (click)="exportProducts()">
-    <i class="fa fa-download" aria-hidden="true"></i>
-    Export Products
-</button>
+<div class="filters fadeIn animated">
+    <div class="card-body">
+
+        <p class="error" *ngIf="atLeastOnePresent">
+            <em>
+                Please select atleast 1 criteria.
+            </em>
+        </p>
+
+        <form class="form-inline row" [formGroup]="searchProductForm" (ngSubmit)=" searchProduct(searchProductForm.value) ">
+
+            <div class="form-group col-6 col-lg-3">
+                <label for="name">
+                    Product Name
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A product name."></i>
+                </label>
+                <input type="text" class="form-control" id="name" placeholder="Product Name" formControlName="e.name">
+            </div>
+
+            <div class="form-group col-6 col-lg-3">
+                <label for="id">
+                    Product SKU / Code
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A product SKU / Code."></i>
+                </label>
+                <input type="text" class="form-control" id="id" placeholder="Product SKU / Code" formControlName="e.sKU">
+            </div>
+
+            <div class="form-group col-6 col-lg-3">
+                <label for="id">
+                    Parent Product Code
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A parent product Code."></i>
+                </label>
+                <input type="text" class="form-control" id="id" placeholder="Parent Product Code" formControlName="e.parentProductCode">
+            </div>
+
+            <div class="form-group col-6 col-lg-3">
+                <label for="Vendor">
+                    Seller
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a specific seller."></i>
+                </label>
+                <select id="Vendor" class="form-control col-12" formControlName="e.sellerId">
+                    <option value="">All</option>
+                    <option *ngFor="let item of vendors" [ngValue]="item.SellerId">
+                        {{ item.Company }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group col-6 col-lg-3">
+                <label for="Status">
+                    Status
+                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a 'Status' property."></i>
+                </label>
+                <select id="Status" class="form-control col-12" formControlName="e.status">
+                    <option value="">All</option>
+                    <option *ngFor="let item of status" value="{{ item.id }}">
+                        {{ item.itemName }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group col-12">
+                <button type="submit" class="btn btn-primary searchButton">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    Search
+                </button>
+                <img width="35" height="35" *ngIf="searchLoader" src="assets/img/ajax-loader.gif" alt="Loader Image">
+                <button type="button" class="btn btn-secondary searchButton" (click)="resetForm()">
+                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                    Reset
+                </button>
+                <button [class.disabled]="!products || products.lenght === 0" type="button" class="btn btn-info searchButton" (click)="exportAllProducts(searchProductForm.value)">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    Export All Products
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<div class="spacer col-12"></div>
+
 <img *ngIf="approveLoader" class="pull-right" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
 
 <div class="pull-right col-4 dropDownAction no_padding" [class.disabled]="!showSelectedAction">
@@ -29,14 +108,11 @@
     </form>
 </div>
 <div class="table-responsive">
-    <table class="table table-bordered" [mfData]="products" #mf="mfDataTable" [mfRowsOnPage]="10">
+    <table class="table table-bordered" [mfData]="products" #mf="mfDataTable" [mfRowsOnPage]="showRecords">
         <thead class="black-muted-bg">
             <tr>
                 <th class="text-center">
                     <input [class.disabled]="products && products.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
-                </th>
-                <th class="text-left">
-                    <strong>Product Image</strong>
                 </th>
                 <th>
                     <mfDefaultSorter by="Name">
@@ -47,49 +123,34 @@
                     <strong>SKU</strong>
                 </th>
                 <th>
-                    <mfDefaultSorter by="price">
-                        <strong>Price </strong>
+                    <mfDefaultSorter by="NetPrice">
+                        <strong>Net Price </strong>
                     </mfDefaultSorter>
+                </th>
+                <th>
+                    <strong>Product Status</strong>
+                </th>
+                <th>
+                    <strong>Stock</strong>
                 </th>
                 <th>
                     <strong>Modified On</strong>
                 </th>
-                <!-- <th>
-                <strong>Type</strong>
-              </th> -->
-                <th>
-                    <strong>Product Status</strong>
-                </th>
-                <!-- <th>
-                <strong>Approval Status</strong>
-              </th> -->
-                <th class="action" *ngIf="userRole!='Admin'">
-                    <strong>Action</strong>
-                </th>
             </tr>
         </thead>
         <tbody *ngIf=" products && products.length > 0 ">
-            <tr *ngFor=" let item of mf.data | paginate: { itemsPerPage: 10, currentPage: p, totalItems: totalRecords }; let i = index; ">
+            <tr *ngFor=" let item of mf.data | paginate: { itemsPerPage: showRecords, currentPage: p, totalItems: totalRecords }; let i
+            = index; ">
 
                 <td class="text-center">
                     <input *ngIf="item.Status!=='Draft' && item.Status!=='Approved' && item.Status!=='APPROVED'" [ngModel]="item.isChecked" type="checkbox"
                         (change)="checkBoxSelected($event, item)">
                 </td>
-
-                <td class="text-left">
-                    <div class="product-image" *ngIf="item.picture">
-                        <img class="img-fluid" src="{{ item.picture[0].url ? item.picture[0].url : 'assets/images/products/Placeholder.png' }}" alt="{{ item.picture[0].alt ? item.picture[0].alt : 'Product Image' }}">
-                    </div>
-                </td>
                 <td>
                     <span>{{ item.Name }}</span>
                 </td>
                 <td>{{ item.Sku }}</td>
-                <td>{{ item.Mrp | currency: 'INR': true }}</td>
-                <td>
-                    {{ item.ModifiedOn | date}}
-                </td>
-                <!-- <td>{{ item.productType }}</td> -->
+                <td>{{ item.NetPrice | currency: 'INR': true }}</td>
                 <td class="text-center" [ngClass]="{
                 'Draft': item.Status == 'Draft',
                 'APPROVED': item.Status === 'APPROVED',
@@ -99,41 +160,32 @@
               }">
                     {{ item.Status }}
                 </td>
-                <!-- <td class="text-center order-status">
-                <span [ngClass]="{
-                  'approved': item.Status == 'Draft',
-                  'pending': item.Status == 'Pending',
-                  'rejected': item.Status == 'Rejected'
-                }">
-                  {{ item.Status }}
-                </span>
-              </td> -->
-                <td class="action" *ngIf="userRole!='Admin'">
-                    <button *ngIf="item.Status=='Draft' || item.Status=='Approved' || item.Status=='APPROVED'" class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.Id]"
-                        title="Edit">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                    </button>
-                    <span *ngIf="item.Status!=='Draft' && item.Status!=='Approved' && item.Status!=='APPROVED'">---</span>
-                    <!-- <button class="btn btn-danger" (click)="deleteProduct(item, i)" title="Delete" [disabled]="deleteLoader == i">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>
-                </button> -->
-                    <!-- <img *ngIf="deleteLoader == i" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35"> -->
+                <td>
+                    <span *ngIf="!item.IsOutOfStock; else elseStockBlock">
+                        In stock
+                    </span>
+                    <ng-template #elseStockBlock>
+                        Out of stock
+                    </ng-template>
+                </td>
+                <td>
+                    {{ item.ModifiedOn | date}}
                 </td>
             </tr>
         </tbody>
         <tbody *ngIf=" !products || products.length === 0 ">
             <tr>
-                <td colspan="8">
+                <td colspan="7">
                     <strong>There are no products!</strong>
                 </td>
             </tr>
         </tbody>
 
-        <tfoot *ngIf=" products && products.length > 10 ">
+        <tfoot *ngIf=" products && totalRecords > showRecords ">
             <tr>
-                <td colspan="8">
-                    <!-- <pagination-controls class="my-pagination" (pageChange)="pageChanged($event)"></pagination-controls> -->
-                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                <td colspan="7">
+                    <pagination-controls class="my-pagination" (pageChange)="pageChanged($event)"></pagination-controls>
+                    <!-- <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator> -->
                 </td>
             </tr>
         </tfoot>

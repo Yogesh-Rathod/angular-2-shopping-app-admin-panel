@@ -4,7 +4,11 @@ import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as _ from 'lodash';
 
-import { ProductsService, XlsxToJsonService, JsonToExcelService } from 'app/services';
+import {
+    ProductsService,
+    XlsxToJsonService,
+    JsonToExcelService
+} from 'app/services';
 
 @Component({
     selector: 'app-bulk-upload',
@@ -21,14 +25,15 @@ export class ProductsBulkUploadComponent implements OnInit {
     blankFileError = false;
     validationError: any;
     userRole: any;
+    isApprove: any;
 
     constructor(
         private toastr: ToastsManager,
         private productsService: ProductsService,
         private activeModal: NgbActiveModal,
         private xlsxToJsonService: XlsxToJsonService,
-        private jsonToExcelService:JsonToExcelService,
-    ) { }
+        private jsonToExcelService: JsonToExcelService
+    ) {}
 
     ngOnInit() {}
 
@@ -37,20 +42,22 @@ export class ProductsBulkUploadComponent implements OnInit {
         if (file) {
             this.showLoader = true;
             let objectkey = '';
-            this.xlsxToJsonService.processFileToJson({}, file).subscribe(data => {
-                if (data['sheets']) {
-                    const sheetKey = Object.keys(data['sheets']);
-                    this.result = data['sheets'][sheetKey[0]];
-                    if (this.result && this.result.length > 0) {
-                        this.productsInfo = this.result;
-                        this.showLoader = false;
-                        this.submitDisabled = false;
-                    } else {
-                        this.blankFileError = true;
-                        this.showLoader = false;
+            this.xlsxToJsonService
+                .processFileToJson({}, file)
+                .subscribe(data => {
+                    if (data['sheets']) {
+                        const sheetKey = Object.keys(data['sheets']);
+                        this.result = data['sheets'][sheetKey[0]];
+                        if (this.result && this.result.length > 0) {
+                            this.productsInfo = this.result;
+                            this.showLoader = false;
+                            this.submitDisabled = false;
+                        } else {
+                            this.blankFileError = true;
+                            this.showLoader = false;
+                        }
                     }
-                }
-            });
+                });
         } else {
             this.productsInfo = [];
             this.submitDisabled = true;
@@ -63,19 +70,30 @@ export class ProductsBulkUploadComponent implements OnInit {
         if (this.productsInfo && this.productsInfo.length > 0) {
             switch (action) {
                 case 'save':
-                    this.productsService.editOperationProduct(this.productsInfo, 'Operations').
-                        then((success) => {
+                    this.productsService
+                        .editOperationProduct(this.productsInfo, this.userRole)
+                        .then(success => {
                             if (success.Code === 200) {
-                                this.toastr.success('Product sucessfully saved in draft', 'Success!');
+                                this.toastr.success(
+                                    'Product sucessfully saved in draft',
+                                    'Success!'
+                                );
                                 this.closeModal(true);
                             } else if (success.Code === 500) {
                                 this.errorData = success.Data;
-                                this.toastr.error('Oops! Could not upload products.', 'Error!');
+                                this.toastr.error(
+                                    'Oops! Could not upload products.',
+                                    'Error!'
+                                );
                             }
                             this.showLoader = false;
-                        }).catch((error) => {
+                        })
+                        .catch(error => {
                             if (error.Code === 500) {
-                                this.toastr.error('Oops! Could not upload products.', 'Error!');
+                                this.toastr.error(
+                                    'Oops! Could not upload products.',
+                                    'Error!'
+                                );
                             } else if (error.Code === 400) {
                                 this.validationError = error.FailureReasons;
                             }
@@ -83,19 +101,33 @@ export class ProductsBulkUploadComponent implements OnInit {
                         });
                     break;
                 case 'submit':
-                    this.productsService.confirmOperationProduct(this.productsInfo, 'Operations').
-                        then((success) => {
+                    this.productsService
+                        .confirmOperationProduct(
+                            this.productsInfo,
+                            this.userRole
+                        )
+                        .then(success => {
                             if (success.Code === 200) {
-                                this.toastr.success('Product sucessfully sent for approval!', 'Success!');
+                                this.toastr.success(
+                                    'Product sucessfully sent for approval!',
+                                    'Success!'
+                                );
                                 this.closeModal(true);
                             } else if (success.Code === 500) {
                                 this.errorData = success.Data;
-                                this.toastr.error('Oops! Could not upload products.', 'Error!');
+                                this.toastr.error(
+                                    'Oops! Could not upload products.',
+                                    'Error!'
+                                );
                             }
                             this.showLoader = false;
-                        }).catch((error) => {
+                        })
+                        .catch(error => {
                             if (error.Code === 500) {
-                                this.toastr.error('Oops! Could not upload products.', 'Error!');
+                                this.toastr.error(
+                                    'Oops! Could not upload products.',
+                                    'Error!'
+                                );
                             } else if (error.Code === 400) {
                                 this.validationError = error.FailureReasons;
                             }
@@ -103,8 +135,42 @@ export class ProductsBulkUploadComponent implements OnInit {
                         });
                     break;
                 case 'approve':
-                        break;
+                    this.productsService
+                        .approveProducts(this.productsInfo, this.userRole, '')
+                        .then(success => {
+                            if (success.Code === 200) {
+                                this.toastr.success(
+                                    'Products Sucessfully Approved!',
+                                    'Success!'
+                                );
+                                this.closeModal(true);
+                            }
+                            this.showLoader = false;
+                        })
+                        .catch(error => {
+                            this.toastr.error(
+                                'Oops! Could not approve products.',
+                                'Error!'
+                            );
+                            this.showLoader = false;
+                        });
+                    break;
                 case 'reject':
+                    this.productsService
+                        .rejectProducts(this.productsInfo, this.userRole, '')
+                        .then(success => {
+                            if (success.Code === 200) {
+                                this.toastr.success(
+                                    'Products Sucessfully Rejected.',
+                                    'Sucess!'
+                                );
+                                this.closeModal(true);
+                            }
+                            this.showLoader = false;
+                        })
+                        .catch(error => {
+                            this.showLoader = false;
+                        });
                     break;
                 default:
                     break;
@@ -112,12 +178,11 @@ export class ProductsBulkUploadComponent implements OnInit {
         }
     }
 
-    downloadFile(){
-        this.jsonToExcelService.exportAsExcelFile(this.errorData,'products')
+    downloadFile() {
+        this.jsonToExcelService.exportAsExcelFile(this.errorData, 'products');
     }
 
     closeModal(status) {
         this.activeModal.close(status);
     }
-
 }

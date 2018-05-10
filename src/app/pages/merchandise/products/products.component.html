@@ -4,10 +4,13 @@
         <div class="catSearch clearfix card-header">
             <h2 class="card-title ">
                 Manage Products
-                <!-- *ngIf="userRole!='Admin'" -->
-                <button class="btn btn-primary float-right" (click)=" bulkUpload() ">
+                <button *ngIf="userRole!='Admin'" class="btn btn-primary float-right" (click)=" bulkUpload(false) ">
                     <i class="fa fa-download" aria-hidden="true"></i>
                     Bulk Update
+                </button>
+                <button class="btn btn-primary float-right" (click)=" bulkUpload(true) ">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    Bulk Approve
                 </button>
             </h2>
         </div>
@@ -162,12 +165,8 @@
                                 <!-- <option *ngIf="userRole!='Admin'" value="Mark out of stock">Mark out of stock</option>
                                 <option *ngIf="userRole!='Admin'" value="Mark in stock">Mark in stock</option> -->
                             </select>
-                            <button
-                                class="btn btn-success"
-                                type="button"
-                                [disabled]="!disableSubmitButton"
-                                (click)="dropDownActionFunction(dropDownActionSelect.value)">
-                                    Submit
+                            <button class="btn btn-success" type="button" [disabled]="!disableSubmitButton" (click)="dropDownActionFunction(dropDownActionSelect.value)">
+                                Submit
                             </button>
                         </div>
                     </form>
@@ -179,7 +178,8 @@
                         <thead class="black-muted-bg">
                             <tr>
                                 <th class="text-center">
-                                    <input [class.disabled]="products && products.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)" id="selectAllCheckbox">
+                                    <input [class.disabled]="products && products.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)"
+                                        id="selectAllCheckbox">
                                 </th>
                                 <th>
                                     <mfDefaultSorter by="Name">
@@ -242,8 +242,8 @@
                                     {{ item.ModifiedOn | date}}
                                 </td>
                                 <td class="action" *ngIf="userRole != 'Admin'">
-                                    <button *ngIf="item.Status=='Draft' || item.Status=='Approved' || item.Status=='APPROVED' || userRole == 'Admin'" class="btn btn-secondary" [routerLink]="['/merchandise/products/edit-product/', item.Id]"
-                                        title="Edit">
+                                    <button *ngIf="item.Status=='Draft' || item.Status=='Approved' || item.Status=='APPROVED' || userRole == 'Admin'" class="btn btn-secondary"
+                                        [routerLink]="['/merchandise/products/edit-product/', item.Id]" title="Edit">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </button>
                                     <span *ngIf="item.Status!=='Draft' && item.Status!=='Approved' && item.Status!=='APPROVED'">---</span>

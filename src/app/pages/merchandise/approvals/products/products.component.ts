@@ -408,6 +408,23 @@ export class ProductsComponent implements OnInit {
         }
     }
 
+    bulkUpload(isApprove) {
+        const activeModal = this.modalService.open(
+            ProductsBulkUploadComponent,
+            { size: 'sm' }
+        );
+        activeModal.componentInstance.userRole = this.userRole;
+        activeModal.componentInstance.isApprove = isApprove;
+
+        activeModal.result
+            .then(status => {
+                if (status) {
+                    this.getAllProducts();
+                }
+            })
+            .catch(status => {});
+    }
+
     resetForm() {
         this.atLeastOnePresent = false;
         this.searchForm();

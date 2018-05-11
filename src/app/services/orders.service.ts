@@ -19,7 +19,6 @@ export class OrdersService {
     ) {}
 
     headers = new Headers({
-        headers: '',
         'Content-Type': 'application/json',
         Accept: 'q=0.8;application/json;q=0.9'
     });

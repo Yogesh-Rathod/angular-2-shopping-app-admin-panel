@@ -1,14 +1,21 @@
-import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Output,
+    Input,
+    EventEmitter,
+    OnChanges
+} from '@angular/core';
 import {
     CatalogManagementService,
     ProductsService,
     VendorsService,
     JsonToExcelService
-} from "app/services";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { ToastsManager } from "ng2-toastr";
-import { ActivatedRoute, Router } from "@angular/router";
-import * as _ from "lodash";
+} from 'app/services';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastsManager } from 'ng2-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CatalogBulkUploadComponent } from 'app/pages/merchandise/catalog-management/bulk-upload/bulk-upload.component';
 
@@ -18,7 +25,6 @@ import { CatalogBulkUploadComponent } from 'app/pages/merchandise/catalog-manage
     styleUrls: ['./products-info.component.scss']
 })
 export class ProductsInfoComponent implements OnInit {
-
     @Input() notifier;
     @Output() onStatusChange = new EventEmitter<any>();
 
@@ -29,11 +35,11 @@ export class ProductsInfoComponent implements OnInit {
     allProducts: any = [];
     multiDropdownSettings = {
         singleSelection: false,
-        text: "Select",
-        selectAllText: "Select All",
-        unSelectAllText: "UnSelect All",
+        text: 'Select',
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
         enableSearchFilter: true,
-        classes: "col-9 no_padding"
+        classes: 'col-9 no_padding'
     };
     allMapTempProducts: any = [];
     catalogId: any;
@@ -53,7 +59,7 @@ export class ProductsInfoComponent implements OnInit {
         private vendorsService: VendorsService
     ) {
         this.route.params.subscribe(params => {
-            this.catalogId = params["catalogId"];
+            this.catalogId = params['catalogId'];
         });
     }
 
@@ -77,7 +83,7 @@ export class ProductsInfoComponent implements OnInit {
         this.vendorsService.getVendors().then(res => {
             if (res.Code == 200) {
                 this.vendorsList = res.Data ? res.Data : [];
-                this.vendorsList.map((i) => {
+                this.vendorsList.map(i => {
                     i.itemName = i.Company;
                     i.id = i.SellerId;
                 });
@@ -87,11 +93,11 @@ export class ProductsInfoComponent implements OnInit {
 
     //GET products
     getAllProduct(_searchObj) {
-        _.forEach(_searchObj, (item) => {
+        _.forEach(_searchObj, item => {
             if (item) {
                 this.atLeastOnePresent = true;
             }
-        })
+        });
         this.searchLoader = true;
         this.productsService.getMasterProducts(_searchObj).then(res => {
             if (res.Success) {
@@ -106,22 +112,28 @@ export class ProductsInfoComponent implements OnInit {
     searchProductFormFunc(_searchData) {
         if (_searchData['e.sellerId'] && _searchData['e.sellerId'].length > 0) {
             if (typeof _searchData['e.sellerId'][0] === 'object') {
-                _searchData['e.sellerId'] = _searchData['e.sellerId'].map(item => {
-                    return item.SellerId;
-                });
+                _searchData['e.sellerId'] = _searchData['e.sellerId'].map(
+                    item => {
+                        return item.SellerId;
+                    }
+                );
                 _searchData['e.sellerId'] = _searchData['e.sellerId'].join(',');
             }
         }
         _searchData = JSON.stringify(_searchData);
-        _searchData = _searchData.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
+        _searchData = _searchData
+            .replace(/{|}|[\[\]]|/g, '')
+            .replace(/":"/g, '=')
+            .replace(/","/g, '&')
+            .replace(/"/g, '');
         this.getAllProduct(_searchData);
     }
 
     removeFromMapProducts(item) {
-        _.forEach(this.allMapTempProducts, (product) => {
+        _.forEach(this.allMapTempProducts, product => {
             if (product) {
                 if (item.ProductId === product.ProductId) {
-                    _.forEach(this.allProducts, (selectedItem) => {
+                    _.forEach(this.allProducts, selectedItem => {
                         if (selectedItem.Id === item.ProductId) {
                             selectedItem.isChecked = !selectedItem.isChecked;
                             this.selectAllCheckbox = false;
@@ -129,7 +141,6 @@ export class ProductsInfoComponent implements OnInit {
                     });
                     _.remove(this.allMapTempProducts, product);
                 }
-
             }
         });
     }
@@ -165,8 +176,7 @@ export class ProductsInfoComponent implements OnInit {
         });
     }
 
-    ngOnChanges(changes) {
-    }
+    ngOnChanges(changes) {}
 
     mapProductWithCatalog() {
         this.saveChangesLoader = true;
@@ -176,8 +186,8 @@ export class ProductsInfoComponent implements OnInit {
             .then(res => {
                 if (res.Success) {
                     this.toastr.success(
-                        "Product mapped successfully.",
-                        "Sucess!"
+                        'Product mapped successfully.',
+                        'Sucess!'
                     );
                     this.onStatusChange.emit(true);
                     // this.getMapProductForApproveFunc(this.catalogId);
@@ -185,10 +195,7 @@ export class ProductsInfoComponent implements OnInit {
                     this.saveChangesLoader = false;
                 } else {
                     this.saveChangesLoader = false;
-                    this.toastr.error(
-                        "Something went wrong.",
-                        "Error!"
-                    );
+                    this.toastr.error('Something went wrong.', 'Error!');
                 }
             });
     }
@@ -236,16 +243,18 @@ export class ProductsInfoComponent implements OnInit {
     }
 
     catalogBulkUpload() {
-        const activeModal = this.modalService.open(CatalogBulkUploadComponent, { size: 'sm' });
+        const activeModal = this.modalService.open(CatalogBulkUploadComponent, {
+            size: 'sm'
+        });
         activeModal.componentInstance.catalogId = this.catalogId;
+        activeModal.componentInstance.isApproval = false;
 
-        activeModal.result.then(status => {
-            if (status) {
-                this.onStatusChange.emit(true);
-            }
-        }).catch(status => { })
+        activeModal.result
+            .then(status => {
+                if (status) {
+                    this.onStatusChange.emit(true);
+                }
+            })
+            .catch(status => {});
     }
-
-
-
 }

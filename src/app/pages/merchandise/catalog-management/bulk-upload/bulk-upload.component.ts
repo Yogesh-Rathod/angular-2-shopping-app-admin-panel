@@ -23,6 +23,7 @@ export class CatalogBulkUploadComponent implements OnInit {
     result: any;
     blankFileError = false;
     catalogId: String;
+    isApproval: any;
 
     constructor(
         private catalogManagementService: CatalogManagementService,
@@ -70,44 +71,55 @@ export class CatalogBulkUploadComponent implements OnInit {
         );
     }
 
-    sendApproval(event) {
+    sendApproval(action) {
         this.showLoader = true;
         if (this.productsInfo && this.productsInfo.length > 0) {
-            this.catalogManagementService
-                .mapProductToCatalog('', this.productsInfo)
-                .then(success => {
-                    if (
-                        success.Code === 200 &&
-                        success.Data &&
-                        success.Data.length === 0
-                    ) {
-                        this.toastr.success(
-                            'Product sucessfully sent for approval!',
-                            'Success!'
-                        );
-                        this.showLoader = false;
-                        this.closeModal(true);
-                    } else if (success.Data) {
-                        this.downloadIssue = success.Data;
-                        this.toastr.error(
-                            'Oops! Could not upload all products.',
-                            'Error!'
-                        );
-                    } else if (success.Code === 500) {
-                        this.toastr.error(
-                            'Oops! Could not send products for approval.',
-                            'Error!'
-                        );
-                    }
-                    this.showLoader = false;
-                })
-                .catch(error => {
-                    this.showLoader = false;
-                    this.toastr.error(
-                        'Oops! Could not upload products.',
-                        'Error!'
-                    );
-                });
+            switch (action) {
+                case 'sendApproval':
+                    this.catalogManagementService
+                        .mapProductToCatalog('', this.productsInfo)
+                        .then(success => {
+                            if (
+                                success.Code === 200 &&
+                                success.Data &&
+                                success.Data.length === 0
+                            ) {
+                                this.toastr.success(
+                                    'Product sucessfully sent for approval!',
+                                    'Success!'
+                                );
+                                this.showLoader = false;
+                                this.closeModal(true);
+                            } else if (success.Data) {
+                                this.downloadIssue = success.Data;
+                                this.toastr.error(
+                                    'Oops! Could not upload all products.',
+                                    'Error!'
+                                );
+                            } else if (success.Code === 500) {
+                                this.toastr.error(
+                                    'Oops! Could not send products for approval.',
+                                    'Error!'
+                                );
+                            }
+                            this.showLoader = false;
+                        })
+                        .catch(error => {
+                            this.showLoader = false;
+                            this.toastr.error(
+                                'Oops! Could not upload products.',
+                                'Error!'
+                            );
+                        });
+                    break;
+
+                case 'approve':
+                    break;
+                case 'reject':
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

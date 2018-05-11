@@ -12,6 +12,8 @@ import * as _ from 'lodash';
 import { CatalogManagementService, JsonToExcelService } from 'app/services';
 import { ToastsManager } from 'ng2-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CatalogBulkUploadComponent } from 'app/pages/merchandise/catalog-management/bulk-upload/bulk-upload.component';
 
 @Component({
     selector: 'app-vendors-info',
@@ -34,6 +36,7 @@ export class VendorsInfoComponent implements OnInit {
 
     constructor(
         private jsonToExcelService: JsonToExcelService,
+        private modalService: NgbModal,
         private toastr: ToastsManager,
         private route: ActivatedRoute,
         private router: Router,
@@ -149,5 +152,21 @@ export class VendorsInfoComponent implements OnInit {
                     this.toastr.error('Something went wrong.', 'Error!');
                 }
             });
+    }
+
+    bulkApprove() {
+        const activeModal = this.modalService.open(CatalogBulkUploadComponent, {
+            size: 'sm'
+        });
+        activeModal.componentInstance.catalogId = this.catalogId;
+        activeModal.componentInstance.isApproval = true;
+
+        activeModal.result
+            .then(status => {
+                if (status) {
+                    this.onStatusChange.emit(true);
+                }
+            })
+            .catch(status => {});
     }
 }

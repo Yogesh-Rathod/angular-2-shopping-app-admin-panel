@@ -8,7 +8,12 @@
         <button (click)="approveProductMap(commentDesc, false)" [class.disabled]="!commentDesc || !showSelectedAction || allMapProductsApprove.length === 0"
             type="button" class="btn btn-danger">Reject</button>
         <img *ngIf=" approveProductsLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-        <button [class.disabled]=" !allMapProductsApprove || allMapProductsApprove.length === 0 " type="button" class="btn btn-info searchButton"
+
+        <button class="btn btn-primary float-right" (click)=" bulkApprove(true) " [class.disabled]=" !allMapProductsApprove || allMapProductsApprove.length === 0 ">
+            <i class="fa fa-download" aria-hidden="true"></i>
+            Bulk Approve
+        </button>
+        <button [class.disabled]=" !allMapProductsApprove || allMapProductsApprove.length === 0 " type="button" class="btn btn-info searchButton float-right"
             (click)="exportAllProducts()">
             <i class="fa fa-download" aria-hidden="true"></i>
             Export

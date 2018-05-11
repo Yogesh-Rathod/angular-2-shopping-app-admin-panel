@@ -22,7 +22,14 @@
             </div>
             <a *ngIf="downloadIssue.length>0" target="_blank" href="javascript:void(0)" (click)="download()" class="error text-decoration btn-link float-left">Download Error Report</a>
             <div class="uploadButton form-group">
-                <button type="button" class="sendApproval btn btn-primary" [disabled]=" submitDisabled || showLoader " (click)="sendApproval($event)">Send for approval</button>
+                <button *ngIf="!isApproval" type="button" class="sendApproval btn btn-primary" [disabled]=" submitDisabled || showLoader "
+                    (click)="sendApproval('sendApproval')">Send for approval</button>
+                <button class="btn btn-success" [disabled]=" submitDisabled " (click)="sendApproval('approve')" *ngIf="isApproval">
+                    Approve
+                </button>
+                <button class="btn btn-danger" [disabled]=" submitDisabled " (click)="sendApproval('reject')" *ngIf="isApproval">
+                    Reject
+                </button>
                 <img *ngIf="showLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
             </div>
         </form>

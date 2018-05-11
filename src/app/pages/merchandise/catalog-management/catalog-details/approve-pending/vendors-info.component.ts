@@ -1,9 +1,17 @@
-import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Output,
+    Input,
+    EventEmitter,
+    OnChanges
+} from '@angular/core';
 declare let $: any;
+import * as _ from 'lodash';
 
-import { CatalogManagementService } from "app/services";
-import { ToastsManager } from "ng2-toastr";
-import { ActivatedRoute, Router } from "@angular/router";
+import { CatalogManagementService } from 'app/services';
+import { ToastsManager } from 'ng2-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-vendors-info',
@@ -11,7 +19,6 @@ import { ActivatedRoute, Router } from "@angular/router";
     styleUrls: ['./vendors-info.component.scss']
 })
 export class VendorsInfoComponent implements OnInit {
-
     @Input() notifier;
     @Output() onStatusChange = new EventEmitter<any>();
 
@@ -21,6 +28,8 @@ export class VendorsInfoComponent implements OnInit {
     allMapProductsApprove: any = [];
     productsLoader = false;
     commentDesc: any = '';
+    selectAllCheckbox = false;
+    showSelectedAction = false;
 
     constructor(
         private toastr: ToastsManager,
@@ -29,7 +38,7 @@ export class VendorsInfoComponent implements OnInit {
         private catalogManagementService: CatalogManagementService
     ) {
         this.route.params.subscribe(params => {
-            this.catalogId = params["catalogId"];
+            this.catalogId = params['catalogId'];
         });
     }
 
@@ -53,35 +62,82 @@ export class VendorsInfoComponent implements OnInit {
             });
     }
 
+    selectAll(e) {
+        if (e.target.checked) {
+            // this.selectAllCheckboxMessage.message = true;
+            this.selectAllCheckbox = true;
+            _.forEach(this.allMapProductsApprove, item => {
+                item.isChecked = true;
+            });
+            this.showSelectedAction = true;
+        } else {
+            // this.selectAllCheckboxMessage.message = false;
+            this.showSelectedAction = false;
+            this.selectAllCheckbox = false;
+            _.forEach(this.allMapProductsApprove, item => {
+                item.isChecked = false;
+            });
+            // if (!this.checkAllCheckboxChange) {
+            //     this.showSelectedAction = false;
+            // }
+        }
+    }
+
+    checkBoxSelected(e, item) {
+        this.selectAllCheckbox = false;
+        if (e.target.checked) {
+            item.isChecked = true;
+        } else {
+            // this.noActionSelected = false;
+            item.isChecked = false;
+        }
+
+        // this.isCheckedArray = [];
+
+        // _.forEach(this.products, item => {
+        //     if (item.isChecked) {
+        //         this.showSelectedAction = true;
+        //         this.isCheckedArray.push(item);
+        //     }
+        // });
+
+        // if (this.isCheckedArray.length === 0 && !this.checkAllCheckboxChange) {
+        //     this.showSelectedAction = false;
+        // } else {
+        //     this.showSelectedAction = true;
+        // }
+    }
+
     //POST Approve Map
-    approveProductMap(_reason) {
+    approveProductMap(_reason, approveStatus) {
         this.approveProductsLoader = true;
         var approveObj = {
             Id: this.catalogId,
             Reason: _reason,
-            IsApproved: true
+            IsApproved: approveStatus
         };
         this.catalogManagementService
             .approveProductPostCatalog(approveObj)
             .then(res => {
                 if (res.Success) {
                     this.toastr.success(
-                        "Catalog product map approved.",
-                        "Sucess!"
+                        'Catalog product map approved.',
+                        'Sucess!'
                     );
                     this.onStatusChange.emit(true);
                     this.allMapProductsApprove = [];
                     this.approveProductsLoader = false;
+                    this.selectAllCheckbox = false;
+                    this.showSelectedAction = false;
                     this.commentDesc = '';
                 } else {
+                    this.allMapProductsApprove = [];
+                    this.commentDesc = '';
+                    this.showSelectedAction = false;
+                    this.selectAllCheckbox = false;
                     this.approveProductsLoader = false;
-                    this.toastr.error(
-                        "Something went wrong.",
-                        "Error!",
-                        "Error!"
-                    );
+                    this.toastr.error('Something went wrong.', 'Error!');
                 }
             });
     }
-
 }

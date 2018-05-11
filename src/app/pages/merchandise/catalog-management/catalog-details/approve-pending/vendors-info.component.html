@@ -1,48 +1,64 @@
-<!-- <div role="tabpanel" *ngIf="catalogMapOpen" class="tab-pane fade in" id="mappedProductApprove"> -->
-    <div class="row">
-        <div class="col-sm-6">
-            <input placeholder="Reason" class="form-control" [(ngModel)]="commentDesc" type="text">
-        </div>
-        <div class="col-sm-6">
-            <button (click)="approveProductMap(commentDesc)" [disabled]="allMapProductsApprove.length < 1 || approveProductsLoader || !commentDesc" type="button" class="btn btn-primary">Approve</button>
-            <img *ngIf=" approveProductsLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-        </div>
-        <div class="col-sm-12">
-            <table class="table table-bordered table-responsive" [mfData]="allMapProductsApprove" #mfListApprove="mfDataTable" [mfRowsOnPage]="10">
-                <thead class="black-muted-bg">
-                    <tr>
-                        <th class="text-left"><strong>Sr. No.</strong></th>
-                        <th class="text-left"><strong>Name</strong> </th>
-                        <th class="text-left"><strong>Retail Price</strong> </th>
-                        <th class="text-left"><strong>Retail Price Inclusive</strong></th>
-                        <th class="text-left"><strong>Retail Shipping Price</strong></th>
-                        <th class="text-left"><strong>Discount</strong></th>
-                    </tr>
-                </thead>
-                <tbody *ngIf=" allMapProductsApprove && allMapProductsApprove.length > 0 ">
-                    <tr *ngFor="let item of mfListApprove.data; let i = index ">
-                        <td>{{ i+1 }}</td>
-                        <td>{{ item.ProductName }}</td>
-                        <td>{{ item.RetailPrice }}</td>
-                        <td>{{ item.RetailPriceInclusive }}</td>
-                        <td>{{ item.RetailShippingPrice }}</td>
-                        <td>{{ item.Discount }}</td>
-                    </tr>
-                </tbody>
-                <tfoot *ngIf="allMapProductsApprove.length < 1 ">
-                    <tr>
-                        <td class="text-center" colspan="6">No Products Found for Approval</td>
-                    </tr>
-                </tfoot>
-                <tfoot *ngIf=" allMapProductsApprove && allMapProductsApprove.length > 10 ">
-                    <tr>
-                        <td colspan="6">
-                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-
+<div class="row">
+    <div class="col-sm-6">
+        <input placeholder="Reason" class="form-control" [(ngModel)]="commentDesc" type="text">
     </div>
-<!-- </div> -->
+    <div class="col-sm-6">
+        <button (click)="approveProductMap(commentDesc, true)" [class.disabled]="!commentDesc || !showSelectedAction || allMapProductsApprove.length === 0"
+            type="button" class="btn btn-success">Approve</button>
+        <button (click)="approveProductMap(commentDesc, false)" [class.disabled]="!commentDesc || !showSelectedAction || allMapProductsApprove.length === 0"
+            type="button" class="btn btn-danger">Reject</button>
+        <img *ngIf=" approveProductsLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
+    </div>
+    <div class="col-sm-12">
+        <table class="table table-bordered table-responsive" [mfData]="allMapProductsApprove" #mfListApprove="mfDataTable" [mfRowsOnPage]="10">
+            <thead class="black-muted-bg">
+                <tr>
+                    <th class="text-center">
+                        <input [class.disabled]="!allMapProductsApprove || allMapProductsApprove.length === 0" type="checkbox" [ngModel]='selectAllCheckbox'
+                            (change)="selectAll($event)" id="selectAllCheckbox">
+                    </th>
+                    <th class="text-left">
+                        <strong>Name</strong>
+                    </th>
+                    <th class="text-left">
+                        <strong>Retail Price</strong>
+                    </th>
+                    <th class="text-left">
+                        <strong>Retail Price Inclusive</strong>
+                    </th>
+                    <th class="text-left">
+                        <strong>Retail Shipping Price</strong>
+                    </th>
+                    <th class="text-left">
+                        <strong>Discount</strong>
+                    </th>
+                </tr>
+            </thead>
+            <tbody *ngIf=" allMapProductsApprove && allMapProductsApprove.length > 0 ">
+                <tr *ngFor="let item of mfListApprove.data; let i = index ">
+                    <td class="text-center">
+                        <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                    </td>
+                    <td>{{ item.ProductName }}</td>
+                    <td>{{ item.RetailPrice }}</td>
+                    <td>{{ item.RetailPriceInclusive }}</td>
+                    <td>{{ item.RetailShippingPrice }}</td>
+                    <td>{{ item.Discount }}</td>
+                </tr>
+            </tbody>
+            <tfoot *ngIf="allMapProductsApprove.length < 1 ">
+                <tr>
+                    <td class="text-center" colspan="6">No Products Found for Approval</td>
+                </tr>
+            </tfoot>
+            <tfoot *ngIf=" allMapProductsApprove && allMapProductsApprove.length > 10 ">
+                <tr>
+                    <td colspan="6">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>

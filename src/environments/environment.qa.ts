@@ -17,6 +17,6 @@ export const environment = {
     domainName: 'localhost',
     timeOut: 30000,
     crm: {
-        itemsPerPage: 10,
+        itemsPerPage: 10
     }
 };

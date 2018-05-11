@@ -9,7 +9,7 @@ import {
 declare let $: any;
 import * as _ from 'lodash';
 
-import { CatalogManagementService } from 'app/services';
+import { CatalogManagementService, JsonToExcelService } from 'app/services';
 import { ToastsManager } from 'ng2-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -33,6 +33,7 @@ export class VendorsInfoComponent implements OnInit {
     showSelectedAction = false;
 
     constructor(
+        private jsonToExcelService: JsonToExcelService,
         private toastr: ToastsManager,
         private route: ActivatedRoute,
         private router: Router,
@@ -107,6 +108,13 @@ export class VendorsInfoComponent implements OnInit {
         } else {
             this.showSelectedAction = true;
         }
+    }
+
+    exportAllProducts() {
+        this.jsonToExcelService.exportAsExcelFile(
+            this.allMapProductsApprove,
+            'products'
+        );
     }
 
     //POST Approve Map

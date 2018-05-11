@@ -26,6 +26,7 @@ export class VendorsInfoComponent implements OnInit {
     approveProductsLoader = false;
     catalogId: any;
     allMapProductsApprove: any = [];
+    isCheckedArray: any = [];
     productsLoader = false;
     commentDesc: any = '';
     selectAllCheckbox = false;
@@ -92,24 +93,25 @@ export class VendorsInfoComponent implements OnInit {
             item.isChecked = false;
         }
 
-        // this.isCheckedArray = [];
+        this.isCheckedArray = [];
 
-        // _.forEach(this.products, item => {
-        //     if (item.isChecked) {
-        //         this.showSelectedAction = true;
-        //         this.isCheckedArray.push(item);
-        //     }
-        // });
+        _.forEach(this.allMapProductsApprove, item => {
+            if (item.isChecked) {
+                this.showSelectedAction = true;
+                this.isCheckedArray.push(item);
+            }
+        });
 
-        // if (this.isCheckedArray.length === 0 && !this.checkAllCheckboxChange) {
-        //     this.showSelectedAction = false;
-        // } else {
-        //     this.showSelectedAction = true;
-        // }
+        if (this.isCheckedArray.length === 0) {
+            this.showSelectedAction = false;
+        } else {
+            this.showSelectedAction = true;
+        }
     }
 
     //POST Approve Map
     approveProductMap(_reason, approveStatus) {
+        // console.log('this.isCheckedArray ', this.isCheckedArray);
         this.approveProductsLoader = true;
         var approveObj = {
             Id: this.catalogId,

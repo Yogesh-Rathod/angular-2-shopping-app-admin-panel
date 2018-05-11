@@ -9,7 +9,7 @@
             type="button" class="btn btn-danger">Reject</button>
         <img *ngIf=" approveProductsLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
 
-        <button class="btn btn-primary float-right" (click)=" bulkApprove(true) " [class.disabled]=" !allMapProductsApprove || allMapProductsApprove.length === 0 ">
+        <button class="btn btn-primary float-right" (click)=" bulkApprove() " [class.disabled]=" !allMapProductsApprove || allMapProductsApprove.length === 0 ">
             <i class="fa fa-download" aria-hidden="true"></i>
             Bulk Approve
         </button>

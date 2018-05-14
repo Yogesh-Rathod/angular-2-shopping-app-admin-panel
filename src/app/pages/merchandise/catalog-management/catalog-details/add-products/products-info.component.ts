@@ -217,7 +217,19 @@ export class ProductsInfoComponent implements OnInit {
     }
 
     exportAllProducts() {
-        this.jsonToExcelService.exportAsExcelFile(this.allProducts, 'products');
+        let productsForExport = [];
+        _.forEach(this.allProducts, item => {
+            if (item.isChecked) {
+                productsForExport.push(item);
+            }
+        });
+        if (productsForExport.length === 0) {
+            productsForExport = this.allProducts;
+        }
+        this.jsonToExcelService.exportAsExcelFile(
+            productsForExport,
+            'products'
+        );
     }
 
     checkBoxSelected(e, item) {

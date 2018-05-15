@@ -183,6 +183,7 @@ export class FreshComponent implements OnInit {
 
         _.forEach(this.orders, (item) => {
             if (item.isChecked) {
+                this.selectAllCheckbox = false;
                 delete item.CancellationReason; delete item.RTOBy; delete item.RTODate; delete item.RTOComments; delete item.isChecked;
                 isCheckedArray.push(item);
             }

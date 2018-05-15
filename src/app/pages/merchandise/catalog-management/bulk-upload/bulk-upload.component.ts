@@ -83,24 +83,13 @@ export class CatalogBulkUploadComponent implements OnInit {
                     this.catalogManagementService
                         .mapProductToCatalog(productsToMap)
                         .then(success => {
-                            if (
-                                success.Code === 200 &&
-                                success.Data &&
-                                success.Data.length === 0
-                            ) {
+                            if (success.Success) {
                                 this.toastr.success(
                                     'Product sucessfully sent for approval!',
                                     'Success!'
                                 );
-                                this.showLoader = false;
                                 this.closeModal(true);
-                            } else if (success.Data) {
-                                this.downloadIssue = success.Data;
-                                this.toastr.error(
-                                    'Oops! Could not upload all products.',
-                                    'Error!'
-                                );
-                            } else if (success.Code === 500) {
+                            } else {
                                 this.toastr.error(
                                     'Oops! Could not send products for approval.',
                                     'Error!'

@@ -76,8 +76,12 @@ export class CatalogBulkUploadComponent implements OnInit {
         if (this.productsInfo && this.productsInfo.length > 0) {
             switch (action) {
                 case 'sendApproval':
+                    let productsToMap = {
+                        CatalogId: this.catalogId,
+                        Products: this.productsInfo
+                    };
                     this.catalogManagementService
-                        .mapProductToCatalog('', this.productsInfo)
+                        .mapProductToCatalog(productsToMap)
                         .then(success => {
                             if (
                                 success.Code === 200 &&
@@ -107,7 +111,7 @@ export class CatalogBulkUploadComponent implements OnInit {
                         .catch(error => {
                             this.showLoader = false;
                             this.toastr.error(
-                                'Oops! Could not upload products.',
+                                'Oops! Could not add products.',
                                 'Error!'
                             );
                         });

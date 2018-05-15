@@ -171,7 +171,8 @@
 </div>
 <div class="row">
     <div class="col-md-12 save-product-map-changes-btn">
-        <button [disabled]="allMapTempProducts.length < 1" (click)="mapProductWithCatalog()" class="btn btn-primary" type="button">
+        <button [disabled]="allMapTempProducts.length < 1 || saveChangesLoader" (click)="mapProductWithCatalog()" class="btn btn-primary"
+            type="button">
             Save Changes </button>
         <img *ngIf=" saveChangesLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
     </div>

@@ -156,20 +156,24 @@ export class ProductsInfoComponent implements OnInit {
                     }
                 }
                 let tempObj = {
-                    CatalogId: this.catalogId,
-                    ProductId: item.Id,
+                    Id: item.Id,
                     Name: item.Name,
                     RetailPrice: item.RetailPrice,
                     RetailShippingPrice: item.RetailShippingPrice,
                     RetailPriceInclusive: item.RetailPriceInclusive,
                     DiscountType: item.DiscountType,
                     Discount: item.Discount,
-                    //          CatalogProductMappingIsActive:item.CatalogProductMappingIsActive,
-                    CatalogProductMappingIsActive: true,
-                    IsFeaturedProduct: item.IsFeaturedProduct,
+                    CatalogProductMappingIsActive: item.CatalogProductMappingIsActive
+                        ? item.CatalogProductMappingIsActive
+                        : true,
+                    IsFeaturedProduct: item.IsFeaturedProduct
+                        ? item.IsFeaturedProduct
+                        : false,
                     FeaturedProductDisplayOrder: 0,
-                    IsHomePageProduct: item.IsHomePageProduct,
-                    HomePageProductDisplayOrde: 0
+                    IsHomePageProduct: item.IsHomePageProduct
+                        ? item.IsHomePageProduct
+                        : false,
+                    HomePageProductDisplayOrder: 0
                 };
                 this.allMapTempProducts.push(tempObj);
             }
@@ -180,9 +184,12 @@ export class ProductsInfoComponent implements OnInit {
 
     mapProductWithCatalog() {
         this.saveChangesLoader = true;
-        let productsToMap = JSON.stringify(this.allMapTempProducts);
+        let productsToMap = {
+            CatalogId: this.catalogId,
+            Products: this.allMapTempProducts
+        };
         this.catalogManagementService
-            .mapProductToCatalog(this.catalogId, productsToMap)
+            .mapProductToCatalog(productsToMap)
             .then(res => {
                 if (res.Success) {
                     this.toastr.success(
@@ -190,7 +197,6 @@ export class ProductsInfoComponent implements OnInit {
                         'Sucess!'
                     );
                     this.onStatusChange.emit(true);
-                    // this.getMapProductForApproveFunc(this.catalogId);
                     this.allMapTempProducts = [];
                     this.saveChangesLoader = false;
                 } else {

@@ -251,7 +251,8 @@ export class OrdersComponent implements OnInit {
         let status = [];
         if (
             searchOrdersForm['e.status'] &&
-            searchOrdersForm['e.status'].length > 0
+            searchOrdersForm['e.status'].length > 0 &&
+            typeof searchOrdersForm['e.status'] !== 'string'
         ) {
             _.forEach(searchOrdersForm['e.status'], item => {
                 if (item.id) {

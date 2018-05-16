@@ -11,6 +11,7 @@
           <!-- <th class="text-left">Picture</th> -->
           <th>Name</th>
           <th>Price</th>
+          <th>Shipping</th>
           <th>Quantity</th>
           <!-- <th>Discount</th> -->
           <th>Total</th>
@@ -37,6 +38,11 @@
           <td>
             <span>
               {{ orderInfo.BookingDetails.UnitRetailPrice | currency: 'INR': true }}
+            </span>
+          </td>
+          <td>
+            <span>
+              {{ orderInfo.BookingDetails.UnitNetShippingPrice | currency: 'INR': true }}
             </span>
           </td>
           <td>

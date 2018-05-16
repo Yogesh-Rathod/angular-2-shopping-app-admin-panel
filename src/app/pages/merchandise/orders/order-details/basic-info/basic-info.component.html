@@ -151,6 +151,18 @@
 
         <div class="info-record row">
             <div class="col-3 text-right bold">
+                Order Unit Net Shipping Price
+                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The subtotal of this order."></i>
+            </div>
+            <div class="col-9">
+                <span *ngIf="orderInfo.BookingDetails">
+                    {{ orderInfo.BookingDetails.UnitNetShippingPrice | currency: 'INR': true }}
+                </span>
+            </div>
+        </div>
+
+        <div class="info-record row">
+            <div class="col-3 text-right bold">
                 Order Total Retail Price
                 <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The subtotal of this order."></i>
             </div>

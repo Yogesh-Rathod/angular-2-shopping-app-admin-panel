@@ -211,20 +211,20 @@ export class OrdersComponent implements OnInit {
         let status = [];
         if (
             searchOrdersForm['e.status'] &&
-            searchOrdersForm['e.status'].length > 0
+            searchOrdersForm['e.status'].length > 0 &&
+            typeof searchOrdersForm['e.status'] !== 'string'
         ) {
             _.forEach(searchOrdersForm['e.status'], item => {
                 if (item.id) {
                     status.push(item.id);
-                    if (item.id.match(/cancel/i)) {
-                        this.status = 'CANCEL';
-                    } else {
-                        this.status = item.id;
-                    }
                 } else {
                     status.push(item);
                 }
             });
+            this.status = status[0];
+            if (status[0].match(/cancel/i)) {
+                this.status = 'CANCEL';
+            }
             searchOrdersForm['e.status'] = status.join(',');
         }
 

@@ -2,7 +2,7 @@
     <i class="fa fa-download" aria-hidden="true"></i>
     Export
 </button>
-<button class="btn btn-secondary deleteSelectedButton"[class.disabled]=" !orders || orders.length === 0 " (click)="downloadPDF()">
+<button class="btn btn-secondary deleteSelectedButton" [class.disabled]=" !orders || orders.length === 0 " (click)="downloadPDF()">
     <i class="fa fa-file-pdf-o"></i> Generate PO
 </button>
 <div class="table-responsive">
@@ -60,7 +60,7 @@
                 <td>{{ item.RTOBy }}</td>
                 <td>{{ item.RTOComments }}</td>
                 <td>
-                    {{ item.OrderDate | date: 'medium' }}
+                    {{ item.OrderDate }}
                 </td>
                 <td>
                     <button class="btn btn-secondary" [routerLink]="['./order-details/', item.PurchaseOrderNumber]" title="Edit">

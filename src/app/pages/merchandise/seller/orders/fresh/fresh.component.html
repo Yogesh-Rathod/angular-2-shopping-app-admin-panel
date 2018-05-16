@@ -1,96 +1,95 @@
-
 <button class="btn btn-info deleteSelectedButton" (click)="exportProducts()" [class.disabled]=" !orders || orders.length === 0 ">
     <i class="fa fa-download" aria-hidden="true"></i>
     Export
 </button>
 <img width="35" height="35" *ngIf="showLoader" src="assets/img/ajax-loader.gif" alt="Loader Image">
 <button class="btn btn-primary deleteSelectedButton" [class.disabled]="!showSelectedAction" (click)="updateToProcessed()">
-  Update to processed
+    Update to processed
 </button>
 <button class="btn btn-secondary deleteSelectedButton" [class.disabled]="!showSelectedAction" (click)="downloadPDF()">
     <i class="fa fa-file-pdf-o"></i> Generate PO
 </button>
 <button class="btn btn-info deleteSelectedButton pull-right" (click)="importOrders()">
-  <i class="fa fa-download" aria-hidden="true"></i>
-  Bulk Update to Processed
+    <i class="fa fa-download" aria-hidden="true"></i>
+    Bulk Update to Processed
 </button>
 
 <div class="table-responsive">
-<table class="table table-bordered " [mfData]="orders" #mf="mfDataTable" [mfRowsOnPage]="10">
-    <thead class="black-muted-bg">
-        <tr>
-            <th class="text-center">
-                <input [class.disabled]="!orders || orders.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
-            </th>
-            <th class="text-left orderno">
-                <strong>PO No.</strong>
-            </th>
-            <th class="customer">
-                <strong>Member Name</strong>
-            </th>
-            <th class="customer">
-                <strong>Email</strong>
-            </th>
-            <th class="customer">
-                <strong>Mobile</strong>
-            </th>
-            <th>
-                <strong>Item Code</strong>
-            </th>
-            <th>
-                <strong>Status</strong>
-            </th>
-            <th class="createDate">
-                <strong>PO Date</strong>
-            </th>
-            <th>
-                <strong>Action</strong>
-            </th>
-        </tr>
-    </thead>
-    <tbody *ngIf=" orders && orders.length > 0 ">
-        <tr *ngFor=" let item of mf.data; let i = index; ">
-            <td class="text-center">
-                <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
-            </td>
-            <td class="text-left">
-                {{ item.PurchaseOrderNumber }}
-            </td>
-            <td class="customer">
-                {{ item.FirstName }} {{ item.LastName }}
-            </td>
-            <td class="no-text-transform">{{ item.Email }}</td>
-            <td>{{ item.Mobile }}</td>
-            <td>{{ item.ItemCode }}</td>
-            <td>{{ item.Status }}</td>
-            <td>
-                {{ item.OrderDate | date: 'medium' }}
-            </td>
-            <td>
-                <button class="btn btn-secondary" [routerLink]="['./order-details/', item.PurchaseOrderNumber]" title="Edit">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </button>
-                <!-- <button class="btn btn-secondary" (click)="downloadPDF(item.PurchaseOrderNumber)" title="Generate PO">
+    <table class="table table-bordered " [mfData]="orders" #mf="mfDataTable" [mfRowsOnPage]="10">
+        <thead class="black-muted-bg">
+            <tr>
+                <th class="text-center">
+                    <input [class.disabled]="!orders || orders.length === 0" type="checkbox" [ngModel]='selectAllCheckbox' (change)="selectAll($event)">
+                </th>
+                <th class="text-left orderno">
+                    <strong>PO No.</strong>
+                </th>
+                <th class="customer">
+                    <strong>Member Name</strong>
+                </th>
+                <th class="customer">
+                    <strong>Email</strong>
+                </th>
+                <th class="customer">
+                    <strong>Mobile</strong>
+                </th>
+                <th>
+                    <strong>Item Code</strong>
+                </th>
+                <th>
+                    <strong>Status</strong>
+                </th>
+                <th class="createDate">
+                    <strong>PO Date</strong>
+                </th>
+                <th>
+                    <strong>Action</strong>
+                </th>
+            </tr>
+        </thead>
+        <tbody *ngIf=" orders && orders.length > 0 ">
+            <tr *ngFor=" let item of mf.data; let i = index; ">
+                <td class="text-center">
+                    <input [ngModel]="item.isChecked" type="checkbox" (change)="checkBoxSelected($event, item)">
+                </td>
+                <td class="text-left">
+                    {{ item.PurchaseOrderNumber }}
+                </td>
+                <td class="customer">
+                    {{ item.FirstName }} {{ item.LastName }}
+                </td>
+                <td class="no-text-transform">{{ item.Email }}</td>
+                <td>{{ item.Mobile }}</td>
+                <td>{{ item.ItemCode }}</td>
+                <td>{{ item.Status }}</td>
+                <td>
+                    {{ item.OrderDate }}
+                </td>
+                <td>
+                    <button class="btn btn-secondary" [routerLink]="['./order-details/', item.PurchaseOrderNumber]" title="Edit">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </button>
+                    <!-- <button class="btn btn-secondary" (click)="downloadPDF(item.PurchaseOrderNumber)" title="Generate PO">
                     <i class="fa fa-file-pdf-o"></i>
                 </button> -->
-            </td>
-        </tr>
-    </tbody>
+                </td>
+            </tr>
+        </tbody>
 
-    <tbody *ngIf=" !orders || orders.length === 0 ">
-        <tr>
-            <td colspan="9">
-                <strong>There are no orders!</strong>
-            </td>
-        </tr>
-    </tbody>
+        <tbody *ngIf=" !orders || orders.length === 0 ">
+            <tr>
+                <td colspan="9">
+                    <strong>There are no orders!</strong>
+                </td>
+            </tr>
+        </tbody>
 
-    <tfoot *ngIf=" orders && orders.length > 10 ">
-        <tr>
-            <td colspan="9">
-                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-            </td>
-        </tr>
-    </tfoot>
-</table>
+        <tfoot *ngIf=" orders && orders.length > 10 ">
+            <tr>
+                <td colspan="9">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
 </div>

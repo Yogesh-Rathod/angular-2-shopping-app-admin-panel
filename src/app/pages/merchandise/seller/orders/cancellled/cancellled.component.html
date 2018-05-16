@@ -52,7 +52,7 @@
                 <td>{{ item.Status }}</td>
                 <td>{{ item.CancellationReason }}</td>
                 <td>
-                    {{ item.OrderDate | date: 'medium' }}
+                    {{ item.OrderDate }}
                 </td>
                 <td>
                     <button class="btn btn-secondary" [routerLink]="['./order-details/', item.PurchaseOrderNumber]" title="Edit">

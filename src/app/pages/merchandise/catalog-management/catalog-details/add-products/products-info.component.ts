@@ -46,6 +46,7 @@ export class ProductsInfoComponent implements OnInit {
     selectAllCheckbox = false;
     saveChangesLoader = false;
     atLeastOnePresent = false;
+    pageSize: any;
 
     constructor(
         private jsonToExcelService: JsonToExcelService,
@@ -102,6 +103,7 @@ export class ProductsInfoComponent implements OnInit {
         this.productsService.getMasterProducts(_searchObj).then(res => {
             if (res.Success) {
                 this.allProducts = res.Data.Products ? res.Data.Products : [];
+                this.pageSize = res.Data.TotalRecords;
             }
             this.searchLoader = false;
             this.allMapTempProducts = [];
@@ -109,24 +111,34 @@ export class ProductsInfoComponent implements OnInit {
         });
     }
 
-    searchProductFormFunc(_searchData) {
-        if (_searchData['e.sellerId'] && _searchData['e.sellerId'].length > 0) {
-            if (typeof _searchData['e.sellerId'][0] === 'object') {
-                _searchData['e.sellerId'] = _searchData['e.sellerId'].map(
+    generateSearchFilters(_searchObject) {
+        if (
+            _searchObject['e.sellerId'] &&
+            _searchObject['e.sellerId'].length > 0
+        ) {
+            if (typeof _searchObject['e.sellerId'][0] === 'object') {
+                _searchObject['e.sellerId'] = _searchObject['e.sellerId'].map(
                     item => {
                         return item.SellerId;
                     }
                 );
-                _searchData['e.sellerId'] = _searchData['e.sellerId'].join(',');
+                _searchObject['e.sellerId'] = _searchObject['e.sellerId'].join(
+                    ','
+                );
             }
         }
-        _searchData = JSON.stringify(_searchData);
-        _searchData = _searchData
+        _searchObject = JSON.stringify(_searchObject);
+        _searchObject = _searchObject
             .replace(/{|}|[\[\]]|/g, '')
             .replace(/":"/g, '=')
             .replace(/","/g, '&')
             .replace(/"/g, '');
-        this.getAllProduct(_searchData);
+        return _searchObject;
+    }
+
+    searchProductFormFunc(_searchData) {
+        let searchData = this.generateSearchFilters(_searchData);
+        this.getAllProduct(searchData);
     }
 
     removeFromMapProducts(item) {
@@ -223,19 +235,27 @@ export class ProductsInfoComponent implements OnInit {
     }
 
     exportAllProducts() {
-        let productsForExport = [];
-        _.forEach(this.allProducts, item => {
-            if (item.isChecked) {
-                productsForExport.push(item);
-            }
-        });
-        if (productsForExport.length === 0) {
-            productsForExport = this.allProducts;
-        }
-        this.jsonToExcelService.exportAsExcelFile(
-            productsForExport,
-            'products'
+        this.searchLoader = true;
+        let searchObj = this.generateSearchFilters(
+            this.searchProductForm.value
         );
+        this.productsService
+            .getMasterProducts(searchObj, this.pageSize)
+            .then(res => {
+                if (res.Success) {
+                    this.allProducts = res.Data.Products
+                        ? res.Data.Products
+                        : [];
+                    this.jsonToExcelService.exportAsExcelFile(
+                        this.allProducts,
+                        'products'
+                    );
+                    // this.pageSize = res.Data.TotalRecords;
+                }
+                this.searchLoader = false;
+                // this.allMapTempProducts = [];
+                // this.selectAllCheckbox = false;
+            });
     }
 
     checkBoxSelected(e, item) {

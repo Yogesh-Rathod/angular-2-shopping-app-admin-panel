@@ -287,7 +287,7 @@ export class OrdersComponent implements OnInit {
         this.searchLoader = true;
         searchOrdersForm = this.generateSearchFilters(searchOrdersForm);
         this.ordersService
-            .getOrdersByPONumber(null, searchOrdersForm, '')
+            .getOrdersByPONumber(null, searchOrdersForm)
             .then(orders => {
                 if (orders.Data) {
                     this.jsonToExcelService.exportAsExcelFile(

@@ -77,6 +77,7 @@ export class OrdersComponent implements OnInit {
         disableSince: this.disableSince()
     };
     vendorsList: any;
+    pageSize: any;
 
     constructor(
         public toastr: ToastsManager,
@@ -189,6 +190,7 @@ export class OrdersComponent implements OnInit {
                 this.orders = orders.Data.PurchaseOrder
                     ? orders.Data.PurchaseOrder
                     : '';
+                this.pageSize = orders.Data.TotalCounts;
                 this.bigLoader = false;
                 this.searchLoader = false;
             })
@@ -328,7 +330,7 @@ export class OrdersComponent implements OnInit {
         searchOrdersForm = this.generateSearchFilters(searchOrdersForm);
 
         this.ordersService
-            .getOrdersByPONumber(null, searchOrdersForm)
+            .getOrdersByPONumber(null, searchOrdersForm, this.pageSize)
             .then(orders => {
                 if (orders.Data) {
                     this.jsonToExcelService.exportAsExcelFile(
@@ -360,6 +362,7 @@ export class OrdersComponent implements OnInit {
             .then(orders => {
                 if (orders.Data) {
                     this.orders = orders.Data.PurchaseOrder;
+                    this.pageSize = orders.Data.TotalCounts;
                 }
                 this.bigLoader = false;
                 this.searchLoader = false;

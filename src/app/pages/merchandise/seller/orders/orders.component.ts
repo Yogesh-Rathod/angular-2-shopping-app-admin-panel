@@ -1,13 +1,23 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import {
+    FormControl,
+    FormGroup,
+    Validators,
+    FormBuilder
+} from '@angular/forms';
 declare let $: any;
 import * as _ from 'lodash';
 
 import { IMyDpOptions } from 'mydatepicker';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ProductsService, OrdersService, CatalogManagementService, JsonToExcelService } from 'app/services';
+import {
+    ProductsService,
+    OrdersService,
+    CatalogManagementService,
+    JsonToExcelService
+} from 'app/services';
 import { SellerOrdersBulkUploadComponent } from './bulk-upload/bulk-upload.component';
 import { ToastsManager } from 'ng2-toastr';
 
@@ -17,14 +27,13 @@ import { ToastsManager } from 'ng2-toastr';
     styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
-
     searchProductForm: FormGroup;
     bigLoader = true;
     searchLoader = false;
     orders: any;
     orderStatusDropdownSettings = {
         singleSelection: false,
-        text: "Select...",
+        text: 'Select...',
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',
         enableSearchFilter: true,
@@ -76,8 +85,8 @@ export class OrdersComponent implements OnInit {
         private catalogManagementService: CatalogManagementService,
         private ordersService: OrdersService,
         private router: Router,
-        private route: ActivatedRoute) {
-    }
+        private route: ActivatedRoute
+    ) {}
 
     ngOnInit() {
         this.bigLoader = true;
@@ -102,7 +111,9 @@ export class OrdersComponent implements OnInit {
     disableUntil(selectedDate) {
         this.searchProductForm.controls['e.toDate'].patchValue(null);
         if (selectedDate) {
-            let copyOfStartDate = JSON.parse(JSON.stringify(this.endDateMyDatePickerOptions));
+            let copyOfStartDate = JSON.parse(
+                JSON.stringify(this.endDateMyDatePickerOptions)
+            );
             copyOfStartDate.disableUntil = selectedDate.date;
             this.endDateMyDatePickerOptions = copyOfStartDate;
         }
@@ -115,7 +126,7 @@ export class OrdersComponent implements OnInit {
             'e.fromDate': [''],
             'e.toDate': [''],
             'e.status': [[]],
-            'e.purchaseOrderNumber': [''],
+            'e.purchaseOrderNumber': ['']
             // rtoCheck: ['']
         });
     }
@@ -124,26 +135,28 @@ export class OrdersComponent implements OnInit {
         this.catalogManagementService.getAllProgramList().then(res => {
             if (res.Success) {
                 this.programName = res.Data;
-                this.programName = this.programName.map((item) => {
+                this.programName = this.programName.map(item => {
                     item.id = item.Id;
                     item.itemName = item.ProgramName;
                     return item;
                 });
             }
-        })
+        });
     }
 
     getAllOrders() {
         this.bigLoader = true;
-        this.ordersService.getOrdersByPONumber().
-            then((orders) => {
+        this.ordersService
+            .getOrdersByPONumber()
+            .then(orders => {
                 this.orders = orders.Data.PurchaseOrder;
                 this.bigLoader = false;
                 if (!orders.Success) {
                     this.toastr.error('Could not get orders.', 'Error');
                 }
                 this.searchLoader = false;
-            }).catch((error) => {
+            })
+            .catch(error => {
                 this.searchLoader = false;
                 this.bigLoader = false;
                 this.toastr.error('Could not get orders', 'Error');
@@ -167,19 +180,40 @@ export class OrdersComponent implements OnInit {
             }
         }
 
-        if (searchOrdersForm['e.fromDate'] && typeof searchOrdersForm['e.fromDate'] == 'object') {
-            searchOrdersForm['e.fromDate'] = `${searchOrdersForm['e.fromDate'].date.month}/${searchOrdersForm['e.fromDate'].date.day}/${searchOrdersForm['e.fromDate'].date.year}`;
-            searchOrdersForm['e.fromDate'] = encodeURIComponent(searchOrdersForm['e.fromDate']);
+        if (
+            searchOrdersForm['e.fromDate'] &&
+            typeof searchOrdersForm['e.fromDate'] == 'object'
+        ) {
+            searchOrdersForm['e.fromDate'] = `${
+                searchOrdersForm['e.fromDate'].date.month
+            }/${searchOrdersForm['e.fromDate'].date.day}/${
+                searchOrdersForm['e.fromDate'].date.year
+            }`;
+            searchOrdersForm['e.fromDate'] = encodeURIComponent(
+                searchOrdersForm['e.fromDate']
+            );
         }
 
-        if (searchOrdersForm['e.toDate'] && typeof searchOrdersForm['e.toDate'] === 'object') {
-            searchOrdersForm['e.toDate'] = `${searchOrdersForm['e.toDate'].date.month}/${searchOrdersForm['e.toDate'].date.day}/${searchOrdersForm['e.toDate'].date.year}`;
-            searchOrdersForm['e.toDate'] = encodeURIComponent(searchOrdersForm['e.toDate']);
+        if (
+            searchOrdersForm['e.toDate'] &&
+            typeof searchOrdersForm['e.toDate'] === 'object'
+        ) {
+            searchOrdersForm['e.toDate'] = `${
+                searchOrdersForm['e.toDate'].date.month
+            }/${searchOrdersForm['e.toDate'].date.day}/${
+                searchOrdersForm['e.toDate'].date.year
+            }`;
+            searchOrdersForm['e.toDate'] = encodeURIComponent(
+                searchOrdersForm['e.toDate']
+            );
         }
 
         let status = [];
-        if (searchOrdersForm['e.status'] && searchOrdersForm['e.status'].length > 0) {
-            _.forEach(searchOrdersForm['e.status'], (item) => {
+        if (
+            searchOrdersForm['e.status'] &&
+            searchOrdersForm['e.status'].length > 0
+        ) {
+            _.forEach(searchOrdersForm['e.status'], item => {
                 if (item.id) {
                     status.push(item.id);
                     if (item.id.match(/cancel/i)) {
@@ -191,32 +225,47 @@ export class OrdersComponent implements OnInit {
                     status.push(item);
                 }
             });
-            searchOrdersForm['e.status'] = status;
+            searchOrdersForm['e.status'] = status.join(',');
         }
 
-
-        if (searchOrdersForm['e.sellerId'] && searchOrdersForm['e.sellerId'].length > 0) {
+        if (
+            searchOrdersForm['e.sellerId'] &&
+            searchOrdersForm['e.sellerId'].length > 0
+        ) {
             if (typeof searchOrdersForm['e.sellerId'][0] === 'object') {
-                searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].map(item => {
+                searchOrdersForm['e.sellerId'] = searchOrdersForm[
+                    'e.sellerId'
+                ].map(item => {
                     return item.SellerId;
                 });
-                searchOrdersForm['e.sellerId'] = searchOrdersForm['e.sellerId'].join(',');
+                searchOrdersForm['e.sellerId'] = searchOrdersForm[
+                    'e.sellerId'
+                ].join(',');
             }
         }
 
         let programId = [];
-        if (searchOrdersForm['e.programId'] && searchOrdersForm['e.programId'].length > 0) {
+        if (
+            searchOrdersForm['e.programId'] &&
+            searchOrdersForm['e.programId'].length > 0
+        ) {
             if (typeof searchOrdersForm['e.programId'][0] === 'object') {
-                _.forEach(searchOrdersForm['e.programId'], (item) => {
+                _.forEach(searchOrdersForm['e.programId'], item => {
                     programId.push(item.id);
                 });
                 searchOrdersForm['e.programId'] = programId;
-                searchOrdersForm['e.programId'] = searchOrdersForm['e.programId'].join(',');
+                searchOrdersForm['e.programId'] = searchOrdersForm[
+                    'e.programId'
+                ].join(',');
             }
         }
 
         searchOrdersForm = JSON.stringify(searchOrdersForm);
-        searchOrdersForm = searchOrdersForm.replace(/{|}|[\[\]]|/g, '').replace(/":"/g, '=').replace(/","/g, '&').replace(/"/g, '');
+        searchOrdersForm = searchOrdersForm
+            .replace(/{|}|[\[\]]|/g, '')
+            .replace(/":"/g, '=')
+            .replace(/","/g, '&')
+            .replace(/"/g, '');
         return searchOrdersForm;
     }
 
@@ -224,31 +273,40 @@ export class OrdersComponent implements OnInit {
         this.searchLoader = true;
         searchOrdersForm = this.generateSearchFilters(searchOrdersForm);
 
-        this.ordersService.downloadPOPdf('', searchOrdersForm).
-            then((orders) => {
-                this.searchLoader = false;
-            }).catch((error) => {
+        this.ordersService
+            .downloadPOPdf('', searchOrdersForm)
+            .then(orders => {
                 this.searchLoader = false;
             })
+            .catch(error => {
+                this.searchLoader = false;
+            });
     }
 
     exportAllOrders(searchOrdersForm) {
-
         this.searchLoader = true;
         searchOrdersForm = this.generateSearchFilters(searchOrdersForm);
-        this.ordersService.getOrdersByPONumber(null, searchOrdersForm, '').
-            then((orders) => {
+        this.ordersService
+            .getOrdersByPONumber(null, searchOrdersForm, '')
+            .then(orders => {
                 if (orders.Data) {
-                    this.jsonToExcelService.exportAsExcelFile(orders.Data.PurchaseOrder, 'orders');
+                    this.jsonToExcelService.exportAsExcelFile(
+                        orders.Data.PurchaseOrder,
+                        'orders'
+                    );
                 }
                 this.searchLoader = false;
                 if (!orders.Success) {
-                    this.toastr.error('Could not get orders for export.', 'Error');
+                    this.toastr.error(
+                        'Could not get orders for export.',
+                        'Error'
+                    );
                 }
-            }).catch((error) => {
+            })
+            .catch(error => {
                 this.toastr.error('Could not get orders for export.', 'Error');
                 this.searchLoader = false;
-            })
+            });
     }
 
     searchProduct(searchOrdersForm) {
@@ -257,8 +315,9 @@ export class OrdersComponent implements OnInit {
         this.bigLoader = true;
         searchOrdersForm = this.generateSearchFilters(searchOrdersForm);
 
-        this.ordersService.getOrdersByPONumber(null, searchOrdersForm).
-            then((orders) => {
+        this.ordersService
+            .getOrdersByPONumber(null, searchOrdersForm)
+            .then(orders => {
                 if (orders.Data) {
                     this.orders = orders.Data.PurchaseOrder;
                 }
@@ -267,31 +326,38 @@ export class OrdersComponent implements OnInit {
                 if (!orders.Success) {
                     this.toastr.error('Could not get orders.', 'Error');
                 }
-            }).catch((error) => {
+            })
+            .catch(error => {
                 this.searchLoader = false;
                 this.toastr.error('Could not get orders.', 'Error');
                 this.bigLoader = false;
-            })
+            });
     }
 
     searchByOrderHash(orderHash) {
-        this.router.navigate(['order-details', orderHash], { relativeTo: this.route });
+        this.router.navigate(['order-details', orderHash], {
+            relativeTo: this.route
+        });
     }
 
     bulkCancel() {
-        const activeModal = this.modalService.open(SellerOrdersBulkUploadComponent, { size: 'sm' });
+        const activeModal = this.modalService.open(
+            SellerOrdersBulkUploadComponent,
+            { size: 'sm' }
+        );
         activeModal.componentInstance.fileUrl = 'cancelOrder.xlsx';
         activeModal.componentInstance.request = 'cancel';
-        activeModal.result.then(status => {
-            if (status) {
-                this.getAllOrders();
-            }
-        }).catch(status => { })
+        activeModal.result
+            .then(status => {
+                if (status) {
+                    this.getAllOrders();
+                }
+            })
+            .catch(status => {});
     }
 
     resetForm() {
         this.searchForm();
         this.getAllOrders();
     }
-
 }

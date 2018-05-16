@@ -256,16 +256,15 @@ export class OrdersComponent implements OnInit {
             _.forEach(searchOrdersForm['e.status'], item => {
                 if (item.id) {
                     status.push(item.id);
-                    if (item.id.match(/cancel/i)) {
-                        this.status = 'CANCEL';
-                    } else {
-                        this.status = item.id;
-                    }
                 } else {
                     status.push(item);
                 }
             });
-            searchOrdersForm['e.status'] = status;
+            this.status = status[0];
+            if (status[0].match(/cancel/i)) {
+                this.status = 'CANCEL';
+            }
+            searchOrdersForm['e.status'] = status.join(',');
         }
 
         if (

@@ -31,7 +31,6 @@ export class CatalogManagementService {
         );
         return this.http
             .get(url, this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -58,7 +57,6 @@ export class CatalogManagementService {
         );
         return this.http
             .get(url, this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -76,7 +74,6 @@ export class CatalogManagementService {
         );
         return this.http
             .get(url, this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -94,7 +91,6 @@ export class CatalogManagementService {
         );
         return this.http
             .post(url, _catalog, this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -120,7 +116,6 @@ export class CatalogManagementService {
         );
         return this.http
             .post(url, bodyObjPlain, this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -140,7 +135,6 @@ export class CatalogManagementService {
         );
         return this.http
             .get(url, this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -160,7 +154,6 @@ export class CatalogManagementService {
         );
         return this.http
             .post(url, _products, this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -180,7 +173,6 @@ export class CatalogManagementService {
         );
         return this.http
             .get(url, this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -200,7 +192,6 @@ export class CatalogManagementService {
         );
         return this.http
             .post(url, JSON.stringify(_reqObj), this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -218,7 +209,6 @@ export class CatalogManagementService {
         );
         return this.http
             .get(url, this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -236,7 +226,6 @@ export class CatalogManagementService {
         );
         return this.http
             .post(url, JSON.stringify(bodyObj), this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));
@@ -256,7 +245,6 @@ export class CatalogManagementService {
         );
         return this.http
             .get(url, this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch(err => this.responseHandler.handleError(err));

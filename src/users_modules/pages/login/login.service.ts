@@ -37,7 +37,6 @@ export class LoginService {
         const url = `${environment.rbacUrl}Auth/Login`;
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, data));
         return this.http.post(url, JSON.stringify(data), this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.handleResponse)
             .catch(this.handleError);

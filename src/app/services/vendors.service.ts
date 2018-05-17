@@ -32,7 +32,6 @@ export class VendorsService {
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
@@ -43,7 +42,6 @@ export class VendorsService {
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
@@ -54,7 +52,6 @@ export class VendorsService {
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
@@ -65,7 +62,6 @@ export class VendorsService {
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('GET', url));
         return this.http.get(url, this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
@@ -76,7 +72,6 @@ export class VendorsService {
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('POST', url, vendor));
         return this.http.post(url, JSON.stringify(vendor), this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));
@@ -87,7 +82,6 @@ export class VendorsService {
         this.headers.set('Authorization', this.commonAppSer.crateAuthorization());
         this.headers.set('LRSignAuth', this.commonAppSer.createHMACSignature('PUT', url, vendor));
         return this.http.put(url, JSON.stringify(vendor), this.options)
-            .timeout(environment.timeOut)
             .toPromise()
             .then(this.responseHandler.handleResponse)
             .catch((err) => this.responseHandler.handleError(err));

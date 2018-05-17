@@ -33,6 +33,7 @@ export class VendorsInfoComponent implements OnInit {
     commentDesc: any = '';
     selectAllCheckbox = false;
     showSelectedAction = false;
+    bigLoader = true;
 
     constructor(
         private jsonToExcelService: JsonToExcelService,
@@ -58,12 +59,14 @@ export class VendorsInfoComponent implements OnInit {
     }
 
     getMapProductForApproveFunc(_catalogId) {
+        this.bigLoader = true;
         this.catalogManagementService
             .getMapProductForApprove(_catalogId)
             .then(res => {
                 if (res.Code == 200) {
                     this.allMapProductsApprove = res.Data ? res.Data : [];
                 }
+                this.bigLoader = false;
             });
     }
 

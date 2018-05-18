@@ -1,6 +1,17 @@
-import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Output,
+    Input,
+    EventEmitter,
+    OnChanges
+} from '@angular/core';
 
-import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
+import {
+    ProductsService,
+    OrdersService,
+    JsonToExcelService
+} from 'app/services';
 import * as _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SellerOrdersBulkUploadComponent } from '../bulk-upload/bulk-upload.component';
@@ -13,6 +24,7 @@ import { SellerOrderStatusUpdateComponent } from '../status-update/status-update
 })
 export class ProcessedComponent implements OnInit {
     @Input() orders;
+    @Input() hasFilters;
     @Output() onStatusChange = new EventEmitter<any>();
     showSelectedAction = false;
 
@@ -21,67 +33,95 @@ export class ProcessedComponent implements OnInit {
         private jsonToExcelService: JsonToExcelService,
         private productsService: ProductsService,
         private ordersService: OrdersService
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.getAllOrders();
+        if (!this.hasFilters) {
+            this.getProcessedOrders();
+        }
     }
 
     getAllOrders() {
         this.orders = this.orders.filter(item => {
-            return item.Status === 'PROCESSED'
+            return item.Status === 'PROCESSED';
         });
+    }
+
+    getProcessedOrders() {
+        this.ordersService
+            .getOrdersByPONumber(null, 'e.status=PROCESSED')
+            .then(orders => {
+                if (orders.Data) {
+                    this.orders = orders.Data.PurchaseOrder;
+                }
+            })
+            .catch(error => {});
     }
 
     ngOnChanges(changes) {
         this.getAllOrders();
+        if (!this.hasFilters) {
+            this.getProcessedOrders();
+        }
     }
 
     updateStatus(PurchaseOrderNumber) {
-        const activeModal = this.modalService.open(SellerOrderStatusUpdateComponent, { size: 'sm' });
+        const activeModal = this.modalService.open(
+            SellerOrderStatusUpdateComponent,
+            { size: 'sm' }
+        );
         activeModal.componentInstance.request = 'processed';
         activeModal.componentInstance.PurchaseOrderNumber = PurchaseOrderNumber;
-        activeModal.result.then(status => {
-            if (status) {
-                this.onStatusChange.emit(true);
-                this.getAllOrders();
-            }
-        }).catch(status => { })
+        activeModal.result
+            .then(status => {
+                if (status) {
+                    this.onStatusChange.emit(true);
+                    this.getAllOrders();
+                }
+            })
+            .catch(status => {});
     }
 
     importOrders() {
-        const activeModal = this.modalService.open(SellerOrdersBulkUploadComponent, { size: 'sm' });
+        const activeModal = this.modalService.open(
+            SellerOrdersBulkUploadComponent,
+            { size: 'sm' }
+        );
         activeModal.componentInstance.fileUrl = 'ProcessedToDispached.xlsx';
         activeModal.componentInstance.request = 'processed';
-        activeModal.result.then(status => {
-            if (status) {
-                this.onStatusChange.emit(true);
-                this.getAllOrders();
-            }
-        }).catch(status => { })
+        activeModal.result
+            .then(status => {
+                if (status) {
+                    this.onStatusChange.emit(true);
+                    this.getAllOrders();
+                }
+            })
+            .catch(status => {});
     }
 
     exportProducts() {
-        _.forEach(this.orders, (item) => {
-            delete item.CancellationReason; delete item.RTOBy; delete item.RTODate; delete item.RTOComments; delete item.isChecked;
+        _.forEach(this.orders, item => {
+            delete item.CancellationReason;
+            delete item.RTOBy;
+            delete item.RTODate;
+            delete item.RTOComments;
+            delete item.isChecked;
         });
         this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }
 
     downloadPDF() {
         let productsToDownload = [];
-        _.forEach(this.orders, (order) => {
+        _.forEach(this.orders, order => {
             productsToDownload.push(order.PurchaseOrderNumber);
         });
         let resquestBody = {
             Ids: productsToDownload
         };
-        this.ordersService.downloadPOPdf(resquestBody).
-            then((success) => {
-
-            }).catch((error) => {
-
-            });
+        this.ordersService
+            .downloadPOPdf(resquestBody)
+            .then(success => {})
+            .catch(error => {});
     }
-
 }

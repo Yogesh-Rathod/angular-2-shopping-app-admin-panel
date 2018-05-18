@@ -76,6 +76,7 @@ export class OrdersComponent implements OnInit {
         disableSince: this.disableSince()
     };
     pageSize: any;
+    hasFilters = false;
 
     constructor(
         public toastr: ToastsManager,
@@ -157,6 +158,7 @@ export class OrdersComponent implements OnInit {
                     this.toastr.error('Could not get orders.', 'Error');
                 }
                 this.searchLoader = false;
+                this.hasFilters = false;
             })
             .catch(error => {
                 this.searchLoader = false;
@@ -326,6 +328,7 @@ export class OrdersComponent implements OnInit {
                 }
                 this.bigLoader = false;
                 this.searchLoader = false;
+                this.hasFilters = true;
                 if (!orders.Success) {
                     this.toastr.error('Could not get orders.', 'Error');
                 }

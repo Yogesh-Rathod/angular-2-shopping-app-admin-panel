@@ -24,6 +24,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 })
 export class FreshComponent implements OnInit {
     @Input() orders;
+    @Input() hasFilters;
     @Output() onStatusChange = new EventEmitter<any>();
 
     selectAllCheckbox = false;
@@ -40,10 +41,27 @@ export class FreshComponent implements OnInit {
 
     ngOnInit() {
         this.getAllOrders();
+        if (!this.hasFilters) {
+            this.getFreshOrders();
+        }
+    }
+
+    getFreshOrders() {
+        this.ordersService
+            .getOrdersByPONumber(null, 'e.status=FRESH')
+            .then(orders => {
+                if (orders.Data) {
+                    this.orders = orders.Data.PurchaseOrder;
+                }
+            })
+            .catch(error => {});
     }
 
     ngOnChanges(changes) {
         this.getAllOrders();
+        if (!this.hasFilters) {
+            this.getFreshOrders();
+        }
     }
 
     getAllOrders() {

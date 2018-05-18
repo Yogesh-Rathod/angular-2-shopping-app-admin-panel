@@ -1,7 +1,18 @@
-import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Output,
+    Input,
+    EventEmitter,
+    OnChanges
+} from '@angular/core';
 import * as _ from 'lodash';
 
-import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
+import {
+    ProductsService,
+    OrdersService,
+    JsonToExcelService
+} from 'app/services';
 
 @Component({
     selector: 'app-delivered',
@@ -10,49 +21,68 @@ import { ProductsService, OrdersService, JsonToExcelService } from 'app/services
 })
 export class DeliveredComponent implements OnInit {
     @Input() orders;
+    @Input() hasFilters;
     @Output() onStatusChange = new EventEmitter<any>();
 
     constructor(
         private jsonToExcelService: JsonToExcelService,
         private productsService: ProductsService,
         private ordersService: OrdersService
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.getAllOrders();
+        if (!this.hasFilters) {
+            this.getDeliveredOrders();
+        }
+    }
+
+    getDeliveredOrders() {
+        this.ordersService
+            .getOrdersByPONumber(null, 'e.status=DELIVERED')
+            .then(orders => {
+                if (orders.Data) {
+                    this.orders = orders.Data.PurchaseOrder;
+                }
+            })
+            .catch(error => {});
     }
 
     ngOnChanges(changes) {
         this.getAllOrders();
+        if (!this.hasFilters) {
+            this.getDeliveredOrders();
+        }
     }
 
     getAllOrders() {
         this.orders = this.orders.filter(item => {
-            return item.Status === 'DELIVERED'
-        })
+            return item.Status === 'DELIVERED';
+        });
     }
 
     exportProducts() {
-        _.forEach(this.orders, (item) => {
-            delete item.CancellationReason; delete item.RTOBy; delete item.RTODate; delete item.RTOComments; delete item.isChecked;
+        _.forEach(this.orders, item => {
+            delete item.CancellationReason;
+            delete item.RTOBy;
+            delete item.RTODate;
+            delete item.RTOComments;
+            delete item.isChecked;
         });
         this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }
 
     downloadPDF() {
         let productsToDownload = [];
-        _.forEach(this.orders, (order) => {
+        _.forEach(this.orders, order => {
             productsToDownload.push(order.PurchaseOrderNumber);
         });
         let resquestBody = {
             Ids: productsToDownload
         };
-        this.ordersService.downloadPOPdf(resquestBody).
-            then((success) => {
-
-            }).catch((error) => {
-
-            });
+        this.ordersService
+            .downloadPOPdf(resquestBody)
+            .then(success => {})
+            .catch(error => {});
     }
-
 }

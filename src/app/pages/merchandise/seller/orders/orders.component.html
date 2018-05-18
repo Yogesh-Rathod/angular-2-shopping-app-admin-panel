@@ -37,7 +37,8 @@
                             Start Date
                             <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select Start Date for search."></i>
                         </label>
-                        <my-date-picker id="startDate" class="no_padding" name="startDate" [options]="myDatePickerOptions" formControlName="e.fromDate" (dateChanged)="disableUntil($event)">
+                        <my-date-picker id="startDate" class="no_padding" name="startDate" [options]="myDatePickerOptions" formControlName="e.fromDate"
+                            (dateChanged)="disableUntil($event)">
                         </my-date-picker>
                     </div>
 
@@ -127,28 +128,28 @@
 
                 <div class="tab-content no_left_padding no_right_padding" *ngIf="orders && orders.length > 0">
                     <div [class.active]="status === 'FRESH'" role="tabpanel" class="tab-pane fade in" id="Fresh">
-                        <app-fresh  [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-fresh>
+                        <app-fresh [hasFilters]="hasFilters" [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-fresh>
                     </div>
                     <div [class.active]="status === 'PROCESSED'" role="tabpanel" class="tab-pane fade in" id="Processed">
-                        <app-processed [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-processed>
+                        <app-processed [hasFilters]="hasFilters" [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-processed>
                     </div>
                     <div [class.active]="status === 'DISPATCHED'" role="tabpanel" class="tab-pane fade in " id="Shipped">
-                        <app-shipped [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-shipped>
+                        <app-shipped [hasFilters]="hasFilters" [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-shipped>
                     </div>
                     <div [class.active]="status === 'DELIVERED'" role="tabpanel" class="tab-pane fade in" id="Delivered">
-                        <app-delivered [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-delivered>
+                        <app-delivered [hasFilters]="hasFilters" [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-delivered>
                     </div>
                     <div [class.active]="status === 'RTO'" role="tabpanel" class="tab-pane fade in" id="RTO">
                         <app-rto [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-rto>
                     </div>
                     <div [class.active]="status === 'CANCEL'" role="tabpanel" class="tab-pane fade in" id="Cancel">
-                        <app-cancellled [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-cancellled>
+                        <app-cancellled [hasFilters]="hasFilters" [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-cancellled>
                     </div>
                 </div>
                 <div class="no-orders" *ngIf="!orders || orders.length === 0">
                     <p class="text-center">
                         <strong>
-                             Sorry! There are no orders!
+                            Sorry! There are no orders!
                         </strong>
                     </p>
                 </div>

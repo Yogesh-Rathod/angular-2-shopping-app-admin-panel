@@ -1,6 +1,17 @@
-import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Output,
+    Input,
+    EventEmitter,
+    OnChanges
+} from '@angular/core';
 
-import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
+import {
+    ProductsService,
+    OrdersService,
+    JsonToExcelService
+} from 'app/services';
 import * as _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SellerOrdersBulkUploadComponent } from '../bulk-upload/bulk-upload.component';
@@ -11,8 +22,8 @@ import { SellerOrdersBulkUploadComponent } from '../bulk-upload/bulk-upload.comp
     styleUrls: ['./cancellled.component.scss']
 })
 export class CancellledComponent implements OnInit {
-
     @Input() orders;
+    @Input() hasFilters;
     @Output() onStatusChange = new EventEmitter<any>();
     showSelectedAction = false;
 
@@ -21,10 +32,24 @@ export class CancellledComponent implements OnInit {
         private jsonToExcelService: JsonToExcelService,
         private productsService: ProductsService,
         private ordersService: OrdersService
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.getAllOrders();
+        if (!this.hasFilters) {
+            this.getCancelledOrders();
+        }
+    }
+
+    getCancelledOrders() {
+        this.ordersService
+            .getOrdersByPONumber(null, 'e.status=Pending For Cancellation')
+            .then(orders => {
+                if (orders.Data) {
+                    this.orders = orders.Data.PurchaseOrder;
+                }
+            })
+            .catch(error => {});
     }
 
     getAllOrders() {
@@ -32,46 +57,54 @@ export class CancellledComponent implements OnInit {
             if (item.Status.match(/cancel/i)) {
                 return item;
             }
-        })
+        });
     }
 
     ngOnChanges(changes) {
         this.getAllOrders();
+        if (!this.hasFilters) {
+            this.getCancelledOrders();
+        }
     }
 
     importOrders() {
-        const activeModal = this.modalService.open(SellerOrdersBulkUploadComponent, { size: 'sm' });
+        const activeModal = this.modalService.open(
+            SellerOrdersBulkUploadComponent,
+            { size: 'sm' }
+        );
         activeModal.componentInstance.fileUrl = 'DispatchedToDelivered.xlsx';
         activeModal.componentInstance.request = 'shipped';
-        activeModal.result.then(status => {
-            if (status) {
-                this.onStatusChange.emit(true);
-                this.getAllOrders();
-            }
-        }).catch(status => { })
+        activeModal.result
+            .then(status => {
+                if (status) {
+                    this.onStatusChange.emit(true);
+                    this.getAllOrders();
+                }
+            })
+            .catch(status => {});
     }
 
     exportProducts() {
-        _.forEach(this.orders, (item) => {
-            delete item.RTOBy; delete item.RTODate; delete item.RTOComments; delete item.isChecked;
+        _.forEach(this.orders, item => {
+            delete item.RTOBy;
+            delete item.RTODate;
+            delete item.RTOComments;
+            delete item.isChecked;
         });
         this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }
 
     downloadPDF() {
         let productsToDownload = [];
-        _.forEach(this.orders, (order) => {
+        _.forEach(this.orders, order => {
             productsToDownload.push(order.PurchaseOrderNumber);
         });
         let resquestBody = {
             Ids: productsToDownload
         };
-        this.ordersService.downloadPOPdf(resquestBody).
-            then((success) => {
-
-            }).catch((error) => {
-
-            });
+        this.ordersService
+            .downloadPOPdf(resquestBody)
+            .then(success => {})
+            .catch(error => {});
     }
-
 }

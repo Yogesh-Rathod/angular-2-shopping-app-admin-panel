@@ -128,22 +128,22 @@
 
                 <div class="tab-content col-12 no_left_padding no_right_padding" *ngIf="orders && orders.length > 0">
                     <div [class.active]="status === 'FRESH'" role="tabpanel" class="tab-pane fade in" id="Fresh">
-                        <app-fresh [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-fresh>
+                        <app-fresh [hasFilters]="hasFilters" [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-fresh>
                     </div>
                     <div [class.active]="status === 'PROCESSED'" role="tabpanel" class="tab-pane fade in" id="Processed">
-                        <app-processed [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-processed>
+                        <app-processed [hasFilters]="hasFilters" [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-processed>
                     </div>
                     <div [class.active]="status === 'DISPATCHED'" role="tabpanel" class="tab-pane fade in " id="Shipped">
-                        <app-shipped [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-shipped>
+                        <app-shipped [hasFilters]="hasFilters" [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-shipped>
                     </div>
                     <div [class.active]="status === 'DELIVERED'" role="tabpanel" class="tab-pane fade in" id="Delivered">
-                        <app-delivered [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-delivered>
+                        <app-delivered [hasFilters]="hasFilters" [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-delivered>
                     </div>
                     <div [class.active]="status === 'RTO'" role="tabpanel" class="tab-pane fade in" id="RTO">
                         <app-rto-orders [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-rto-orders>
                     </div>
                     <div [class.active]="status === 'CANCEL'" role="tabpanel" class="tab-pane fade in" id="Cancel">
-                        <app-cancellled [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-cancellled>
+                        <app-cancellled [hasFilters]="hasFilters" [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-cancellled>
                     </div>
                 </div>
                 <div class="no-orders" *ngIf="!orders || orders.length === 0">

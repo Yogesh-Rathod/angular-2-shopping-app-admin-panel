@@ -1,6 +1,17 @@
-import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Output,
+    Input,
+    EventEmitter,
+    OnChanges
+} from '@angular/core';
 
-import { ProductsService, OrdersService, JsonToExcelService } from 'app/services';
+import {
+    ProductsService,
+    OrdersService,
+    JsonToExcelService
+} from 'app/services';
 import * as _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SellerOrdersAdminBulkUploadComponent } from '../bulk-upload/bulk-upload.component';
@@ -13,6 +24,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 })
 export class FreshComponent implements OnInit {
     @Input() orders;
+    @Input() hasFilters;
     @Output() onStatusChange = new EventEmitter<any>();
 
     selectAllCheckbox = false;
@@ -25,33 +37,50 @@ export class FreshComponent implements OnInit {
         private jsonToExcelService: JsonToExcelService,
         private productsService: ProductsService,
         private ordersService: OrdersService
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.getAllOrders();
+        if (!this.hasFilters) {
+            this.getFreshOrders();
+        }
+    }
+
+    getFreshOrders() {
+        this.ordersService
+            .getOrdersByPONumber(null, 'e.status=FRESH')
+            .then(orders => {
+                if (orders.Data) {
+                    this.orders = orders.Data.PurchaseOrder;
+                }
+            })
+            .catch(error => {});
     }
 
     ngOnChanges(changes) {
         this.getAllOrders();
+        if (!this.hasFilters) {
+            this.getFreshOrders();
+        }
     }
 
     getAllOrders() {
         this.orders = this.orders.filter(item => {
-            return item.Status === 'FRESH'
-        })
+            return item.Status === 'FRESH';
+        });
     }
 
     selectAll(e) {
         if (e.target.checked) {
             this.selectAllCheckbox = true;
-            _.forEach(this.orders, (item) => {
+            _.forEach(this.orders, item => {
                 item.isChecked = true;
             });
             this.showSelectedAction = true;
         } else {
             // this.noActionSelected = false;
             this.selectAllCheckbox = false;
-            _.forEach(this.orders, (item) => {
+            _.forEach(this.orders, item => {
                 item.isChecked = false;
             });
             this.showSelectedAction = false;
@@ -69,7 +98,7 @@ export class FreshComponent implements OnInit {
 
         let isCheckedArray = [];
 
-        _.forEach(this.orders, (item) => {
+        _.forEach(this.orders, item => {
             if (item.isChecked) {
                 this.showSelectedAction = true;
                 isCheckedArray.push(item);
@@ -79,21 +108,20 @@ export class FreshComponent implements OnInit {
         if (isCheckedArray.length === 0) {
             this.showSelectedAction = false;
         }
-
     }
 
     updateToProcessed() {
         this.showLoader = true;
         let productsToApprove = [];
         if (this.selectAllCheckbox) {
-            _.forEach(this.orders, (item) => {
+            _.forEach(this.orders, item => {
                 productsToApprove.push({
                     PurchaseOrderNumber: item.PurchaseOrderNumber
                 });
                 item.isChecked = false;
             });
         } else {
-            _.forEach(this.orders, (item) => {
+            _.forEach(this.orders, item => {
                 if (item.isChecked) {
                     productsToApprove.push({
                         PurchaseOrderNumber: item.PurchaseOrderNumber
@@ -102,8 +130,9 @@ export class FreshComponent implements OnInit {
                 }
             });
         }
-        this.ordersService.sendToProcessed(productsToApprove).
-            then((success) => {
+        this.ordersService
+            .sendToProcessed(productsToApprove)
+            .then(success => {
                 if (success.Code === 200) {
                     this.getAllOrders();
                     this.showLoader = false;
@@ -112,9 +141,13 @@ export class FreshComponent implements OnInit {
                 if (success.Data.length === 0) {
                     this.showLoader = false;
                     this.onStatusChange.emit(true);
-                    this.toastr.success('Status changed successfully.', 'Success');
+                    this.toastr.success(
+                        'Status changed successfully.',
+                        'Success'
+                    );
                 }
-            }).catch((error) => {
+            })
+            .catch(error => {
                 this.showLoader = false;
                 this.toastr.error('Oops! Could not change status.', 'Error!');
             });
@@ -123,26 +156,31 @@ export class FreshComponent implements OnInit {
     }
 
     importOrders() {
-        const activeModal = this.modalService.open(SellerOrdersAdminBulkUploadComponent, { size: 'sm' });
+        const activeModal = this.modalService.open(
+            SellerOrdersAdminBulkUploadComponent,
+            { size: 'sm' }
+        );
         activeModal.componentInstance.fileUrl = 'freshToProcessed.xlsx';
         activeModal.componentInstance.request = 'fresh';
-        activeModal.result.then(status => {
-            if (status) {
-                this.onStatusChange.emit(true);
-                this.getAllOrders();
-            }
-        }).catch(status => { })
+        activeModal.result
+            .then(status => {
+                if (status) {
+                    this.onStatusChange.emit(true);
+                    this.getAllOrders();
+                }
+            })
+            .catch(status => {});
     }
 
     exportProducts() {
         let isCheckedArray = [];
 
-        _.forEach(this.orders, (item) => {
+        _.forEach(this.orders, item => {
             if (item.isChecked) {
                 isCheckedArray.push(item);
             }
         });
-        if (isCheckedArray.length === 0 ) {
+        if (isCheckedArray.length === 0) {
             this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
         } else {
             this.jsonToExcelService.exportAsExcelFile(isCheckedArray, 'orders');
@@ -157,19 +195,19 @@ export class FreshComponent implements OnInit {
             let resquestBody = {
                 Ids: productsToDownload
             };
-            this.ordersService.downloadPOPdf(resquestBody).
-                then((success) => {
-                }).catch((error) => {
-                });
+            this.ordersService
+                .downloadPOPdf(resquestBody)
+                .then(success => {})
+                .catch(error => {});
             this.showLoader = false;
         } else {
             if (this.selectAllCheckbox) {
-                _.forEach(this.orders, (item) => {
+                _.forEach(this.orders, item => {
                     productsToDownload.push(item.PurchaseOrderNumber);
                     item.isChecked = false;
                 });
             } else {
-                _.forEach(this.orders, (item) => {
+                _.forEach(this.orders, item => {
                     if (item.isChecked) {
                         productsToDownload.push(item.PurchaseOrderNumber);
                         item.isChecked = false;
@@ -179,16 +217,13 @@ export class FreshComponent implements OnInit {
             let resquestBody = {
                 Ids: productsToDownload
             };
-            this.ordersService.downloadPOPdf(resquestBody).
-                then((success) => {
-
-                }).catch((error) => {
-
-                });
+            this.ordersService
+                .downloadPOPdf(resquestBody)
+                .then(success => {})
+                .catch(error => {});
             this.showLoader = false;
             this.selectAllCheckbox = false;
             this.showSelectedAction = false;
         }
     }
-
 }

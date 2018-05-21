@@ -105,25 +105,25 @@ export class OrdersComponent implements OnInit {
         this.getAllPrograms();
         this.getAllOrders();
 
-        let urlStatus: any = this.route.params;
-        if (urlStatus._value.orderStatus != undefined) {
-            urlStatus = urlStatus._value.orderStatus;
-            if (urlStatus.match(/rto/i)) {
-                $(`[href="#RTO"]`).tab('show');
-            } else if (urlStatus.match(/cancel/i)) {
-                $(`[href="#CANCEL"]`).tab('show');
-            } else if (urlStatus.match(/process/i)) {
-                $(`[href="#PROCESSED"]`).tab('show');
-            } else if (urlStatus.match(/dispatch/i)) {
-                $(`[href="#DISPATCHED"]`).tab('show');
-            } else if (urlStatus.match(/deliver/i)) {
-                $(`[href="#DELIVERED"]`).tab('show');
-            } else {
-                $(`[href="#FRESH"]`).tab('show');
-            }
-        } else {
-            $(`[href="#FRESH"]`).tab('show');
-        }
+        // let urlStatus: any = this.route.params;
+        // if (urlStatus._value.orderStatus != undefined) {
+        //     urlStatus = urlStatus._value.orderStatus;
+        //     if (urlStatus.match(/rto/i)) {
+        //         $(`[href="#RTO"]`).tab('show');
+        //     } else if (urlStatus.match(/cancel/i)) {
+        //         $(`[href="#CANCEL"]`).tab('show');
+        //     } else if (urlStatus.match(/process/i)) {
+        //         $(`[href="#PROCESSED"]`).tab('show');
+        //     } else if (urlStatus.match(/dispatch/i)) {
+        //         $(`[href="#DISPATCHED"]`).tab('show');
+        //     } else if (urlStatus.match(/deliver/i)) {
+        //         $(`[href="#DELIVERED"]`).tab('show');
+        //     } else {
+        //         $(`[href="#FRESH"]`).tab('show');
+        //     }
+        // } else {
+        //     $(`[href="#FRESH"]`).tab('show');
+        // }
     }
 
     disableSince() {

@@ -39,7 +39,6 @@ export class OrdersComponent implements OnInit {
         enableSearchFilter: true,
         classes: 'col-8 no_padding'
     };
-    status = 'FRESH';
     statusList = [
         {
             id: 'FRESH',
@@ -229,12 +228,12 @@ export class OrdersComponent implements OnInit {
                     status.push(item);
                 }
             });
-            this.status = status[0];
+            $(`[href="#${status[0]}"]`).tab('show');
             if (status[0].match(/cancel/i)) {
-                this.status = 'CANCEL';
+                $(`[href="#CANCEL"]`).tab('show');
             }
             if (status[0].match(/rto/i)) {
-                this.status = 'RTO';
+                $(`[href="#RTO"]`).tab('show');
             }
             searchOrdersForm['e.status'] = status.join(',');
         }
@@ -321,7 +320,6 @@ export class OrdersComponent implements OnInit {
     }
 
     searchProduct(searchOrdersForm) {
-        this.orders = [];
         this.searchLoader = true;
         this.bigLoader = true;
         searchOrdersForm = this.generateSearchFilters(searchOrdersForm);
@@ -372,5 +370,6 @@ export class OrdersComponent implements OnInit {
     resetForm() {
         this.searchForm();
         this.getAllOrders();
+        $(`[href="#FRESH"]`).tab('show');
     }
 }

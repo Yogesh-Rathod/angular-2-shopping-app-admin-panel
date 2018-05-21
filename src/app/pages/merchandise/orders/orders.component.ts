@@ -28,7 +28,6 @@ import { ToastsManager } from 'ng2-toastr';
     styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
-    status: any;
     searchProductForm: FormGroup;
     bigLoader = true;
     orders: any;
@@ -105,24 +104,25 @@ export class OrdersComponent implements OnInit {
         this.getAllVendors();
         this.getAllPrograms();
         this.getAllOrders();
-        this.status = this.route.params;
-        if (this.status._value.orderStatus != undefined) {
-            this.status = this.status._value.orderStatus;
-            if (this.status.match(/rto/i)) {
-                this.status = 'RTO';
-            } else if (this.status.match(/cancel/i)) {
-                this.status = 'CANCEL';
-            } else if (this.status.match(/process/i)) {
-                this.status = 'PROCESSED';
-            } else if (this.status.match(/dispatch/i)) {
-                this.status = 'DISPATCHED';
-            } else if (this.status.match(/deliver/i)) {
-                this.status = 'DELIVERED';
+
+        let urlStatus: any = this.route.params;
+        if (urlStatus._value.orderStatus != undefined) {
+            urlStatus = urlStatus._value.orderStatus;
+            if (urlStatus.match(/rto/i)) {
+                $(`[href="#RTO"]`).tab('show');
+            } else if (urlStatus.match(/cancel/i)) {
+                $(`[href="#CANCEL"]`).tab('show');
+            } else if (urlStatus.match(/process/i)) {
+                $(`[href="#PROCESSED"]`).tab('show');
+            } else if (urlStatus.match(/dispatch/i)) {
+                $(`[href="#DISPATCHED"]`).tab('show');
+            } else if (urlStatus.match(/deliver/i)) {
+                $(`[href="#DELIVERED"]`).tab('show');
             } else {
-                this.status = 'FRESH';
+                $(`[href="#FRESH"]`).tab('show');
             }
         } else {
-            this.status = 'FRESH';
+            $(`[href="#FRESH"]`).tab('show');
         }
     }
 
@@ -269,12 +269,12 @@ export class OrdersComponent implements OnInit {
                     status.push(item);
                 }
             });
-            this.status = status[0];
+            $(`[href="#${status[0]}"]`).tab('show');
             if (status[0].match(/cancel/i)) {
-                this.status = 'CANCEL';
+                $(`[href="#CANCEL"]`).tab('show');
             }
             if (status[0].match(/rto/i)) {
-                this.status = 'RTO';
+                $(`[href="#RTO"]`).tab('show');
             }
             searchOrdersForm['e.status'] = status.join(',');
         }
@@ -406,5 +406,6 @@ export class OrdersComponent implements OnInit {
     resetForm() {
         this.searchForm();
         this.getAllOrders();
+        $(`[href="#FRESH"]`).tab('show');
     }
 }

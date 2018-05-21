@@ -30,7 +30,6 @@ export class VendorsInfoComponent implements OnInit {
     allMapProductsApprove: any = [];
     isCheckedArray: any = [];
     productsLoader = false;
-    commentDesc: any = '';
     selectAllCheckbox = false;
     showSelectedAction = false;
     bigLoader = true;
@@ -117,42 +116,63 @@ export class VendorsInfoComponent implements OnInit {
     }
 
     exportAllProducts() {
-        this.jsonToExcelService.exportAsExcelFile(
-            this.allMapProductsApprove,
-            'products'
-        );
+        if (this.isCheckedArray.length > 0) {
+            this.jsonToExcelService.exportAsExcelFile(
+                this.isCheckedArray,
+                'products'
+            );
+            return;
+        } else {
+            this.jsonToExcelService.exportAsExcelFile(
+                this.allMapProductsApprove,
+                'products'
+            );
+            return;
+        }
     }
 
     //POST Approve Map
-    approveProductMap(_reason, approveStatus) {
+    approveProductMap(approveStatus) {
         // console.log('this.isCheckedArray ', this.isCheckedArray);
         this.approveProductsLoader = true;
+        let itemForApproveOrReject = [];
+        if (approveStatus) {
+            _.forEach(this.allMapProductsApprove, item => {
+                if (item.isChecked) {
+                    item.IsApproved = true;
+                    itemForApproveOrReject.push(item);
+                }
+            });
+        } else {
+            _.forEach(this.allMapProductsApprove, item => {
+                if (item.isChecked) {
+                    item.IsApproved = false;
+                    itemForApproveOrReject.push(item);
+                }
+            });
+        }
         var approveObj = {
-            Id: this.catalogId,
-            Reason: _reason,
-            IsApproved: approveStatus
+            CatalogId: this.catalogId,
+            Products: itemForApproveOrReject
         };
         this.catalogManagementService
             .approveProductPostCatalog(approveObj)
             .then(res => {
                 if (res.Success) {
                     this.toastr.success(
-                        'Catalog product map approved.',
+                        'Products approved successfully.',
                         'Sucess!'
                     );
                     this.onStatusChange.emit(true);
-                    this.allMapProductsApprove = [];
+                    this.getMapProductForApproveFunc(this.catalogId);
                     this.approveProductsLoader = false;
                     this.selectAllCheckbox = false;
                     this.showSelectedAction = false;
-                    this.commentDesc = '';
                 } else {
-                    this.allMapProductsApprove = [];
-                    this.commentDesc = '';
                     this.showSelectedAction = false;
                     this.selectAllCheckbox = false;
                     this.approveProductsLoader = false;
-                    this.toastr.error('Something went wrong.', 'Error!');
+                    this.toastr.error('Could not approve products.', 'Error!');
                 }
             });
     }

@@ -24,6 +24,7 @@ export class CatalogBulkUploadComponent implements OnInit {
     blankFileError = false;
     catalogId: String;
     isApproval: any;
+    excelTemplate: any;
 
     constructor(
         private catalogManagementService: CatalogManagementService,
@@ -34,7 +35,13 @@ export class CatalogBulkUploadComponent implements OnInit {
         private jsonToExcelService: JsonToExcelService
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        if (this.isApproval) {
+            this.excelTemplate = 'CatalogProductMappingApprove.xlsx';
+        } else {
+            this.excelTemplate = 'CatalogProductUpload.xlsx';
+        }
+    }
 
     handleFile(event) {
         this.blankFileError = false;
@@ -107,8 +114,28 @@ export class CatalogBulkUploadComponent implements OnInit {
                     break;
 
                 case 'approve':
-                    break;
-                case 'reject':
+                    var approveObj = {
+                        CatalogId: this.catalogId,
+                        Products: this.productsInfo
+                    };
+                    this.catalogManagementService
+                        .approveProductPostCatalog(approveObj)
+                        .then(res => {
+                            if (res.Success) {
+                                this.toastr.success(
+                                    'Products approved successfully.',
+                                    'Sucess!'
+                                );
+                                this.closeModal(true);
+                                this.showLoader = false;
+                            } else {
+                                this.showLoader = false;
+                                this.toastr.error(
+                                    'Could not approve products.',
+                                    'Error!'
+                                );
+                            }
+                        });
                     break;
                 default:
                     break;

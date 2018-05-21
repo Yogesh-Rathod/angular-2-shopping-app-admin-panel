@@ -18,17 +18,14 @@
                 <label for="ExcelFile" class="text-right">Excel File</label>
 
                 <input type="file" class="form-control" id="ExcelFile" (change)="handleFile($event)" accept=".xlsx, .xls">
-                <a target="_blank" href="assets/samples/CatalogProductUpload.xlsx" class="text-decoration btn-link float-right">Download Template</a>
+                <a target="_blank" href="assets/samples/{{excelTemplate}}" class="text-decoration btn-link float-right">Download Template</a>
             </div>
             <a *ngIf="downloadIssue.length>0" target="_blank" href="javascript:void(0)" (click)="download()" class="error text-decoration btn-link float-left">Download Error Report</a>
             <div class="uploadButton form-group">
                 <button *ngIf="!isApproval" type="button" class="sendApproval btn btn-primary" [disabled]=" submitDisabled || showLoader "
                     (click)="sendApproval('sendApproval')">Send for approval</button>
                 <button class="btn btn-success" [disabled]=" submitDisabled " (click)="sendApproval('approve')" *ngIf="isApproval">
-                    Approve
-                </button>
-                <button class="btn btn-danger" [disabled]=" submitDisabled " (click)="sendApproval('reject')" *ngIf="isApproval">
-                    Reject
+                    Submit
                 </button>
                 <img *ngIf="showLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
             </div>

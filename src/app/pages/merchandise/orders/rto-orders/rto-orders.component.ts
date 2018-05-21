@@ -23,6 +23,7 @@ import { StatusUpdateComponent } from '../status-update/status-update.component'
 })
 export class RtoOrdersComponent implements OnInit {
     @Input() orders;
+    @Input() hasFilters;
     @Output() onStatusChange = new EventEmitter<any>();
     showSelectedAction = false;
 
@@ -35,6 +36,23 @@ export class RtoOrdersComponent implements OnInit {
 
     ngOnInit() {
         this.getAllOrders();
+        if (!this.hasFilters) {
+            this.getRTOOrders();
+        }
+    }
+
+    getRTOOrders() {
+        this.ordersService
+            .getOrdersByPONumber(
+                null,
+                'e.status=RTO-FRESH,RTO-DELIVERED,RTO-PROCESSED,RTO-DISPATCHED'
+            )
+            .then(orders => {
+                if (orders.Data) {
+                    this.orders = orders.Data.PurchaseOrder;
+                }
+            })
+            .catch(error => {});
     }
 
     getAllOrders() {
@@ -47,6 +65,9 @@ export class RtoOrdersComponent implements OnInit {
 
     ngOnChanges(changes) {
         this.getAllOrders();
+        if (!this.hasFilters) {
+            this.getRTOOrders();
+        }
     }
 
     updateStatus(item) {

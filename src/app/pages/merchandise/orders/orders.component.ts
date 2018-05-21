@@ -60,6 +60,10 @@ export class OrdersComponent implements OnInit {
         {
             id: 'Pending For Cancellation',
             itemName: 'Cancelled'
+        },
+        {
+            id: 'RTO-FRESH,RTO-DELIVERED,RTO-PROCESSED,RTO-DISPATCHED',
+            itemName: 'RTO'
         }
     ];
     searchLoader = false;
@@ -268,6 +272,9 @@ export class OrdersComponent implements OnInit {
             this.status = status[0];
             if (status[0].match(/cancel/i)) {
                 this.status = 'CANCEL';
+            }
+            if (status[0].match(/rto/i)) {
+                this.status = 'RTO';
             }
             searchOrdersForm['e.status'] = status.join(',');
         }

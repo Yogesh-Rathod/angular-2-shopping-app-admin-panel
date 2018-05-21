@@ -140,7 +140,7 @@
                         <app-delivered [hasFilters]="hasFilters" [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-delivered>
                     </div>
                     <div [class.active]="status === 'RTO'" role="tabpanel" class="tab-pane fade in" id="RTO">
-                        <app-rto-orders [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-rto-orders>
+                        <app-rto-orders [hasFilters]="hasFilters" [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-rto-orders>
                     </div>
                     <div [class.active]="status === 'CANCEL'" role="tabpanel" class="tab-pane fade in" id="Cancel">
                         <app-cancellled [hasFilters]="hasFilters" [orders]="orders" class="col-12" (onStatusChange)="childStatusChanged($event)"></app-cancellled>

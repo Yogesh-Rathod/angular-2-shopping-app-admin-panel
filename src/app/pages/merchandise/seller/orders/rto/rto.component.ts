@@ -1,7 +1,19 @@
-import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Output,
+    Input,
+    EventEmitter,
+    OnChanges
+} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ProductsService, OrdersService, JsonToExcelService, VendorsService } from 'app/services';
+import {
+    ProductsService,
+    OrdersService,
+    JsonToExcelService,
+    VendorsService
+} from 'app/services';
 import * as _ from 'lodash';
 import { SellerOrderStatusUpdateComponent } from '../status-update/status-update.component';
 
@@ -12,16 +24,20 @@ import { SellerOrderStatusUpdateComponent } from '../status-update/status-update
 })
 export class RtoComponent implements OnInit {
     @Input() orders;
+    @Input() hasFilters;
     @Output() onStatusChange = new EventEmitter<any>();
 
     constructor(
         private modalService: NgbModal,
         private jsonToExcelService: JsonToExcelService,
         private ordersService: OrdersService
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.getAllOrders();
+        if (!this.hasFilters) {
+            this.getRTOOrders();
+        }
     }
 
     getAllOrders() {
@@ -29,15 +45,35 @@ export class RtoComponent implements OnInit {
             if (item.Status.match(/rto/i)) {
                 return item;
             }
-        })
+        });
+    }
+
+    getRTOOrders() {
+        this.ordersService
+            .getOrdersByPONumber(
+                null,
+                'e.status=RTO-FRESH,RTO-DELIVERED,RTO-PROCESSED,RTO-DISPATCHED'
+            )
+            .then(orders => {
+                if (orders.Data) {
+                    this.orders = orders.Data.PurchaseOrder;
+                }
+            })
+            .catch(error => {});
     }
 
     ngOnChanges(changes) {
         this.getAllOrders();
+        if (!this.hasFilters) {
+            this.getRTOOrders();
+        }
     }
 
     updateStatus(item) {
-        const activeModal = this.modalService.open(SellerOrderStatusUpdateComponent, { size: 'sm' });
+        const activeModal = this.modalService.open(
+            SellerOrderStatusUpdateComponent,
+            { size: 'sm' }
+        );
         if (item.Status.match(/processed/i)) {
             activeModal.componentInstance.request = 'processed';
         } else if (item.Status.match(/fresh/i)) {
@@ -45,36 +81,37 @@ export class RtoComponent implements OnInit {
         } else if (item.Status.match(/dispatch/i)) {
             activeModal.componentInstance.request = 'dispatched';
         }
-        activeModal.componentInstance.PurchaseOrderNumber = item.PurchaseOrderNumber;
-        activeModal.result.then(status => {
-            if (status) {
-                this.onStatusChange.emit(true);
-                this.getAllOrders();
-            }
-        }).catch(status => { })
+        activeModal.componentInstance.PurchaseOrderNumber =
+            item.PurchaseOrderNumber;
+        activeModal.result
+            .then(status => {
+                if (status) {
+                    this.onStatusChange.emit(true);
+                    this.getAllOrders();
+                }
+            })
+            .catch(status => {});
     }
 
     exportProducts() {
-        _.forEach(this.orders, (item) => {
-            delete item.CancellationReason; delete item.isChecked;
+        _.forEach(this.orders, item => {
+            delete item.CancellationReason;
+            delete item.isChecked;
         });
         this.jsonToExcelService.exportAsExcelFile(this.orders, 'orders');
     }
 
     downloadPDF() {
         let productsToDownload = [];
-        _.forEach(this.orders, (order) => {
+        _.forEach(this.orders, order => {
             productsToDownload.push(order.PurchaseOrderNumber);
         });
         let resquestBody = {
             Ids: productsToDownload
         };
-        this.ordersService.downloadPOPdf(resquestBody).
-            then((success) => {
-
-            }).catch((error) => {
-
-            });
+        this.ordersService
+            .downloadPOPdf(resquestBody)
+            .then(success => {})
+            .catch(error => {});
     }
-
 }

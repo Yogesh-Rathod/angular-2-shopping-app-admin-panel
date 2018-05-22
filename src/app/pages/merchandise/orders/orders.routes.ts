@@ -28,6 +28,13 @@ const routes: Routes = [
         }
     },
     {
+        path: 'orders/:orderStatus/order-details/:orderId',
+        component: OrderDetailsComponent,
+        data: {
+            MenuCode: 'ORD'
+        }
+    },
+    {
         path: 'reports',
         component: ReportsComponent,
         data: {
@@ -37,4 +44,3 @@ const routes: Routes = [
 ];
 
 export const routing = RouterModule.forChild(routes);
-

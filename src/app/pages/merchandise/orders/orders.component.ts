@@ -104,26 +104,28 @@ export class OrdersComponent implements OnInit {
         this.getAllVendors();
         this.getAllPrograms();
         this.getAllOrders();
+    }
 
-        // let urlStatus: any = this.route.params;
-        // if (urlStatus._value.orderStatus != undefined) {
-        //     urlStatus = urlStatus._value.orderStatus;
-        //     if (urlStatus.match(/rto/i)) {
-        //         $(`[href="#RTO"]`).tab('show');
-        //     } else if (urlStatus.match(/cancel/i)) {
-        //         $(`[href="#CANCEL"]`).tab('show');
-        //     } else if (urlStatus.match(/process/i)) {
-        //         $(`[href="#PROCESSED"]`).tab('show');
-        //     } else if (urlStatus.match(/dispatch/i)) {
-        //         $(`[href="#DISPATCHED"]`).tab('show');
-        //     } else if (urlStatus.match(/deliver/i)) {
-        //         $(`[href="#DELIVERED"]`).tab('show');
-        //     } else {
-        //         $(`[href="#FRESH"]`).tab('show');
-        //     }
-        // } else {
-        //     $(`[href="#FRESH"]`).tab('show');
-        // }
+    checkIfFromSLAReport() {
+        setTimeout(() => {
+            let urlStatus: any = this.route.params;
+            if (urlStatus._value.orderStatus) {
+                urlStatus = urlStatus._value.orderStatus;
+                if (urlStatus.match(/rto/i)) {
+                    $(`[href="#RTO"]`).tab('show');
+                } else if (urlStatus.match(/cancel/i)) {
+                    $(`[href="#CANCEL"]`).tab('show');
+                } else if (urlStatus.match(/process/i)) {
+                    $(`[href="#PROCESSED"]`).tab('show');
+                } else if (urlStatus.match(/dispatch/i)) {
+                    $(`[href="#DISPATCHED"]`).tab('show');
+                } else if (urlStatus.match(/deliver/i)) {
+                    $(`[href="#DELIVERED"]`).tab('show');
+                } else if (urlStatus.match(/fresh/i)) {
+                    $(`[href="#FRESH"]`).tab('show');
+                }
+            }
+        }, 500);
     }
 
     disableSince() {
@@ -187,7 +189,7 @@ export class OrdersComponent implements OnInit {
         });
     }
 
-    getAllOrders() {
+    getAllOrders(isRefresh?) {
         this.bigLoader = true;
         this.ordersService
             .getOrdersByPONumber()
@@ -199,6 +201,9 @@ export class OrdersComponent implements OnInit {
                 this.bigLoader = false;
                 this.searchLoader = false;
                 this.hasFilters = false;
+                if(!isRefresh) {
+                    this.checkIfFromSLAReport();
+                }
             })
             .catch(error => {
                 this.searchLoader = false;
@@ -405,7 +410,7 @@ export class OrdersComponent implements OnInit {
 
     resetForm() {
         this.searchForm();
-        this.getAllOrders();
+        this.getAllOrders(true);
         $(`[href="#FRESH"]`).tab('show');
     }
 }

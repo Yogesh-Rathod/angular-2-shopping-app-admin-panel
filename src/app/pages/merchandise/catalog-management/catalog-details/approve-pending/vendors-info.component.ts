@@ -133,7 +133,6 @@ export class VendorsInfoComponent implements OnInit {
 
     //POST Approve Map
     approveProductMap(approveStatus) {
-        // console.log('this.isCheckedArray ', this.isCheckedArray);
         this.approveProductsLoader = true;
         let itemForApproveOrReject = [];
         if (approveStatus) {

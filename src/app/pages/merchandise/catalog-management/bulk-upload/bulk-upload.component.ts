@@ -92,7 +92,7 @@ export class CatalogBulkUploadComponent implements OnInit {
                         .then(success => {
                             if (success.Success) {
                                 this.toastr.success(
-                                    'Product sucessfully sent for approval!',
+                                    'Products sucessfully sent for approval!',
                                     'Success!'
                                 );
                                 this.closeModal(true);

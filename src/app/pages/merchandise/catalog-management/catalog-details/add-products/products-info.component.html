@@ -25,7 +25,7 @@
     <div class="row no_margin col-12">
         <input type="submit" class="btn btn-primary" value="Search">
         <img *ngIf=" searchLoader " src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-        <button class="btn btn-primary" (click)="mapProductToCatalog(allProducts)" type="button">Add Selected to Catalog</button>
+        <button [class.disabled]="!showAddSelectedToCatalog" class="btn btn-primary" (click)="mapProductToCatalog(allProducts)" type="button">Add Selected to Catalog</button>
         <button [class.disabled]=" !allProducts || allProducts.length === 0 " type="button" class="btn btn-info searchButton" (click)="exportAllProducts()">
             <i class="fa fa-download" aria-hidden="true"></i>
             Export

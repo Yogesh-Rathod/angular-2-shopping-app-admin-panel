@@ -18,14 +18,20 @@
                     <th class="text-left">
                         <strong>Retail Price</strong>
                     </th>
-                    <th class="text-left">
+                    <th>
                         <strong>Retail Shipping Price</strong>
+                    </th>
+                    <th>
+                        <strong>Retail Price Inclusive</strong>
                     </th>
                     <th class="text-left">
                         <strong>Discount Type</strong>
                     </th>
                     <th class="text-left">
                         <strong>Discount</strong>
+                    </th>
+                    <th>
+                        <strong>Featured Product</strong>
                     </th>
                 </tr>
             </thead>
@@ -34,30 +40,37 @@
                     <td class="text-left">
                         {{ item.ProductName }}
                     </td>
-                    <td>
+                    <td class="text-center">
                         {{item.RetailPrice}}
                     </td>
-                    <td>
+                    <td class="text-center">
                         {{item.RetailShippingPrice}}
+                    </td>
+                    <td class="text-center">
+                        {{item.RetailPriceInclusive}}
                     </td>
                     <td>
                         {{item.DiscountType}}
                     </td>
-                    <td>
+                    <td class="text-center">
                         {{item.Discount}}
+                    </td>
+                    <td class="text-center">
+                        <span *ngIf="item.IsFeaturedProduct">Yes</span>
+                        <span *ngIf="!item.IsFeaturedProduct">No</span>
                     </td>
                 </tr>
             </tbody>
             <tbody *ngIf="allMapProducts && allMapProducts.length < 1 ">
                 <tr>
-                    <td colspan="5" class="text-center">
+                    <td colspan="7" class="text-center">
                         <strong>No Products Added</strong>
                     </td>
                 </tr>
             </tbody>
             <tfoot *ngIf="allMapProducts && allMapProducts.length > 10 ">
                 <tr>
-                    <td colspan="5">
+                    <td colspan="7">
                         <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
                     </td>
                 </tr>

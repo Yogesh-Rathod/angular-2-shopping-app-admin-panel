@@ -47,6 +47,8 @@ export class ProductsInfoComponent implements OnInit {
     saveChangesLoader = false;
     atLeastOnePresent = false;
     pageSize: any;
+    showAddSelectedToCatalog = false;
+    isCheckedArray: any;
 
     constructor(
         private jsonToExcelService: JsonToExcelService,
@@ -205,7 +207,7 @@ export class ProductsInfoComponent implements OnInit {
             .then(res => {
                 if (res.Success) {
                     this.toastr.success(
-                        'Product mapped successfully.',
+                        'Products sucessfully sent for approval!',
                         'Sucess!'
                     );
                     this.onStatusChange.emit(true);
@@ -221,41 +223,50 @@ export class ProductsInfoComponent implements OnInit {
     selectAll(e) {
         if (e.target.checked) {
             this.selectAllCheckbox = true;
+            this.showAddSelectedToCatalog = true;
             _.forEach(this.allProducts, item => {
                 item.isChecked = true;
             });
-            // this.showSelectedDelete = true;
         } else {
             this.selectAllCheckbox = false;
+            this.showAddSelectedToCatalog = false;
             _.forEach(this.allProducts, item => {
                 item.isChecked = false;
             });
-            // this.showSelectedDelete = false;
         }
     }
 
     exportAllProducts() {
-        this.searchLoader = true;
-        let searchObj = this.generateSearchFilters(
-            this.searchProductForm.value
-        );
-        this.productsService
-            .getMasterProducts(searchObj, this.pageSize)
-            .then(res => {
-                if (res.Success) {
-                    this.allProducts = res.Data.Products
-                        ? res.Data.Products
-                        : [];
-                    this.jsonToExcelService.exportAsExcelFile(
-                        this.allProducts,
-                        'products'
-                    );
-                    // this.pageSize = res.Data.TotalRecords;
-                }
-                this.searchLoader = false;
-                // this.allMapTempProducts = [];
-                // this.selectAllCheckbox = false;
-            });
+        if (this.selectAllCheckbox) {
+            this.jsonToExcelService.exportAsExcelFile(
+                this.allProducts,
+                'products'
+            );
+        } else if (this.isCheckedArray.length > 0) {
+            this.jsonToExcelService.exportAsExcelFile(
+                this.isCheckedArray,
+                'products'
+            );
+        } else {
+            this.searchLoader = true;
+            let searchObj = this.generateSearchFilters(
+                this.searchProductForm.value
+            );
+            this.productsService
+                .getMasterProducts(searchObj, this.pageSize)
+                .then(res => {
+                    if (res.Success) {
+                        this.allProducts = res.Data.Products
+                            ? res.Data.Products
+                            : [];
+                        this.jsonToExcelService.exportAsExcelFile(
+                            this.allProducts,
+                            'products'
+                        );
+                    }
+                    this.searchLoader = false;
+                });
+        }
     }
 
     checkBoxSelected(e, item) {
@@ -266,17 +277,17 @@ export class ProductsInfoComponent implements OnInit {
             item.isChecked = false;
         }
 
-        let isCheckedArray = [];
+        this.isCheckedArray = [];
 
         _.forEach(this.allProducts, item => {
             if (item.isChecked) {
-                // this.showSelectedDelete = true;
-                isCheckedArray.push(item);
+                this.isCheckedArray.push(item);
             }
         });
 
-        if (isCheckedArray.length === 0) {
-            // this.showSelectedDelete = false;
+        this.showAddSelectedToCatalog = false;
+        if (this.isCheckedArray.length > 0 || this.selectAllCheckbox) {
+            this.showAddSelectedToCatalog = true;
         }
     }
 

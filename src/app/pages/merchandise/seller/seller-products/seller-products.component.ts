@@ -443,7 +443,7 @@ export class SellerProductsComponent implements OnInit {
         activeModal.result
             .then(status => {
                 if (status) {
-                    this.getAllProducts();
+                    this.resetForm();
                 }
             })
             .catch(status => {});

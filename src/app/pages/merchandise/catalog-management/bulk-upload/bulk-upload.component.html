@@ -24,7 +24,7 @@
             <div class="uploadButton form-group">
                 <button *ngIf="!isApproval" type="button" class="sendApproval btn btn-primary" [disabled]=" submitDisabled || showLoader "
                     (click)="sendApproval('sendApproval')">Send for approval</button>
-                <button class="btn btn-success" [disabled]=" submitDisabled " (click)="sendApproval('approve')" *ngIf="isApproval">
+                <button class="btn btn-success" [disabled]=" submitDisabled || showLoader " (click)="sendApproval('approve')" *ngIf="isApproval">
                     Submit
                 </button>
                 <img *ngIf="showLoader" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">

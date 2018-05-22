@@ -48,7 +48,7 @@ export class ProductsInfoComponent implements OnInit {
     atLeastOnePresent = false;
     pageSize: any;
     showAddSelectedToCatalog = false;
-    isCheckedArray: any;
+    isCheckedArray: any = [];
 
     constructor(
         private jsonToExcelService: JsonToExcelService,

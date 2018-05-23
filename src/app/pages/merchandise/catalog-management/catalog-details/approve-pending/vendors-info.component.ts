@@ -167,6 +167,10 @@ export class VendorsInfoComponent implements OnInit {
                     this.approveProductsLoader = false;
                     this.selectAllCheckbox = false;
                     this.showSelectedAction = false;
+                    _.forEach(this.allMapProductsApprove, item => {
+                        item.isChecked = false;
+                    });
+                    this.isCheckedArray = [];
                 } else {
                     this.showSelectedAction = false;
                     this.selectAllCheckbox = false;

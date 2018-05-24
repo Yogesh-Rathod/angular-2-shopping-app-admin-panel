@@ -140,7 +140,7 @@
         <div class="info-record row">
             <div class="col-3 text-right bold">
                 Order Unit Retail Price
-                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The subtotal of this order."></i>
+                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Order Unit Retail Price"></i>
             </div>
             <div class="col-9">
                 <span *ngIf="orderInfo.BookingDetails">
@@ -152,7 +152,7 @@
         <div class="info-record row">
             <div class="col-3 text-right bold">
                 Order Unit Net Shipping Price
-                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The subtotal of this order."></i>
+                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The Order Unit Net Shipping Price"></i>
             </div>
             <div class="col-9">
                 <span *ngIf="orderInfo.BookingDetails">
@@ -164,7 +164,7 @@
         <div class="info-record row">
             <div class="col-3 text-right bold">
                 Order Total Retail Price
-                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The subtotal of this order."></i>
+                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The Order Total Retail Price"></i>
             </div>
             <div class="col-9">
                 <span *ngIf="orderInfo.BookingDetails">
@@ -191,18 +191,6 @@
 <div class="card" *ngIf="orderInfo">
     <div class="card-body">
 
-        <!-- <div class="info-record row">
-      <div class="col-3 text-right bold">
-        Payment status
-        <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The status of the payment."></i>
-      </div>
-      <div class="col-9">
-        <span *ngIf="orderInfo.paymentStatus">
-          {{ orderInfo.paymentStatus }}
-        </span>
-      </div>
-    </div> -->
-
         <div class="info-record row">
             <div class="col-3 text-right bold">
                 Order Date
@@ -211,6 +199,42 @@
             <div class="col-9">
                 <span *ngIf="orderInfo.OrderDate">
                     {{ orderInfo.OrderDate | date: 'medium' }}
+                </span>
+            </div>
+        </div>
+
+        <div class="info-record row" *ngIf="orderInfo.CourierName">
+            <div class="col-3 text-right bold">
+                Courier Name
+                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Courier Name"></i>
+            </div>
+            <div class="col-9">
+                <span>
+                    {{ orderInfo.CourierName }}
+                </span>
+            </div>
+        </div>
+
+        <div class="info-record row" *ngIf="orderInfo.TrackingNumber">
+            <div class="col-3 text-right bold">
+                Tracking Number
+                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tracking Number"></i>
+            </div>
+            <div class="col-9">
+                <span>
+                    {{ orderInfo.TrackingNumber }}
+                </span>
+            </div>
+        </div>
+
+        <div class="info-record row" *ngIf="orderInfo.DispatchDate">
+            <div class="col-3 text-right bold">
+                Dispatch Date
+                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Dispatch Date"></i>
+            </div>
+            <div class="col-9">
+                <span>
+                    {{ orderInfo.DispatchDate }}
                 </span>
             </div>
         </div>

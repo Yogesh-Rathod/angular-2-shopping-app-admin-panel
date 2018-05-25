@@ -239,5 +239,17 @@
             </div>
         </div>
 
+        <div class="info-record row" *ngIf="orderInfo.DeliveryDate">
+            <div class="col-3 text-right bold">
+                Delivery Date
+                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Delivery Date"></i>
+            </div>
+            <div class="col-9">
+                <span>
+                    {{ orderInfo.DeliveryDate }}
+                </span>
+            </div>
+        </div>
+
     </div>
 </div>

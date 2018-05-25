@@ -31,6 +31,9 @@
                     <strong>PO Date</strong>
                 </th>
                 <th>
+                    <strong>Delivery Date</strong>
+                </th>
+                <th>
                     <strong>Action</strong>
                 </th>
             </tr>
@@ -49,6 +52,9 @@
                 <td>{{ item.Status }}</td>
                 <td>
                     {{ item.OrderDate }}
+                </td>
+                <td>
+                    {{ item.DeliveryDate }}
                 </td>
                 <td>
                     <button class="btn btn-secondary" [routerLink]="['./order-details/', item.PurchaseOrderNumber]" title="Edit">

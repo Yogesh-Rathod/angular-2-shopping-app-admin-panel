@@ -393,7 +393,6 @@ export class SellerProductsComponent implements OnInit {
         if (this.selectAllCheckbox) {
             products = this.products;
             _.forEach(products, item => {
-                delete item.ImageNumber;
                 delete item.CurrencyId;
                 delete item.RetailPrice;
                 delete item.RetailShippingPrice;
@@ -410,10 +409,10 @@ export class SellerProductsComponent implements OnInit {
                 delete item.isChecked;
                 delete item.DiscountType;
             });
+            this.selectAllCheckbox = false;
         } else {
             _.forEach(this.products, item => {
                 if (item.isChecked) {
-                    delete item.ImageNumber;
                     delete item.CurrencyId;
                     delete item.RetailPrice;
                     delete item.RetailShippingPrice;

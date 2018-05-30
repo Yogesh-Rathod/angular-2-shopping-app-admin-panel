@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-import { OrdersService, XlsxToJsonService, JsonToExcelService } from 'app/services';
+import {
+    OrdersService,
+    XlsxToJsonService,
+    JsonToExcelService
+} from 'app/services';
 
 @Component({
     selector: 'app-bulk-upload',
@@ -10,7 +14,6 @@ import { OrdersService, XlsxToJsonService, JsonToExcelService } from 'app/servic
     styleUrls: ['./bulk-upload.component.scss']
 })
 export class SellerOrdersAdminBulkUploadComponent implements OnInit {
-
     submitDisabled = true;
     blankFileError = false;
     showUploadError = false;
@@ -27,10 +30,9 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
         private ordersService: OrdersService,
         private toastr: ToastsManager,
         private activeModal: NgbActiveModal
-    ) { }
+    ) {}
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 
     handleFile(event) {
         // this.validationError = null;
@@ -39,20 +41,22 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
         if (file) {
             this.showLoader = true;
             let objectkey = '';
-            this.xlsxToJsonService.processFileToJson({}, file).subscribe(data => {
-                if (data['sheets']) {
-                    const sheetKey = Object.keys(data['sheets']);
-                    this.result = data['sheets'][sheetKey[0]];
-                    if (this.result && this.result.length > 0) {
-                        this.ordersInfo = this.result;
-                        this.showLoader = false;
-                        this.submitDisabled = false;
-                    } else {
-                        this.blankFileError = true;
-                        this.showLoader = false;
+            this.xlsxToJsonService
+                .processFileToJson({}, file)
+                .subscribe(data => {
+                    if (data['sheets']) {
+                        const sheetKey = Object.keys(data['sheets']);
+                        this.result = data['sheets'][sheetKey[0]];
+                        if (this.result && this.result.length > 0) {
+                            this.ordersInfo = this.result;
+                            this.showLoader = false;
+                            this.submitDisabled = false;
+                        } else {
+                            this.blankFileError = true;
+                            this.showLoader = false;
+                        }
                     }
-                }
-            });
+                });
         } else {
             this.ordersInfo = [];
             this.submitDisabled = true;
@@ -64,78 +68,124 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
         this.showLoader = true;
         if (this.ordersInfo && this.ordersInfo.length > 0) {
             switch (this.request) {
-                case "fresh":
-                    this.ordersService.sendToProcessed(this.ordersInfo).
-                        then((success) => {
+                case 'fresh':
+                    this.ordersService
+                        .sendToProcessed(this.ordersInfo)
+                        .then(success => {
                             if (success.Data.length === 0) {
-                                this.toastr.success('Status changed successfully.', 'Success!');
+                                this.toastr.success(
+                                    'Status changed successfully.',
+                                    'Success!'
+                                );
                                 this.showLoader = false;
                                 this.errorData = success.Data;
                                 this.closeModal(true);
                             } else if (success.Data.length > 0) {
                                 this.showLoader = false;
                                 this.errorData = success.Data;
-                                this.toastr.error('Oops! Could not change status.', 'Error!');
+                                this.toastr.error(
+                                    'Oops! Could not change status.',
+                                    'Error!'
+                                );
                             }
-                        }).catch((error) => {
-                            this.toastr.error('Oops! Could not change status.', 'Error!');
+                        })
+                        .catch(error => {
+                            this.toastr.error(
+                                'Oops! Could not change status.',
+                                'Error!'
+                            );
                             this.showLoader = false;
                         });
                     break;
 
-                case "processed":
-                    this.ordersService.sendToDispatched(this.ordersInfo).
-                        then((success) => {
+                case 'processed':
+                    this.ordersService
+                        .sendToDispatched(this.ordersInfo)
+                        .then(success => {
+                            console.log('success ', success);
                             if (success.Data.length === 0) {
-                                this.toastr.success('Status changed successfully.', 'Success!');
+                                this.toastr.success(
+                                    'Status changed successfully.',
+                                    'Success!'
+                                );
                                 this.showLoader = false;
                                 this.errorData = success.Data;
                                 this.closeModal(true);
                             } else if (success.Data.length > 0) {
                                 this.showLoader = false;
                                 this.errorData = success.Data;
-                                this.toastr.error('Oops! Could not change status.', 'Error!');
+                                this.toastr.error(
+                                    'Oops! Could not change status.',
+                                    'Error!'
+                                );
                             }
-                        }).catch((error) => {
-                            this.toastr.error('Oops! Could not change status.', 'Error!');
+                        })
+                        .catch(error => {
+                            console.log('error ', error);
+                            this.toastr.error(
+                                'Oops! Could not change status.',
+                                'Error!'
+                            );
                             this.showLoader = false;
                         });
                     break;
 
-                case "shipped":
-                    this.ordersService.sendToDelivered(this.ordersInfo).
-                        then((success) => {
+                case 'shipped':
+                    this.ordersService
+                        .sendToDelivered(this.ordersInfo)
+                        .then(success => {
                             if (success.Data.length === 0) {
-                                this.toastr.success('Status changed successfully.', 'Success!');
+                                this.toastr.success(
+                                    'Status changed successfully.',
+                                    'Success!'
+                                );
                                 this.showLoader = false;
                                 this.errorData = success.Data;
                                 this.closeModal(true);
                             } else if (success.Data.length > 0) {
                                 this.showLoader = false;
                                 this.errorData = success.Data;
-                                this.toastr.error('Oops! Could not change status.', 'Error!');
+                                this.toastr.error(
+                                    'Oops! Could not change status.',
+                                    'Error!'
+                                );
                             }
-                        }).catch((error) => {
-                            this.toastr.error('Oops! Could not change status.', 'Error!');
+                        })
+                        .catch(error => {
+                            this.toastr.error(
+                                'Oops! Could not change status.',
+                                'Error!'
+                            );
                             this.showLoader = false;
                         });
                     break;
 
-                case "cancel":
-                    this.ordersService.cancelOrder(this.ordersInfo).
-                        then((success) => {
+                case 'cancel':
+                    this.ordersService
+                        .cancelOrder(this.ordersInfo)
+                        .then(success => {
                             if (success.Data.length === 0) {
-                                this.toastr.success('Status changed successfully.', 'Success!');
+                                this.toastr.success(
+                                    'Status changed successfully.',
+                                    'Success!'
+                                );
                                 this.showLoader = false;
                                 this.errorData = success.Data;
                                 this.closeModal(true);
                             } else if (success.Data.length > 0) {
                                 this.showLoader = false;
                                 this.errorData = success.Data;
-                                this.toastr.error('Oops! Could not change status.', 'Error!');
+                                this.toastr.error(
+                                    'Oops! Could not change status.',
+                                    'Error!'
+                                );
                             }
-                        }).catch((error) => {
-                            this.toastr.error('Oops! Could not change status.', 'Error!');
+                        })
+                        .catch(error => {
+                            this.toastr.error(
+                                'Oops! Could not change status.',
+                                'Error!'
+                            );
                             this.showLoader = false;
                         });
                     break;
@@ -143,17 +193,18 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
                     // code...
                     break;
             }
-
         }
     }
 
     downloadFile() {
-        this.jsonToExcelService.exportAsExcelFile(this.errorData, this.request + 'errors_products');
+        this.jsonToExcelService.exportAsExcelFile(
+            this.errorData,
+            this.request + 'errors_products'
+        );
         this.closeModal(true);
     }
 
     closeModal(status) {
         this.activeModal.close(status);
     }
-
 }

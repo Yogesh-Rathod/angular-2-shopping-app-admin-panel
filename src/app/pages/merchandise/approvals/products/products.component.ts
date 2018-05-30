@@ -33,8 +33,8 @@ export class ProductsComponent implements OnInit {
     showRecords: any = 25;
     searchProductForm: FormGroup;
     bigLoader = true;
-    searchLoader = false;
     approveLoader = false;
+    searchLoader = false;
     products: any;
     categories: any;
     status = [
@@ -45,6 +45,14 @@ export class ProductsComponent implements OnInit {
         {
             id: 'Pending',
             itemName: 'Pending for Approval'
+        },
+        {
+            id: 'Approved',
+            itemName: 'Approved'
+        },
+        {
+            id: 'Rejected',
+            itemName: 'Rejected'
         }
     ];
     vendors: any;
@@ -53,10 +61,23 @@ export class ProductsComponent implements OnInit {
     atLeastOnePresent = false;
     vendorId: any;
     vendorInfo: any;
-    dropDownAction = ['Approve', 'Reject'];
     noActionSelected = false;
-    disableSubmitButton = false;
     userRole: any;
+    disableSubmitButton = false;
+    selectAllCheckboxMessage = {
+        message: false,
+        clearSelection: false
+    };
+    errorMessage = {
+        message: '',
+        status: false
+    };
+    isCheckedArray: any;
+    checkAllCheckboxChange = false;
+    rejectionComments = {
+        display: false,
+        value: ''
+    };
 
     constructor(
         private cookieService: CookieService,
@@ -78,6 +99,7 @@ export class ProductsComponent implements OnInit {
             userRoles.indexOf('Admin') > -1
         ) {
             this.userRole = 'Admin';
+            this.status.splice(2);
         } else {
             this.userRole = 'Operations';
         }
@@ -88,8 +110,15 @@ export class ProductsComponent implements OnInit {
             $('[data-toggle="tooltip"]').tooltip();
         });
         this.searchForm();
+        this.getAllCategories();
         this.getAllProducts();
         this.getAllVendors();
+        if (this.vendorId) {
+            this.searchProductForm.controls['e.sellerId'].setValue(
+                this.vendorId
+            );
+            this.searchProduct(this.searchProductForm.value);
+        }
     }
 
     searchForm() {
@@ -97,9 +126,35 @@ export class ProductsComponent implements OnInit {
             'e.name': [''],
             'e.sKU': [''],
             'e.parentProductCode': [''],
+            'e.categoryId': [''],
             'e.status': [''],
             'e.sellerId': ['']
         });
+    }
+
+    getAllCategories() {
+        this.merchandiseService
+            .getCategories()
+            .then(categories => {
+                this.categories = categories.Data;
+            })
+            .catch(error => { });
+    }
+
+    getAllProducts() {
+        this.bigLoader = true;
+        this.errorMessage.status = false;
+        this.productsService
+            .getOpsProducts(this.userRole, null, 1, this.showRecords)
+            .then(products => {
+                this.products = products.Data ? products.Data.Products : [];
+                this.totalRecords = products.Data.TotalRecords;
+                this.bigLoader = false;
+            })
+            .catch(error => {
+                this.bigLoader = false;
+                this.toastr.error('Could not get products', 'Error');
+            });
     }
 
     getAllVendors() {
@@ -108,52 +163,44 @@ export class ProductsComponent implements OnInit {
             .then(vendors => {
                 this.vendors = vendors.Data;
             })
-            .catch(error => {});
+            .catch(error => { });
     }
 
-    getAllProducts() {
-        this.bigLoader = true;
-        this.productsService
-            .getOpsProducts(this.userRole, null, 1, this.showRecords)
-            .then(products => {
-                this.products = products.Data ? products.Data.Products : [];
-                this.totalRecords = products.Data.TotalRecords;
-                this.bigLoader = false;
-                if (products.Code === 500) {
-                    this.toastr.error('Could not get products.', 'Error');
-                }
-            })
-            .catch(error => {
-                this.bigLoader = false;
-                this.toastr.error('Could not get products.', 'Error');
-            });
+    showEntries(value, searchProductForm) {
+        this.showRecords = value;
+        if (this.atLeastOneFieldRequires(searchProductForm, true)) {
+            this.searchProduct(searchProductForm);
+        } else {
+            this.getAllProducts();
+        }
     }
 
-    removeBlankFieldsFromForm(FormObject) {
-        for (let key in FormObject) {
-            if (FormObject.hasOwnProperty(key)) {
-                let value = FormObject[key];
-                if (!value || value.length === 0) {
-                    delete FormObject[key];
-                }
-                if (typeof FormObject[key] === 'string') {
-                    FormObject[key] = FormObject[key].trim();
+    atLeastOneFieldRequires(formObject, fromShowEntries = false) {
+        if (formObject) {
+            for (var key in formObject) {
+                if (formObject.hasOwnProperty(key)) {
+                    if (formObject[key]) {
+                        if (!fromShowEntries) {
+                            this.atLeastOnePresent = false;
+                        }
+                        return true;
+                    } else {
+                        if (!fromShowEntries) {
+                            this.atLeastOnePresent = true;
+                        }
+                    }
                 }
             }
         }
-        FormObject = JSON.stringify(FormObject);
-        FormObject = FormObject.replace(/{|}|[\[\]]|/g, '')
-            .replace(/":"/g, '=')
-            .replace(/","/g, '&')
-            .replace(/"/g, '');
-        return FormObject;
     }
 
     searchProduct(searchProductForm) {
         this.p = 1;
         this.atLeastOneFieldRequires(searchProductForm);
+        this.errorMessage.status = false;
         if (!this.atLeastOnePresent) {
             this.products = [];
+            this.searchLoader = true;
             this.bigLoader = true;
             searchProductForm = this.removeBlankFieldsFromForm(
                 searchProductForm
@@ -170,6 +217,7 @@ export class ProductsComponent implements OnInit {
                     this.products = products.Data ? products.Data.Products : [];
                     this.totalRecords = products.Data.TotalRecords;
                     this.bigLoader = false;
+                    this.searchLoader = false;
                 })
                 .catch(error => {
                     this.bigLoader = false;
@@ -195,7 +243,7 @@ export class ProductsComponent implements OnInit {
                 this.showRecords
             )
             .then(products => {
-                this.products = products.Data ? products.Data.Products : [];
+                this.products = products.Data.Products;
                 this.totalRecords = products.Data.TotalRecords;
                 this.bigLoader = false;
             })
@@ -204,155 +252,10 @@ export class ProductsComponent implements OnInit {
             });
     }
 
-    atLeastOneFieldRequires(someObject) {
-        if (someObject) {
-            for (var key in someObject) {
-                if (someObject.hasOwnProperty(key)) {
-                    if (someObject[key]) {
-                        this.atLeastOnePresent = false;
-                        return;
-                    } else {
-                        this.atLeastOnePresent = true;
-                    }
-                }
-            }
-        }
-    }
-
-    selectAll(e) {
-        if (e.target.checked) {
-            this.selectAllCheckbox = true;
-            _.forEach(this.products, item => {
-                item.isChecked = true;
-            });
-            this.showSelectedAction = true;
-        } else {
-            this.noActionSelected = false;
-            this.selectAllCheckbox = false;
-            _.forEach(this.products, item => {
-                item.isChecked = false;
-            });
-            this.showSelectedAction = false;
-        }
-    }
-
-    checkBoxSelected(e, item) {
-        this.selectAllCheckbox = false;
-        if (e.target.checked) {
-            item.isChecked = true;
-        } else {
-            this.noActionSelected = false;
-            item.isChecked = false;
-        }
-
-        let isCheckedArray = [];
-
-        _.forEach(this.products, item => {
-            if (item.isChecked) {
-                this.showSelectedAction = true;
-                isCheckedArray.push(item);
-            }
-        });
-
-        if (isCheckedArray.length === 0) {
-            this.showSelectedAction = false;
-        }
-    }
-
-    actionDropDownSelected(dropDownActionSelect) {
-        if (dropDownActionSelect) {
-            this.disableSubmitButton = true;
-        } else {
-            this.disableSubmitButton = false;
-        }
-    }
-
-    dropDownActionFunction(dropDownActionValue) {
-        if (!dropDownActionValue) {
-            this.noActionSelected = true;
-        } else {
-            this.noActionSelected = false;
-            switch (dropDownActionValue) {
-                case 'Approve':
-                    this.approveAll();
-                    break;
-                case 'Reject':
-                    this.rejectAll();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    rejectAll() {
-        this.approveLoader = true;
-        let productsToReject = [];
-        if (this.selectAllCheckbox) {
-            _.forEach(this.products, item => {
-                productsToReject.push(item.Id);
-                item.isChecked = false;
-            });
-        } else {
-            _.forEach(this.products, item => {
-                if (item.isChecked) {
-                    productsToReject.push(item.Id);
-                    item.isChecked = false;
-                }
-            });
-        }
-        this.productsService
-            .rejectProducts(productsToReject, this.userRole)
-            .then(success => {
-                if (success.Code === 200) {
-                    this.getAllProducts();
-                }
-                this.approveLoader = false;
-            })
-            .catch(error => {
-                this.approveLoader = false;
-            });
-        this.selectAllCheckbox = false;
-        this.showSelectedAction = false;
-    }
-
-    approveAll() {
-        this.approveLoader = true;
-        let productsToApprove = [];
-        if (this.selectAllCheckbox) {
-            productsToApprove = [];
-            _.forEach(this.products, item => {
-                productsToApprove.push(item.Id);
-                item.isChecked = false;
-            });
-        } else {
-            productsToApprove = [];
-            _.forEach(this.products, item => {
-                if (item.isChecked) {
-                    productsToApprove.push(item.Id);
-                    item.isChecked = false;
-                }
-            });
-        }
-        this.productsService
-            .approveProducts(productsToApprove, this.userRole)
-            .then(success => {
-                if (success.Code === 200) {
-                    this.getAllProducts();
-                }
-                this.approveLoader = false;
-            })
-            .catch(error => {
-                this.approveLoader = false;
-            });
-        this.selectAllCheckbox = false;
-        this.showSelectedAction = false;
-    }
-
     exportAllProducts(searchProductForm) {
         this.searchLoader = true;
-        // this.errorMessage.status = false;
-        if (this.atLeastOneFieldRequires(searchProductForm)) {
+        this.errorMessage.status = false;
+        if (this.atLeastOneFieldRequires(searchProductForm, true)) {
             searchProductForm = this.removeBlankFieldsFromForm(
                 searchProductForm
             );
@@ -372,9 +275,9 @@ export class ProductsComponent implements OnInit {
                             `${this.userRole}_products`
                         );
                     } else {
-                        // this.errorMessage.message =
-                        'There are no products to export.';
-                        // this.errorMessage.status = true;
+                        this.errorMessage.message =
+                            'There are no products to export.';
+                        this.errorMessage.status = true;
                     }
                     this.searchLoader = false;
                 })
@@ -392,9 +295,9 @@ export class ProductsComponent implements OnInit {
                             `${this.userRole}_products`
                         );
                     } else {
-                        // this.errorMessage.message =
-                        'There are no products to export.';
-                        // this.errorMessage.status = true;
+                        this.errorMessage.message =
+                            'There are no products to export.';
+                        this.errorMessage.status = true;
                     }
                     this.searchLoader = false;
                 })
@@ -408,6 +311,23 @@ export class ProductsComponent implements OnInit {
         }
     }
 
+    exportProducts() {
+        let products = [];
+        if (this.selectAllCheckbox) {
+            products = this.products;
+        } else {
+            _.forEach(this.products, item => {
+                if (item.isChecked) {
+                    products.push(item);
+                }
+            });
+        }
+        this.jsonToExcelService.exportAsExcelFile(
+            products,
+            `${this.userRole}_products`
+        );
+    }
+
     bulkUpload(isApprove) {
         const activeModal = this.modalService.open(
             ProductsBulkUploadComponent,
@@ -419,10 +339,346 @@ export class ProductsComponent implements OnInit {
         activeModal.result
             .then(status => {
                 if (status) {
-                    this.getAllProducts();
+                    this.resetForm();
                 }
             })
-            .catch(status => {});
+            .catch(status => { });
+    }
+
+    checkAllProductsCheckboxChange(e) {
+        if (e.target.checked) {
+            this.showSelectedAction = true;
+            if (!this.selectAllCheckbox) {
+                const element = document.getElementById(
+                    'selectAllCheckbox'
+                ) as HTMLElement;
+                element.click();
+            }
+        } else {
+            if (this.selectAllCheckbox) {
+                const element = document.getElementById(
+                    'selectAllCheckbox'
+                ) as HTMLElement;
+                element.click();
+            }
+            this.isCheckedArray = [];
+            _.forEach(this.products, item => {
+                if (item.isChecked) {
+                    this.isCheckedArray.push(item);
+                }
+            });
+            if (
+                this.isCheckedArray.length === 0 &&
+                !this.checkAllCheckboxChange
+            ) {
+                this.showSelectedAction = false;
+            } else {
+                this.showSelectedAction = true;
+            }
+        }
+    }
+
+    selectAll(e) {
+        if (e.target.checked) {
+            this.selectAllCheckboxMessage.message = true;
+            this.selectAllCheckbox = true;
+            _.forEach(this.products, item => {
+                item.isChecked = true;
+            });
+            this.showSelectedAction = true;
+        } else {
+            this.selectAllCheckboxMessage.message = false;
+            this.noActionSelected = false;
+            this.selectAllCheckbox = false;
+            _.forEach(this.products, item => {
+                item.isChecked = false;
+            });
+            if (!this.checkAllCheckboxChange) {
+                this.showSelectedAction = false;
+            }
+        }
+    }
+
+    checkBoxSelected(e, item) {
+        this.selectAllCheckbox = false;
+        if (e.target.checked) {
+            item.isChecked = true;
+        } else {
+            this.noActionSelected = false;
+            item.isChecked = false;
+        }
+
+        this.isCheckedArray = [];
+
+        _.forEach(this.products, item => {
+            if (item.isChecked) {
+                this.showSelectedAction = true;
+                this.isCheckedArray.push(item);
+            }
+        });
+
+        if (this.isCheckedArray.length === 0 && !this.checkAllCheckboxChange) {
+            this.showSelectedAction = false;
+        } else {
+            this.showSelectedAction = true;
+        }
+    }
+
+    actionDropDownSelected(dropDownActionSelect) {
+        if (dropDownActionSelect) {
+            this.disableSubmitButton = true;
+        } else {
+            this.disableSubmitButton = false;
+        }
+        if (dropDownActionSelect === 'Reject') {
+            this.rejectionComments.display = true;
+        } else {
+            this.rejectionComments.display = false;
+        }
+    }
+
+    dropDownActionFunction(dropDownActionValue) {
+        if (!dropDownActionValue) {
+            this.noActionSelected = true;
+        } else {
+            this.noActionSelected = false;
+            switch (dropDownActionValue) {
+                case 'Approve':
+                    this.rejectionComments.value = '';
+                    this.approveAll(true);
+                    break;
+                case 'Reject':
+                    if (this.rejectionComments.value) {
+                        this.errorMessage.status = false;
+                        this.errorMessage.message = '';
+                        this.approveAll(false);
+                    } else {
+                        this.errorMessage.status = true;
+                        this.errorMessage.message =
+                            'Comment is Mandatory for Rejection.';
+                    }
+                    break;
+                case 'Send for approval':
+                    this.sendForApproval();
+                    break;
+                case 'Mark out of stock':
+                    this.toggleOutOfStock(1);
+                    break;
+                case 'Mark in stock':
+                    this.toggleOutOfStock(0);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    toggleOutOfStock(status) {
+        this.approveLoader = true;
+        let productsToChange = [];
+        this.errorMessage.status = false;
+        let searchProductForm: any = {};
+        if (this.checkAllCheckboxChange) {
+            searchProductForm = this.searchProductForm.value;
+            searchProductForm['e.isCheckAll'] = 'true';
+            searchProductForm = this.removeBlankFieldsFromForm(
+                searchProductForm
+            );
+        }
+        _.forEach(this.products, item => {
+            if (item.isChecked) {
+                if (item.Status === 'Approved' || item.Status === 'APPROVED') {
+                    productsToChange.push(item.Id);
+                } else {
+                    this.errorMessage.status = true;
+                    this.errorMessage.message =
+                        'In order to mark out of stock product status should be Approved.';
+                    this.approveLoader = false;
+                    $('[data-toggle="tooltip"]').tooltip('hide');
+                    return;
+                }
+            }
+        });
+        if (!this.errorMessage.status) {
+            const productsForStockChange = {
+                Ids: productsToChange
+            };
+            this.productsService
+                .toggleProductsOutofStock(
+                    productsForStockChange,
+                    status,
+                    searchProductForm
+                )
+                .then(res => {
+                    if (res.Code === 200) {
+                        this.getAllProducts();
+                        switch (status) {
+                            case 0:
+                                this.toastr.success(
+                                    'Successfully marked in stock.',
+                                    'Success'
+                                );
+                                break;
+                            case 1:
+                                this.toastr.success(
+                                    'Successfully marked out of stock.',
+                                    'Success'
+                                );
+                                break;
+                            default:
+                                break;
+                        }
+                    } else if (res.Code === 500) {
+                        switch (status) {
+                            case 0:
+                                this.toastr.error(
+                                    'Could not mark in stock.',
+                                    'Error'
+                                );
+                                break;
+                            case 1:
+                                this.toastr.error(
+                                    'Could not mark out of stock.',
+                                    'Error'
+                                );
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    this.selectAllCheckbox = false;
+                    this.showSelectedAction = true;
+                    this.approveLoader = false;
+                    this.checkAllCheckboxChange = false;
+                })
+                .catch(err => {
+                    this.selectAllCheckbox = false;
+                    this.showSelectedAction = true;
+                    this.checkAllCheckboxChange = false;
+                    this.approveLoader = false;
+                    switch (status) {
+                        case 0:
+                            this.toastr.error(
+                                'Could not mark in stock.',
+                                'Error'
+                            );
+                            break;
+                        case 1:
+                            this.toastr.error(
+                                'Could not mark out of stock.',
+                                'Error'
+                            );
+                            break;
+                        default:
+                            break;
+                    }
+                });
+        }
+    }
+
+    sendForApproval() {
+        // this.productsService.confirmOperationProduct({}}, this.userRole).then(res => {
+        //     this.toastr.success('Sucessfully Done!', 'Sucess!');
+        // }).catch(err => { })
+    }
+
+    removeBlankFieldsFromForm(FormObject) {
+        for (let key in FormObject) {
+            if (FormObject.hasOwnProperty(key)) {
+                let value = FormObject[key];
+                if (!value || value.length === 0) {
+                    delete FormObject[key];
+                }
+                if (typeof FormObject[key] === 'string') {
+                    FormObject[key] = FormObject[key].trim();
+                }
+            }
+        }
+        FormObject = JSON.stringify(FormObject);
+        FormObject = FormObject.replace(/{|}|[\[\]]|/g, '')
+            .replace(/":"/g, '=')
+            .replace(/","/g, '&')
+            .replace(/"/g, '');
+        return FormObject;
+    }
+
+    approveAll(approvalStatus) {
+        this.approveLoader = true;
+        this.errorMessage.status = false;
+        let productsToApprove = [];
+        let searchProductForm: any = {};
+        if (this.checkAllCheckboxChange) {
+            searchProductForm = this.searchProductForm.value;
+            searchProductForm['e.isCheckAll'] = 'true';
+            searchProductForm = this.removeBlankFieldsFromForm(
+                searchProductForm
+            );
+        }
+
+        if (this.selectAllCheckbox) {
+            productsToApprove = [];
+            _.forEach(this.products, item => {
+                if (item.Status === 'Pending') {
+                    item.IsApproved = approvalStatus;
+                    item.Comments = this.rejectionComments.value;
+                    productsToApprove.push(item);
+                    item.isChecked = false;
+                } else {
+                    this.errorMessage.status = true;
+                    this.errorMessage.message =
+                        'In order to approve status should be Pending for approval.';
+                    this.approveLoader = false;
+                    return;
+                }
+            });
+        } else {
+            productsToApprove = [];
+            _.forEach(this.products, item => {
+                if (item.isChecked) {
+                    if (item.Status === 'Pending') {
+                        item.IsApproved = approvalStatus;
+                        item.Comments = this.rejectionComments.value;
+                        productsToApprove.push(item);
+                    } else {
+                        console.log('else ');
+                        this.errorMessage.status = true;
+                        this.errorMessage.message =
+                            'In order to approve status should be Pending for Approval.';
+                        this.approveLoader = false;
+                        return;
+                    }
+                }
+            });
+        }
+        if (!this.errorMessage.status) {
+            this.productsService
+                .approveProducts(
+                    productsToApprove,
+                    this.userRole,
+                    searchProductForm
+                )
+                .then(success => {
+                    if (success.Code === 200) {
+                        this.toastr.success(
+                            'Products Sucessfully Approved!',
+                            'Success!'
+                        );
+                        this.resetForm();
+                    } else if (success.Code === 500) {
+                        this.toastr.error('Approval Failed!', 'Error!');
+                    }
+                    this.approveLoader = false;
+                    // this.rejectionComments.display = false;
+                })
+                .catch(error => {
+                    // this.rejectionComments.display = false;
+                    this.toastr.error('Approval Failed!', 'Error!');
+                    this.approveLoader = false;
+                });
+            this.selectAllCheckbox = false;
+            this.showSelectedAction = false;
+            this.checkAllCheckboxChange = false;
+        }
     }
 
     resetForm() {

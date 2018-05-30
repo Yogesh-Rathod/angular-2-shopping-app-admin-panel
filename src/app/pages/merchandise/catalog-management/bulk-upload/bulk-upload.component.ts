@@ -74,7 +74,7 @@ export class CatalogBulkUploadComponent implements OnInit {
     download() {
         this.jsonToExcelService.exportAsExcelFile(
             this.downloadIssue,
-            'products'
+            'errors_products'
         );
     }
 

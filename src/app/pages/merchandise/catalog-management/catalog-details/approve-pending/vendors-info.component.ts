@@ -119,13 +119,13 @@ export class VendorsInfoComponent implements OnInit {
         if (this.isCheckedArray.length > 0) {
             this.jsonToExcelService.exportAsExcelFile(
                 this.isCheckedArray,
-                'products'
+                'approval_catalog_products'
             );
             return;
         } else {
             this.jsonToExcelService.exportAsExcelFile(
                 this.allMapProductsApprove,
-                'products'
+                'approval_catalog_products'
             );
             return;
         }

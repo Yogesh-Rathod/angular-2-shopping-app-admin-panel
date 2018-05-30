@@ -148,7 +148,7 @@ export class SellerOrdersAdminBulkUploadComponent implements OnInit {
     }
 
     downloadFile() {
-        this.jsonToExcelService.exportAsExcelFile(this.errorData, this.request + '_products');
+        this.jsonToExcelService.exportAsExcelFile(this.errorData, this.request + 'errors_products');
         this.closeModal(true);
     }
 

@@ -271,7 +271,7 @@ export class ProductsComponent implements OnInit {
                     if (products.length > 0) {
                         this.jsonToExcelService.exportAsExcelFile(
                             products,
-                            'products'
+                            `${this.userRole}_products`
                         );
                     } else {
                         this.errorMessage.message =
@@ -291,7 +291,7 @@ export class ProductsComponent implements OnInit {
                     if (products.length > 0) {
                         this.jsonToExcelService.exportAsExcelFile(
                             products,
-                            'products'
+                            `${this.userRole}_products`
                         );
                     } else {
                         this.errorMessage.message =
@@ -321,7 +321,10 @@ export class ProductsComponent implements OnInit {
                 }
             });
         }
-        this.jsonToExcelService.exportAsExcelFile(products, 'products');
+        this.jsonToExcelService.exportAsExcelFile(
+            products,
+            `${this.userRole}_products`
+        );
     }
 
     bulkUpload(isApprove) {

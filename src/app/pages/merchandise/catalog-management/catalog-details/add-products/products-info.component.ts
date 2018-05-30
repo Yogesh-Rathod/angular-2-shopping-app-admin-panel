@@ -240,12 +240,12 @@ export class ProductsInfoComponent implements OnInit {
         if (this.selectAllCheckbox) {
             this.jsonToExcelService.exportAsExcelFile(
                 this.allProducts,
-                'products'
+                'products_master'
             );
         } else if (this.isCheckedArray.length > 0) {
             this.jsonToExcelService.exportAsExcelFile(
                 this.isCheckedArray,
-                'products'
+                'products_master'
             );
         } else {
             this.searchLoader = true;
@@ -261,7 +261,7 @@ export class ProductsInfoComponent implements OnInit {
                             : [];
                         this.jsonToExcelService.exportAsExcelFile(
                             this.allProducts,
-                            'products'
+                            'products_master'
                         );
                     }
                     this.searchLoader = false;

@@ -667,10 +667,10 @@ export class ProductsComponent implements OnInit {
                         this.toastr.error('Approval Failed!', 'Error!');
                     }
                     this.approveLoader = false;
-                    this.rejectionComments.display = false;
+                    // this.rejectionComments.display = false;
                 })
                 .catch(error => {
-                    this.rejectionComments.display = false;
+                    // this.rejectionComments.display = false;
                     this.toastr.error('Approval Failed!', 'Error!');
                     this.approveLoader = false;
                 });

@@ -151,20 +151,20 @@
                 </button>
                 <img *ngIf="approveLoader" class="pull-right" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
 
-                <div class="pull-right col-4 dropDownAction no_padding" [class.disabled]="!showSelectedAction">
+                <div class="pull-right col-5 dropDownAction no_padding" [class.disabled]="!showSelectedAction">
                     <form class="form-inline">
                         <div class="form-group row no_margin col-12 no_padding">
                             <label for="action">
                                 Action
                                 <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Select action to perform."></i>
                             </label>
-                            <select id="action" class="form-control col-6" #dropDownActionSelect (change)="actionDropDownSelected(dropDownActionSelect.value)">
+                            <select id="action" class="form-control col-4" #dropDownActionSelect (change)="actionDropDownSelected(dropDownActionSelect.value)">
                                 <option value="">Select Action</option>
                                 <option value="Approve">Approve</option>
                                 <option value="Reject">Reject</option>
-                                <!-- <option *ngIf="userRole!='Admin'" value="Mark out of stock">Mark out of stock</option>
-                                <option *ngIf="userRole!='Admin'" value="Mark in stock">Mark in stock</option> -->
                             </select>
+                            <input *ngIf="rejectionComments.display" [(ngModel)]="rejectionComments.value" type="text" placeholder="Comment" class="form-control col-3 reject-comments"
+                                name="rejectionComments">
                             <button class="btn btn-success" type="button" [disabled]="!disableSubmitButton" (click)="dropDownActionFunction(dropDownActionSelect.value)">
                                 Submit
                             </button>

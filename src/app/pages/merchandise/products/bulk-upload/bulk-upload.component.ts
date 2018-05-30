@@ -26,6 +26,7 @@ export class ProductsBulkUploadComponent implements OnInit {
     validationError: any;
     userRole: any;
     isApprove: any;
+    excelName = 'OperationsProductsUpload.xlsx';
 
     constructor(
         private toastr: ToastsManager,
@@ -35,7 +36,11 @@ export class ProductsBulkUploadComponent implements OnInit {
         private jsonToExcelService: JsonToExcelService
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        if (this.isApprove) {
+            this.excelName = 'ProductsApprove.xlsx';
+        }
+    }
 
     handleFile(event) {
         let file = event.target.files[0];
@@ -161,29 +166,29 @@ export class ProductsBulkUploadComponent implements OnInit {
                             this.showLoader = false;
                         });
                     break;
-                case 'reject':
-                    this.productsService
-                        .rejectProducts(this.productsInfo, this.userRole, '')
-                        .then(success => {
-                            if (success.Code === 200) {
-                                this.toastr.success(
-                                    'Products Sucessfully Rejected.',
-                                    'Sucess!'
-                                );
-                                this.closeModal(true);
-                            }
-                            if (!success.Success) {
-                                this.toastr.error(
-                                    'Oops! Could not reject products.',
-                                    'Error!'
-                                );
-                            }
-                            this.showLoader = false;
-                        })
-                        .catch(error => {
-                            this.showLoader = false;
-                        });
-                    break;
+                // case 'reject':
+                //     this.productsService
+                //         .rejectProducts(this.productsInfo, this.userRole, '')
+                //         .then(success => {
+                //             if (success.Code === 200) {
+                //                 this.toastr.success(
+                //                     'Products Sucessfully Rejected.',
+                //                     'Sucess!'
+                //                 );
+                //                 this.closeModal(true);
+                //             }
+                //             if (!success.Success) {
+                //                 this.toastr.error(
+                //                     'Oops! Could not reject products.',
+                //                     'Error!'
+                //                 );
+                //             }
+                //             this.showLoader = false;
+                //         })
+                //         .catch(error => {
+                //             this.showLoader = false;
+                //         });
+                //     break;
                 default:
                     break;
             }

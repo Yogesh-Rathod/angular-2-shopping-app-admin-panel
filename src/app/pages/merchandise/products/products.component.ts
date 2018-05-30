@@ -73,6 +73,10 @@ export class ProductsComponent implements OnInit {
     };
     isCheckedArray: any;
     checkAllCheckboxChange = false;
+    rejectionComments = {
+        display: false,
+        value: ''
+    };
 
     constructor(
         private cookieService: CookieService,
@@ -422,6 +426,11 @@ export class ProductsComponent implements OnInit {
         } else {
             this.disableSubmitButton = false;
         }
+        if (dropDownActionSelect === 'Reject') {
+            this.rejectionComments.display = true;
+        } else {
+            this.rejectionComments.display = false;
+        }
     }
 
     dropDownActionFunction(dropDownActionValue) {
@@ -431,10 +440,19 @@ export class ProductsComponent implements OnInit {
             this.noActionSelected = false;
             switch (dropDownActionValue) {
                 case 'Approve':
-                    this.approveAll();
+                    this.rejectionComments.value = '';
+                    this.approveAll(true);
                     break;
                 case 'Reject':
-                    this.rejectAll();
+                    if (this.rejectionComments.value) {
+                        this.errorMessage.status = false;
+                        this.errorMessage.message = '';
+                        this.approveAll(false);
+                    } else {
+                        this.errorMessage.status = true;
+                        this.errorMessage.message =
+                            'Comment is Mandatory for Rejection.';
+                    }
                     break;
                 case 'Send for approval':
                     this.sendForApproval();
@@ -580,75 +598,7 @@ export class ProductsComponent implements OnInit {
         return FormObject;
     }
 
-    rejectAll() {
-        this.approveLoader = true;
-        let productsToReject = [];
-        let searchProductForm: any = {};
-        if (this.checkAllCheckboxChange) {
-            searchProductForm = this.searchProductForm.value;
-            searchProductForm['e.isCheckAll'] = 'true';
-            searchProductForm = this.removeBlankFieldsFromForm(
-                searchProductForm
-            );
-        }
-
-        if (this.selectAllCheckbox) {
-            _.forEach(this.products, item => {
-                if (item.Status === 'Pending') {
-                    productsToReject.push(item);
-                    item.isChecked = false;
-                } else {
-                    this.errorMessage.status = true;
-                    this.errorMessage.message =
-                        'In order to reject status should be Pending for approval.';
-                    this.approveLoader = false;
-                    return;
-                }
-            });
-        } else {
-            _.forEach(this.products, item => {
-                if (item.isChecked) {
-                    if (item.isChecked) {
-                        if (item.Status === 'Pending') {
-                            productsToReject.push(item);
-                        } else {
-                            this.errorMessage.status = true;
-                            this.errorMessage.message =
-                                'In order to reject status should be Pending for approval.';
-                            this.approveLoader = false;
-                            return;
-                        }
-                    }
-                }
-            });
-        }
-        if (!this.errorMessage.status) {
-            this.productsService
-                .rejectProducts(
-                    productsToReject,
-                    this.userRole,
-                    searchProductForm
-                )
-                .then(success => {
-                    if (success.Code === 200) {
-                        this.toastr.success(
-                            'Products Sucessfully Rejected.',
-                            'Sucess!'
-                        );
-                        this.resetForm();
-                    }
-                    this.approveLoader = false;
-                })
-                .catch(error => {
-                    this.approveLoader = false;
-                });
-            this.selectAllCheckbox = false;
-            this.showSelectedAction = false;
-            this.checkAllCheckboxChange = false;
-        }
-    }
-
-    approveAll() {
+    approveAll(approvalStatus) {
         this.approveLoader = true;
         this.errorMessage.status = false;
         let productsToApprove = [];
@@ -665,7 +615,10 @@ export class ProductsComponent implements OnInit {
             productsToApprove = [];
             _.forEach(this.products, item => {
                 if (item.Status === 'Pending') {
+                    item.IsApproved = approvalStatus;
+                    item.Comments = this.rejectionComments.value;
                     productsToApprove.push(item);
+                    item.isChecked = false;
                 } else {
                     this.errorMessage.status = true;
                     this.errorMessage.message =
@@ -679,8 +632,11 @@ export class ProductsComponent implements OnInit {
             _.forEach(this.products, item => {
                 if (item.isChecked) {
                     if (item.Status === 'Pending') {
+                        item.IsApproved = approvalStatus;
+                        item.Comments = this.rejectionComments.value;
                         productsToApprove.push(item);
                     } else {
+                        console.log('else ');
                         this.errorMessage.status = true;
                         this.errorMessage.message =
                             'In order to approve status should be Pending for Approval.';
@@ -704,10 +660,15 @@ export class ProductsComponent implements OnInit {
                             'Success!'
                         );
                         this.resetForm();
+                    } else if (success.Code === 500) {
+                        this.toastr.error('Approval Failed!', 'Error!');
                     }
                     this.approveLoader = false;
+                    this.rejectionComments.display = false;
                 })
                 .catch(error => {
+                    this.rejectionComments.display = false;
+                    this.toastr.error('Approval Failed!', 'Error!');
                     this.approveLoader = false;
                 });
             this.selectAllCheckbox = false;

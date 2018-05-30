@@ -1,93 +1,92 @@
-
 .catSearch {
-	.btn {
-		&.btn-primary {
-			background-color: #0275d8 !important;
-			border-color: #0275d8 !important;
-			margin-top: -6px;
-		}
+    .btn {
+        &.btn-primary {
+            background-color: #0275d8 !important;
+            border-color: #0275d8 !important;
+            margin-top: -6px;
+        }
 
-		& + .btn {
-			margin-right: 10px;
-		}
-	}
+        & + .btn {
+            margin-right: 10px;
+        }
+    }
 }
 
 label {
-	margin-top: 10px;
+    margin-top: 10px;
 
-	.fa[data-toggle="tooltip"] {
-		color: #209e91;
-		margin-left: 5px;
-	}
+    .fa[data-toggle='tooltip'] {
+        color: #209e91;
+        margin-left: 5px;
+    }
 }
 
 button.searchButton {
-	margin-top: 10px;
-	margin-left: 0;
+    margin-top: 10px;
+    margin-left: 0;
 }
 
 .form-group {
+    select {
+        text-transform: capitalize;
+    }
 
-	select {
-		text-transform: capitalize;
-	}
-
-	.btn {
-		& + .btn {
-			margin-left: 15px;
-		}
-	}
+    .btn {
+        & + .btn {
+            margin-left: 15px;
+        }
+    }
 }
 
 .product-image {
-	width: 100px;
+    width: 100px;
 }
 
 .action {
-	width: 90px;
-	min-width: 90px;
-	text-align: center;
+    width: 90px;
+    min-width: 90px;
+    text-align: center;
 }
 
 .deleteSelectedButton.float-right {
-	margin-left: 5px;
+    margin-left: 5px;
 }
 
 .filters {
-	> .card-body:first-child {
-		padding-left: 0;
-		padding-right: 0;
-		padding-top: 10px;
+    > .card-body:first-child {
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 10px;
 
-		> p {
-			margin-bottom: 0;
-		}
-	}
+        > p {
+            margin-bottom: 0;
+        }
+    }
 }
 
-.approved, .APPROVED {
-	background-color: #00a65a;
-	color: #fff;
+.approved,
+.APPROVED {
+    background-color: #00a65a;
+    color: #fff;
 }
 .pending {
-	background-color: #f39c12;
-	color: #fff;
+    background-color: #f39c12;
+    color: #fff;
 }
-.Draft{
-	background-color: #867fe8;
-	color: #fff;
+.Draft {
+    background-color: #867fe8;
+    color: #fff;
 }
 .rejected {
-	background-color: #f00;
-	color: #fff;
+    background-color: #f00;
+    color: #fff;
 }
 .dropDownAction {
-	margin-bottom: 8px;
+    margin-bottom: 8px;
 
-	button {
-		margin-left: 10px;
-	}
+    button {
+        margin-left: 10px;
+    }
 }
 
 .tableLoader .loader-container img {
@@ -96,7 +95,6 @@ button.searchButton {
     top: 50%;
     transform: translate(-50%, -50%);
 }
-
 
 .no-action {
     margin-top: 5px;
@@ -114,4 +112,8 @@ button.searchButton {
     min-height: 150px;
     max-height: 1000px;
     overflow-y: scroll;
+}
+
+.reject-comments {
+    margin-left: 10px;
 }

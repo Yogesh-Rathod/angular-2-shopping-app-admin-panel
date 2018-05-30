@@ -96,9 +96,10 @@ export class ProductsService {
     }
 
     approveProducts(products, role, searchForm?) {
-        const url = `${
+        console.log('searchForm ', searchForm);
+        let url = `${
             environment.merchandiseUrl
-        }Merchandise/${role}/Products/Approve?e.pageIndex=&${searchForm}`;
+        }Merchandise/${role}/Products/ApproveReject?e.pageIndex=`;
         this.headers.set(
             'Authorization',
             this.commonAppSer.crateAuthorization()
@@ -107,6 +108,9 @@ export class ProductsService {
             'LRSignAuth',
             this.commonAppSer.createHMACSignature('POST', url, products)
         );
+        if (!_.isEmpty(searchForm)) {
+            url = `${url}&${searchForm}`;
+        }
         return this.http
             .post(url, JSON.stringify(products), this.options)
             .toPromise()
@@ -115,9 +119,9 @@ export class ProductsService {
     }
 
     rejectProducts(products, role, searchForm?) {
-        const url = `${
+        let url = `${
             environment.merchandiseUrl
-        }Merchandise/${role}/Products/Reject?e.pageIndex=&${searchForm}`;
+        }Merchandise/${role}/Products/Reject?e.pageIndex=`;
         this.headers.set(
             'Authorization',
             this.commonAppSer.crateAuthorization()
@@ -126,6 +130,9 @@ export class ProductsService {
             'LRSignAuth',
             this.commonAppSer.createHMACSignature('POST', url, products)
         );
+        if (!_.isEmpty(searchForm)) {
+            url = `${url}&${searchForm}`;
+        }
         return this.http
             .post(url, JSON.stringify(products), this.options)
             .toPromise()
@@ -212,9 +219,9 @@ export class ProductsService {
     }
 
     sendproductForApproval(product, searchForm?) {
-        const url = `${
+        let url = `${
             environment.merchandiseUrl
-        }Merchandise/Seller/Products/Confirm?e.pageIndex=&${searchForm}`;
+        }Merchandise/Seller/Products/Confirm?e.pageIndex=`;
         this.headers.set(
             'Authorization',
             this.commonAppSer.crateAuthorization()
@@ -223,6 +230,9 @@ export class ProductsService {
             'LRSignAuth',
             this.commonAppSer.createHMACSignature('POST', url, product)
         );
+        if (searchForm) {
+            url = `${url}&${searchForm}`;
+        }
         return this.http
             .post(url, JSON.stringify(product), this.options)
             .toPromise()
@@ -285,12 +295,12 @@ export class ProductsService {
             .catch(err => this.responseHandler.handleError(err));
     }
 
-    getMasterProducts(filterData, pageSize: any = 200) {
+    getMasterProducts(searchForm, pageSize: any = 200) {
         let url = `${
             environment.merchandiseUrl
         }Merchandise/Products?e.pageSize=${pageSize}`;
-        if (filterData) {
-            url = `${url}&${filterData}`;
+        if (searchForm) {
+            url = `${url}&${searchForm}`;
         }
         this.headers.set(
             'Authorization',

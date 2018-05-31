@@ -12,6 +12,7 @@ import { CsvService } from 'angular2-json2csv';
 import { CookieService } from 'ngx-cookie';
 import * as _ from 'lodash';
 declare let $: any;
+import { IMyDpOptions } from 'mydatepicker';
 
 import {
     ProductsService,
@@ -77,6 +78,12 @@ export class ProductsComponent implements OnInit {
         display: false,
         value: ''
     };
+    myDatePickerOptions: IMyDpOptions = {
+        dateFormat: 'dd/mm/yyyy',
+        editableDateField: false,
+        openSelectorOnInputClick: true
+        // disableSince: this.disableSince()
+    };
 
     constructor(
         private cookieService: CookieService,
@@ -126,6 +133,7 @@ export class ProductsComponent implements OnInit {
             'e.sKU': [''],
             'e.parentProductCode': [''],
             'e.categoryId': [''],
+            'e.fromDate': [''],
             'e.status': [''],
             'e.sellerId': ['']
         });
@@ -593,6 +601,19 @@ export class ProductsComponent implements OnInit {
                 }
             }
         }
+        if (
+            FormObject['e.fromDate'] &&
+            typeof FormObject['e.fromDate'] == 'object'
+        ) {
+            FormObject['e.fromDate'] = `${
+                FormObject['e.fromDate'].date.month
+            }/${FormObject['e.fromDate'].date.day}/${
+                FormObject['e.fromDate'].date.year
+            }`;
+            FormObject['e.fromDate'] = encodeURIComponent(
+                FormObject['e.fromDate']
+            );
+        }
         FormObject = JSON.stringify(FormObject);
         FormObject = FormObject.replace(/{|}|[\[\]]|/g, '')
             .replace(/":"/g, '=')
@@ -658,10 +679,7 @@ export class ProductsComponent implements OnInit {
                 )
                 .then(success => {
                     if (success.Code === 200) {
-                        this.toastr.success(
-                            'Products Sucessfully Approved!',
-                            'Success!'
-                        );
+                        this.toastr.success('Sucessfully Done!', 'Success!');
                         this.resetForm();
                     } else if (success.Code === 500) {
                         this.toastr.error('Approval Failed!', 'Error!');

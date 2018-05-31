@@ -17,11 +17,9 @@
 
         <div class="row" *ngIf="catalogInfo">
             <div class="col-md-12 catalog-description">
-                <h5>Description</h5>
-                <div class="row">
-                    <div class="col-md-12">
-                        {{ catalogInfo.Description }}
-                    </div>
+                <div>
+                    <span class="bold">Description:</span>
+                    {{ catalogInfo.Description }}
                 </div>
             </div>
             <div class="col-md-12 catalog-flag-wrap">

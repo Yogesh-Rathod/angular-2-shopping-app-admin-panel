@@ -1,7 +1,14 @@
-import { Component, OnInit, Output, Input, EventEmitter, OnChanges } from '@angular/core';
-import { CatalogManagementService, JsonToExcelService } from "app/services";
-import { ToastsManager } from "ng2-toastr";
-import { ActivatedRoute, Router } from "@angular/router";
+import {
+    Component,
+    OnInit,
+    Output,
+    Input,
+    EventEmitter,
+    OnChanges
+} from '@angular/core';
+import { CatalogManagementService, JsonToExcelService } from 'app/services';
+import { ToastsManager } from 'ng2-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-basic-info',
@@ -9,7 +16,6 @@ import { ActivatedRoute, Router } from "@angular/router";
     styleUrls: ['./basic-info.component.scss']
 })
 export class BasicInfoComponent implements OnInit {
-
     @Input() notifier;
     @Output() onStatusChange = new EventEmitter<any>();
 
@@ -25,7 +31,7 @@ export class BasicInfoComponent implements OnInit {
         private catalogManagementService: CatalogManagementService
     ) {
         this.route.params.subscribe(params => {
-            this.catalogId = params["catalogId"];
+            this.catalogId = params['catalogId'];
         });
     }
 
@@ -48,11 +54,17 @@ export class BasicInfoComponent implements OnInit {
                     this.allMapProducts = res.Data;
                     this.productsLoader = false;
                 }
+            })
+            .catch(error => {
+                this.toastr.error('Could not get catalog products.', 'Error');
+                this.productsLoader = false;
             });
     }
 
     exportAllProducts() {
-        this.jsonToExcelService.exportAsExcelFile(this.allMapProducts, 'catalog_products');
+        this.jsonToExcelService.exportAsExcelFile(
+            this.allMapProducts,
+            'catalog_products'
+        );
     }
-
 }

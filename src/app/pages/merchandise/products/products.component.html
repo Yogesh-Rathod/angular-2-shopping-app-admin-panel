@@ -89,6 +89,15 @@
                         </select>
                     </div>
 
+                    <div class="form-group col-6 col-lg-3">
+                        <label for="startDate" class="text-right">
+                            Updated after
+                            <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Search by a last updated date."></i>
+                        </label>
+                        <my-date-picker id="startDate" class="no_padding" name="startDate" [options]="myDatePickerOptions" formControlName="e.fromDate">
+                        </my-date-picker>
+                    </div>
+
                     <div class="form-group col-12">
                         <button type="submit" class="btn btn-primary searchButton">
                             <i class="fa fa-search" aria-hidden="true"></i>

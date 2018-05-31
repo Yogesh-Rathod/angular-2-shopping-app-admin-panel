@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { AppTranslationModule } from '../../../app.translation.module';
 import { MerchandiseService } from 'app/services';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DataTableModule } from "angular2-datatable";
+import { DataTableModule } from 'angular2-datatable';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { MyDatePickerModule } from 'mydatepicker';
 
 import { routing } from './approvals.routes';
 
@@ -12,7 +13,7 @@ import { ApprovalsComponent } from './approvals.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { ProductsComponent } from './products/products.component';
 import { CatalogComponent } from './catalog/catalog.component';
-import { CatalogManagementService } from "app/services";
+import { CatalogManagementService } from 'app/services';
 import { CatalogProductApprovalComponent } from './catalog-product-approval/catalog-product-approval.component';
 
 @NgModule({
@@ -23,7 +24,8 @@ import { CatalogProductApprovalComponent } from './catalog-product-approval/cata
         ReactiveFormsModule,
         FormsModule,
         DataTableModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        MyDatePickerModule
     ],
     declarations: [
         ApprovalsComponent,
@@ -32,10 +34,7 @@ import { CatalogProductApprovalComponent } from './catalog-product-approval/cata
         CatalogComponent,
         CatalogProductApprovalComponent
     ],
-    providers: [
-        CatalogManagementService
-    ],
-    entryComponents: [
-    ]
+    providers: [CatalogManagementService],
+    entryComponents: []
 })
-export class ApprovalsModule { }
+export class ApprovalsModule {}

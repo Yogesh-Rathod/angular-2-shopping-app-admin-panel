@@ -18,6 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CatalogBulkUploadComponent } from 'app/pages/merchandise/catalog-management/bulk-upload/bulk-upload.component';
+import { IMyDpOptions } from 'mydatepicker';
 
 @Component({
     selector: 'app-products-info',
@@ -49,6 +50,12 @@ export class ProductsInfoComponent implements OnInit {
     pageSize: any;
     showAddSelectedToCatalog = false;
     isCheckedArray: any = [];
+    myDatePickerOptions: IMyDpOptions = {
+        dateFormat: 'dd/mm/yyyy',
+        editableDateField: false,
+        openSelectorOnInputClick: true
+        // disableSince: this.disableSince()
+    };
 
     constructor(
         private jsonToExcelService: JsonToExcelService,
@@ -77,6 +84,9 @@ export class ProductsInfoComponent implements OnInit {
             'e.name': [''],
             'e.sKU': [''],
             'e.parentProductCode': [''],
+            'e.fromDate': [''],
+            'e.unmappedProducts': [false],
+            'e.catalogId': [this.catalogId],
             'e.sellerId': [[]]
         });
     }
@@ -128,6 +138,24 @@ export class ProductsInfoComponent implements OnInit {
                     ','
                 );
             }
+        }
+        if (
+            _searchObject['e.fromDate'] &&
+            typeof _searchObject['e.fromDate'] == 'object'
+        ) {
+            _searchObject['e.fromDate'] = `${
+                _searchObject['e.fromDate'].date.month
+            }/${_searchObject['e.fromDate'].date.day}/${
+                _searchObject['e.fromDate'].date.year
+            }`;
+            _searchObject['e.fromDate'] = encodeURIComponent(
+                _searchObject['e.fromDate']
+            );
+        }
+        if (_searchObject['e.unmappedProducts']) {
+            _searchObject['e.unmappedProducts'] = 'true';
+        } else {
+            _searchObject['e.unmappedProducts'] = 'false';
         }
         _searchObject = JSON.stringify(_searchObject);
         _searchObject = _searchObject

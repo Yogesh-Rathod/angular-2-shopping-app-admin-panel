@@ -13,6 +13,7 @@ import { CookieService } from 'ngx-cookie';
 
 import * as _ from 'lodash';
 declare let $: any;
+import { IMyDpOptions } from 'mydatepicker';
 
 import {
     ProductsService,
@@ -78,6 +79,12 @@ export class ProductsComponent implements OnInit {
         display: false,
         value: ''
     };
+    myDatePickerOptions: IMyDpOptions = {
+        dateFormat: 'dd/mm/yyyy',
+        editableDateField: false,
+        openSelectorOnInputClick: true
+        // disableSince: this.disableSince()
+    };
 
     constructor(
         private cookieService: CookieService,
@@ -126,6 +133,7 @@ export class ProductsComponent implements OnInit {
             'e.name': [''],
             'e.sKU': [''],
             'e.parentProductCode': [''],
+            'e.fromDate': [''],
             'e.categoryId': [''],
             'e.status': [''],
             'e.sellerId': ['']
@@ -138,7 +146,7 @@ export class ProductsComponent implements OnInit {
             .then(categories => {
                 this.categories = categories.Data;
             })
-            .catch(error => { });
+            .catch(error => {});
     }
 
     getAllProducts() {
@@ -163,7 +171,7 @@ export class ProductsComponent implements OnInit {
             .then(vendors => {
                 this.vendors = vendors.Data;
             })
-            .catch(error => { });
+            .catch(error => {});
     }
 
     showEntries(value, searchProductForm) {
@@ -342,7 +350,7 @@ export class ProductsComponent implements OnInit {
                     this.resetForm();
                 }
             })
-            .catch(status => { });
+            .catch(status => {});
     }
 
     checkAllProductsCheckboxChange(e) {
@@ -593,6 +601,19 @@ export class ProductsComponent implements OnInit {
                     FormObject[key] = FormObject[key].trim();
                 }
             }
+        }
+        if (
+            FormObject['e.fromDate'] &&
+            typeof FormObject['e.fromDate'] == 'object'
+        ) {
+            FormObject['e.fromDate'] = `${
+                FormObject['e.fromDate'].date.month
+            }/${FormObject['e.fromDate'].date.day}/${
+                FormObject['e.fromDate'].date.year
+            }`;
+            FormObject['e.fromDate'] = encodeURIComponent(
+                FormObject['e.fromDate']
+            );
         }
         FormObject = JSON.stringify(FormObject);
         FormObject = FormObject.replace(/{|}|[\[\]]|/g, '')

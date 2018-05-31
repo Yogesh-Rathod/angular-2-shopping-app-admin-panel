@@ -1,6 +1,6 @@
 .card {
-  border: 1px solid rgba(0,0,0,.125);
-  box-shadow: none;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    box-shadow: none;
 }
 
 button {
@@ -8,31 +8,30 @@ button {
 }
 
 .bold {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 table {
-  thead {
-    th {
-      font-weight: bold;
-    }
-  }
-
-  tr {
-
-    .productName {
-      color: #4db1a7;
+    thead {
+        th {
+            font-weight: bold;
+        }
     }
 
-    .product-image {
-      width: 115px;
-      margin: auto;
+    tr {
+        .productName {
+            color: #4db1a7;
+        }
+
+        .product-image {
+            width: 115px;
+            margin: auto;
+        }
     }
-  }
 }
 
 .deleteSelectedButton {
-  margin-left: 10px;
+    margin-left: 10px;
 }
 
 .save-product-map-changes-btn {
@@ -42,4 +41,8 @@ table {
 
 .fa-times-circle {
     margin-top: 10px;
+}
+
+.show-unmap {
+    padding-top: 25px;
 }

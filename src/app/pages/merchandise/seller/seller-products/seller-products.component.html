@@ -141,10 +141,12 @@
                     Send for approval
                 </button>
                 <img *ngIf="approveLoader" class="pull-right" src="assets/img/ajax-loader.gif" alt="Loader Image" width="35" height="35">
-                <button data-toggle="tooltip" data-placement="top" class="btn btn-primary pull-right" title="Mark out of stock (Only approved products)" [disabled]="productSelected || approveLoader" (click)="toggleOutOfStock(1)">
+                <button data-toggle="tooltip" data-placement="top" class="btn btn-primary pull-right" title="Mark out of stock (Only approved products)"
+                    [disabled]="productSelected || approveLoader" (click)="toggleOutOfStock(1)">
                     Mark out of stock
                 </button>
-                <button data-toggle="tooltip" data-placement="top" class="btn btn-primary pull-right" title="Mark out of stock (Only approved products)" [disabled]="productSelected || approveLoader" (click)="toggleOutOfStock(0)">
+                <button data-toggle="tooltip" data-placement="top" class="btn btn-primary pull-right" title="Mark out of stock (Only approved products)"
+                    [disabled]="productSelected || approveLoader" (click)="toggleOutOfStock(0)">
                     Mark in stock
                 </button>
 
@@ -154,7 +156,7 @@
                             <tr>
                                 <th class="text-center">
                                     <input [class.disabled]="products && products.length === 0" type="checkbox" *ngIf="products && products.length > 0 " [ngModel]='selectAllCheckbox'
-                                        (change)="selectAll($event)"  id="selectAllCheckbox">
+                                        (change)="selectAll($event)" id="selectAllCheckbox">
                                 </th>
                                 <!-- <th class="text-left">
                                     <strong>Product Image</strong>
@@ -228,11 +230,11 @@
                                     {{ item.ModifiedOn | date}}
                                 </td>
                                 <td class="action">
-                                    <button class="btn btn-secondary" *ngIf="item.Status == 'Draft'" [routerLink]="['/seller/edit-seller-product', item.Id]"
+                                    <button class="btn btn-secondary" *ngIf="item.Status !== 'Pending'" [routerLink]="['/seller/edit-seller-product', item.Id]"
                                         title="Edit">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </button>
-                                    <span *ngIf="item.Status!=='Draft'">---</span>
+                                    <span *ngIf="item.Status==='Pending'">---</span>
                                     <!-- <button class="btn btn-danger" (click)="deleteProduct(item, i)" title="Delete" [disabled]="deleteLoader == i">
 										<i class="fa fa-trash-o" aria-hidden="true"></i>
 									</button> -->

@@ -84,10 +84,14 @@ export class ProductsBulkUploadComponent implements OnInit {
                                     'Success!'
                                 );
                                 this.closeModal(true);
-                            } else if (success.Code === 500) {
+                            } else if (
+                                success.Code === 500 &&
+                                success.Data &&
+                                success.Data.length > 0
+                            ) {
                                 this.errorData = success.Data;
                                 this.toastr.error(
-                                    'Oops! Could not upload products.',
+                                    'Oops! Could not upload all products.',
                                     'Error!'
                                 );
                             }
@@ -96,7 +100,7 @@ export class ProductsBulkUploadComponent implements OnInit {
                         .catch(error => {
                             if (error.Code === 500) {
                                 this.toastr.error(
-                                    'Oops! Could not upload products.',
+                                    'Oops! Could not upload all products.',
                                     'Error!'
                                 );
                             } else if (error.Code === 400) {
@@ -118,10 +122,14 @@ export class ProductsBulkUploadComponent implements OnInit {
                                     'Success!'
                                 );
                                 this.closeModal(true);
-                            } else if (success.Code === 500) {
+                            } else if (
+                                success.Code === 500 &&
+                                success.Data &&
+                                success.Data.length > 0
+                            ) {
                                 this.errorData = success.Data;
                                 this.toastr.error(
-                                    'Oops! Could not upload products.',
+                                    'Oops! Could not upload all products.',
                                     'Error!'
                                 );
                             }
@@ -143,16 +151,30 @@ export class ProductsBulkUploadComponent implements OnInit {
                     this.productsService
                         .approveProducts(this.productsInfo, this.userRole, '')
                         .then(success => {
-                            if (success.Code === 200) {
+                            if (
+                                success.Code === 200 &&
+                                success.Data &&
+                                success.Data.length === 0
+                            ) {
                                 this.toastr.success(
-                                    'Products Sucessfully Approved!',
+                                    'Sucessfully Done!',
                                     'Success!'
                                 );
+                                this.showLoader = false;
                                 this.closeModal(true);
-                            }
-                            if (!success.Success) {
+                            } else if (
+                                success.Code === 500 &&
+                                success.Data &&
+                                success.Data.length > 0
+                            ) {
+                                this.errorData = success.Data;
                                 this.toastr.error(
-                                    'Oops! Could not approve products.',
+                                    'Oops! Could not approve/reject all products!',
+                                    'Error!'
+                                );
+                            } else if (success.Code === 500) {
+                                this.toastr.error(
+                                    'Oops! Could not approve/reject all products!',
                                     'Error!'
                                 );
                             }
@@ -160,35 +182,12 @@ export class ProductsBulkUploadComponent implements OnInit {
                         })
                         .catch(error => {
                             this.toastr.error(
-                                'Oops! Could not approve products.',
+                                'Oops! Could not approve/reject products.',
                                 'Error!'
                             );
                             this.showLoader = false;
                         });
                     break;
-                // case 'reject':
-                //     this.productsService
-                //         .rejectProducts(this.productsInfo, this.userRole, '')
-                //         .then(success => {
-                //             if (success.Code === 200) {
-                //                 this.toastr.success(
-                //                     'Products Sucessfully Rejected.',
-                //                     'Sucess!'
-                //                 );
-                //                 this.closeModal(true);
-                //             }
-                //             if (!success.Success) {
-                //                 this.toastr.error(
-                //                     'Oops! Could not reject products.',
-                //                     'Error!'
-                //                 );
-                //             }
-                //             this.showLoader = false;
-                //         })
-                //         .catch(error => {
-                //             this.showLoader = false;
-                //         });
-                //     break;
                 default:
                     break;
             }
